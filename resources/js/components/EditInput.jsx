@@ -19,6 +19,7 @@ const EditInput = ({ label, value }) => {
       <button
         onClick={editContent}
         className="absolute -right-6 top-1/2 -translate-y-1/2 "
+        type="button"
       >
         <BiEditAlt className="w-5 h-5" />
       </button>

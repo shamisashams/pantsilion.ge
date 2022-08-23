@@ -60,7 +60,7 @@ const Signup = ({seo}) => {
                     <input onChange={handleChange} type="checkbox" name="agree" id="checkbox" />
                     <label htmlFor="checkbox" className="inline-block ml-2 mb-px">I accept terms and conditions</label>
                 </div>
-                <MainButton>
+                <MainButton type>
                     Sign up
                 </MainButton>
             </form>

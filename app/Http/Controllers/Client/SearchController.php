@@ -82,17 +82,20 @@ class SearchController extends Controller
 
         }
 
-
-
+        $subCategories = [];
+        foreach (Category::where('parent_id','!=',null)->get()->toArray() as $item){
+            $subCategories[] = $item;
+        }
 
         //dd($products);
 
         //dd($products);
-        return Inertia::render('Products/Products',[
+        return Inertia::render('Products',[
             'products' => $products,
             'category' => null,
             'images' => $images,
             'filter' => $this->getAttributes(),
+            'subcategories' => $subCategories,
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,

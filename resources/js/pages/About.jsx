@@ -45,7 +45,7 @@ const About = ({seo}) => {
                       <div className="text-3xl bold mb-2">Gallery</div>
                       <p className="opacity-50">New and trending products for best price</p>
                   </div>
-                  <Gallery />
+                  <Gallery gallery={[]} />
               </section>
               <section>
                   <div className="text-center mb-10">

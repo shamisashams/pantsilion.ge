@@ -121,7 +121,7 @@ Route::prefix('{locale?}')
         });
 
 
-        Route::get('login',[\App\Http\Controllers\Client\AuthController::class,'loginView'])->name('client.login.index')->middleware('guest');
+        Route::get('login',[\App\Http\Controllers\Client\AuthController::class,'loginView'])->name('client.login.index')->middleware('guest_client');
         Route::post('login',[\App\Http\Controllers\Client\AuthController::class,'login'])->name('client.login');
         Route::get('registration',[\App\Http\Controllers\Client\AuthController::class,'registrationView'])->name('client.registration.index');
         Route::post('registration',[\App\Http\Controllers\Client\AuthController::class,'createAccount'])->name('client.register');
@@ -134,9 +134,15 @@ Route::prefix('{locale?}')
 
         Route::middleware(['auth_partner','is_partner'])->group(function (){
             Route::get('partner/settings',[\App\Http\Controllers\Client\PartnerController::class,'cabinet'])->name('partner.settings');
+            Route::get('partner/bank-account',[\App\Http\Controllers\Client\PartnerController::class,'bankAccount'])->name('partner.bank-account');
+            Route::get('partner/withdraw-funds',[\App\Http\Controllers\Client\PartnerController::class,'withdraw'])->name('partner.withdraw');
+            Route::get('partner/referrals',[\App\Http\Controllers\Client\PartnerController::class,'referrals'])->name('partner.referrals');
+            Route::get('partner/orders',[\App\Http\Controllers\Client\PartnerController::class,'orders'])->name('partner.orders');
         });
 
         Route::middleware(['auth_client'])->group(function (){
+            Route::get('client/cabinet',[\App\Http\Controllers\Client\UserController::class,'index'])->name('client.cabinet');
+            Route::get('client/orders',[\App\Http\Controllers\Client\UserController::class,'orders'])->name('client.orders');
             Route::get('favorites',[\App\Http\Controllers\Client\FavoriteController::class,'index'])->name('client.favorite.index');
             Route::post('favorites',[\App\Http\Controllers\Client\FavoriteController::class,'addToWishlist'])->name('client.favorite.add');
             Route::get('favorites/remove',[\App\Http\Controllers\Client\FavoriteController::class,'removeFromWishlist'])->name('client.favorite.remove');

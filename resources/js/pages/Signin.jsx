@@ -36,7 +36,7 @@ const Signin = ({seo}) => {
                 <input type="text" onChange={handleChange} name="email" placeholder="Email" className="mb-3 border border-zinc-200 pl-4 w-full block bg-transparent h-12 placeholder:text-custom-dark" />
                 <input type="password" onChange={handleChange} name="password" placeholder="Password" className="mb-7 border border-zinc-200 pl-4 w-full block bg-transparent h-12 placeholder:text-custom-dark" />
 
-                <MainButton>
+                <MainButton type>
                     Sign in
                 </MainButton>
             </form>

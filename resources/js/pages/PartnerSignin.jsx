@@ -55,7 +55,7 @@ const PartnerSignin = ({seo}) => {
                           name="password"
                       />
 
-                      <MainButton>Sign in</MainButton>
+                      <MainButton type>Sign in</MainButton>
                   </form>
 
 

@@ -7,6 +7,7 @@ use App\Http\Middleware\AuthenticatePartner;
 use App\Http\Middleware\CheckReferral;
 use App\Http\Middleware\isAdmin;
 use App\Http\Middleware\IsPartner;
+use App\Http\Middleware\RedirectIfAuthenticatedClient;
 use App\Http\Middleware\RedirectIfAuthenticatedPartner;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -79,6 +80,7 @@ class Kernel extends HttpKernel
         'is_admin' => isAdmin::class,
         'is_partner' => IsPartner::class,
         'guest_p' => RedirectIfAuthenticatedPartner::class,
+        'guest_client' => RedirectIfAuthenticatedClient::class,
         'referral' => CheckReferral::class
     ];
 }

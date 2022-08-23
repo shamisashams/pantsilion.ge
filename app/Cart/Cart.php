@@ -41,6 +41,11 @@ class Cart
 
 
             $product = Product::findOrFail($request['id']);
+
+        if($product->parent_id == null) {
+            //dd($product->slug);
+            return redirect(route('client.product.show',[$product->slug]));
+        }
             if ($bool) {
                 $products[] = (object)[
                     'product_id' => $product->id,

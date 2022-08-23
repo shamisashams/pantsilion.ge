@@ -10,6 +10,8 @@ import { BsGlobe2 } from "react-icons/bs";
 import { useState } from "react";
 import Category from "./Category";
 
+import { Inertia } from '@inertiajs/inertia'
+
 const Navbar = () => {
     const { locales, currentLocale, locale_urls, cart_count, wishlist_count } = usePage().props;
   const [searchInput, setSearchInput] = useState(false);
@@ -23,6 +25,27 @@ const Navbar = () => {
       setScrolled(false);
     }
   });
+
+
+    const [values, setValues] = useState({
+        first_name: "",
+        last_name: "",
+        email: "",
+    })
+
+    function handleChange(e) {
+        const key = e.target.name;
+        const value = e.target.value
+        setValues(values => ({
+            ...values,
+            [key]: value,
+        }))
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        Inertia.get(route('search.index'), values)
+    }
 
   return (
     <>
@@ -86,14 +109,18 @@ const Navbar = () => {
                     : " md:w-12 w-10 bg-transparent"
                 }`}
               >
-                <input
-                  className={`bg-transparent h-full w-full text-sm pl-5  transition-all   ${
-                    searchInput ? " opacity-100" : "  opacity-0"
-                  }`}
-                  type="text"
-                  placeholder="Search here"
-                  name="term"
-                />
+                  <form onSubmit={handleSubmit}>
+                      <input
+                          className={`bg-transparent h-full w-full text-sm pl-5  transition-all   ${
+                              searchInput ? " opacity-100" : "  opacity-0"
+                          }`}
+                          type="text"
+                          placeholder="Search here"
+                          name="term"
+                          onChange={handleChange}
+                      />
+                  </form>
+
                 <div
                   className="md:w-12 w-10 h-full rounded-full flex items-center justify-center hover:bg-zinc-100 absolute top-0 right-0 transition-all cursor-pointer"
                   onClick={() => setSearchInput(!searchInput)}
