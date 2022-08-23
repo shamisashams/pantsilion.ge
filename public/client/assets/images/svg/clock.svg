@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <path id="clock" d="M13,23A10,10,0,1,1,23,13,10,10,0,0,1,13,23Zm8-10a8,8,0,1,0-8,8A8,8,0,0,0,21,13Zm-4-1a1,1,0,0,1,0,2H14a2.006,2.006,0,0,1-2-2V8a1,1,0,0,1,2,0v4Z" transform="translate(-3 -3)" fill-rule="evenodd"/>
+</svg>

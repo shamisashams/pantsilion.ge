@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "segoe";
+  src: url(/client/assets/fonts/segoeui.ttf);
+}
+@font-face {
+  font-family: "segoe-blod";
+  src: url(/client/assets/fonts/segoeuib.ttf);
+}
+
+/* general */
+::-webkit-scrollbar {
+  width: 5px;
+}
+.scrollbar::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #0f1b13;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #fe6969;
+}
+*::after,
+*::before {
+  position: absolute;
+  content: "";
+}
+body {
+  background-color: #f9f9f9;
+  color: #0f1b13;
+}
+input,
+select,
+textarea {
+  outline: none;
+}
+.wrapper {
+  width: 1640px;
+  margin: auto;
+}
+.bold {
+  font-family: "segoe-blod";
+}
+@media screen and (max-width: 1700px) {
+  .wrapper {
+    width: 95%;
+  }
+}
+
+/* slider pagination */
+.swiper-slide {
+  height: auto !important;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  display: none !important;
+}
+.swiper-button-disabled {
+  opacity: 0.3;
+  transition: 0.3s;
+}
+
+/* singleSlider */
+.thumbnailSlider .swiper-slide {
+  opacity: 0.4;
+}
+.thumbnailSlider .swiper-slide-thumb-active {
+  opacity: 1;
+}

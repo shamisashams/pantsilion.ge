@@ -1,0 +1,144 @@
+import React, { useState } from "react";
+//import bg from "../assets/images/bg/3.png";
+import ColorPick from "../components/ColorPick";
+import { cartList } from "../components/Data";
+import MainButton from "../components/MainButton";
+import PlusBox from "../components/PlusBox";
+import SingleSlider from "../components/SingleSlider";
+import { FiHeart } from "react-icons/fi";
+import ProductSlider from "../components/ProductSlider";
+import Layout from "../Layouts/Layout";
+import {usePage} from "@inertiajs/inertia-react";
+
+const FurnitureSet = ({seo}) => {
+  const [favorite, setFavorite] = useState(false);
+  const {collection} = usePage().props;
+
+  console.log(collection)
+
+    const renderHTML = (rawHTML) =>
+        React.createElement("div", {
+            dangerouslySetInnerHTML: { __html: rawHTML },
+        });
+
+  return (
+      <Layout seo={seo}>
+          <>
+              <div className="relative w-full h-fit">
+                  <div className="absolute top-0 left-0 w-full h-72 bg-gradient-to-b from-white to-transparent"></div>
+                  <img src={'/' + collection.set_image} className="w-full h-auto" alt="" />
+                  {collection.products.map((item, index) => {
+                      let c = item.pivot.coordinates ? item.pivot.coordinates.split(' ') : new Array(4).fill('auto');
+                      console.log(c);
+                      return (
+                          <PlusBox
+                              top={c[0]}
+                              right={c[1]}
+                              bottom={c[2]}
+                              left={c[3]}
+                              title={item.title}
+                              para={item.short_description}
+                              price={item.price}
+                          />
+                      )
+                  })}
+
+                  {/*<PlusBox
+                      top="30%"
+                      right="400px"
+                      bottom="auto"
+                      left="auto"
+                      title="Modern Black Lamp"
+                      para="Choose from a wide range of premium quality wooden furniture "
+                      price="299.00"
+                  />
+                  <PlusBox
+                      top="auto"
+                      right="30%"
+                      bottom="20%"
+                      left="auto"
+                      title="Modern Black Lamp"
+                      para="Choose from a wide range of premium quality wooden furniture "
+                      price="299.00"
+                  />*/}
+              </div>
+              <div className="wrapper pb-20">
+                  <div className="flex py-10 flex-col xl:flex-row mt-7 mb-20">
+                      <div className="max-w-2xl xl:mr-20">
+                          <SingleSlider images={collection.files} />
+                          {collection.video ? <div className="w-full sm:h-96 h-60 mt-20">
+                              {renderHTML(collection.video.path)}
+                          </div>:null}
+                      </div>
+                      <div className="max-w-xl xl:mt-0 mt-20">
+                          <div className="opacity-50">product code # 11425</div>
+                          <div className="bold text-4xl my-3">{collection.title}</div>
+                          {renderHTML(collection.description)}
+                          <div className="my-8">
+                              {collection.products.map((item, index) => {
+                                  return (
+                                      <div
+                                          key={index}
+                                          className={`flex items-center justify-between mb-2 pb-2 ${
+                                              index + 1 === collection.products.length ? "" : "border-b"
+                                          } border-zinc-200`}
+                                      >
+                                          <div className=" flex items-center">
+                                              <div className="w-20 h-20 mr-3 shrink-0">
+                                                  <img
+                                                      src={item.latest_image ? '/' + item.latest_image.path + '/' + item.latest_image.title:null}
+                                                      className="w-full h-full object-cover"
+                                                      alt=""
+                                                  />
+                                              </div>
+                                              <div>
+                                                  <div className="bold mb-1">{item.title} </div>
+                                                  <div className="text-sm opacity-50 mb-1">
+                                                      size: {item.size}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div className="text-lg ml-4">₾{item.price}</div>
+                                      </div>
+                                  );
+                              })}
+                          </div>
+                          <div className="flex my-5 ">
+                              <p className="whitespace-nowrap">Available colors:</p>
+                              <div className="ml-5 max-w-sm mt-1 flex flex-wrap">
+                                  <ColorPick colors={[]} />
+                              </div>
+                          </div>
+                          <div className="text-xl">
+                              Price for full set:{" "}
+                              <span className="bold text-3xl pl-2"> ₾{collection.price}</span>
+                          </div>
+                          <div className="w-44 my-5">
+                              <div className="flex justify-between mb-2">
+                                  <button
+                                      onClick={() => setFavorite(!favorite)}
+                                      className="shrink-0 hover:bg-zinc-200 rounded-full flex items-center justify-center w-12 h-12 transition-all duration-500 "
+                                  >
+                                      <FiHeart className={favorite ? "text-custom-red" : ""} />
+                                  </button>
+                                  <button
+                                      className={`ml- whitespace-nowrap bold  border border-custom-dark  py-2 px-3 rounded transition-all duration-500 bg-transparent text-custom-dark hover:bg-custom-dark hover:text-white`}
+                                  >
+                                      Add to cart
+                                  </button>
+                              </div>
+                              <MainButton>Buy now</MainButton>
+                          </div>
+                      </div>
+                  </div>
+                  <div className="bold text-2xl mb-1">Products in this set</div>
+                  <p className="opacity-50 mb-7">Most popular products form us</p>
+                  <ProductSlider products={collection.products} />
+              </div>
+          </>
+      </Layout>
+
+  );
+};
+
+export default FurnitureSet;
