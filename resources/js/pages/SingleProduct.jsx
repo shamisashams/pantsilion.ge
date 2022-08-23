@@ -139,7 +139,7 @@ const SingleProduct = ({seo}) => {
 
                         document.getElementById('product_id').value = selected;
 
-
+                document.getElementById('price_actual').innerHTML = product_config.variants[selected].variant.price;
                 console.log(selected)
             });
         });
@@ -191,7 +191,8 @@ const SingleProduct = ({seo}) => {
                                   ₾699.50
                               </div>
                               <div className="bold inline-block text-2xl text-custom-red pl-3">
-                                  ₾578.99
+                                  ₾<span id="price_actual"></span>
+
                               </div>
                           </div>
                           <p>

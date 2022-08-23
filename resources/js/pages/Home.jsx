@@ -13,7 +13,7 @@ import Layout from "../Layouts/Layout";
 
 const Home = ({seo}) => {
 
-    const {collections,products,blogs} = usePage().props;
+    const {collections,products,blogs, images} = usePage().props;
 
     console.log(blogs)
 
@@ -94,7 +94,7 @@ const Home = ({seo}) => {
               </section>
               <section
                   className="py-20 bg-cover bg-no-repeat bg-center"
-                  style={{ backgroundImage: `url('/client/assets/images/bg/2.png')` }}
+                  style={{ backgroundImage: `url('${images[0]}')` }}
               >
                   <div className="wrapper">
                       <div className="max-w-2xl">

@@ -7,7 +7,7 @@ import Gallery from "../components/Gallery";
 import TeamSlider from "../components/TeamSlider";
 import Layout from "../Layouts/Layout";
 
-const About = ({seo}) => {
+const About = ({seo, images}) => {
   return (
       <Layout seo={seo}>
           <div className="wrapper py-40">
@@ -26,7 +26,7 @@ const About = ({seo}) => {
                           the furniture that you can easily and quickly get in love with
                       </p>
                       <div className="flex">
-                          <Link href="/contact">
+                          <Link href={route('client.contact.index')}>
                               <MainButton reverse>Contact</MainButton>
                           </Link>
                           <Link href={route('partner.join')} className="ml-4">
@@ -35,7 +35,7 @@ const About = ({seo}) => {
                       </div>
                   </div>
                   <img
-                      src="/client/assets/images/other/1.png"
+                      src={images[0]}
                       className="lg:w-1/2 lg:ml-10 lg:mt-0 mt-10 ml-0"
                       alt=""
                   />
