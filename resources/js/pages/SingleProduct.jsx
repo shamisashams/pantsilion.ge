@@ -62,21 +62,25 @@ const SingleProduct = ({seo}) => {
         let sizes = [];
 
 
-
+        let obj2 = {};
+        let obj = {};
         Object.keys(product_config.corner).map((key,index) => {
             if(product_config.corner[key].code == corner){
                 console.log(product_config.corner[key].variants)
 
                 product_config.corner[key].variants.map((item, index) => {
                     let id = [];
-                    Object.keys(product_config.size).map((key2,index) => {
+
+                    Object.keys(product_config.size).map((key2,index3) => {
 
                         if(product_config.size[key2].variants.includes(item)){
 
+
                             id.push(item);
+
                             //product_config.size[key2].variants = id;
                             //product_config.size[key2].variants.remove(item);
-                            sizes.push({label: product_config.size[key2].label, variants: id});
+                            sizes.push({id: key2, label: product_config.size[key2].label, variants: id});
                             //delete product_config.size[key2];
                         }
                     })
@@ -84,8 +88,22 @@ const SingleProduct = ({seo}) => {
             }
         })
 
+        let result = {};
+        let ids = [];
+        sizes.map((item, index) => {
+
+            if(result.hasOwnProperty(item.id)){
+                console.log(item.id)
+
+                result[item.id].variants = result[item.id].variants.concat(item.variants);
+            }
+            else result[item.id] = {label:item.label,variants: item.variants}
+        })
+
         console.log(sizes);
-        //console.log(p_id);
+
+        console.log(result);
+        console.log(obj);
 
         let select = document.getElementById('choose_size');
         select.innerHTML = '<option value=""></option>';
@@ -93,12 +111,19 @@ const SingleProduct = ({seo}) => {
         let pick = document.getElementById('choose_color');
         pick.innerHTML = '<option value=""></option>';
 
-        for (var i = 0; i<sizes.length; i++){
+        /*for (var i = 0; i<sizes.length; i++){
             var opt = document.createElement('option');
             opt.value = i;
             opt.innerHTML = sizes[i].label;
             select.appendChild(opt);
-        }
+        }*/
+
+        Object.keys(result).map((item,index) => {
+            var opt = document.createElement('option');
+            opt.value = item;
+            opt.innerHTML = result[item].label;
+            select.appendChild(opt);
+        })
 
         //select.removeEventListener('change',);
         let id2 = [];
@@ -106,7 +131,7 @@ const SingleProduct = ({seo}) => {
         select.addEventListener('change',function (e){
 
             let colors_ = [];
-            let selected_size = sizes[e.target.value]
+            let selected_size = result[e.target.value]
             console.log(selected_size)
             selected_size.variants.map((item,index) => {
 
@@ -115,7 +140,7 @@ const SingleProduct = ({seo}) => {
                     if(product_config.color[key3].variants.includes(item)){
                         //id2.push(item);
                         //product_config.color[key3].variants.remove(item);
-                        colors_.push({id: item, label:product_config.color[key3].label});
+                        colors_.push({id: item, id2: key3, label:product_config.color[key3].label});
                         //delete product_config.color[key3];
                     }
                 })
