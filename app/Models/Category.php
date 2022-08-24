@@ -75,7 +75,10 @@ class Category extends Model
         'slug',
         'position',
         'status',
-        'parent_id'
+        'parent_id',
+        'corner',
+        'size',
+        'color'
     ];
 
     /** @var string */

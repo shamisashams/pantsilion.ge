@@ -163,6 +163,34 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$category) {
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group mb-0 justify-content-end">
+                        <div class="checkbox">
+                            <div class="custom-checkbox custom-control">
+                                <input type="checkbox" data-checkboxes="mygroup" name="corner" class="custom-control-input" id="checkbox-corner" {{$category->corner ? 'checked' : ''}}>
+                                <label for="checkbox-corner" class="custom-control-label mt-1">{{__('admin.corner')}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-0 justify-content-end">
+                        <div class="checkbox">
+                            <div class="custom-checkbox custom-control">
+                                <input type="checkbox" data-checkboxes="mygroup" name="size" class="custom-control-input" id="checkbox-size" {{$category->size ? 'checked' : ''}}>
+                                <label for="checkbox-size" class="custom-control-label mt-1">{{__('admin.size')}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-0 justify-content-end">
+                        <div class="checkbox">
+                            <div class="custom-checkbox custom-control">
+                                <input type="checkbox" data-checkboxes="mygroup" name="color" class="custom-control-input" id="checkbox-color" {{$category->color ? 'checked' : ''}}>
+                                <label for="checkbox-color" class="custom-control-label mt-1">{{__('admin.color')}}</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>
                             {!! Form::submit($category->created_at ? __('admin.update') : __('admin.create'),['class' => 'btn btn-primary']) !!}

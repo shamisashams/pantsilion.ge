@@ -89,6 +89,9 @@ class CategoryController extends Controller
        //dd($request->all());
         $saveData = Arr::except($request->except('_token','path'), []);
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
+        $saveData['corner'] = isset($saveData['corner']) && (bool)$saveData['corner'];
+        $saveData['size'] = isset($saveData['size']) && (bool)$saveData['size'];
+        $saveData['color'] = isset($saveData['color']) && (bool)$saveData['color'];
         $saveData['parent_id'] = $saveData['parent_id'] ? $saveData['parent_id'] : null;
 
         //dd($saveData);
@@ -159,6 +162,9 @@ class CategoryController extends Controller
 
         $saveData = Arr::except($request->except('_token','path'), []);
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
+        $saveData['corner'] = isset($saveData['corner']) && (bool)$saveData['corner'];
+        $saveData['size'] = isset($saveData['size']) && (bool)$saveData['size'];
+        $saveData['color'] = isset($saveData['color']) && (bool)$saveData['color'];
         $saveData['parent_id'] = $saveData['parent_id'] ? $saveData['parent_id'] : null;
 
         $this->categoryRepository->update($category->id, $saveData);
