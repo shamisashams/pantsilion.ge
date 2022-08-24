@@ -12,9 +12,9 @@ const ColorPick = ({colors,category}) => {
             onClick={() => {
                 setChooseColor(index)
                 //alert(index);
-                if(category){
-                    let img = document.getElementById('cat_col_img').src = colors[index].file ? '/' + colors[index].file.path + '/' + colors[index].file.title:null;
-                }
+
+                document.getElementById('cat_col_img').src = colors[index].file ? '/' + colors[index].file.path + '/' + colors[index].file.title:null;
+
 
                 //console.log(img)
             }}
