@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Page;
 use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
@@ -80,7 +81,7 @@ class ProductController extends Controller
     {
         //\Illuminate\Support\Facades\DB::enableQueryLog();
 
-        $product = Product::where(['status' => true, 'slug' => $slug])->whereHas('categories', function (Builder $query) {
+        $product = Product::query()->where(['status' => true, 'slug' => $slug])->whereHas('categories', function (Builder $query) {
             $query->where('status', 1);
 
         })->with(['latestImage','video'])->firstOrFail();
@@ -107,8 +108,10 @@ class ProductController extends Controller
 
         $product['attributes'] = $result;
 
+        $stocks = [];
+
         $config = [];
-        foreach ($product->variants as $variant){
+        foreach ($product->variants()->with(['video','stocks','stocks.translation'])->get() as $variant){
             $product_attributes = $variant->attribute_values;
 
             $result = [];
@@ -140,9 +143,25 @@ class ProductController extends Controller
             $config['variants'][$variant->id]['prices'] = $variant->price;
             $config['variants'][$variant->id]['images'] = $variant->files;
             $config['variants'][$variant->id]['variant'] = $variant;
+
+            $prices[] = $variant->price;
+
+            $product['min_price']= min($prices);
+            if(count($variant->stocks)){
+                foreach ($variant->stocks as $stock){
+                    $stocks[$stock->city_id][$stock->id] = $stock;
+                    $config['variants'][$variant->id]['stocks'][$stock->id] = $stock;
+                }
+
+            }
+
+
+
         }
 
         //dd($config);
+
+        //dd($stocks);
 
 
         //dd(last($product->categories));
@@ -255,6 +274,8 @@ class ProductController extends Controller
             'product_images' => $productImages,
             'product_attributes' => $result,
             'product_config' => $config,
+            'cities' => City::with('translation')->get(),
+            'stocks' => $stocks,
             "seo" => [
                 "title"=>$product->meta_title,
                 "description"=>$product->meta_description,

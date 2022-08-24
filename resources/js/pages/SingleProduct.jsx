@@ -25,11 +25,16 @@ const SingleProduct = ({seo}) => {
   const [chooseSize, setChooseSize] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
-  const {category_last, product, product_images, similar_products, product_config} = usePage().props;
+  const {category_last, product, product_images, similar_products, product_config,cities, stocks} = usePage().props;
 
+  const [productImages, setProductImages] = useState(product_images)
 
-  //console.log(product);
-    //console.log(product_config);
+    const [productStocks, setproductStocks] = useState(stocks[cities[0].id] ?? [])
+
+    const [productVideo, setProductVideo] = useState(product.video.path)
+
+  console.log(product);
+    console.log(stocks);
 
     const renderHTML = (rawHTML) =>
         React.createElement("div", {
@@ -61,6 +66,8 @@ const SingleProduct = ({seo}) => {
 
         let sizes = [];
 
+        setProductImages(product_images);
+        setProductVideo(product.video.path)
 
         let obj2 = {};
         let obj = {};
@@ -164,8 +171,14 @@ const SingleProduct = ({seo}) => {
 
                         document.getElementById('product_id').value = selected;
 
-                document.getElementById('price_actual').innerHTML = product_config.variants[selected].variant.price;
-                console.log(selected)
+                document.getElementById('price_actual').innerHTML = '₾' + product_config.variants[selected].variant.price;
+
+                setProductImages(product_config.variants[selected].images);
+
+                setproductStocks(product_config.variants[selected].stocks ?? {} )
+                setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
+
+                //console.log(product_config.variants[selected])
             });
         });
 
@@ -184,6 +197,19 @@ const SingleProduct = ({seo}) => {
         }
     })
 
+    /*let c_id = document.getElementById('cities');
+
+    c_id.addEventListener('change',function (e){
+        alert(4);
+    })
+
+    if(c_id) c_id = c_id.value*/
+
+    function selectCity(e){
+
+        setproductStocks(stocks[e.target.value] ?? {});
+    }
+
   return (
       <Layout seo={seo}>
           <>
@@ -194,9 +220,9 @@ const SingleProduct = ({seo}) => {
                   </Link>
                   <div className="flex flex-col xl:flex-row mt-7 mb-20">
                       <div className="max-w-2xl xl:mr-20">
-                          <SingleSlider images={product_images} />
+                          <SingleSlider images={productImages} />
                           {product.video ? <div className="w-full sm:h-96 h-60 mt-20">
-                              {renderHTML(product.video.path)}
+                              {renderHTML(productVideo)}
                           </div>:null}
                       </div>
                       <div className="max-w-xl xl:mt-0 mt-20">
@@ -204,19 +230,19 @@ const SingleProduct = ({seo}) => {
                           <div className="bold text-4xl my-3">{product.title}</div>
                           <div>
                               {/* if in stock */}
-                              <IoIosCheckmarkCircleOutline className="w-6 h-6 mb-1 text-green-500 inline-block mr-2" />
-                              <div className="inline-block ">In stock</div>
+                              {Object.keys(productStocks).length > 0 ?<IoIosCheckmarkCircleOutline className="w-6 h-6 mb-1 text-green-500 inline-block mr-2" />:null}
+                              {Object.keys(productStocks).length > 0 ? <div className="inline-block ">In stock</div>:null}
 
                               {/* if not in stock */}
-                              <IoIosCloseCircleOutline className="w-6 h-6 mb-1 text-custom-red inline-block mr-2 hidden" />
-                              <div className="inline-block hidden">Out of stock</div>
+                              {Object.keys(productStocks).length === 0 ?<IoIosCloseCircleOutline className="w-6 h-6 mb-1 text-custom-red inline-block mr-2" />:null}
+                              {Object.keys(productStocks).length === 0 ?<div className="inline-block">Out of stock</div>:null}
                           </div>
                           <div className="my-3">
                               <div className="bold inline-block line-through text-lg">
                                   ₾699.50
                               </div>
                               <div className="bold inline-block text-2xl text-custom-red pl-3">
-                                  ₾<span id="price_actual"></span>
+                                  <span id="price_actual">from ₾{product.min_price}</span>
 
                               </div>
                           </div>
@@ -414,9 +440,32 @@ const SingleProduct = ({seo}) => {
                                       Zugdidi
                                   </button>
                               </div>
+
                           </div>
-                          <div className="mt-5 w-72 h-40 scrollbar overflow-y-scroll pr-5 ">
-                              <div className="flex w-full justify-between border-b pb-3 mb-3">
+                          <select id="cities" onChange={selectCity}>
+                              {cities.map((item,index) => {
+                                  return (
+                                      <option value={item.id}>{item.title}</option>
+                                  )
+                              })}
+                          </select>
+                          <div className="mt-5 w-72 h-40 scrollbar overflow-y-scroll pr-5 " id="stock_list">
+                              {Object.keys(productStocks).length > 0 ? Object.keys(productStocks).map((item, index) => {
+                                  //let c_id = document.getElementById('stock_city').value;
+                                  return (
+                                      <div className="flex w-full justify-between border-b pb-3 mb-3">
+                                          <div>
+                                              <div>{productStocks[item].title}</div>
+                                              <div className="opacity-50">{productStocks[item].address}</div>
+                                          </div>
+                                          <div>
+                                              <IoIosCheckmarkCircleOutline className="w-6 h-6 mb-1 text-green-500 inline-block mr-1" />
+                                              <div className="inline-block ">In stock</div>
+                                          </div>
+                                      </div>
+                                  )
+                              }):<div>out of stock</div>}
+                              {/*<div className="flex w-full justify-between border-b pb-3 mb-3">
                                   <div>
                                       <div>Didube stock</div>
                                       <div className="opacity-50">Eristavi st.1</div>
@@ -445,7 +494,7 @@ const SingleProduct = ({seo}) => {
                                       <IoIosCheckmarkCircleOutline className="w-6 h-6 mb-1 text-green-500 inline-block mr-1" />
                                       <div className="inline-block ">In stock</div>
                                   </div>
-                              </div>
+                              </div>*/}
                           </div>
                       </div>
                   </div>
