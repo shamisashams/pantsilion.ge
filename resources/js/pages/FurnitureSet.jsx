@@ -14,12 +14,30 @@ const FurnitureSet = ({seo}) => {
   const [favorite, setFavorite] = useState(false);
   const {collection} = usePage().props;
 
+  const [colorId, setColorId] = useState(0);
+
+
+
   console.log(collection)
 
     const renderHTML = (rawHTML) =>
         React.createElement("div", {
             dangerouslySetInnerHTML: { __html: rawHTML },
         });
+
+  function changeColor(color){
+      console.log(color)
+      setColorId(color.id)
+  }
+
+  function addToCart(collection){
+      if(colorId > 0){
+
+      } else {
+          alert('select color')
+      }
+      console.log(collection)
+  }
 
   return (
       <Layout seo={seo}>
@@ -106,7 +124,7 @@ const FurnitureSet = ({seo}) => {
                           <div className="flex my-5 ">
                               <p className="whitespace-nowrap">Available colors:</p>
                               <div className="ml-5 max-w-sm mt-1 flex flex-wrap">
-                                  <ColorPick colors={[]} />
+                                  <ColorPick colors={collection.colors} onClick={changeColor} />
                               </div>
                           </div>
                           <div className="text-xl">
@@ -121,7 +139,10 @@ const FurnitureSet = ({seo}) => {
                                   >
                                       <FiHeart className={favorite ? "text-custom-red" : ""} />
                                   </button>
-                                  <button
+                                  <input type="hidden" name="color_id" value={colorId}/>
+                                  <button onClick={() => {
+                                      addToCart(collection)
+                                  }}
                                       className={`ml- whitespace-nowrap bold  border border-custom-dark  py-2 px-3 rounded transition-all duration-500 bg-transparent text-custom-dark hover:bg-custom-dark hover:text-white`}
                                   >
                                       Add to cart

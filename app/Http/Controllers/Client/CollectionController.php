@@ -67,7 +67,7 @@ class CollectionController extends Controller
         //\Illuminate\Support\Facades\DB::enableQueryLog();
 
 
-        $blog = ProductSet::query()->where('slug',$slug)->with(['video','translation','files','products','products.translation','products.latestImage'])->firstOrFail();
+        $collection = ProductSet::query()->where('slug',$slug)->with(['video','translation','files','products','products.translation','products.latestImage','colors'])->firstOrFail();
 
 
         //dd($blog);
@@ -77,23 +77,23 @@ class CollectionController extends Controller
             'similar_products' => null,
             'product_images' => null,
             'product_attributes' => null,
-            'collection' => $blog,
+            'collection' => $collection,
             "seo" => [
-                "title"=>$blog->meta_title,
-                "description"=>$blog->meta_description,
-                "keywords"=>$blog->meta_keyword,
-                "og_title"=>$blog->meta_title,
-                "og_description"=>$blog->meta_description,
+                "title"=>$collection->meta_title,
+                "description"=>$collection->meta_description,
+                "keywords"=>$collection->meta_keyword,
+                "og_title"=>$collection->meta_title,
+                "og_description"=>$collection->meta_description,
 //            "image" => "imgg",
 //            "locale" => App::getLocale()
             ]
         ])->withViewData([
-            'meta_title' => $blog->meta_title,
-            'meta_description' => $blog->meta_description,
-            'meta_keyword' => $blog->meta_keyword,
+            'meta_title' => $collection->meta_title,
+            'meta_description' => $collection->meta_description,
+            'meta_keyword' => $collection->meta_keyword,
             "image" => null,
-            'og_title' => $blog->meta_title,
-            'og_description' => $blog->meta_description,
+            'og_title' => $collection->meta_title,
+            'og_description' => $collection->meta_description,
         ]);
     }
 }

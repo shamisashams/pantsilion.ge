@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SliderRequest;
+use App\Models\Attribute;
 use App\Models\City;
 use App\Models\ProductProductSet;
 use App\Models\ProductSet;
@@ -59,6 +60,8 @@ class CollectionController extends Controller
         $url = locale_route('collection.store', [], false);
         $method = 'POST';
 
+
+
         /*return view('admin.pages.slider.form', [
             'slider' => $slider,
             'url' => $url,
@@ -69,6 +72,7 @@ class CollectionController extends Controller
             'model' => $slider,
             'url' => $url,
             'method' => $method,
+            'color' => Attribute::with('options')->where('code','color')->first()
         ]);
     }
 
@@ -99,6 +103,8 @@ class CollectionController extends Controller
 
             $this->collectionRepository->saveSetImage($slider->id, $request);
         }
+
+        $this->collectionRepository->model->colors()->sync($request->post('color') ?? []);
 
         $this->collectionRepository->saveVideo($request);
 
@@ -131,6 +137,7 @@ class CollectionController extends Controller
             'model' => $productSet,
             'url' => $url,
             'method' => $method,
+            'color' => Attribute::with('options')->where('code','color')->first()
         ]);
     }
 
@@ -145,6 +152,8 @@ class CollectionController extends Controller
      */
     public function update(Request $request, string $locale, ProductSet $productSet)
     {
+
+        //dd($request->all());
         $request->validate([
             config('translatable.fallback_locale') . '.title' => 'required|string|max:255',
         ]);
@@ -161,6 +170,10 @@ class CollectionController extends Controller
         }
 
         $this->collectionRepository->saveVideo($request);
+
+
+            $this->collectionRepository->model->colors()->sync($request->post('color') ?? []);
+
 
 
         return redirect(locale_route('collection.index', $productSet->id))->with('success', __('admin.update_successfully'));

@@ -249,6 +249,30 @@
                     </div>
 
 
+                    <?php
+                    $color_ids = $model->colors->pluck("id")->toArray();
+                    //dd($color_ids)
+                    ?>
+                    <div class="form-group">
+                        <label class="form-label">@lang('admin.color')</label>
+
+                            @if($color)
+                                @foreach($color->options as $option)
+
+                                    <div class="form-group">
+                                        <label class="ckbox">
+                                            <input type="checkbox" name="color[]" data-checkboxes="mygroup" class="custom-control-input" {{in_array($option->id,$color_ids) ? 'checked':''}} value="{{$option->id}}">
+                                            <span style="margin-left: 20px;background-color: {{$option->color}}">{{$option->label}}</span>
+
+                                        </label>
+                                    </div>
+
+                                @endforeach
+                            @endif
+
+                    </div>
+
+
 
                     <div class="form-group">
                         <div class="main-content-label mg-b-5">

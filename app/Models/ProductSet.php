@@ -83,6 +83,10 @@ class ProductSet extends Model
         return $this->belongsToMany(Product::class,'product_product_sets')->withPivot(['id','coordinates']);
     }
 
+    public function colors(){
+        return $this->belongsToMany(AttributeOption::class,'collection_colors','product_set_id','color_id');
+    }
+
     public function video(): MorphOne
     {
         return $this->morphOne(Video::class, 'videoable');
