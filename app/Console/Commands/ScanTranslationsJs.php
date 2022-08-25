@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  app/Console/Commands/ScanTranslations.php
  *
@@ -39,7 +40,7 @@ class ScanTranslationsJs extends Command
      *
      * @var string[]
      */
-    protected $functions = ['lang','trans','__'];
+    protected $functions = ['lang', 'trans', '__'];
 
     /**
      * Execute the console command.
@@ -56,22 +57,22 @@ class ScanTranslationsJs extends Command
         $results = ['single' => [], 'group' => []];
 
         $matchingPattern =
-            '[^\w]'.
-            '(?<!->)'.
-            '('.implode('|', $this->functions).')'.
-            "\(".
-            "[\'\"]".
-            '('.
-            '.+'.
-            ')'.
-            "[\'\"]".
+            '[^\w]' .
+            '(?<!->)' .
+            '(' . implode('|', $this->functions) . ')' .
+            "\(" .
+            "[\'\"]" .
+            '(' .
+            '.+' .
+            ')' .
+            "[\'\"]" .
             "[\),]";
         $this->info('Scan files start.');
         foreach ($files as $file) {
             $fileContents = file_get_contents($file);
 
             if (preg_match_all("/$matchingPattern/siU", $fileContents, $matches)) {
-                $this->info($file->getFilename().' - File matched.');
+                $this->info($file->getFilename() . ' - File matched.');
                 foreach ($matches[2] as $key) {
                     if (preg_match("/(^[a-zA-Z0-9:_-]+([.][^\1)\ ]+)+$)/siU", $key, $arrayMatches)) {
                         [$file, $k] = explode('.', $arrayMatches[0], 2);
@@ -96,14 +97,14 @@ class ScanTranslationsJs extends Command
             $keys = array_keys($result);
             foreach ($keys as $key) {
                 $text = [];
-                $languageLine = LanguageLine::where('group',$group)
-                    ->where('key',$key)->first();
+                $languageLine = LanguageLine::where('group', $group)
+                    ->where('key', $key)->first();
                 if (null !== $languageLine) {
                     continue;
                 }
 
                 $text[$defaultLanguage->locale] = $key;
-                $this->info('Insert into language lines -  '. $key);
+                $this->info('Insert into language lines -  ' . $key);
                 LanguageLine::create([
                     'group' => $group,
                     'key' => $key,
@@ -121,12 +122,12 @@ class ScanTranslationsJs extends Command
      */
     protected function filesIn(string $path): \Generator
     {
-        if (! is_dir($path)) {
+        if (!is_dir($path)) {
             throw new \RuntimeException("{$path} is not a directory ");
         }
 
         $it = new \RecursiveDirectoryIterator($path);
         $it = new \RecursiveIteratorIterator($it);
-        yield from new \RegexIterator($it, '/\.php$|.js$/', \RegexIterator::MATCH);
+        yield from new \RegexIterator($it, '/\.php$|.jsx$/', \RegexIterator::MATCH);
     }
 }
