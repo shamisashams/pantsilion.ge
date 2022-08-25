@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SingleSlider from "../components/SingleSlider";
 //import Left from "../assets/images/icons/sofa1.png";
 //import Right from "../assets/images/icons/sofa2.png";
@@ -46,8 +46,10 @@ const SingleProduct = ({seo}) => {
 
     const [productPrice, setProductPrice] = useState(`from ₾${product.min_price}`)
 
+
+
   console.log(product);
-    console.log(stocks);
+    console.log(category_last);
 
     const renderHTML = (rawHTML) =>
         React.createElement("div", {
@@ -227,6 +229,50 @@ const SingleProduct = ({seo}) => {
 
     }
 
+
+    Inertia.on('success', (event) => {
+        if(category_last.corner === 0){
+
+            let sizes = [];
+
+            Object.keys(product_config.size).map((key2,index3) => {
+
+
+
+
+
+
+                //product_config.size[key2].variants = id;
+                //product_config.size[key2].variants.remove(item);
+                sizes.push({id: key2, label: product_config.size[key2].label, variants: product_config.size[key2].variants});
+                //delete product_config.size[key2];
+
+            })
+
+            let result = {};
+
+            sizes.map((item, index) => {
+
+                if(result.hasOwnProperty(item.id)){
+                    console.log(item.id)
+
+                    result[item.id].variants = result[item.id].variants.concat(item.variants);
+                }
+                else result[item.id] = {label:item.label,variants: item.variants}
+            })
+
+            setProductSizes(result);
+
+        }
+    })
+
+
+
+
+
+
+
+
     function selectSize(id) {
         setProductImages(product_images)
         setProductVideo(product.video ? product.video.path :null)
@@ -344,7 +390,7 @@ const SingleProduct = ({seo}) => {
                               {product.description}
                           </p>
                           <div className="bold mb-4">Choose corner:</div>
-                          <div className="flex text-sm mb-5">
+                          {category_last.corner === 1 ? <div className="flex text-sm mb-5">
                               {left ? <div
                                   onClick={() => {
                                       setSide(1)
@@ -385,7 +431,7 @@ const SingleProduct = ({seo}) => {
                                   </div>
                                   <p>Right side</p>
                               </div>:null}
-                          </div>
+                          </div>:null}
                           <div className="bold mb-4">Specification</div>
                           <div className="">
                               <p className="opacity-50 text-sm inline-block mr-2">
