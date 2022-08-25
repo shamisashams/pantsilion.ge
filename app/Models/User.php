@@ -86,4 +86,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Wishlist::class, 'user_id');
     }
+
+    public function promoCode(){
+        return $this->hasOne(PromoCode::class);
+    }
+
+    public function promoCodes(){
+        return $this->hasMany(PromoCode::class);
+    }
 }

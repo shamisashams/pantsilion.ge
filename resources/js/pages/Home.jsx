@@ -18,9 +18,15 @@ const Home = ({ seo }) => {
         });
     const sharedData = usePage().props.localizations;
 
-    const { collections, products, blogs, images } = usePage().props;
+    const { collections, products, blogs, images, collection } = usePage().props;
 
-    console.log(blogs)
+    console.log(collection)
+
+    let price = 0;
+
+    collection.products.map((item, index) => {
+        price += item.price
+    })
 
     return (
         <Layout seo={seo}>
@@ -30,18 +36,18 @@ const Home = ({ seo }) => {
                         <div className="lg:w-3/5 lg:mr-5">
                             <div className="lg:text-6xl text-4xl max-w-3xl bold ">
                                 {/* Super quality furniture for your home */}
-                                {__("client.home_title", sharedData)}
+                                {collection.title}
                             </div>
                             <p className="lg:my-10 my-6 max-w-3xl text-justify">
                                 {/* Choose from a wide range of premium quality wooden furniture
                                 online. Comfort is our priority to satisfy our customers, and we
                                 provide all the furniture that you can easily and quickly get in
                                 love with */}
-                                {__("client.home_main_text", sharedData)}
+                                {renderHTML(collection.description)}
                             </p>
                             <div className="text-3xl bold">
                                 {/* from ₾299 */}
-                                {__("client.home_main_text_bottom", sharedData)}
+                                ₾{price}
                             </div>
                             <div className="flex items-center justify-start mt-10">
                                 <Link href="/" className="">
@@ -66,8 +72,23 @@ const Home = ({ seo }) => {
                         className="lg:absolute relative lg:right-0 lg:bottom-0 lg:w-2/5 mt-10"
                         style={{ height: "calc(100% - 140px)" }}
                     >
-                        <img src="/client/assets/images/bg/1.png" className="w-full h-full object-cover" alt="" />
-                        <PlusBox
+                        <img src={'/' + collection.set_image} className="w-full h-full object-cover" alt="" />
+                        {collection.products.map((item, index) => {
+                            let c = item.pivot.coordinates ? item.pivot.coordinates.split(' ') : new Array(4).fill('auto');
+                            console.log(c);
+                            return (
+                                <PlusBox
+                                    top={c[0]}
+                                    right={c[1]}
+                                    bottom={c[2]}
+                                    left={c[3]}
+                                    title={item.title}
+                                    para={item.short_description}
+                                    price={item.price}
+                                />
+                            )
+                        })}
+                        {/*<PlusBox
                             top="100px"
                             right="auto"
                             bottom="auto"
@@ -76,7 +97,7 @@ const Home = ({ seo }) => {
                             para="Choose from a wide range of premium quality wooden furniture "
                             price="299.00"
                         />
-                        <PlusBox top="auto" right="260px" bottom="200px" left="auto" />
+                        <PlusBox top="auto" right="260px" bottom="200px" left="auto" />*/}
                     </div>
                 </section>
                 <section className="wrapper py-20">
