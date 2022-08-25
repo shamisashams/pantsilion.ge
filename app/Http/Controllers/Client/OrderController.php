@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Page;
 use App\Models\Product;
+use App\Promocode\Promocode;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -227,6 +228,10 @@ class OrderController extends Controller
             'payment_method' => 'required',
             'payment_type' => 'required_if:payment_method,1'
         ]);*/
+
+        $promocode = new Promocode();
+
+        dd($promocode->generateCode());
 
         $data = $request->all();
         $cart = Arr::pull($data,'cart');
