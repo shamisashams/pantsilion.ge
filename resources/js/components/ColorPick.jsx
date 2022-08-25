@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { colors } from "./Data";
 
-const ColorPick = ({colors,category}) => {
+const ColorPick = ({colors,onClick}) => {
   const [chooseColor, setChooseColor] = useState(0);
   //console.log(colors)
   return (
@@ -9,11 +9,13 @@ const ColorPick = ({colors,category}) => {
       {colors.map((color, index) => {
         return (
           <button
+              type="button"
             onClick={() => {
                 setChooseColor(index)
                 //alert(index);
 
-                document.getElementById('cat_col_img').src = colors[index].file ? '/' + colors[index].file.path + '/' + colors[index].file.title:null;
+                onClick(color)
+                //document.getElementById('cat_col_img').src = colors[index].file ? '/' + colors[index].file.path + '/' + colors[index].file.title:null;
 
 
                 //console.log(img)

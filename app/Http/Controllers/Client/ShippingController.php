@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Cart\Facade\Cart;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Page;
 use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
@@ -53,6 +54,7 @@ class ShippingController extends Controller
             'images' => $images,
             'page' => $page,
             'cart' => Cart::getCart(),
+            'cities' => City::with('translation')->get(),
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,

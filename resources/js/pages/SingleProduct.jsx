@@ -31,7 +31,20 @@ const SingleProduct = ({seo}) => {
 
     const [productStocks, setproductStocks] = useState(stocks[cities[0].id] ?? [])
 
-    const [productVideo, setProductVideo] = useState(product.video.path)
+    const [productVideo, setProductVideo] = useState(product.video ? product.video.path : null)
+
+    const [toCart, setToCart] = useState(product)
+
+    const [productId, setProductId] = useState(0)
+
+    const [productColors, setProductColors] =  useState([])
+
+    const [productSizes, setProductSizes] = useState({});
+    const [selectedSize, setSelectedSize] = useState(' select size ');
+
+    const [categoryColorImg, setCategoryColorImg] = useState(category_last.colors[0].file ? '/' + category_last.colors[0].file.path + '/' + category_last.colors[0].file.title:null)
+
+    const [productPrice, setProductPrice] = useState(`from ₾${product.min_price}`)
 
   console.log(product);
     console.log(stocks);
@@ -45,8 +58,22 @@ const SingleProduct = ({seo}) => {
         Inertia.post(route('client.favorite.add'), {id:id});
     }
 
-    function addToCart(id,qty){
-        Inertia.post(route('add-to-cart'), {id:id,qty:qty});
+    function addToCart(product,qty){
+        console.log(product);
+        if(product.stocks.length === 0){
+            alert('out of stock')
+            return;
+        }
+        Inertia.post(route('add-to-cart'), {id: product.id,qty:qty});
+    }
+
+    function buyNow(product,qty){
+        console.log(product);
+        if(product.stocks.length === 0){
+            alert('out of stock')
+            return;
+        }
+        Inertia.post(route('add-to-cart'), {id: product.id,qty:qty, buy_now: true});
     }
 
     let colors = []
@@ -67,9 +94,12 @@ const SingleProduct = ({seo}) => {
         let sizes = [];
 
         setProductImages(product_images);
-        setProductVideo(product.video.path)
+        setProductVideo(product.video ? product.video.path :null)
+        setProductPrice(`from ₾${product.min_price}`)
+        setSelectedSize(' select size ')
+        setProductId(0)
 
-        let obj2 = {};
+
         let obj = {};
         Object.keys(product_config.corner).map((key,index) => {
             if(product_config.corner[key].code == corner){
@@ -96,7 +126,7 @@ const SingleProduct = ({seo}) => {
         })
 
         let result = {};
-        let ids = [];
+
         sizes.map((item, index) => {
 
             if(result.hasOwnProperty(item.id)){
@@ -112,12 +142,15 @@ const SingleProduct = ({seo}) => {
         console.log(result);
         console.log(obj);
 
-        let select = document.getElementById('choose_size');
-        select.innerHTML = '<option value=""></option>';
+        /*let select = document.getElementById('choose_size');
+        select.innerHTML = '<option value=""></option>';*/
 
-        let pick = document.getElementById('choose_color');
-        pick.innerHTML = '<option value=""></option>';
+        setProductSizes({})
 
+        /*let pick = document.getElementById('choose_color');
+        pick.innerHTML = '<option value=""></option>';*/
+
+        setProductColors([])
         /*for (var i = 0; i<sizes.length; i++){
             var opt = document.createElement('option');
             opt.value = i;
@@ -125,18 +158,22 @@ const SingleProduct = ({seo}) => {
             select.appendChild(opt);
         }*/
 
-        Object.keys(result).map((item,index) => {
+        /*Object.keys(result).map((item,index) => {
             var opt = document.createElement('option');
             opt.value = item;
             opt.innerHTML = result[item].label;
             select.appendChild(opt);
-        })
+        })*/
 
-        //select.removeEventListener('change',);
-        let id2 = [];
+        setProductSizes(result)
 
-        select.addEventListener('change',function (e){
+        setproductStocks(stocks[cities[0].id] ?? [] )
 
+        //select.addEventListener('change',function (e){
+
+            /*setProductImages(product_images)
+            setProductVideo(product.video ? product.video.path :null)
+            setProductPrice(`from ₾${product.min_price}`)
             let colors_ = [];
             let selected_size = result[e.target.value]
             console.log(selected_size)
@@ -147,16 +184,17 @@ const SingleProduct = ({seo}) => {
                     if(product_config.color[key3].variants.includes(item)){
                         //id2.push(item);
                         //product_config.color[key3].variants.remove(item);
-                        colors_.push({id: item, id2: key3, label:product_config.color[key3].label});
+                        colors_.push({id: item, id2: key3, label:product_config.color[key3].label, color: product_config.color[key3].color});
                         //delete product_config.color[key3];
                     }
                 })
 
             })
-            console.log(colors_)
+            setProductColors(colors_);
+            console.log(colors_)*/
             //console.log(p_id2)
 
-            pick.innerHTML = '<option value=""></option>';
+            /*pick.innerHTML = '<option value=""></option>';
             for (var iw = 0; iw<colors_.length; iw++){
                 var opt4 = document.createElement('option');
                 opt4.value = colors_[iw].id;
@@ -169,20 +207,72 @@ const SingleProduct = ({seo}) => {
             pick.addEventListener('change',function (e){
                 selected = e.target.value;
 
+                console.log(selected);
+
                         document.getElementById('product_id').value = selected;
 
                 document.getElementById('price_actual').innerHTML = '₾' + product_config.variants[selected].variant.price;
 
                 setProductImages(product_config.variants[selected].images);
 
+                setToCart(product_config.variants[selected].variant)
+
                 setproductStocks(product_config.variants[selected].stocks ?? {} )
                 setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
 
                 //console.log(product_config.variants[selected])
-            });
-        });
+            });*/
+        //});
 
 
+    }
+
+    function selectSize(id) {
+        setProductImages(product_images)
+        setProductVideo(product.video ? product.video.path :null)
+        setProductPrice(`from ₾${product.min_price}`);
+        setproductStocks(stocks[cities[0].id] ?? [] );
+        setProductId(0)
+        let colors_ = [];
+        let selected_size = productSizes[id]
+        console.log(selected_size)
+        setSelectedSize(selected_size.label + ' cm')
+        selected_size.variants.map((item,index) => {
+
+
+            Object.keys(product_config.color).map((key3,index) => {
+                if(product_config.color[key3].variants.includes(item)){
+                    //id2.push(item);
+                    //product_config.color[key3].variants.remove(item);
+                    colors_.push({id: item, id2: key3, label:product_config.color[key3].label, color: product_config.color[key3].color});
+                    //delete product_config.color[key3];
+                }
+            })
+
+        })
+        setProductColors(colors_);
+    }
+
+    function selectColor(color){
+       let selected = color.id;
+
+        console.log(selected);
+
+        setProductId(selected);
+
+        setProductPrice('₾' + product_config.variants[selected].variant.price);
+
+        setProductImages(product_config.variants[selected].images);
+
+        setToCart(product_config.variants[selected].variant)
+
+        setproductStocks(product_config.variants[selected].stocks ?? {} )
+        setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
+    }
+
+
+    function selectCategoryColor(color){
+        setCategoryColorImg(color.file ? '/' + color.file.path + '/' + color.file.title:null)
     }
 
     console.log(product_config)
@@ -242,7 +332,7 @@ const SingleProduct = ({seo}) => {
                                   ₾699.50
                               </div>
                               <div className="bold inline-block text-2xl text-custom-red pl-3">
-                                  <span id="price_actual">from ₾{product.min_price}</span>
+                                  <span id="price_actual">{productPrice}</span>
 
                               </div>
                           </div>
@@ -302,9 +392,9 @@ const SingleProduct = ({seo}) => {
                                   size:
                                   <span className="pl-2">(length x height x width x depth)</span>
                               </p>
-                              <select id="choose_size">
+                              {/*<select id="choose_size">
                                     <option value=""></option>
-                              </select>
+                              </select>*/}
                               <div
                                   onClick={() => {
                                       setChooseSize(!chooseSize)
@@ -313,7 +403,7 @@ const SingleProduct = ({seo}) => {
                                   className="relative inline-block align-middle cursor-default"
                               >
                                   <div className="bg-zinc-200 rounded py-1 px-2">
-                                      155x25x225x112 cm{" "}
+                                      {selectedSize}
                                       <FiChevronDown className="inline-block bg-white rounded-full  pt-px ml-1" />
                                   </div>
                                   <div
@@ -323,7 +413,16 @@ const SingleProduct = ({seo}) => {
                                               : " max-h-0  overflow-y-hidden"
                                       }`}
                                   >
-                                      <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
+                                      {Object.keys(productSizes).map((item,index) => {
+
+                                          return (<button onClick={() => {
+                                              selectSize(item)
+                                          }} className="w-full p-1 transition-all hover:bg-zinc-100 block">
+                                              {productSizes[item].label} cm
+                                          </button>)
+                                      })}
+
+                                      {/*<button className="w-full p-1 transition-all hover:bg-zinc-100 block">
                                           155x25x225x112 cm
                                       </button>
                                       <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
@@ -346,7 +445,7 @@ const SingleProduct = ({seo}) => {
                                       </button>
                                       <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
                                           155x25x225x112 cm
-                                      </button>
+                                      </button>*/}
                                   </div>
                               </div>
                           </div>
@@ -361,10 +460,10 @@ const SingleProduct = ({seo}) => {
                           <div className="flex my-5 ">
                               <p className="whitespace-nowrap opacity-50">Choose color:</p>
                               <div id="color_pick" className="ml-5 max-w-sm mt-1 flex flex-wrap">
-                                  <select id="choose_color">
+                                  {/*<select id="choose_color">
                                       <option value=""></option>
-                                  </select>
-                                  <ColorPick colors={colors} />
+                                  </select>*/}
+                                  <ColorPick colors={productColors} onClick={selectColor} />
                               </div>
                           </div>
                           <div className="flex flex-wrap -ml-5 mb-7">
@@ -372,15 +471,15 @@ const SingleProduct = ({seo}) => {
                               <div className="max-w-md ">
                                   <MainButton>Buy now</MainButton>
                               </div>
-                              <input type="hidden" id="product_id" value="0"/>
+                              <input type="hidden" id="product_id" value={productId}/>
                               <button
                                   className={`mx-4 whitespace-nowrap bold  border border-custom-dark  py-2 px-3 rounded transition-all duration-500 bg-transparent text-custom-dark hover:bg-custom-dark hover:text-white`}
                                   onClick={() => {
                                       let qty = document.getElementById('qty_' + product.id).value;
                                       console.log(qty)
                                       let product_id = document.getElementById('product_id').value;
-                                      if(parseInt(product_id) !== 0){
-                                          addToCart(product_id,qty)
+                                      if(toCart.parent_id !== null){
+                                          addToCart(toCart,qty)
                                       } else {
                                           alert('select options');
                                       }
@@ -500,9 +599,9 @@ const SingleProduct = ({seo}) => {
                   </div>
                   <div className="w-full my-10 mb-20">
                       <div className="bold text-lg mb-5">Customize your furniture:</div>
-                      <img id="cat_col_img" src={category_last.colors[0].file ? '/' + category_last.colors[0].file.path + '/' + category_last.colors[0].file.title:null} alt="" className="w-full mb-5" />
+                      <img id="cat_col_img" src={categoryColorImg} alt="" className="w-full mb-5" />
                       <div className="flex items-center justify-center flex-wrap">
-                          <ColorPick colors={category_last.colors} />
+                          <ColorPick colors={category_last.colors} onClick={selectCategoryColor} />
                       </div>
                   </div>
                   <div className="bold text-lg mb-7">Similar products</div>

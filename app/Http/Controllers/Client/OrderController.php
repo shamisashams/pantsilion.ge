@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\BogPay\BogPay;
 use App\BogPay\BogPaymentController;
+use App\Cart\Facade\Cart;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Order;
@@ -216,7 +217,7 @@ class OrderController extends Controller
 
     public function order(Request $request){
         //dd($request->all());
-        $request->validate([
+        /*$request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
@@ -225,18 +226,21 @@ class OrderController extends Controller
             'address' => 'required',
             'payment_method' => 'required',
             'payment_type' => 'required_if:payment_method,1'
-        ]);
+        ]);*/
 
         $data = $request->all();
         $cart = Arr::pull($data,'cart');
+        $cart = Cart::getCart();
         $data['locale'] = app()->getLocale();
         $data['grand_total'] = $cart['total'];
 
 
 
+        //dd($cart);
+
         $product_ids = [];
-        foreach ($cart['items'] as $item){
-            $product_ids[] = $item['product']['id'];
+        foreach ($cart['products'] as $item){
+            $product_ids[] = $item['product']->id;
         }
 
         $products = Product::whereIn('id',$product_ids)->get();
@@ -251,10 +255,10 @@ class OrderController extends Controller
             }
 
             $error = true;
-            foreach ($cart['items'] as $item){
+            foreach ($cart['products'] as $item){
                 if(isset($prod_data[$item['product']['id']])){
                     $price = ($prod_data[$item['product']['id']]['special_price'] !== null) ? $prod_data[$item['product']['id']]['special_price'] : $prod_data[$item['product']['id']]['price'];
-                    if ($prod_data[$item['product']['id']]['qty'] >= $item['qty'] && $price == $item['product']['price'] && $prod_data[$item['product']['id']]['status'] == 1){
+                    if ($price == $item['product']['price'] && $prod_data[$item['product']['id']]['status'] == 1){
                         $error = false;
                     }
                 } else {
@@ -275,7 +279,7 @@ class OrderController extends Controller
 
                 $data = [];
                 $insert = [];
-                foreach ($cart['items'] as $item){
+                foreach ($cart['products'] as $item){
                     $data['order_id'] = $order->id;
                     $data['product_id'] = $item['product']['id'];
                     $data['name'] = $item['product']['title'];

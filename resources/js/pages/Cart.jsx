@@ -109,7 +109,7 @@ const Cart = ({seo}) => {
                           />
                           <button className="bg-zinc-100 bold py-2 px-10">Apply code</button>
                       </div>
-                      <Link href="/shipping">
+                      <Link href={route('client.shipping.index')}>
                           <MainButton>Proceed to Shipping details</MainButton>
                       </Link>
                   </div>

@@ -1,5 +1,5 @@
 import React from "react";
-const MainButton = ({ children, reverse, disabled, type }) => {
+const MainButton = ({ children, reverse, disabled, type, onclick }) => {
   return (
     <button
       className={`bold  border border-custom-dark  py-2 px-8 rounded w-full transition-all duration-500 h-full whitespace-nowrap ${
@@ -11,6 +11,7 @@ const MainButton = ({ children, reverse, disabled, type }) => {
       }`}
       disabled={disabled}
       type={type ? type : 'button'}
+      onClick={onclick}
     >
       {children}
     </button>

@@ -12,9 +12,14 @@ import { BsArrowLeft } from "react-icons/bs";
 //import bank2 from "../assets/images/icons/6.png";
 import { HiQuestionMarkCircle } from "react-icons/hi";
 import Layout from "../Layouts/Layout";
+import {Inertia} from "@inertiajs/inertia";
 
 const Payment = ({seo}) => {
     const {cart} = usePage().props;
+
+    function makeOrder(){
+        Inertia.post(route('client.checkout.order'))
+    }
   return (
       <Layout seo={seo}>
           <div className="bg-zinc-100 overflow-hidden ">
@@ -126,7 +131,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                   <img src="/client/assets/images/icons/6.png" alt="" />
                               </Link>
                           </div>
-                          <MainButton> Make a payment now</MainButton>
+                          <MainButton onclick={makeOrder}> Make a payment now</MainButton>
                       </div>
                       <Link className="bold text-center" href="/cart">
                           <BsArrowLeft className="inline-block mr-2 w-5 h-5" />

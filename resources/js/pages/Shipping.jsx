@@ -16,7 +16,7 @@ import Layout from "../Layouts/Layout";
 const Shipping = ({seo}) => {
   const [chooseCity, setChooseCity] = useState(false);
 
-  const {cart} = usePage().props;
+  const {cart, cities} = usePage().props;
 
   return (
       <Layout seo={seo}>
