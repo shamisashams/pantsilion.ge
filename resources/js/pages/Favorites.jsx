@@ -18,6 +18,16 @@ const Favorites = ({seo}) => {
         Inertia.get(route('client.favorite.remove'), {id:id})
     }
 
+    function addToCart(product,qty){
+
+
+        if(product.stocks){
+            alert('out of stock')
+            return;
+        }
+        Inertia.post(route('add-to-cart'), {id: product.id,qty:qty});
+    }
+
   return (
       <Layout seo={seo}>
           <div className="wrapper py-40">
@@ -51,7 +61,7 @@ const Favorites = ({seo}) => {
                               </div>
                           </div>
 
-                          <Quantity item={item} />
+                          <Quantity item={item.product} />
                           <div className="w-28 text-lg bold whitespace-nowrap mx-4">
                               ₾ {item.product.price}
                           </div>
@@ -67,7 +77,13 @@ const Favorites = ({seo}) => {
                           </div>
                           <div className="">
                               {" "}
-                              <MainButton reverse>Add to cart</MainButton>
+                              <MainButton onclick={() => {
+
+                                  let qty = document.getElementById('qty_' + item.product.id).value;
+                                  console.log(qty)
+                                      addToCart(item.product,qty)
+
+                              }} reverse>Add to cart</MainButton>
                           </div>
                       </div>
                   );
