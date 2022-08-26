@@ -158,11 +158,11 @@ const Products = ({seo}) => {
                       </div>
                       <div className="mt-10">
                           <MultiRangeSlider
-                              min={0}
-                              max={1000}
+
                               onChange={({ min, max }) =>
                                   console.log(`min = ${min}, max = ${max}`)
                               }
+                              appliedFilters={appliedFilters}
                           />
                       </div>
 

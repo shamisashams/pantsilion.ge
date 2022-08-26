@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { MdHistory } from "react-icons/md";
 import { RiLogoutBoxLine } from "react-icons/ri";
 //import { Link } from "react-router-dom";
@@ -7,10 +7,32 @@ import { Link, usePage } from "@inertiajs/inertia-react";
 import EditInput from "../components/EditInput";
 import MainButton from "../components/MainButton";
 import Layout from "../Layouts/Layout";
+import { Inertia } from '@inertiajs/inertia'
 
 const RegularCabinet = ({seo}) => {
 
     const {user} = usePage().props;
+
+    const { errors } = usePage().props
+
+    const [values, setValues] = useState({
+        name: user.name ?? '',
+        surname: user.surname ?? '',
+        email: user.email,
+        id_number: user.id_number,
+    })
+
+    function handleChange(e) {
+        setValues(values => ({
+            ...values,
+            [e.target.id]: e.target.value,
+        }))
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        Inertia.post('/users', values)
+    }
 
   return (
       <Layout seo={seo}>
@@ -45,22 +67,22 @@ const RegularCabinet = ({seo}) => {
 
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                               <label className="opacity-50">Name</label>
-                              <input type="text " value="Name" className="text-right " />
+                              <input type="text " value="Name" className="text-right " value={values.name} onChange={handleChange} />
                           </div>
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                               <label className="opacity-50">Surname</label>
-                              <input type="text " value="Surname" className="text-right " />
+                              <input type="text " value="Surname" className="text-right " value={values.surname} onChange={handleChange} />
                           </div>
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                               <label className="opacity-50">ID</label>
-                              <input type="text " value="01012022011" className="text-right " />
+                              <input type="text " value="01012022011" className="text-right " value={values.id_number} onChange={handleChange} />
                           </div>
                           <EditInput
                               label="Address "
                               value="street name #22. Tbilisi, Georgia"
                           />
-                          <EditInput label="Phone number " value="+995 555 233 211" />
-                          <EditInput label="Email address " value="example@mail.com" />
+                          <EditInput label="Phone number " value={values.phone} />
+                          <EditInput label="Email address " value={values.email} />
                           <div className="grid grid-cols-2 gap-3 pt-3">
                               <MainButton reverse>Cancel</MainButton>
                               <MainButton>Save Changes</MainButton>

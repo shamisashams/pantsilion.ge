@@ -1,8 +1,21 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import "./RangeSlider.css";
+import {usePage} from "@inertiajs/inertia-react";
+import {Inertia} from "@inertiajs/inertia";
 
-const MultiRangeSlider = ({ min, max, onChange }) => {
+const MultiRangeSlider = ({ onChange, appliedFilters }) => {
+    const { filter } = usePage().props;
+    let min, max, min_o, max_o;
+    if(appliedFilters.hasOwnProperty('price')){
+        min = appliedFilters['price'][0];
+        max = appliedFilters['price'][1];
+    } else {
+        min = 0;
+        min_o = 0
+        max = filter.price.max
+        max_o = filter.price.max
+    }
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef(min);
@@ -14,6 +27,22 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
     (value) => Math.round(((value - min) / (max - min)) * 100),
     [min, max]
   );
+
+  function set(min,max){
+      console.log(min)
+      console.log(max)
+
+      appliedFilters['price'] = [min,max]
+
+      let params = [];
+
+      for (let key in appliedFilters) {
+          params.push(key + "=" + appliedFilters[key].join(","));
+      }
+
+      Inertia.visit("?" + params.join("&"));
+  }
+
 
   // Set width of the range to decrease from the left side
   useEffect(() => {
@@ -43,6 +72,7 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
 
   return (
     <div className="container">
+
       <input
         type="range"
         min={min}
@@ -55,6 +85,9 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
         }}
         className="thumb thumb--left"
         style={{ zIndex: minVal > max - 100 && "5" }}
+        onMouseUp={() => {
+            set(minVal,maxVal)
+        }}
       />
       <input
         type="range"
@@ -67,6 +100,10 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
           maxValRef.current = value;
         }}
         className="thumb thumb--right"
+
+        onMouseUp={(e) => {
+            set(minVal,maxVal)
+        }}
       />
 
       <div className="slider">
