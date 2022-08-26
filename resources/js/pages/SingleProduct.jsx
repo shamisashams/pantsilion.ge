@@ -78,6 +78,8 @@ const SingleProduct = ({seo}) => {
         Inertia.post(route('add-to-cart'), {id: product.id,qty:qty, buy_now: true});
     }
 
+
+
     let colors = []
 
     Array.prototype.remove = function() {

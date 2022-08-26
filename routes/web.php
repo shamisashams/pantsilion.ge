@@ -149,9 +149,12 @@ Route::prefix('{locale?}')
         });
 
         Route::post('add-to-cart',[\App\Http\Controllers\Client\CartController::class,'addToCart'])->name('add-to-cart');
+        Route::post('add-to-cart-collection',[\App\Http\Controllers\Client\CartController::class,'addToCartCollection'])->name('add-to-cart-collection');
         Route::get('remove_from_cart',[\App\Http\Controllers\Client\CartController::class,'removeFromCart'])->name('remove-from-cart');
+        Route::get('remove_from_cart_collection',[\App\Http\Controllers\Client\CartController::class,'removeFromCartCollection'])->name('remove-from-cart-collection');
         Route::get('get_cart',[\App\Http\Controllers\Client\CartController::class,'getCart'])->name('get_cart');
         Route::get('update_cart',[\App\Http\Controllers\Client\CartController::class,'updateCart'])->name('update_cart');
+        Route::get('update_cart_collection',[\App\Http\Controllers\Client\CartController::class,'updateCartCollection'])->name('update_cart_collection');
 
         Route::get('sipping',[\App\Http\Controllers\Client\ShippingController::class,'index'])->name('client.shipping.index');
 

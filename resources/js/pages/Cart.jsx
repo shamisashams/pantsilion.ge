@@ -18,6 +18,10 @@ const Cart = ({seo}) => {
         Inertia.get(route('remove-from-cart'), {id:id})
     }
 
+    function removeCollection(id){
+        Inertia.get(route('remove-from-cart-collection'), {id:id})
+    }
+
   return (
       <Layout seo={seo}>
           <div className="bg-zinc-100 overflow-hidden ">
@@ -86,6 +90,51 @@ const Cart = ({seo}) => {
                               </div>
                           );
                       })}
+
+
+                      {cart.collections.map((item, index) => {
+                          return (
+                              <div
+                                  key={index}
+                                  className={`flex justify-between items-center border-b border-zinc-200 pb-5 mb-5 md:overflow-x-hidden  overflow-x-scroll scrollbar ${
+                                      cart.length === index + 1 ? "border-none mb-10" : ""
+                                  }`}
+                              >
+                                  <div className="shrink-0 md:w-96 w-80 flex items-center">
+                                      <div className="w-32 h-32 mr-5 shrink-0">
+                                          <img
+                                              src={item.collection.latest_image ? '/' + item.collection.latest_image.path + '/' + item.collection.latest_image.title:null}
+                                              className="w-full h-full object-cover"
+                                              alt=""
+                                          />
+                                      </div>
+                                      <div>
+                                          <div className="bold mb-1">{item.collection.title} </div>
+                                          <div className="text-sm opacity-50 mb-1">
+                                              Color: {item.collection.attributes.label}
+
+                                          </div>
+                                          <Link
+                                              href="/"
+                                              className=" text-sm text-sky-500 hover:underline"
+                                          >
+                                              furniture set
+                                          </Link>
+                                      </div>
+                                  </div>
+
+                                  <Quantity item={item} collection={true} />
+                                  <div className="w-28 text-lg bold whitespace-nowrap mx-4">
+                                      ₾ {item.collection.price}
+                                  </div>
+
+                                  <button onClick={() => {removeCollection(item.collection.id)}} className="shrink-0 w-12 h-12 flex items-center justify-center rounded-full text-custom-red hover:bg-zinc-200 hover:text-black  transition-all">
+                                      <IoTrashOutline className="w-6 h-6 " />
+                                  </button>
+                              </div>
+                          );
+                      })}
+
                       <Link className="bold" href="/products">
                           <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
                           Continue shopping

@@ -175,6 +175,35 @@ const Shipping = ({seo}) => {
                                       </div>
                                   );
                               })}
+
+                              {cart.collections.map((item, index) => {
+                                  return (
+                                      <div
+                                          key={index}
+                                          className="flex items-start justify-between mb-5"
+                                      >
+                                          <div className=" flex items-start">
+                                              <div className="w-20 h-20 mr-3 shrink-0">
+                                                  <img
+                                                      src={item.collection.latest_image ? '/' + item.collection.latest_image.path + '/' + item.collection.latest_image.title:null}
+                                                      className="w-full h-full object-cover"
+                                                      alt=""
+                                                  />
+                                              </div>
+                                              <div>
+                                                  <div className="bold mb-1">{item.collection.title} </div>
+                                                  <div className=" mb-1">furniture set </div>
+                                                  <div className="text-sm opacity-50 mb-1">
+                                                      Color: {item.collection.attributes.label}
+                                                      <br />
+                                                      Quantity: {item.quantity}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div className="text-lg ml-4">₾{item.collection.price}</div>
+                                      </div>
+                                  );
+                              })}
                           </div>
 
                           <div className="flex items-center justify-between border-b border-t border-zinc-200  py-3 mb-5">

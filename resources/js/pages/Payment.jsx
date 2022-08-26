@@ -144,7 +144,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                   >
                       <div className="mb-10">
                           <div className="text-3xl bold mb-3">Summary</div>
-                          <div className="opacity-50 mb-3 ">(12 items)</div>
+                          <div className="opacity-50 mb-3 ">({cart.count} items)</div>
                           <div className="h-72 overflow-y-scroll pr-5 my-5 scrollbar">
                               {cart.products.map((item, index) => {
                                   return (
@@ -170,6 +170,35 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                               </div>
                                           </div>
                                           <div className="text-lg ml-4">₾{item.product.price}</div>
+                                      </div>
+                                  );
+                              })}
+
+                              {cart.collections.map((item, index) => {
+                                  return (
+                                      <div
+                                          key={index}
+                                          className="flex items-start justify-between mb-5"
+                                      >
+                                          <div className=" flex items-start">
+                                              <div className="w-20 h-20 mr-3 shrink-0">
+                                                  <img
+                                                      src={item.collection.latest_image ? '/' + item.collection.latest_image.path + '/' + item.collection.latest_image.title:null}
+                                                      className="w-full h-full object-cover"
+                                                      alt=""
+                                                  />
+                                              </div>
+                                              <div>
+                                                  <div className="bold mb-1">{item.collection.title} </div>
+                                                  <div className=" mb-1">furniture set </div>
+                                                  <div className="text-sm opacity-50 mb-1">
+                                                      Color: {item.collection.attributes.label}
+                                                      <br />
+                                                      Quantity: {item.quantity}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div className="text-lg ml-4">₾{item.collection.price}</div>
                                       </div>
                                   );
                               })}

@@ -9,6 +9,7 @@ import { FiHeart } from "react-icons/fi";
 import ProductSlider from "../components/ProductSlider";
 import Layout from "../Layouts/Layout";
 import {usePage} from "@inertiajs/inertia-react";
+import {Inertia} from "@inertiajs/inertia";
 
 const FurnitureSet = ({seo}) => {
   const [favorite, setFavorite] = useState(false);
@@ -31,12 +32,14 @@ const FurnitureSet = ({seo}) => {
   }
 
   function addToCart(collection){
+      console.log(collection)
       if(colorId > 0){
 
+          Inertia.post(route('add-to-cart-collection'), {collection:collection.id, color: colorId});
       } else {
           alert('select color')
       }
-      console.log(collection)
+
   }
 
   return (

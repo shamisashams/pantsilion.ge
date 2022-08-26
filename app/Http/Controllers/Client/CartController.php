@@ -47,7 +47,7 @@ class CartController extends Controller
 
         }
 
-        //dd($products);
+        //dd(Cart::getCart());
         return Inertia::render('Cart',[
             'products' => $products,
             'images' => $images,
@@ -209,6 +209,11 @@ class CartController extends Controller
 
     public function addToCart(Request $request){
         //dd($request->all());
+        $product = Product::findOrFail($request['id']);
+        if($product->parent_id == null) {
+            //dd($product->slug);
+            return redirect(route('client.product.show',[$product->slug]));
+        }
 
         Cart::add($request);
 
@@ -216,8 +221,19 @@ class CartController extends Controller
 
     }
 
+    public function addToCartCollection(Request $request){
+        Cart::addCollection($request);
+
+        return redirect()->back();
+    }
+
     public function removeFromCart(Request $request){
         Cart::remove($request);
+        return redirect()->back();
+    }
+
+    public function removeFromCartCollection(Request $request){
+        Cart::removeCollection($request);
         return redirect()->back();
     }
 
@@ -230,5 +246,10 @@ class CartController extends Controller
         Cart::update($request);
         return redirect()->back();
     }
+    public function updateCartCollection(Request $request){
+        Cart::updateCollection($request);
+        return redirect()->back();
+    }
+
 
 }

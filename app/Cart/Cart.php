@@ -2,6 +2,7 @@
 
 namespace App\Cart;
 
+use App\Models\ProductSet;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
 use App\Models\Product;
@@ -42,10 +43,7 @@ class Cart
 
             $product = Product::findOrFail($request['id']);
 
-        if($product->parent_id == null) {
-            //dd($product->slug);
-            return redirect(route('client.product.show',[$product->slug]));
-        }
+
             if ($bool) {
                 $products[] = (object)[
                     'product_id' => $product->id,
@@ -59,6 +57,37 @@ class Cart
 
 
 
+    }
+
+    public function addCollection($request){
+        $collections = session('cart_collections') ?? array();
+        $bool = true;
+
+        //dd($collections);
+
+        foreach ($collections as $item) {
+            if ($item->collection_id == $request['collection']) {
+
+                $item->quantity += 1;
+                $bool = false;
+                break;
+
+            }
+        }
+
+        $collection = ProductSet::findOrFail($request['collection']);
+        //dd($collections);
+        if ($bool) {
+
+            $products[] = (object)[
+                'collection_id' => $collection->id,
+                'quantity' => 1,
+                'color_id' => $request['color'],
+                'price' => $collection->price,
+            ];
+            $request->session()->put('cart_collections', $products);
+
+        }
     }
 
     public function remove($request){
@@ -85,6 +114,29 @@ class Cart
 
     }
 
+    public function removeCollection($request){
+        $id = $request['id'];
+
+
+        $cart = session('cart_collections') ?? array();
+        if ($cart !== null) {
+            foreach ($cart as $key => $item) {
+                if ($item->collection_id == $id) {
+                    unset($cart[$key]);
+                    $cart = array_values($cart);
+                }
+            }
+            if(count($cart)){
+                session(['cart_collections' => $cart]);
+            } else {
+                session()->forget('cart_collections');
+            }
+
+
+        }
+
+    }
+
     public function update($request){
         //dd($request->all());
         $id = $request['id'];
@@ -102,10 +154,29 @@ class Cart
         }
     }
 
+    public function updateCollection($request){
+        //dd($request->all());
+        $id = $request['id'];
+        $cart = session('cart_collections') ?? array();
+        if ($cart !== null) {
+            foreach ($cart as $key => $item) {
+                if ($item->collection_id == $id) {
+                    $cart[$key]->quantity = $request['qty'];
+                }
+            }
+
+            //dd($cart);
+            session(['cart_collections' => $cart]);
+
+        }
+    }
+
     public function getCart(){
         $products = array();
+        $collections = [];
         $cart = session('cart') ?? array();
         $total = 0;
+        $total_c = 0;
 
         //dd($cart);
         if ($cart !== null) {
@@ -143,13 +214,38 @@ class Cart
                     $total += intval($item->quantity) * floatval($item->price);
 
             }
+
+
         }
-        return array('count' => count($cart), 'products' => $products, 'total' => $total);
+
+        $cart_collection = session('cart_collections') ?? array();
+        //dd($cart_collection);
+        if($cart_collection !== null){
+            foreach ($cart_collection as $item_c){
+                $collection = ProductSet::with('translation','latestImage','products','products.latestImage','products.translation')->where('id',$item_c->collection_id)->first();
+
+                if ($collection) {
+                    $collection['attributes'] = $collection->colors()->where('color_id',$item_c->color_id)->first();
+                    $collections[] = [
+
+                        'collection' => $collection,
+                        'quantity' => $item_c->quantity,
+                    ];
+                }
+            }
+        }
+        foreach ($cart_collection as $item) {
+
+            $total_c += intval($item->quantity) * floatval($item->price);
+
+        }
+        return array('count' => count($cart) + count($cart_collection), 'products' => $products, 'collections' => $collections, 'total' => $total + $total_c);
     }
 
     public function count(){
         $cart = session('cart') ?? array();
-        return count($cart);
+        $cart_collections = session('cart_collections') ?? array();
+        return count($cart) + count($cart_collections);
     }
 
 }
