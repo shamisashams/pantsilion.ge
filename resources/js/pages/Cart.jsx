@@ -11,7 +11,7 @@ import { Inertia } from '@inertiajs/inertia'
 
 const Cart = ({seo}) => {
 
-    const {cart} = usePage().props;
+    const {cart, flash, promocode} = usePage().props;
     console.log(cart);
 
     function removeItem(id){
@@ -20,6 +20,26 @@ const Cart = ({seo}) => {
 
     function removeCollection(id){
         Inertia.get(route('remove-from-cart-collection'), {id:id})
+    }
+
+
+    const [values, setValues] = useState({
+        promocode: "",
+
+    })
+
+    function handleChange(e) {
+        const key = e.target.name;
+        const value = e.target.value
+        setValues(values => ({
+            ...values,
+            [key]: value,
+        }))
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        Inertia.post(route('apply-promocode'), values)
     }
 
   return (
@@ -152,11 +172,14 @@ const Cart = ({seo}) => {
                               <div>₾ {cart.total}</div>
                           </div>
                           <div className="text-sky-500 bold mb-3">Use discount code</div>
-                          <input
+                          <input name="promocode"
                               type="text"
                               className="border border-zinc-200 mb-3 w-full h-10 pl-3"
+                                 onChange={handleChange}
                           />
-                          <button className="bg-zinc-100 bold py-2 px-10">Apply code</button>
+                          <button onClick={handleSubmit} className="bg-zinc-100 bold py-2 px-10">Apply code</button>
+                          <div>{flash ? flash :null}</div>
+                          <div>{promocode ? 'discount %' + promocode.reward :null}</div>
                       </div>
                       <Link href={route('client.shipping.index')}>
                           <MainButton>Proceed to Shipping details</MainButton>

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 //import { Link } from "react-router-dom";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import { cartList } from "../components/Data";
 import MainButton from "../components/MainButton";
 import { BsArrowLeft } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
+import { Inertia } from '@inertiajs/inertia'
 
 //import flag from "../assets/images/svg/flag.svg";
 //import pin from "../assets/images/svg/pin.svg";
@@ -16,9 +17,53 @@ import Layout from "../Layouts/Layout";
 const Shipping = ({seo}) => {
   const [chooseCity, setChooseCity] = useState(false);
 
-  const {cart, cities} = usePage().props;
+  const {cart, cities, promocode, errors, shipping} = usePage().props;
 
-  return (
+  const [selectedCity, setSelectedCity] = useState(0);
+
+  let selected = null;
+  if(shipping){
+      cities.map((item,index) => {
+        if(item.id === shipping.city_id) {
+            selected = item.title
+        }
+      })
+  }
+
+
+    const [selectedCityL, setSelectedCityL] = useState(selected ? selected : 'Choose City');
+
+  function selectCity(city){
+      setSelectedCity(city.id)
+      setSelectedCityL(city.title)
+      values.city_id = city.id
+  }
+
+
+
+    const [values, setValues] = useState({
+        city_id: selectedCity,
+        address: shipping ? shipping.address :null,
+        phone: shipping ? shipping.phone :null,
+        comment: shipping ? shipping.comment :null,
+    })
+
+    function handleChange(e) {
+        setValues(values => ({
+            ...values,
+            [e.target.name]: e.target.value,
+        }))
+    }
+
+
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        Inertia.post(route('shipping-submit'), values)
+    }
+
+
+    return (
       <Layout seo={seo}>
           <div className="bg-zinc-100 overflow-hidden ">
               <div className="wrapper h-full flex items-start justify-between flex-col xl:flex-row xl:pb-0 pb-20">
@@ -48,19 +93,21 @@ const Shipping = ({seo}) => {
                               Choose from a wide range of premium quality wooden furniture
                               online.{" "}
                           </p>
-                          <form>
+                          {/*<form>*/}
                               <div
                                   onClick={() => setChooseCity(!chooseCity)}
                                   className="w-full h-16 mb-3 text-center bg-white relative"
                               >
+                                  <input type="hidden" name="city_id" value={selectedCity}/>
                                   <div className="w-full h-full flex items-center justify-center relative">
-                                      Choose city
+                                      {selectedCityL}
                                       <FiChevronDown className="absolute top-1/2 -translate-y-1/2 right-5" />
                                       <img
                                           src="/client/assets/images/svg/flag.svg"
                                           alt=""
                                           className="absolute top-1/2 -translate-y-1/2 left-5 bg-white"
                                       />
+
                                   </div>
                                   <div
                                       className={`absolute left-0 top-full w-full bg-white scrollbar transition-all duration-300 z-10  ${
@@ -69,7 +116,16 @@ const Shipping = ({seo}) => {
                                               : " max-h-0  overflow-y-hidden"
                                       }`}
                                   >
-                                      <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
+                                      {cities.map((item,index) => {
+                                          return (
+                                              <button onClick={() => {
+                                                  selectCity(item)
+                                              }} className="w-full p-3 transition-all hover:bg-zinc-100 block">
+                                                  {item.title}
+                                              </button>
+                                          )
+                                      })}
+                                      {/*<button className="w-full p-3 transition-all hover:bg-zinc-100 block">
                                           Tbilisi
                                       </button>
                                       <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
@@ -92,9 +148,10 @@ const Shipping = ({seo}) => {
                                       </button>
                                       <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
                                           Zugdidi
-                                      </button>
+                                      </button>*/}
                                   </div>
                               </div>
+
                               <div className="relative mb-3">
                                   <img
                                       src="/client/assets/images/svg/pin.svg"
@@ -105,6 +162,9 @@ const Shipping = ({seo}) => {
                                       type="text"
                                       placeholder="Enter your address"
                                       className="w-full h-16 text-center bg-white placeholder:text-custom-dark"
+                                      name="address"
+                                      onChange={handleChange}
+                                      value={values.address}
                                   />
                               </div>
                               <div className="relative mb-3">
@@ -118,6 +178,9 @@ const Shipping = ({seo}) => {
                                       type="text"
                                       placeholder="Enter phone number"
                                       className="w-full h-16 text-center bg-white placeholder:text-custom-dark"
+                                      name="phone"
+                                      onChange={handleChange}
+                                      value={values.phone}
                                   />
                               </div>
                               <div className="relative mb-3">
@@ -131,9 +194,12 @@ const Shipping = ({seo}) => {
                                       type="text"
                                       placeholder="Leave a comment"
                                       className="w-full h-16 text-center bg-white placeholder:text-custom-dark"
+                                      name="comment"
+                                      onChange={handleChange}
+                                      value={values.comment}
                                   />
                               </div>
-                          </form>
+                          {/*</form>*/}
                       </div>
                       <Link className="bold" href="/cart">
                           <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
@@ -214,9 +280,10 @@ const Shipping = ({seo}) => {
                               <div>Shipping</div>
                               <div className="bold text-lg">₾ 4495.55</div>
                           </div>
+                          <div>{promocode ? 'discount %' + promocode.reward :null}</div>
                       </div>
                       <Link href="/payment">
-                          <MainButton>Proceed to payment</MainButton>
+                          <MainButton onclick={handleSubmit}>Proceed to payment</MainButton>
                       </Link>
                   </div>
               </div>

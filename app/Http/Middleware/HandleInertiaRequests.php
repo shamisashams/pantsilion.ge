@@ -82,7 +82,8 @@ class HandleInertiaRequests extends Middleware
             'user' => auth()->user(),
             'affiliate_link' => auth()->user() ? url('/registration') . '?ref=' .auth()->user()->affiliate_id : null,
             'cart_count' => Cart::count(),
-            'wishlist_count' => Wishlist::query()->where('user_id',auth()->id())->count()
+            'wishlist_count' => Wishlist::query()->where('user_id',auth()->id())->count(),
+            'flash' => session()->get('msg')
         ]);
     }
 

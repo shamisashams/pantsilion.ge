@@ -55,6 +55,8 @@ class ShippingController extends Controller
             'page' => $page,
             'cart' => Cart::getCart(),
             'cities' => City::with('translation')->get(),
+            'promocode' => session('promocode'),
+            'shipping' => session('shipping'),
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,
@@ -229,6 +231,22 @@ class ShippingController extends Controller
     public function updateCart(Request $request){
         Cart::update($request);
         return redirect()->back();
+    }
+
+    public function submitShipping(Request $request){
+        $data = $request->validate([
+           'city_id' => 'required',
+           'address' => 'required',
+           'phone' => 'required',
+           'comment' => 'nullable'
+        ]);
+        //dd($data);
+        $info = [
+            'shipping' => $data
+        ];
+        session($info);
+
+        return redirect()->route('client.payment.index');
     }
 
 }

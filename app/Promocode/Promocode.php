@@ -30,4 +30,13 @@ class Promocode
         return $mask;
     }
 
+    public function createPromocode(){
+        auth()->user()->promocode()->create([
+            'reward' => 10,
+            'quantity' => 1,
+            'promo_code' => $this->generateCode()
+        ]);
+        return auth()->user();
+    }
+
 }

@@ -15,7 +15,7 @@ import Layout from "../Layouts/Layout";
 import {Inertia} from "@inertiajs/inertia";
 
 const Payment = ({seo}) => {
-    const {cart} = usePage().props;
+    const {cart,promocode, shipping, city} = usePage().props;
 
     function makeOrder(){
         Inertia.post(route('client.checkout.order'))
@@ -48,12 +48,12 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                           <div className="relative mb-3 w-full p-5  bg-white flex">
                               <div className="shrink-0 w-24 inline-block mr-">Ship to:</div>
                               <span className="opacity-50">
-                Tbilisi, Kaspi street #32. flat 15bilisi
+                {city.title}, {shipping.address}
               </span>
                           </div>
                           <div className="relative mb-3 w-full py-5 pl-5  bg-white">
                               <div className="shrink-0 w-24 inline-block mr-">Contact:</div>
-                              <span className="opacity-50">598 33 21 53</span>
+                              <span className="opacity-50">{shipping.phone}</span>
                           </div>
                           <div className="bold text-lg mt-10 mb-5">Payment details</div>
                           <div className="flex justify-between mb-4">
@@ -217,6 +217,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                           <div className="bold text-lg">Total</div>
                           <div className="bold text-xl">₾ 4495.55</div>
                       </div>
+                      <div>{promocode ? 'discount %' + promocode.reward :null}</div>
                   </div>
               </div>
           </div>

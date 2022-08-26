@@ -53,6 +53,7 @@ class CartController extends Controller
             'images' => $images,
             'page' => $page,
             'cart' => Cart::getCart(),
+            'promocode' => session('promocode'),
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,
@@ -249,6 +250,20 @@ class CartController extends Controller
     public function updateCartCollection(Request $request){
         Cart::updateCollection($request);
         return redirect()->back();
+    }
+
+    public function applyPromocode(Request $request){
+        $request->validate([
+            'promocode' => 'required'
+        ]);
+        if($promocode = auth()->user()->promocode()->where('promo_code',$request->post('promocode'))->first()){
+
+            session(['promocode' => $promocode]);
+            return back()->with('msg','promocode');
+        }
+
+        session()->forget('promocode');
+        return back()->with('msg','bad promocode');
     }
 
 

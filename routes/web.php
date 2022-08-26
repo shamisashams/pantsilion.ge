@@ -146,6 +146,8 @@ Route::prefix('{locale?}')
             Route::get('favorites',[\App\Http\Controllers\Client\FavoriteController::class,'index'])->name('client.favorite.index');
             Route::post('favorites',[\App\Http\Controllers\Client\FavoriteController::class,'addToWishlist'])->name('client.favorite.add');
             Route::get('favorites/remove',[\App\Http\Controllers\Client\FavoriteController::class,'removeFromWishlist'])->name('client.favorite.remove');
+            Route::post('apply-promocode',[\App\Http\Controllers\Client\CartController::class,'applyPromocode'])->name('apply-promocode');
+            Route::post('shipping-submit',[\App\Http\Controllers\Client\ShippingController::class,'submitShipping'])->name('shipping-submit');
         });
 
         Route::post('add-to-cart',[\App\Http\Controllers\Client\CartController::class,'addToCart'])->name('add-to-cart');

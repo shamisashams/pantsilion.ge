@@ -231,7 +231,7 @@ class OrderController extends Controller
 
         $promocode = new Promocode();
 
-        dd($promocode->generateCode());
+        dd($promocode->createPromocode());
 
         $data = $request->all();
         $cart = Arr::pull($data,'cart');
