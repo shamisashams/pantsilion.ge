@@ -22,14 +22,15 @@ const AccountSettings = ({seo , user}) => {
         name: user.name ?? null,
         avatar: null,
         surname: user.surname ?? null,
-        id_number: null,
-        phone: null,
-        address: null
+        id_number: user.id_number ?? null,
+        phone: user.phone ?? null,
+        address: user.address ?? null,
+        email: user.email ?? null,
     })
 
     function submit(e) {
         e.preventDefault()
-        post('/users')
+        post(route('partner.update-info'))
     }
 
   return (
@@ -61,10 +62,10 @@ const AccountSettings = ({seo , user}) => {
                               </div>
                               <EditInput
                                   label="Address "
-                                  value="street name #22. Tbilisi, Georgia"
+                                  value={data.address}
                               />
-                              <EditInput label="Phone number " value="+995 555 233 211" />
-                              <EditInput label="Email address " value="example@mail.com" />
+                              <EditInput label="Phone number " value={data.phone} onChange={e => setData('phone', e.target.value)} />
+                              <EditInput label="Email address " value={data.email} onChange={e => setData('phone', e.target.value)} />
                               <div className="grid grid-cols-2 gap-3 pt-3">
                                   <MainButton reverse>Cancel</MainButton>
                                   <MainButton type>Save Changes</MainButton>

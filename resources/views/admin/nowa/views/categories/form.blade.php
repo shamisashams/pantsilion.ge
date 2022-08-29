@@ -228,6 +228,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$category) {
     <!-- row closed -->
     {!! Form::close() !!}
 
+    @if($category->created_at)
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <div class="card">
@@ -268,6 +269,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$category) {
             </div>
         </div>
     </div>
+    @endif
 
 @endsection
 

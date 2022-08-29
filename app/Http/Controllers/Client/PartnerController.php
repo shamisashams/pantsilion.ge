@@ -260,4 +260,8 @@ class PartnerController extends Controller
             'og_description' => $page->meta_og_description
         ]);
     }
+
+    public function updateInfo(){
+
+    }
 }

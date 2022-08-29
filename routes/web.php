@@ -138,6 +138,7 @@ Route::prefix('{locale?}')
             Route::get('partner/withdraw-funds',[\App\Http\Controllers\Client\PartnerController::class,'withdraw'])->name('partner.withdraw');
             Route::get('partner/referrals',[\App\Http\Controllers\Client\PartnerController::class,'referrals'])->name('partner.referrals');
             Route::get('partner/orders',[\App\Http\Controllers\Client\PartnerController::class,'orders'])->name('partner.orders');
+            Route::post('partner/settings',[\App\Http\Controllers\Client\PartnerController::class,'updateInfo'])->name('partner.update-info');
         });
 
         Route::middleware(['auth_client'])->group(function (){
