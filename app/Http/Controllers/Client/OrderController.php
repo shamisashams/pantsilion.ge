@@ -7,6 +7,7 @@ use App\BogPay\BogPaymentController;
 use App\Cart\Facade\Cart;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Page;
@@ -229,9 +230,10 @@ class OrderController extends Controller
             'payment_type' => 'required_if:payment_method,1'
         ]);*/
 
-        $promocode = new Promocode();
+        if (!session('shipping')){
+            return redirect()->back();
+        }
 
-        dd($promocode->createPromocode());
 
         $data = $request->all();
         $cart = Arr::pull($data,'cart');
@@ -239,9 +241,27 @@ class OrderController extends Controller
         $data['locale'] = app()->getLocale();
         $data['grand_total'] = $cart['total'];
 
+        $user = auth()->user();
+
+        $data['first_name'] = $user->name;
+        $data['last_name'] = $user->surname;
+        $data['email'] = $user->email;
+        $data['city'] = City::query()->where('id',session('shipping.city_id'))->first()->title;
+        $data['address'] = session('shipping.address');
+        $data['info'] = session('shipping.comment');
+        $data['payment_method'] = 0;
+        $data['user_id'] = $user->id;
+
+        $grand_t = $data['grand_total'];
+
+        if($promocode = session('promocode')){
+            $data['discount'] = $promocode->reward;
+        }
 
 
-        //dd($cart);
+
+
+
 
         $product_ids = [];
         foreach ($cart['products'] as $item){
@@ -250,14 +270,17 @@ class OrderController extends Controller
 
         $products = Product::whereIn('id',$product_ids)->get();
 
+
         if($products){
             $prod_data = [];
             foreach ($products as $product){
-                $prod_data[$product->id]['qty'] = $product->quantity;
+                $prod_data[$product->id]['stock'] = $product->stocks()->count();
                 $prod_data[$product->id]['status'] = $product->status;
                 $prod_data[$product->id]['price'] = $product->price;
                 $prod_data[$product->id]['special_price'] = $product->special_price;
             }
+
+
 
             $error = true;
             foreach ($cart['products'] as $item){
@@ -272,7 +295,7 @@ class OrderController extends Controller
                 }
             }
 
-            //dd($prod_data);
+            //dd($data, $cart, $products, $prod_data);
 
             if ($error){
                  dd('error cart is not valid');
@@ -285,12 +308,13 @@ class OrderController extends Controller
                 $data = [];
                 $insert = [];
                 foreach ($cart['products'] as $item){
+
                     $data['order_id'] = $order->id;
                     $data['product_id'] = $item['product']['id'];
                     $data['name'] = $item['product']['title'];
-                    $data['qty_ordered'] = $item['qty'];
+                    $data['qty_ordered'] = $item['quantity'];
                     $data['price'] = $item['product']['price'];
-                    $data['total'] = $item['product']['price'] * $item['qty'];
+                    $data['total'] = $item['product']['price'] * $item['quantity'];
                     $insert[] = $data;
                 }
                 //dd($insert);
@@ -301,6 +325,9 @@ class OrderController extends Controller
                 DataBase::commit();
 
 
+                if($user->referrer){
+                    $user->referrer()->update(['balance' => ($grand_t * 10) / 100]);
+                }
 
                 if($order->payment_method == 1 && $order->payment_type == 'bog'){
                     return app(BogPaymentController::class)->make_order($order->id,$order->grand_total);

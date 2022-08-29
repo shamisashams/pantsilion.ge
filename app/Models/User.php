@@ -82,6 +82,10 @@ class User extends Authenticatable
         return $this->hasMany(self::class,'referred_by','affiliate_id');
     }
 
+    public function referrer(){
+        return $this->belongsTo(self::class, 'referred_by','affiliate_id');
+    }
+
     public function wishlist()
     {
         return $this->hasMany(Wishlist::class, 'user_id');
