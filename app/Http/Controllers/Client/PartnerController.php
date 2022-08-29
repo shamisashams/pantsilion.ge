@@ -132,7 +132,10 @@ class PartnerController extends Controller
 
         //dd($files);
 
-        return Inertia::render('BankAccount', ["page" => $page, "seo" => [
+        return Inertia::render('BankAccount', [
+            "bank_account" => auth()->user()->bankAccount,
+            "page" => $page,
+            "seo" => [
             "title"=>$page->meta_title,
             "description"=>$page->meta_description,
             "keywords"=>$page->meta_keyword,
@@ -148,6 +151,17 @@ class PartnerController extends Controller
             'og_title' => $page->meta_og_title,
             'og_description' => $page->meta_og_description
         ]);
+    }
+
+    public function saveBankAccount(Request $request){
+        $data = $request->validate([
+            'bank_id' => 'required',
+            'account_number' => 'required'
+        ]);
+
+        auth()->user()->bankAccount()->updateOrCreate(['user_id' => auth()->id()],$data);
+
+        return redirect()->back();
     }
 
     public function withdraw(){
@@ -261,7 +275,31 @@ class PartnerController extends Controller
         ]);
     }
 
-    public function updateInfo(){
+    public function updateInfo(Request $request){
+        if(count(auth()->user()->files) > 0){
+            $data = $request->validate([
+                'address' => 'required',
+                'phone' => 'required',
+                'email' => 'required|email|unique:users,email,' . auth()->id(),
+            ]);
+        } else {
+            $data = $request->validate([
+                'address' => 'required',
+                'phone' => 'required',
+                'email' => 'required|email|unique:users,email,' . auth()->id(),
+                'avatar' => 'required'
+            ]);
+        }
 
+
+        $data = Arr::except($data,'avatar');
+
+        //dd($data);
+
+        $this->userRepository->update(auth()->id(),$data);
+
+        $this->userRepository->uploadId($request);
+
+        return redirect()->back();
     }
 }

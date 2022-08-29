@@ -30,7 +30,8 @@ class User extends Authenticatable
         'id_number',
         'phone',
         'affiliate_id',
-        'referred_by'
+        'referred_by',
+        'address'
     ];
 
     /**
@@ -101,6 +102,10 @@ class User extends Authenticatable
 
     public function orders(){
         return $this->hasMany(Order::class);
+    }
+
+    public function bankAccount(){
+        return $this->hasOne(BankAccount::class);
     }
 
 }

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { BiEditAlt } from "react-icons/bi";
 
-const EditInput = ({ label, value, onChange }) => {
+const EditInput = ({ label, value, onChange, id }) => {
   const content = useRef();
 
   const editContent = () => {
@@ -13,7 +13,7 @@ const EditInput = ({ label, value, onChange }) => {
   return (
     <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 relative text-sm">
       <label className="opacity-50">{label}</label>
-      <div className="text-right outline-none" onChange={onChange} ref={content}>
+      <div id={id} className="text-right outline-none" onKeyUp={onChange} ref={content}>
         {value}
       </div>
       <button

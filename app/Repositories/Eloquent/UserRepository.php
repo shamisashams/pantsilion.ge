@@ -53,6 +53,32 @@ class UserRepository extends BaseRepository
         return $this->model;
     }
 
+    public function uploadId($request){
+        if ($request->hasFile('avatar')) {
+            // Get Name Of model
+            $reflection = new ReflectionClass(get_class($this->model));
+            $modelName = $reflection->getShortName();
+
+
+
+            foreach ($request->file('avatar') as $key => $file) {
+                $imagename = date('Ymhs') . str_replace(' ', '', $file->getClientOriginalName());
+                $destination = base_path() . '/storage/app/public/' . $modelName . '/' . $this->model->id . '/id';
+                $request->file('avatar')[$key]->move($destination, $imagename);
+                $this->model->files()->create([
+                    'title' => $imagename,
+                    'path' => 'storage/' . $modelName . '/' . $this->model->id . '/id',
+                    'format' => $file->getClientOriginalExtension(),
+                    'type' => File::ID,
+                    'main' => 0
+                ]);
+            }
+
+        }
+
+        return $this->model;
+    }
+
     public function getPartners(){
 
         return $this->model->where('is_partner',1)->paginate(10);

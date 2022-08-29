@@ -146,12 +146,19 @@ class PartnerController extends Controller
 
         $request->validate([
             'username' => 'required|unique:partners,username,'.$user_id . ',user_id',
-            'password' => 'required'
+            'password' => 'nullable',
         ]);
+
+
         //dd($request->all());
         $saveData = Arr::except($request->except('_token','_method'), []);
 
-        $saveData['password'] = Hash::make($saveData['password']);
+        if($saveData['password']){
+            $saveData['password'] = Hash::make($saveData['password']);
+        } else {
+            unset($saveData['password']);
+        }
+
 
         //dd($saveData);
         $this->userRepository->update($user_id, $saveData);

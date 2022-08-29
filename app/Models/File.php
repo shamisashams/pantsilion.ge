@@ -34,6 +34,7 @@ class File extends Model
     public const FILE_MAIN_1 = 2;
     public const FILE_MAIN_2 = 3;
     public const CV = 4;
+    public const ID = 5;
 
     /**
      * The table associated with the model.

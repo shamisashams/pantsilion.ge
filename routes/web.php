@@ -139,6 +139,7 @@ Route::prefix('{locale?}')
             Route::get('partner/referrals',[\App\Http\Controllers\Client\PartnerController::class,'referrals'])->name('partner.referrals');
             Route::get('partner/orders',[\App\Http\Controllers\Client\PartnerController::class,'orders'])->name('partner.orders');
             Route::post('partner/settings',[\App\Http\Controllers\Client\PartnerController::class,'updateInfo'])->name('partner.update-info');
+            Route::post('partner/bak-account',[\App\Http\Controllers\Client\PartnerController::class,'saveBankAccount'])->name('partner.save-bank-account');
         });
 
         Route::middleware(['auth_client'])->group(function (){
