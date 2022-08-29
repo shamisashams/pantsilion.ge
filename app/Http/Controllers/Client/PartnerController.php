@@ -182,7 +182,10 @@ class PartnerController extends Controller
 
         //dd($files);
 
-        return Inertia::render('WithdrawFunds', ["page" => $page, "seo" => [
+        return Inertia::render('WithdrawFunds', [
+            "bank_accounts" => auth()->user()->bankAccounts,
+            "page" => $page,
+            "seo" => [
             "title"=>$page->meta_title,
             "description"=>$page->meta_description,
             "keywords"=>$page->meta_keyword,
@@ -198,6 +201,12 @@ class PartnerController extends Controller
             'og_title' => $page->meta_og_title,
             'og_description' => $page->meta_og_description
         ]);
+    }
+
+    public function withdrawCreate(Request $request){
+
+        $bankAccount = auth()->user()->bankAccount()->where('id',$request->post('bank_account'))->first();
+        dd($bankAccount);
     }
 
     public function referrals(){
