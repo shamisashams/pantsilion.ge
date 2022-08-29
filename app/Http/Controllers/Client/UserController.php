@@ -57,6 +57,18 @@ class UserController extends Controller
         ]);
     }
 
+    public function saveSettings(Request $request){
+
+        $data = $request->validate([
+            'address' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email|unique:users,email,' . auth()->id()
+        ]);
+
+        auth()->user()->update($data);
+        return redirect()->back();
+    }
+
 
 
     public function orders(){

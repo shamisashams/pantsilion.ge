@@ -152,6 +152,7 @@ Route::prefix('{locale?}')
             Route::post('apply-promocode',[\App\Http\Controllers\Client\CartController::class,'applyPromocode'])->name('apply-promocode');
             Route::post('shipping-submit',[\App\Http\Controllers\Client\ShippingController::class,'submitShipping'])->name('shipping-submit');
             Route::post('checkout',[\App\Http\Controllers\Client\OrderController::class,'order'])->name('client.checkout.order');
+            Route::post('settings',[\App\Http\Controllers\Client\UserController::class,'saveSettings'])->name('client.save-settings');
         });
 
         Route::post('add-to-cart',[\App\Http\Controllers\Client\CartController::class,'addToCart'])->name('add-to-cart');
