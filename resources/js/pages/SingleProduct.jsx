@@ -46,6 +46,8 @@ const SingleProduct = ({seo}) => {
 
     const [productPrice, setProductPrice] = useState(`from ₾${product.min_price}`)
 
+    const [productCode, setProductCode] = useState(product.code)
+
     const [selectedCity,setSelectedCity] = useState(cities[0].title)
 
 
@@ -316,6 +318,7 @@ const SingleProduct = ({seo}) => {
 
             setproductStocks(product_config.variants[selected].stocks ?? {} )
             setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
+            setProductCode(product_config.variants[selected].variant.code)
         }
     }
 
@@ -334,6 +337,7 @@ const SingleProduct = ({seo}) => {
 
         setproductStocks(product_config.variants[selected].stocks ?? {} )
         setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
+        setProductCode(product_config.variants[selected].variant.code)
     }
 
 
@@ -384,7 +388,7 @@ const SingleProduct = ({seo}) => {
                           </div>:null}
                       </div>
                       <div className="max-w-xl xl:mt-0 mt-20">
-                          <div className="opacity-50">product code # {product.code}</div>
+                          <div className="opacity-50">product code # {productCode}</div>
                           <div className="bold text-4xl my-3">{product.title}</div>
                           <div>
                               {/* if in stock */}

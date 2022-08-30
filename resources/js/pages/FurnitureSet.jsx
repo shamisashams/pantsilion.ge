@@ -15,7 +15,7 @@ const FurnitureSet = ({seo}) => {
   const [favorite, setFavorite] = useState(false);
   const {collection} = usePage().props;
 
-  const [colorId, setColorId] = useState(0);
+  const [colorId, setColorId] = useState(collection.colors[0].id);
 
 
 
