@@ -108,14 +108,6 @@
             "icon": "stock",
             "slug": "stock"
         },
-
-        {
-            "url": "color.index",
-            "name": "color",
-            "i18n": "color",
-            "icon": "color",
-            "slug": "color"
-        },
         {
             "url": "collection.index",
             "name": "collection",
@@ -129,6 +121,13 @@
             "i18n": "team",
             "icon": "team",
             "slug": "team"
+        },
+        {
+            "url": "promocode.index",
+            "name": "promocode",
+            "i18n": "promocode",
+            "icon": "promocode",
+            "slug": "promocode"
         }
     ],
     "_comment": [

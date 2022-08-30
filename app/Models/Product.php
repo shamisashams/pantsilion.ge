@@ -86,7 +86,8 @@ class Product extends Model implements Searchable
         'special_price_tag',
         'parent_id',
         'corner',
-        'size'
+        'size',
+        'promocode_id'
     ];
 
     /** @var string */
@@ -212,6 +213,10 @@ class Product extends Model implements Searchable
     public function videos(): MorphMany
     {
         return $this->morphMany(Video::class, 'videoable');
+    }
+
+    public function promocode(){
+        return $this->belongsTo(PromoCode::class);
     }
 
 }

@@ -93,11 +93,11 @@ class User extends Authenticatable
     }
 
     public function promoCode(){
-        return $this->hasOne(PromoCode::class);
+        return $this->hasOne(UserPromoCode::class);
     }
 
     public function promoCodes(){
-        return $this->hasMany(PromoCode::class);
+        return $this->hasMany(UserPromoCode::class);
     }
 
     public function orders(){

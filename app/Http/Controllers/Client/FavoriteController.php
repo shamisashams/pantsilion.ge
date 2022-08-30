@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Client;
 
 use App\Cart\Facade\Cart;
 use App\Http\Controllers\Controller;
+use App\Mail\PromocodeProduct;
 use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
+use App\Promocode\Promocode;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -15,6 +17,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Repositories\Eloquent\ProductRepository;
 use Spatie\TranslationLoader\TranslationLoaders\Db;
+use Illuminate\Support\Facades\Mail;
 
 class FavoriteController extends Controller
 {
@@ -230,6 +233,20 @@ class FavoriteController extends Controller
     }
 
     public function addToWishlist(Request $request){
+        $product = Product::query()->where('id',$request->post('id'))->first();
+        if($product->promocode){
+            //dd($product->promocode);
+            $promo_gen = new Promocode();
+            if($request->user()->promocode()->where('promocode_id',$product->promocode->id)->count() === 0){
+                $gen = $promo_gen->generateCode();
+                $request->user()->promocode()->create(['promocode_id' => $product->promocode->id, 'promocode' => $gen]);
+
+                $data['product'] = $product;
+                $data['code'] = $gen;
+                Mail::to($request->user())->send(new PromocodeProduct($data));
+            }
+
+        }
         $request->user()->wishlist()->updateOrCreate(['product_id' => $request->post('id')]);
         return redirect()->back();
     }

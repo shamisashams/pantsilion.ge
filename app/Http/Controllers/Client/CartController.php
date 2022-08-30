@@ -256,9 +256,10 @@ class CartController extends Controller
         $request->validate([
             'promocode' => 'required'
         ]);
-        if($promocode = auth()->user()->promocode()->where('promo_code',$request->post('promocode'))->first()){
+        if($promocode = auth()->user()->promocode()->where('promocode',$request->post('promocode'))->first()){
 
-            session(['promocode' => $promocode]);
+            //dd($promocode->promocodeM->products);
+            session(['promocode' => $promocode->promocodeM]);
             return back()->with('msg','promocode');
         }
 

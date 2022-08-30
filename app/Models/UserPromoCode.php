@@ -12,20 +12,20 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PromoCode extends Model
+class UserPromoCode extends Model
 {
     use HasFactory, ScopeFilter;
 
 
-    protected $table = 'promo_codes';
+    protected $table = 'user_promocodes';
 
 
     protected $fillable = [
         'user_id',
-        'promo_code',
-        'reward',
-        'quantity',
-        'type'
+        'promocode_id',
+        'promocode',
+
+
     ];
 
 
@@ -50,8 +50,12 @@ class PromoCode extends Model
 
 
 
-    public function products()
+    public function user()
     {
-        return $this->hasMany(Product::class,'promocode_id');
+        return $this->belongsTo(User::class);
+    }
+
+    public function promocodeM(){
+        return $this->belongsTo(PromoCode::class,'promocode_id','id');
     }
 }

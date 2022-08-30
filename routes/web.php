@@ -111,6 +111,9 @@ Route::prefix('{locale?}')
                 Route::resource('color', \App\Http\Controllers\Admin\StockController::class);
                 Route::get('color/{color}/destroy', [\App\Http\Controllers\Admin\StockController::class, 'destroy'])->name('color.destroy');
 
+                Route::resource('promocode', \App\Http\Controllers\Admin\PromocodeController::class)->parameters(['promocode' => 'promo_code']);
+                Route::get('promocode/{promo_code}/destroy', [\App\Http\Controllers\Admin\PromocodeController::class, 'destroy'])->name('promocode.destroy');
+
 
                 Route::resource('collection', \App\Http\Controllers\Admin\CollectionController::class)->parameters(['collection' => 'product_set']);
                 Route::get('collection/{collection}/destroy', [\App\Http\Controllers\Admin\CollectionController::class, 'destroy'])->name('collection.destroy');

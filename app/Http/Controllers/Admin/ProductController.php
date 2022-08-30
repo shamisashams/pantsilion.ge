@@ -16,6 +16,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductAttributeValue;
 use App\Models\ProductSet;
+use App\Models\PromoCode;
 use App\Models\Stock;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\Eloquent\ProductAttributeValueRepository;
@@ -119,7 +120,8 @@ class ProductController extends Controller
             'categories' => $this->categories,
             'attributes' => $this->attributeRepository->all(),
             'stocks' => Stock::with('translation')->get(),
-            'collections' => ProductSet::all()
+            'collections' => ProductSet::all(),
+            'promocodes' => PromoCode::query()->where('type','product')->get()
         ]);
     }
 
@@ -239,7 +241,8 @@ class ProductController extends Controller
             'categories' => $this->categories,
             'attributes' => $this->attributeRepository->all(),
             'stocks' => Stock::with('translation')->get(),
-            'collections' => ProductSet::all()
+            'collections' => ProductSet::all(),
+            'promocodes' => PromoCode::query()->where('type','product')->get()
         ]);
     }
 
