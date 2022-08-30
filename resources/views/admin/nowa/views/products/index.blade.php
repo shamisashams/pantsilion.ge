@@ -39,6 +39,7 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('admin.id')</th>
+                                    <th>@lang('admin.type')</th>
                                     <th>@lang('admin.category')</th>
                                     <th>@lang('admin.status')</th>
                                     <th>@lang('admin.title')</th>
@@ -79,6 +80,7 @@
                                     @foreach($data as $item)
                                         <tr>
                                             <th scope="row">{{$item->id}}</th>
+                                            <td>{{$item->parent_id === null ? 'configurable' : 'simple - parent id#: '. $item->parent->id}}</td>
                                             <td></td>
 
                                             <td>
