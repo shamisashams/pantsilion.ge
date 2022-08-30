@@ -147,6 +147,30 @@ const SingleProduct = ({seo}) => {
 
             setProductColors(colors)
         }
+
+        if(category_last.corner === 0 && category_last.size === 1 && category_last.color === 0){
+            let sizes = [];
+            Object.keys(product_config.size).map((key2,index3) => {
+
+
+                product_config.size[key2].variants.map((item,index) => {
+                    sizes.push({id: item, label: product_config.size[key2].label, variants: []});
+                })
+                //product_config.size[key2].variants = id;
+                //product_config.size[key2].variants.remove(item);
+
+                //delete product_config.size[key2];
+
+            })
+            let result = {};
+
+            sizes.map((item, index) => {
+
+
+                 result[item.id] = {label:item.label,variants: item.variants}
+            })
+            setProductSizes(result)
+        }
     }
 
     function selectCorner(corner){
@@ -276,6 +300,23 @@ const SingleProduct = ({seo}) => {
 
         })
         setProductColors(colors_);
+
+        if(category_last.corner === 0 && category_last.size === 1 && category_last.color === 0){
+            let selected = id;
+
+            console.log(selected);
+
+            setProductId(selected);
+
+            setProductPrice('₾' + product_config.variants[selected].variant.price);
+
+            setProductImages(product_config.variants[selected].images);
+
+            setToCart(product_config.variants[selected].variant)
+
+            setproductStocks(product_config.variants[selected].stocks ?? {} )
+            setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
+        }
     }
 
     function selectColor(color){
