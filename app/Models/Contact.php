@@ -2,34 +2,41 @@
 
 namespace App\Models;
 
-use App\Models\Translations\CityTranslation;
+use App\Models\Translations\ContactTranslation;
 use App\Models\Translations\SliderTranslation;
+use App\Models\Translations\StockTranslation;
+use App\Models\Translations\TeamTranslation;
 use App\Traits\ScopeFilter;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class City extends Model
+class Contact extends Model
 {
     use Translatable, HasFactory, ScopeFilter;
 
 
-    protected $table = 'cities';
+    protected $table = 'contacts';
 
 
     protected $fillable = [
-        'status',
+        'city_id',
+        'working_hours',
+        'phone',
+        'options'
     ];
 
 
-    protected $translationModel = CityTranslation::class;
+    protected $translationModel = ContactTranslation::class;
 
     /** @var array */
     public $translatedAttributes = [
-        'title',
+        'address',
     ];
 
     public function getFilterScopes(): array
@@ -62,7 +69,12 @@ class City extends Model
         return $this->morphOne(File::class, 'fileable');
     }
 
-    public function contacts(){
-        return $this->hasMany(Contact::class);
+    public function city(){
+        return $this->belongsTo(City::class);
     }
+
+    public function getOptionsAttribute($value){
+        return json_decode($value);
+    }
+
 }

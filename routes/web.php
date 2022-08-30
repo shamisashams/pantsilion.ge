@@ -108,8 +108,8 @@ Route::prefix('{locale?}')
                 Route::resource('team', \App\Http\Controllers\Admin\TeamController::class);
                 Route::get('team/{team}/destroy', [\App\Http\Controllers\Admin\TeamController::class, 'destroy'])->name('team.destroy');
 
-                Route::resource('color', \App\Http\Controllers\Admin\StockController::class);
-                Route::get('color/{color}/destroy', [\App\Http\Controllers\Admin\StockController::class, 'destroy'])->name('color.destroy');
+                Route::resource('contact', \App\Http\Controllers\Admin\ContactController::class);
+                Route::get('contact/{contact}/destroy', [\App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('contact.destroy');
 
                 Route::resource('promocode', \App\Http\Controllers\Admin\PromocodeController::class)->parameters(['promocode' => 'promo_code']);
                 Route::get('promocode/{promo_code}/destroy', [\App\Http\Controllers\Admin\PromocodeController::class, 'destroy'])->name('promocode.destroy');

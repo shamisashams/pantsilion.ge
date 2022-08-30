@@ -128,6 +128,13 @@
             "i18n": "promocode",
             "icon": "promocode",
             "slug": "promocode"
+        },
+        {
+            "url": "contact.index",
+            "name": "contact",
+            "i18n": "contact",
+            "icon": "contact",
+            "slug": "contact"
         }
     ],
     "_comment": [
