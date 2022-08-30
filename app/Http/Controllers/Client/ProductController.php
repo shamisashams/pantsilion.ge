@@ -217,6 +217,8 @@ class ProductController extends Controller
             $path[$k]['title'] = $ancestor->title;
             $path[$k]['colors'] = $ancestor->colors;
             $path[$k]['corner'] = $ancestor->corner;
+            $path[$k]['size'] = $ancestor->size;
+            $path[$k]['color'] = $ancestor->color;
             $k++;
         }
 
@@ -225,6 +227,8 @@ class ProductController extends Controller
         $path[$k]['title'] = $arr[$max]['current']->title;
         $path[$k]['colors'] = $arr[$max]['current']->colors;
         $path[$k]['corner'] = $arr[$max]['current']->corner;
+        $path[$k]['size'] = $arr[$max]['current']->size;
+        $path[$k]['color'] = $arr[$max]['current']->color;
         //dd($path);
 
 

@@ -461,6 +461,14 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                 </option>
                             @endforeach
                         </select>
+                        @error('collection_id')
+                        <small class="text-danger">
+                            <div class="error">
+                                {{$message}}
+                            </div>
+                        </small>
+                        @enderror
+                    </div>
                     </div>
 
 

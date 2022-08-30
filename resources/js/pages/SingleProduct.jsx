@@ -104,7 +104,11 @@ const SingleProduct = ({seo}) => {
         setProductId(0)
 
 
-        let obj = {};
+        setProductSizes({})
+
+        setProductColors([])
+        let colors = [];
+
         Object.keys(product_config.corner).map((key,index) => {
             if(product_config.corner[key].code == corner){
                 console.log(product_config.corner[key].variants)
@@ -125,6 +129,24 @@ const SingleProduct = ({seo}) => {
                             //delete product_config.size[key2];
                         }
                     })
+
+                    if(category_last.color === 1 && category_last.size === 0){
+
+
+                        Object.keys(product_config.color).map((key2c,index3c) => {
+
+
+                                if(product_config.color[key2c].variants.includes(item)){
+                                    colors.push({id: item, label: product_config.color[key2c].label, color: product_config.color[key2c].color});
+                                }
+
+
+                        })
+
+                        console.log(colors)
+
+                        setProductColors(colors)
+                    }
                 })
             }
         })
@@ -141,107 +163,32 @@ const SingleProduct = ({seo}) => {
             else result[item.id] = {label:item.label,variants: item.variants}
         })
 
-        console.log(sizes);
+        //console.log(sizes);
 
-        console.log(result);
-        console.log(obj);
+        //console.log(result);
+        //console.log(category_last);
 
-        /*let select = document.getElementById('choose_size');
-        select.innerHTML = '<option value=""></option>';*/
 
-        setProductSizes({})
 
-        /*let pick = document.getElementById('choose_color');
-        pick.innerHTML = '<option value=""></option>';*/
 
-        setProductColors([])
-        /*for (var i = 0; i<sizes.length; i++){
-            var opt = document.createElement('option');
-            opt.value = i;
-            opt.innerHTML = sizes[i].label;
-            select.appendChild(opt);
-        }*/
 
-        /*Object.keys(result).map((item,index) => {
-            var opt = document.createElement('option');
-            opt.value = item;
-            opt.innerHTML = result[item].label;
-            select.appendChild(opt);
-        })*/
 
         setProductSizes(result)
 
         setproductStocks(stocks[cities[0].id] ?? [] )
 
-        //select.addEventListener('change',function (e){
 
-            /*setProductImages(product_images)
-            setProductVideo(product.video ? product.video.path :null)
-            setProductPrice(`from ₾${product.min_price}`)
-            let colors_ = [];
-            let selected_size = result[e.target.value]
-            console.log(selected_size)
-            selected_size.variants.map((item,index) => {
-
-
-                Object.keys(product_config.color).map((key3,index) => {
-                    if(product_config.color[key3].variants.includes(item)){
-                        //id2.push(item);
-                        //product_config.color[key3].variants.remove(item);
-                        colors_.push({id: item, id2: key3, label:product_config.color[key3].label, color: product_config.color[key3].color});
-                        //delete product_config.color[key3];
-                    }
-                })
-
-            })
-            setProductColors(colors_);
-            console.log(colors_)*/
-            //console.log(p_id2)
-
-            /*pick.innerHTML = '<option value=""></option>';
-            for (var iw = 0; iw<colors_.length; iw++){
-                var opt4 = document.createElement('option');
-                opt4.value = colors_[iw].id;
-                opt4.innerHTML = colors_[iw].label;
-                pick.appendChild(opt4);
-            }
-
-            let selected = [];
-            //pick.removeEventListener('change');
-            pick.addEventListener('change',function (e){
-                selected = e.target.value;
-
-                console.log(selected);
-
-                        document.getElementById('product_id').value = selected;
-
-                document.getElementById('price_actual').innerHTML = '₾' + product_config.variants[selected].variant.price;
-
-                setProductImages(product_config.variants[selected].images);
-
-                setToCart(product_config.variants[selected].variant)
-
-                setproductStocks(product_config.variants[selected].stocks ?? {} )
-                setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
-
-                //console.log(product_config.variants[selected])
-            });*/
-        //});
 
 
     }
 
 
     Inertia.on('success', (event) => {
-        if(category_last.corner === 0){
+        if(category_last.corner === 0 && category_last.size === 1 && category_last.color === 1){
 
             let sizes = [];
 
             Object.keys(product_config.size).map((key2,index3) => {
-
-
-
-
 
 
                 //product_config.size[key2].variants = id;
@@ -265,6 +212,27 @@ const SingleProduct = ({seo}) => {
 
             setProductSizes(result);
 
+        }
+
+        if(category_last.corner === 0 && category_last.size === 0 && category_last.color === 1){
+            let colors = [];
+            Object.keys(product_config.color).map((key2,index3) => {
+
+                product_config.color[key2].variants.map((key4,index3) => {
+
+
+
+                    colors.push({id: key4, label: product_config.color[key2].label, color: product_config.color[key2].color});
+
+
+                })
+
+
+            })
+
+            console.log(colors)
+
+            setProductColors(colors)
         }
     })
 
@@ -391,7 +359,7 @@ const SingleProduct = ({seo}) => {
                           <p className="my-5">
                               {product.description}
                           </p>
-                          <div className="bold mb-4">Choose corner:</div>
+                          {category_last.corner === 1 ? <div className="bold mb-4">Choose corner:</div>:null}
                           {category_last.corner === 1 ? <div className="flex text-sm mb-5">
                               {left ? <div
                                   onClick={() => {
@@ -435,7 +403,7 @@ const SingleProduct = ({seo}) => {
                               </div>:null}
                           </div>:null}
                           <div className="bold mb-4">Specification</div>
-                          <div className="">
+                          {category_last.size === 1 ? <div className="">
                               <p className="opacity-50 text-sm inline-block mr-2">
                                   size:
                                   <span className="pl-2">(length x height x width x depth)</span>
@@ -496,7 +464,7 @@ const SingleProduct = ({seo}) => {
                                       </button>*/}
                                   </div>
                               </div>
-                          </div>
+                          </div>:null}
                           <p className="opacity-50 text-sm mb-2">
                               material:
                               <span className="pl-2">{product.attributes.material}</span>
@@ -505,7 +473,7 @@ const SingleProduct = ({seo}) => {
                               manufacturer:
                               <span className="pl-2">{product.attributes.brand}</span>
                           </p>
-                          <div className="flex my-5 ">
+                          {category_last.color === 1 ?<div className="flex my-5 ">
                               <p className="whitespace-nowrap opacity-50">Choose color:</p>
                               <div id="color_pick" className="ml-5 max-w-sm mt-1 flex flex-wrap">
                                   {/*<select id="choose_color">
@@ -513,7 +481,7 @@ const SingleProduct = ({seo}) => {
                                   </select>*/}
                                   <ColorPick colors={productColors} onClick={selectColor} />
                               </div>
-                          </div>
+                          </div>:null}
                           <div className="flex flex-wrap -ml-5 mb-7">
                               <Quantity item={product} />
                               <div className="max-w-md ">

@@ -260,8 +260,8 @@
                                 @foreach($color->options as $option)
 
                                     <div class="form-group">
-                                        <label class="ckbox">
-                                            <input type="checkbox" name="color[]" data-checkboxes="mygroup" class="custom-control-input" {{in_array($option->id,$color_ids) ? 'checked':''}} value="{{$option->id}}">
+                                        <label class="rdiobox">
+                                            <input type="radio" name="color[]"  class="custom-control-input" {{in_array($option->id,$color_ids) ? 'checked':''}} value="{{$option->id}}">
                                             <span style="margin-left: 20px;background-color: {{$option->color}}">{{$option->label}}</span>
 
                                         </label>
