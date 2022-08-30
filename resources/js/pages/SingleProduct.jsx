@@ -46,6 +46,8 @@ const SingleProduct = ({seo}) => {
 
     const [productPrice, setProductPrice] = useState(`from ₾${product.min_price}`)
 
+    const [selectedCity,setSelectedCity] = useState(cities[0].title)
+
 
 
   console.log(product);
@@ -92,6 +94,60 @@ const SingleProduct = ({seo}) => {
         }
         return this;
     };
+
+
+    function initializeAttributes(){
+        if(category_last.corner === 0 && category_last.size === 1 && category_last.color === 1){
+
+            let sizes = [];
+
+            Object.keys(product_config.size).map((key2,index3) => {
+
+
+                //product_config.size[key2].variants = id;
+                //product_config.size[key2].variants.remove(item);
+                sizes.push({id: key2, label: product_config.size[key2].label, variants: product_config.size[key2].variants});
+                //delete product_config.size[key2];
+
+            })
+
+            let result = {};
+
+            sizes.map((item, index) => {
+
+                if(result.hasOwnProperty(item.id)){
+                    console.log(item.id)
+
+                    result[item.id].variants = result[item.id].variants.concat(item.variants);
+                }
+                else result[item.id] = {label:item.label,variants: item.variants}
+            })
+
+            setProductSizes(result);
+
+        }
+
+        if(category_last.corner === 0 && category_last.size === 0 && category_last.color === 1){
+            let colors = [];
+            Object.keys(product_config.color).map((key2,index3) => {
+
+                product_config.color[key2].variants.map((key4,index3) => {
+
+
+
+                    colors.push({id: key4, label: product_config.color[key2].label, color: product_config.color[key2].color});
+
+
+                })
+
+
+            })
+
+            console.log(colors)
+
+            setProductColors(colors)
+        }
+    }
 
     function selectCorner(corner){
 
@@ -184,60 +240,13 @@ const SingleProduct = ({seo}) => {
 
 
     Inertia.on('success', (event) => {
-        if(category_last.corner === 0 && category_last.size === 1 && category_last.color === 1){
-
-            let sizes = [];
-
-            Object.keys(product_config.size).map((key2,index3) => {
-
-
-                //product_config.size[key2].variants = id;
-                //product_config.size[key2].variants.remove(item);
-                sizes.push({id: key2, label: product_config.size[key2].label, variants: product_config.size[key2].variants});
-                //delete product_config.size[key2];
-
-            })
-
-            let result = {};
-
-            sizes.map((item, index) => {
-
-                if(result.hasOwnProperty(item.id)){
-                    console.log(item.id)
-
-                    result[item.id].variants = result[item.id].variants.concat(item.variants);
-                }
-                else result[item.id] = {label:item.label,variants: item.variants}
-            })
-
-            setProductSizes(result);
-
-        }
-
-        if(category_last.corner === 0 && category_last.size === 0 && category_last.color === 1){
-            let colors = [];
-            Object.keys(product_config.color).map((key2,index3) => {
-
-                product_config.color[key2].variants.map((key4,index3) => {
-
-
-
-                    colors.push({id: key4, label: product_config.color[key2].label, color: product_config.color[key2].color});
-
-
-                })
-
-
-            })
-
-            console.log(colors)
-
-            setProductColors(colors)
-        }
+        initializeAttributes()
     })
 
 
-
+    window.onload = function (e){
+        initializeAttributes()
+    }
 
 
 
@@ -311,9 +320,11 @@ const SingleProduct = ({seo}) => {
 
     if(c_id) c_id = c_id.value*/
 
-    function selectCity(e){
+    function selectCity(city){
 
-        setproductStocks(stocks[e.target.value] ?? {});
+        setproductStocks(stocks[city.id] ?? {});
+
+        setSelectedCity(city.title)
     }
 
   return (
@@ -520,7 +531,7 @@ const SingleProduct = ({seo}) => {
                               className="relative inline-block align-middle cursor-default"
                           >
                               <div className="py-2 bold">
-                                  Choose City
+                                  {selectedCity}
                                   <FiChevronDown className="inline-block  ml-1" />
                               </div>
                               <div
@@ -530,10 +541,17 @@ const SingleProduct = ({seo}) => {
                                           : " max-h-0  overflow-y-hidden"
                                   }`}
                               >
-                                  <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
-                                      Tbilisi
-                                  </button>
-                                  <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
+                                  {cities.map((item,index) => {
+                                      return (
+                                      <button onClick={() => {
+                                          selectCity(item)
+                                      }} className="w-full p-3 transition-all hover:bg-zinc-100 block">
+                                          {item.title}
+                                      </button>
+                                      )
+                                  })}
+
+                                  {/*<button className="w-full p-3 transition-all hover:bg-zinc-100 block">
                                       Gori
                                   </button>
                                   <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
@@ -553,17 +571,11 @@ const SingleProduct = ({seo}) => {
                                   </button>
                                   <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
                                       Zugdidi
-                                  </button>
+                                  </button>*/}
                               </div>
 
                           </div>
-                          <select id="cities" onChange={selectCity}>
-                              {cities.map((item,index) => {
-                                  return (
-                                      <option value={item.id}>{item.title}</option>
-                                  )
-                              })}
-                          </select>
+
                           <div className="mt-5 w-72 h-40 scrollbar overflow-y-scroll pr-5 " id="stock_list">
                               {Object.keys(productStocks).length > 0 ? Object.keys(productStocks).map((item, index) => {
                                   //let c_id = document.getElementById('stock_city').value;
