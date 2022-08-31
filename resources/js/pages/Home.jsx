@@ -10,6 +10,7 @@ import MainButton from "../components/MainButton";
 import BlogSlider from "../components/BlogSlider";
 import PlusBox from "../components/PlusBox";
 import Layout from "../Layouts/Layout";
+import {Inertia} from "@inertiajs/inertia";
 
 const Home = ({ seo }) => {
     const renderHTML = (rawHTML) =>
@@ -22,11 +23,25 @@ const Home = ({ seo }) => {
 
     console.log(collection)
 
-    let price = 0;
 
-    collection.products.map((item, index) => {
-        price += item.price
-    })
+
+    function addToCartItem(product){
+        if(product.stocks !== null){
+            if(product.stocks.length === 0){
+                alert('out of stock')
+                return;
+            }
+        } else {
+            alert('out of stock')
+            return;
+        }
+
+        Inertia.post(route('add-to-cart'), {id: product.id,qty:1});
+    }
+
+    function addToWishlist(id){
+        Inertia.post(route('client.favorite.add'), {id:id});
+    }
 
     return (
         <Layout seo={seo}>
@@ -47,7 +62,7 @@ const Home = ({ seo }) => {
                             </p>
                             <div className="text-3xl bold">
                                 {/* from ₾299 */}
-                                ₾{price}
+                                ₾{collection.price}
                             </div>
                             <div className="flex items-center justify-start mt-10">
                                 <Link href="/" className="">
@@ -85,6 +100,12 @@ const Home = ({ seo }) => {
                                     title={item.title}
                                     para={item.short_description}
                                     price={item.price}
+                                    addToCart={() => {
+                                        addToCartItem(item)
+                                    }}
+                                    addToWishlist={() => {
+                                        addToWishlist(item.id)
+                                    }}
                                 />
                             )
                         })}

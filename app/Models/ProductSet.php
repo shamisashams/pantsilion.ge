@@ -26,7 +26,9 @@ class ProductSet extends Model
     protected $fillable = [
         'slug',
         'price',
-        'status'
+        'status',
+        'special_price',
+        'code'
     ];
 
 

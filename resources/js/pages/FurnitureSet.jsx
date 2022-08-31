@@ -42,6 +42,24 @@ const FurnitureSet = ({seo}) => {
 
   }
 
+  function addToCartItem(product){
+      if(product.stocks !== null){
+          if(product.stocks.length === 0){
+              alert('out of stock')
+              return;
+          }
+      } else {
+          alert('out of stock')
+          return;
+      }
+
+      Inertia.post(route('add-to-cart'), {id: product.id,qty:1});
+  }
+
+    function addToWishlist(id){
+        Inertia.post(route('client.favorite.add'), {id:id});
+    }
+
   return (
       <Layout seo={seo}>
           <>
@@ -60,6 +78,13 @@ const FurnitureSet = ({seo}) => {
                               title={item.title}
                               para={item.short_description}
                               price={item.price}
+                              addToCart={() => {
+                                  addToCartItem(item)
+                              }}
+
+                              addToWishlist={()=>{
+                                  addToWishlist(item.id)
+                              }}
                           />
                       )
                   })}
