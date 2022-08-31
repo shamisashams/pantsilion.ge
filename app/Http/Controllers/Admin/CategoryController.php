@@ -167,7 +167,32 @@ class CategoryController extends Controller
         $saveData['color'] = isset($saveData['color']) && (bool)$saveData['color'];
         $saveData['parent_id'] = $saveData['parent_id'] ? $saveData['parent_id'] : null;
 
+
+        $filter = $saveData['filter'];
+        unset($saveData['filter']);
+        if($filter == 'corner_color'){
+            $saveData['corner'] = 1;
+            $saveData['color'] = 1;
+            $saveData['size'] = 0;
+        }
+        if($filter == 'size_color'){
+            $saveData['corner'] = 0;
+            $saveData['color'] = 1;
+            $saveData['size'] = 1;
+        }
+        if($filter == 'size'){
+            $saveData['corner'] = 0;
+            $saveData['color'] = 0;
+            $saveData['size'] = 1;
+        }
+        if($filter == 'color'){
+            $saveData['corner'] = 0;
+            $saveData['color'] = 1;
+            $saveData['size'] = 0;
+        }
+
         $this->categoryRepository->update($category->id, $saveData);
+
 
 
         // Save Files
