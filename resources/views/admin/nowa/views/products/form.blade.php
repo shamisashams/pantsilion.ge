@@ -282,6 +282,19 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         @enderror
                     </div>
 
+                    <div class="form-group">
+                        <label class="form-label">@lang('admin.installment_price')</label>
+                        <input type="number" class="form-control" name="installment_price" value="{{$product->installment_price}}">
+
+                        @error('installment_price')
+                        <small class="text-danger">
+                            <div class="error">
+                                {{$message}}
+                            </div>
+                        </small>
+                        @enderror
+                    </div>
+
                     {{--<div class="form-group">
                         {!! Form::label('code',__('admin.quantity'),['class' => 'form-label']) !!}
                         {!! Form::number('quantity',$product->quantity,['class' => 'form-control','min' => '0']) !!}
@@ -361,6 +374,8 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         </small>
                         @enderror
                     </div>
+
+
 
                     <div class="form-group">
                         <div class="main-content-label mg-b-5">

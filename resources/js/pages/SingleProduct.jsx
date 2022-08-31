@@ -29,7 +29,10 @@ const SingleProduct = ({seo}) => {
 
   const [productImages, setProductImages] = useState(product_images)
 
-    const [productStocks, setproductStocks] = useState(stocks[cities[0].id] ?? [])
+    const [productStocks, setProductStocks] = useState(stocks[cities[0].id] ?? [])
+    const [productStocksOver, setProductStocksOver] = useState(stocks ?? [])
+
+    const [cityId, setCityId] = useState(cities[0].id)
 
     const [productVideo, setProductVideo] = useState(product.video ? product.video.path : null)
 
@@ -52,6 +55,7 @@ const SingleProduct = ({seo}) => {
     const [selectedCity,setSelectedCity] = useState(cities[0].title)
 
 
+    console.log(stocks)
 
   console.log(product);
     console.log(category_last);
@@ -186,7 +190,7 @@ const SingleProduct = ({seo}) => {
         setSelectedSize(' select size ')
         setProductId(0)
         setOldPrice('');
-
+        setProductStocksOver(stocks ?? [])
 
         setProductSizes({})
 
@@ -259,7 +263,7 @@ const SingleProduct = ({seo}) => {
 
         setProductSizes(result)
 
-        setproductStocks(stocks[cities[0].id] ?? [] )
+        setProductStocks(stocks[cities[0].id] ?? [] )
 
 
 
@@ -284,7 +288,8 @@ const SingleProduct = ({seo}) => {
         setProductImages(product_images)
         setProductVideo(product.video ? product.video.path :null)
         setProductPrice(`from ₾${product.min_price}`);
-        setproductStocks(stocks[cities[0].id] ?? [] );
+        setProductStocks(stocks[cities[0].id] ?? [] );
+        setProductStocksOver(stocks ?? [])
         setProductId(0)
         setOldPrice('');
         let colors_ = [];
@@ -327,8 +332,8 @@ const SingleProduct = ({seo}) => {
             setProductImages(product_config.variants[selected].images);
 
             setToCart(product_config.variants[selected].variant)
-
-            setproductStocks(product_config.variants[selected].stocks ?? {} )
+            setProductStocksOver(product_config.variants[selected].stocks ?? {})
+            setProductStocks(product_config.variants[selected].stocks[cityId] ?? {} )
             setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
             setProductCode(product_config.variants[selected].variant.code)
         }
@@ -356,7 +361,10 @@ const SingleProduct = ({seo}) => {
 
         setToCart(product_config.variants[selected].variant)
 
-        setproductStocks(product_config.variants[selected].stocks ?? {} )
+        console.log(product_config.variants[selected].stocks)
+
+        setProductStocks(product_config.variants[selected].stocks[cityId] ?? {} )
+        setProductStocksOver(product_config.variants[selected].stocks ?? {})
         setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
         setProductCode(product_config.variants[selected].variant.code)
     }
@@ -392,7 +400,11 @@ const SingleProduct = ({seo}) => {
 
     function selectCity(city){
 
-        setproductStocks(stocks[city.id] ?? {});
+        setCityId(city.id)
+        console.log('---------')
+        console.log(productStocks)
+        console.log(city)
+        setProductStocks(stocks[cityId] ?? {});
 
         setSelectedCity(city.title)
     }
@@ -417,12 +429,12 @@ const SingleProduct = ({seo}) => {
                           <div className="bold text-4xl my-3">{product.title}</div>
                           <div>
                               {/* if in stock */}
-                              {Object.keys(productStocks).length > 0 ?<IoIosCheckmarkCircleOutline className="w-6 h-6 mb-1 text-green-500 inline-block mr-2" />:null}
-                              {Object.keys(productStocks).length > 0 ? <div className="inline-block ">In stock</div>:null}
+                              {Object.keys(productStocksOver).length > 0 ?<IoIosCheckmarkCircleOutline className="w-6 h-6 mb-1 text-green-500 inline-block mr-2" />:null}
+                              {Object.keys(productStocksOver).length > 0 ? <div className="inline-block ">In stock</div>:null}
 
                               {/* if not in stock */}
-                              {Object.keys(productStocks).length === 0 ?<IoIosCloseCircleOutline className="w-6 h-6 mb-1 text-custom-red inline-block mr-2" />:null}
-                              {Object.keys(productStocks).length === 0 ?<div className="inline-block">Out of stock</div>:null}
+                              {Object.keys(productStocksOver).length === 0 ?<IoIosCloseCircleOutline className="w-6 h-6 mb-1 text-custom-red inline-block mr-2" />:null}
+                              {Object.keys(productStocksOver).length === 0 ?<div className="inline-block">Out of stock</div>:null}
                           </div>
                           <div className="my-3">
                               <div className="bold inline-block line-through text-lg">
@@ -433,10 +445,10 @@ const SingleProduct = ({seo}) => {
 
                               </div>
                           </div>
-                          <p>
+                          {product.installment_price ? <p>
                               Installment from:{" "}
-                              <span className="bold text-custom-red pl-2">22 GEL</span>
-                          </p>
+                              <span className="bold text-custom-red pl-2">{product.installment_price} GEL</span>
+                          </p>:null}
                           <p className="my-5">
                               {product.description}
                           </p>

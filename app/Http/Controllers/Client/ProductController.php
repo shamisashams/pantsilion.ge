@@ -150,7 +150,7 @@ class ProductController extends Controller
             if(count($variant->stocks)){
                 foreach ($variant->stocks as $stock){
                     $stocks[$stock->city_id][$stock->id] = $stock;
-                    $config['variants'][$variant->id]['stocks'][$stock->id] = $stock;
+                    $config['variants'][$variant->id]['stocks'][$stock->city_id][$stock->id] = $stock;
                 }
 
             }
