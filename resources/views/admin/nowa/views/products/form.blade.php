@@ -65,6 +65,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <span class="main-content-title mg-b-0 mg-b-lg-1">{{$product->created_at ? __('admin.product-update') : __('admin.product-create')}}</span>
+            @if($product->parent)<span class="main-content-title mg-b-0 mg-b-lg-1">&nbsp; Product Parent: <a href="{{route('product.edit',$product->parent->id)}}">{{$product->parent->title}}</a></span>@endif
         </div>
         <div class="justify-content-center mt-2">
             @include('admin.nowa.views.layouts.components.breadcrump')
@@ -281,7 +282,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         @enderror
                     </div>
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         {!! Form::label('code',__('admin.quantity'),['class' => 'form-label']) !!}
                         {!! Form::number('quantity',$product->quantity,['class' => 'form-control','min' => '0']) !!}
 
@@ -292,9 +293,9 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                             </div>
                         </small>
                         @enderror
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="form-label">@lang('admin.size')</label>
                         <input class="form-control" type="text" name="size" value="{{$product->size}}">
 
@@ -305,7 +306,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                             </div>
                         </small>
                         @enderror
-                    </div>
+                    </div>--}}
 
                     <?php
                     $corners = [
@@ -313,7 +314,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                       'right'
                     ];
                     ?>
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="form-label">@lang('admin.corner')</label>
                         <select name="corner" class="form-control">
                             <option value=""></option>
@@ -329,7 +330,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                             </div>
                         </small>
                         @enderror
-                    </div>
+                    </div>--}}
 
                     <div class="form-group">
                         <label class="form-label">@lang('admin.video')</label>
@@ -352,7 +353,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                             @endforeach
                         </select>
 
-                        @error('corner')
+                        @error('promocode')
                         <small class="text-danger">
                             <div class="error">
                                 {{$message}}
@@ -487,7 +488,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         </small>
                         @enderror
                     </div>
-                    </div>
+
 
 
                     <div class="form-group">

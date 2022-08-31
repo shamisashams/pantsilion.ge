@@ -42,7 +42,7 @@ const SingleProduct = ({seo}) => {
     const [productSizes, setProductSizes] = useState({});
     const [selectedSize, setSelectedSize] = useState(' select size ');
 
-    const [categoryColorImg, setCategoryColorImg] = useState(category_last.colors[0].file ? '/' + category_last.colors[0].file.path + '/' + category_last.colors[0].file.title:null)
+    const [categoryColorImg, setCategoryColorImg] = useState(category_last.colors.length > 0 ? (category_last.colors[0].file ? '/' + category_last.colors[0].file.path + '/' + category_last.colors[0].file.title:null):null)
 
     const [productPrice, setProductPrice] = useState(`from ₾${product.min_price}`)
 
@@ -348,14 +348,18 @@ const SingleProduct = ({seo}) => {
     console.log(product_config)
     let left = false;
     let right = false;
-    Object.keys(product_config.corner).map((key,index) => {
-        if(product_config.corner[key].code == 'left'){
-            left = true;
-        }
-        if(product_config.corner[key].code == 'right'){
-            right = true;
-        }
-    })
+
+    if(category_last.corner === 1 && product_config.corner){
+        Object.keys(product_config.corner).map((key,index) => {
+            if(product_config.corner[key].code == 'left'){
+                left = true;
+            }
+            if(product_config.corner[key].code == 'right'){
+                right = true;
+            }
+        })
+    }
+
 
     /*let c_id = document.getElementById('cities');
 

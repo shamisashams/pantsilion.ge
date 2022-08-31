@@ -277,7 +277,7 @@ class ProductController extends Controller
         $attributes = $saveData['attribute'];
         unset($saveData['attribute']);
 
-        //dd($attributes);
+        //dd($request->file('images'));
 
 
 
