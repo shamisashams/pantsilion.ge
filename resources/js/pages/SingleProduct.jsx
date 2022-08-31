@@ -45,6 +45,7 @@ const SingleProduct = ({seo}) => {
     const [categoryColorImg, setCategoryColorImg] = useState(category_last.colors.length > 0 ? (category_last.colors[0].file ? '/' + category_last.colors[0].file.path + '/' + category_last.colors[0].file.title:null):null)
 
     const [productPrice, setProductPrice] = useState(`from ₾${product.min_price}`)
+    const [oldPrice, setOldPrice] = useState(``)
 
     const [productCode, setProductCode] = useState(product.code)
 
@@ -184,6 +185,7 @@ const SingleProduct = ({seo}) => {
         setProductPrice(`from ₾${product.min_price}`)
         setSelectedSize(' select size ')
         setProductId(0)
+        setOldPrice('');
 
 
         setProductSizes({})
@@ -284,6 +286,7 @@ const SingleProduct = ({seo}) => {
         setProductPrice(`from ₾${product.min_price}`);
         setproductStocks(stocks[cities[0].id] ?? [] );
         setProductId(0)
+        setOldPrice('');
         let colors_ = [];
         let selected_size = productSizes[id]
         console.log(selected_size)
@@ -306,11 +309,20 @@ const SingleProduct = ({seo}) => {
         if(category_last.corner === 0 && category_last.size === 1 && category_last.color === 0){
             let selected = id;
 
+            let price;
+
             console.log(selected);
 
             setProductId(selected);
 
-            setProductPrice('₾' + product_config.variants[selected].variant.price);
+            if(product_config.variants[selected].variant.special_price){
+                price = product_config.variants[selected].variant.special_price;
+                setOldPrice('₾' + product_config.variants[selected].variant.price)
+            } else {
+                price = product_config.variants[selected].variant.price;
+                setOldPrice('')
+            }
+            setProductPrice(price);
 
             setProductImages(product_config.variants[selected].images);
 
@@ -329,7 +341,16 @@ const SingleProduct = ({seo}) => {
 
         setProductId(selected);
 
-        setProductPrice('₾' + product_config.variants[selected].variant.price);
+        let price;
+        if(product_config.variants[selected].variant.special_price){
+            price = product_config.variants[selected].variant.special_price;
+            setOldPrice('₾' + product_config.variants[selected].variant.price)
+        } else {
+            price = product_config.variants[selected].variant.price;
+            setOldPrice('')
+        }
+
+        setProductPrice(price);
 
         setProductImages(product_config.variants[selected].images);
 
@@ -405,7 +426,7 @@ const SingleProduct = ({seo}) => {
                           </div>
                           <div className="my-3">
                               <div className="bold inline-block line-through text-lg">
-                                  ₾699.50
+                                  {oldPrice}
                               </div>
                               <div className="bold inline-block text-2xl text-custom-red pl-3">
                                   <span id="price_actual">{productPrice}</span>
