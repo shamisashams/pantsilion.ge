@@ -85,6 +85,7 @@
                                             </td>
                                             <td>{{$setting->key}}</td>
                                             <td>
+                                                @if($setting->key !== 'partner_reward')
                                                 <div class="panel panel-primary tabs-style-2">
                                                     <div class=" tab-menu-heading">
                                                         <div class="tabs-menu1">
@@ -109,7 +110,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                                @else
+                                                    {{$setting->integer_value}}
+                                                @endif
                                             </td>
 
                                             <td>

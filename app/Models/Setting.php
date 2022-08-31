@@ -18,7 +18,9 @@ class Setting extends Model
     protected $table = 'settings';
 
     protected $fillable = [
-        'key'
+        'key',
+        'integer_value',
+        'float_value'
     ];
 
     protected $translationModel = SettingTranslation::class;
