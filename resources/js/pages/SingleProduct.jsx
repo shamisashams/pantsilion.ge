@@ -29,11 +29,11 @@ const SingleProduct = ({seo}) => {
 
   const [productImages, setProductImages] = useState(product_images)
 
-    const [productStocks, setProductStocks] = useState(stocks[cities[0].id] ?? [])
+
     const [productStocksOver, setProductStocksOver] = useState(stocks ?? [])
 
     const [cityId, setCityId] = useState(cities[0].id)
-
+    const [productStocks, setProductStocks] = useState(stocks[cities[0].id] ?? [])
     const [productVideo, setProductVideo] = useState(product.video ? product.video.path : null)
 
     const [toCart, setToCart] = useState(product)
@@ -404,7 +404,7 @@ const SingleProduct = ({seo}) => {
         console.log('---------')
         console.log(productStocks)
         console.log(city)
-        setProductStocks(stocks[cityId] ?? {});
+        setProductStocks(stocks[city.id] ?? {});
 
         setSelectedCity(city.title)
     }
