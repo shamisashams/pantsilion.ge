@@ -55,7 +55,7 @@ class FavoriteController extends Controller
             'products' => $products,
             'images' => $images,
             'page' => $page,
-            'wishlist' => auth()->user()->wishlist()->with(['product','product.latestImage'])->get(),
+            'wishlist' => auth()->user()->wishlist()->with(['product','product.latestImage','collection','collection.latestImage'])->get(),
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,
@@ -248,6 +248,12 @@ class FavoriteController extends Controller
 
         }
         $request->user()->wishlist()->updateOrCreate(['product_id' => $request->post('id')]);
+        return redirect()->back();
+    }
+
+    public function addToWishlistCollection(Request $request){
+
+        $request->user()->wishlist()->updateOrCreate(['product_set_id' => $request->post('id')]);
         return redirect()->back();
     }
 

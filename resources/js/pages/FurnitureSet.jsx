@@ -60,6 +60,10 @@ const FurnitureSet = ({seo}) => {
         Inertia.post(route('client.favorite.add'), {id:id});
     }
 
+    function addToWishlistCollection(id){
+        Inertia.post(route('client.favorite.add-set'), {id:id});
+    }
+
   return (
       <Layout seo={seo}>
           <>
@@ -162,7 +166,10 @@ const FurnitureSet = ({seo}) => {
                           <div className="w-44 my-5">
                               <div className="flex justify-between mb-2">
                                   <button
-                                      onClick={() => setFavorite(!favorite)}
+                                      onClick={() => {
+                                          setFavorite(!favorite)
+                                          addToWishlistCollection(collection.id)
+                                      }}
                                       className="shrink-0 hover:bg-zinc-200 rounded-full flex items-center justify-center w-12 h-12 transition-all duration-500 "
                                   >
                                       <FiHeart className={favorite ? "text-custom-red" : ""} />

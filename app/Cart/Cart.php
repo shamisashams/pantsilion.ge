@@ -225,7 +225,7 @@ class Cart
                 $collection = ProductSet::with('translation','latestImage','products','products.latestImage','products.translation')->where('id',$item_c->collection_id)->first();
 
                 if ($collection) {
-                    $collection['attributes'] = $collection->colors()->where('color_id',$item_c->color_id)->first();
+                    $collection['attributes'] = $collection->colors()->first();
                     $collections[] = [
 
                         'collection' => $collection,
