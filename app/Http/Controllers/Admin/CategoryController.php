@@ -50,7 +50,7 @@ class CategoryController extends Controller
     {
 //        dd($languages = Language::where('status' ,true)->pluck('title', 'locale'));
         return view('admin.nowa.views.categories.index', [
-            'data' => $this->categoryRepository->getData($request, ['translations'])
+            'data' => $this->categoryRepository->getData($request, ['translations','ancestors'])
         ]);
     }
 
