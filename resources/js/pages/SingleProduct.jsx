@@ -204,19 +204,22 @@ const SingleProduct = ({seo}) => {
                 product_config.corner[key].variants.map((item, index) => {
                     let id = [];
 
-                    Object.keys(product_config.size).map((key2,index3) => {
+                    if(category_last.size === 1){
+                        Object.keys(product_config.size).map((key2,index3) => {
 
-                        if(product_config.size[key2].variants.includes(item)){
+                            if(product_config.size[key2].variants.includes(item)){
 
 
-                            id.push(item);
+                                id.push(item);
 
-                            //product_config.size[key2].variants = id;
-                            //product_config.size[key2].variants.remove(item);
-                            sizes.push({id: key2, label: product_config.size[key2].label, variants: id});
-                            //delete product_config.size[key2];
-                        }
-                    })
+                                //product_config.size[key2].variants = id;
+                                //product_config.size[key2].variants.remove(item);
+                                sizes.push({id: key2, label: product_config.size[key2].label, variants: id});
+                                //delete product_config.size[key2];
+                            }
+                        })
+                    }
+
 
                     if(category_last.color === 1 && category_last.size === 0){
 
