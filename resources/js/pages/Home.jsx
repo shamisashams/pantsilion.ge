@@ -46,7 +46,7 @@ const Home = ({ seo }) => {
     return (
         <Layout seo={seo}>
             <div className="overflow-hidden">
-                <section className="lg:h-screen bg-gray-50 relative">
+                {collection?<section className="lg:h-screen bg-gray-50 relative">
                     <div className="wrapper lg:h-full lg:pt-0 pt-40 flex items-center justify-between ">
                         <div className="lg:w-3/5 lg:mr-5">
                             <div className="lg:text-6xl text-4xl max-w-3xl bold ">
@@ -120,7 +120,7 @@ const Home = ({ seo }) => {
                         />
                         <PlusBox top="auto" right="260px" bottom="200px" left="auto" />*/}
                     </div>
-                </section>
+                </section>:null}
                 <section className="wrapper py-20">
                     <div className="text-center mb-10">
                         <div className="text-3xl bold mb-2">
