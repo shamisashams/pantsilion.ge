@@ -16,7 +16,11 @@ class Cart
         //\session()->forget('cart');
     }
 
-    public function mergeCart(){
+    public function mergeCart($user){
+
+        $cart =  $this->getCart();
+
+
 
     }
 
