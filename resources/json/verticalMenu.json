@@ -135,6 +135,13 @@
             "i18n": "contact",
             "icon": "contact",
             "slug": "contact"
+        },
+        {
+            "url": "user.index",
+            "name": "customer",
+            "i18n": "user",
+            "icon": "user",
+            "slug": "user"
         }
     ],
     "_comment": [

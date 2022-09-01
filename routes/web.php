@@ -98,6 +98,9 @@ Route::prefix('{locale?}')
                 Route::resource('partner', \App\Http\Controllers\Admin\PartnerController::class)->parameters(['partner' => 'user']);
                 Route::get('partner/{partner}/destroy', [\App\Http\Controllers\Admin\PartnerController::class, 'destroy'])->name('partner.destroy');
 
+                Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
+                Route::get('user/{user}/destroy', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('user.destroy');
+
 
                 Route::resource('city', \App\Http\Controllers\Admin\CityController::class);
                 Route::get('city/{city}/destroy', [\App\Http\Controllers\Admin\CityController::class, 'destroy'])->name('city.destroy');

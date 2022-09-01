@@ -13,7 +13,7 @@
     <!-- breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
-            <span class="main-content-title mg-b-0 mg-b-lg-1">@lang('admin.partners')</span>
+            <span class="main-content-title mg-b-0 mg-b-lg-1">@lang('admin.customers')</span>
         </div>
         <div class="justify-content-center mt-2">
             @include('admin.nowa.views.layouts.components.breadcrump')
@@ -27,7 +27,7 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mg-b-0">@lang('admin.partners')</h4>
+                        <h4 class="card-title mg-b-0">@lang('admin.customers')</h4>
                     </div>
 
 
@@ -40,9 +40,9 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('admin.id')</th>
+
                                     <th>@lang('admin.email')</th>
                                     <th>@lang('admin.name')</th>
-                                    <th>@lang('admin.balance')</th>
                                     <th>@lang('admin.actions')</th>
                                 </tr>
                                 </thead>
@@ -76,11 +76,11 @@
 
                                             <td>{{$partner->email}}</td>
                                             <td>{{$partner->name}} {{$partner->surname}}</td>
-                                            <td>₾{{$partner->balance}}</td>
+
                                             <td>
 
 
-                                                <a href="{{locale_route('partner.edit',$partner->id)}}"
+                                                <a href="{{locale_route('user.edit',$partner->id)}}"
                                                    class="pl-3">
                                                     <i class="fa fa-edit">შეცვლა</i>
                                                 </a>

@@ -84,4 +84,8 @@ class UserRepository extends BaseRepository
         return $this->model->where('is_partner',1)->paginate(10);
     }
 
+    public function getCustomers(){
+        return $this->model->where('is_partner',0)->where('is_admin',0)->paginate(10);
+    }
+
 }

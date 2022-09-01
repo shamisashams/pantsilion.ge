@@ -207,39 +207,6 @@
             </div>
         </div>
 
-        <div class="col-lg-6 col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div>
-                        <h6 class="card-title mb-1">@lang('admin.bank_accounts')</h6>
-                    </div>
-
-
-
-                    <table class="table">
-                        <tr>
-                            <th>bank id</th>
-                            <th>account number</th>
-                            <th></th>
-                        </tr>
-                        @foreach($partner->bankAccounts as $b_account)
-                            <tr>
-                                <td>
-                                    {{$b_account->bank_id}}
-                                </td>
-                                <td>
-                                    {{$b_account->account_number}}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table>
-
-
-
-                </div>
-            </div>
-        </div>
-
     </div>
 
 
