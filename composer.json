@@ -23,7 +23,8 @@
         "spatie/laravel-searchable": "^1.10",
         "spatie/laravel-translation-loader": "^2.7",
         "staudenmeir/eloquent-json-relations": "^1.1",
-        "tightenco/ziggy": "^1.4"
+        "tightenco/ziggy": "^1.4",
+        "gumlet/php-image-resize": "2.0.*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
