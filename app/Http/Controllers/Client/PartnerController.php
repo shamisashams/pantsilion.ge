@@ -237,7 +237,7 @@ class PartnerController extends Controller
 //            "locale" => App::getLocale()
         ], 'gallery_img' => $files,
             'images' => $images,
-            'referrals' => auth()->user()->referrals
+            'referrals' => auth()->user()->referrals()->orderBy('created_at','desc')->paginate(1)
         ])->withViewData([
             'meta_title' => $page->meta_title,
             'meta_description' => $page->meta_description,
@@ -266,7 +266,9 @@ class PartnerController extends Controller
 
         //dd($files);
 
-        return Inertia::render('OrderHistory', ["page" => $page, "seo" => [
+        return Inertia::render('OrderHistory', [
+            "orders" => auth()->user()->orders()->orderBy('created_at','desc')->paginate(3),
+            "page" => $page, "seo" => [
             "title"=>$page->meta_title,
             "description"=>$page->meta_description,
             "keywords"=>$page->meta_keyword,
