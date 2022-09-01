@@ -86,6 +86,10 @@
                                                 </a>
 
 
+                                                <a href="{{locale_route('user.destroy',$partner->id)}}"
+                                                   onclick="return confirm('Are you sure?')" class="pl-3">
+                                                    <i class="fa fa-edit">წაშლა</i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

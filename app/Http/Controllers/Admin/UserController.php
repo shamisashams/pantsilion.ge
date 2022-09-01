@@ -75,8 +75,12 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \ReflectionException
      */
-    public function store(SliderRequest $request)
+    public function store(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+        ]);
+
         $saveData = Arr::except($request->except('_token'), []);
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
         $slider = $this->userRepository->create($saveData);
@@ -145,19 +149,14 @@ class UserController extends Controller
     {
 
         $request->validate([
-            'username' => 'required|unique:partners,username,'.$user_id . ',user_id',
-            'password' => 'nullable',
+            'email' => 'required|email|unique:users,email,'.$user_id,
         ]);
 
 
         //dd($request->all());
         $saveData = Arr::except($request->except('_token','_method'), []);
 
-        if($saveData['password']){
-            $saveData['password'] = Hash::make($saveData['password']);
-        } else {
-            unset($saveData['password']);
-        }
+
 
 
         //dd($saveData);
@@ -165,10 +164,10 @@ class UserController extends Controller
 
         $this->userRepository->saveFiles($user_id, $request);
 
-        $this->userRepository->model->partner()->updateOrCreate(['user_id' => $user_id],['username' => $request->post('username')]);
 
 
-        return redirect(locale_route('partner.index', $user_id))->with('success', __('admin.update_successfully'));
+
+        return redirect(locale_route('user.index', $user_id))->with('success', __('admin.update_successfully'));
     }
 
     /**

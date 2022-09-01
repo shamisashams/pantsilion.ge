@@ -26,7 +26,7 @@
     <!-- breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
-            <span class="main-content-title mg-b-0 mg-b-lg-1">T{{ __('admin.partner-update') }}</span>
+            <span class="main-content-title mg-b-0 mg-b-lg-1">T{{ __('admin.user-update') }}</span>
         </div>
         <div class="justify-content-center mt-2">
             @include('admin.nowa.views.layouts.components.breadcrump')
@@ -37,48 +37,7 @@
     <!-- row -->
     {!! Form::model($partner,['url' => $url, 'method' => $method,'files' => true]) !!}
     <div class="row">
-        <div class="col-lg-6 col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div>
-                        <h6 class="card-title mb-1">@lang('admin.change_create_partner_credential')</h6>
-                    </div>
 
-
-
-                    <div class="form-group">
-                        <label class="form-label">@lang('admin.username')</label>
-                        <input class="form-control" type="text" name="username" value="{{$partner->partner ? $partner->partner->username : ''}}">
-                        @error('username')
-                        <small class="text-danger">
-                            <div class="error">
-                                {{$message}}
-                            </div>
-                        </small>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">@lang('admin.password')</label>
-                        <input class="form-control" type="text" name="password">
-                        @error('password')
-                        <small class="text-danger">
-                            <div class="error">
-                                {{$message}}
-                            </div>
-                        </small>
-                        @enderror
-                    </div>
-
-                    <div class="form-group mb-0 mt-3 justify-content-end">
-                        <div>
-                            {!! Form::submit(__('admin.update'),['class' => 'btn btn-primary']) !!}
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
 
         <div class="col-lg-6 col-md-12">
             <div class="card">
@@ -173,41 +132,7 @@
 
     </div>
 
-    <div class="row">
-        <div class="col-lg-6 col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div>
-                        <h6 class="card-title mb-1">@lang('admin.referrals')</h6>
-                    </div>
 
-
-
-                    <table class="table">
-                        <tr>
-                            <th>user id</th>
-                            <th>email</th>
-                            <th></th>
-                        </tr>
-                        @foreach($partner->referrals as $referral)
-                            <tr>
-                                <td>
-                                    {{$referral->id}}
-                                </td>
-                                <td>
-                                    {{$referral->email}}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table>
-
-
-
-                </div>
-            </div>
-        </div>
-
-    </div>
 
 
     <div class="row">
