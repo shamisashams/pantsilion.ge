@@ -262,7 +262,7 @@
                                     <div class="form-group">
                                         <label class="rdiobox">
                                             <input type="radio" name="color[]"  class="custom-control-input" {{in_array($option->id,$color_ids) ? 'checked':''}} value="{{$option->id}}">
-                                            <span style="margin-left: 20px;background-color: {{$option->color}}">{{$option->label}}</span>
+                                            <span style="margin-left: 20px;background-color: {{$option->color}};width: 80px;height: 20px">{{$option->label}}</span>
 
                                         </label>
                                     </div>
