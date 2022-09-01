@@ -506,7 +506,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
 
 
-                    <div class="image-uploader">
+                    {{--<div class="image-uploader">
                         <div class="uploaded">
 
                             @foreach($product->files as $item)
@@ -527,7 +527,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
                             @endforeach
                         </div>
-                    </div>
+                    </div>--}}
 
 
                 </div>
