@@ -30,8 +30,10 @@ class UserRepository extends BaseRepository
         parent::__construct($model);
     }
 
-    public function uploadCv($request){
+    public function uploadCv($model, $request){
         if ($request->hasFile('cv')) {
+            $this->model = $model;
+            //dd($this->model);
             // Get Name Of model
             $reflection = new ReflectionClass(get_class($this->model));
             $modelName = $reflection->getShortName();

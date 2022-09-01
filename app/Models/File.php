@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class File extends Model
 {
-    use HasFactory,softDeletes;
+    use HasFactory;
 
     public const FILE_DEFAULT = 1;
     public const FILE_MAIN_1 = 2;

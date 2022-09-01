@@ -242,6 +242,23 @@
 
     </div>
 
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h6 class="card-title mb-1">@lang('admin.cv')</h6>
+                    </div>
+                    <div class="media">
+                        <div class="media-body"> <span>cv</span> @if($partner->cv)<a target="_blank" href="{{asset($partner->cv->getFileUrlAttribute())}}">{{$partner->cv->title}}</a>@endif </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="row">
         <div class="col-lg-12 col-md-12">

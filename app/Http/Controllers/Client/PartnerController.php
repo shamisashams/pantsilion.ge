@@ -71,8 +71,9 @@ class PartnerController extends Controller
         $attributes['affiliate_id'] = (string) Str::uuid();
 
         //dd($attributes);
-        $this->userRepository->create(Arr::except($attributes,['cv']));
-        $this->userRepository->uploadCv($request);
+        $model = $this->userRepository->create(Arr::except($attributes,['cv']));
+        //dd($model);
+        $this->userRepository->uploadCv($model, $request);
 
         return redirect()->back()->with('success','added');
     }

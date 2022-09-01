@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function files(): MorphMany
     {
-        return $this->morphMany(File::class, 'fileable');
+        return $this->morphMany(File::class, 'fileable')->where('type','!=',File::CV);
     }
 
     public function cv(): MorphOne{
