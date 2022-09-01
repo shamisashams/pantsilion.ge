@@ -7,6 +7,8 @@ $stock_ids = $product->stocks->pluck("id")->toArray();
 //dd($stock_ids);
 
 
+
+
 $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
     $html = '<ul style="margin: initial !important;padding: initial !important;">';
@@ -14,7 +16,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
         if(in_array($category->id,$ids)) $checked = 'checked';
         else $checked = '';
         $html .= '<li style="margin-bottom: 5px"><label class="ckbox">
-                        <input type="checkbox" name="categories[]" data-checkboxes="mygroup" class="custom-control-input" '. $checked .' id="'.$category->id.'" value="'.$category->id.'">
+                        <input disabled type="checkbox" name="categories[]" data-checkboxes="mygroup" class="custom-control-input" '. $checked .' id="'.$category->id.'" value="'.$category->id.'">
                         <span style="margin-left: 5px">'.$category->title.'</span>
 
                         </label></li>';
@@ -74,6 +76,12 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
     <input name="old-images[]" id="old_images" hidden disabled value="{{$product->files}}">
     <!-- row -->
     {!! Form::model($product,['url' => $url, 'method' => $method,'files' => true]) !!}
+
+    @if($product->parent_id === null)
+        @foreach($ids as $id)
+            <input type="hidden" name="categories[]" value="{{$id}}">
+        @endforeach
+    @endif
     <div class="row">
         <div class="col-lg-6 col-md-12">
             <div class="card">
@@ -421,7 +429,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
                     @foreach($attributes as $item)
                         <div class="form-group">
-                            <label class="form-label">{{$item->name}}</label>
+                            <label class="form-label">{{$item->code}}</label>
 
                             @if($item->type == 'select')
                                 <select class="form-control" name="attribute[{{$item->id}}]">
@@ -434,7 +442,9 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                                 } else $selected = '';
                                             } else $selected = '';
                                         ?>
-                                        <option value="{{$option->id}}"{{$selected}}>{{$option->label}}</option>
+
+
+                                        <option value="{{$option->id}}"{{$selected}}>{{$option->code}} {{$option->label}} {{$option->value}}</option>
                                     @endforeach
                                 </select>
                             @else

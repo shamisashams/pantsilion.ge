@@ -287,7 +287,14 @@ class ProductController extends Controller
 
         $this->productRepository->saveVideo($request);
 
+
         $product->categories()->sync($saveData['categories'] ?? []);
+
+        if($product->parent_id === null){
+            foreach ($product->variants as $variant){
+                $variant->categories()->sync($saveData['categories'] ?? []);
+            }
+        }
 
         $product->stocks()->sync($saveData['stock_id'] ?? []);
 
