@@ -62,6 +62,9 @@
                                         </select>
                                     </th>
                                     <th>
+
+                                    </th>
+                                    <th>
                                         <input class="form-control" type="text" name="title" onchange="this.form.submit()"
                                                value="{{Request::get('title')}}"
                                                class="validate {{$errors->has('title') ? '' : 'valid'}}">
