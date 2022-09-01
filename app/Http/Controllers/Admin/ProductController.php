@@ -396,7 +396,8 @@ class ProductController extends Controller
             'method' => $method,
             'categories' => $this->categories,
             'attributes' => $this->attributeRepository->all(),
-            'stocks' => Stock::with('translation')->get()
+            'stocks' => Stock::with('translation')->get(),
+            'promocodes' => PromoCode::query()->where('type','product')->get()
         ]);
     }
 
