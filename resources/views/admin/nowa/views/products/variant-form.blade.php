@@ -302,7 +302,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         @enderror
                     </div>
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         {!! Form::label('code',__('admin.quantity'),['class' => 'form-label']) !!}
                         {!! Form::number('quantity',$product->quantity,['class' => 'form-control','min' => '0']) !!}
 
@@ -313,7 +313,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                             </div>
                         </small>
                         @enderror
-                    </div>
+                    </div>--}}
 
                     <div class="form-group">
                         <div class="main-content-label mg-b-5">
@@ -344,13 +344,13 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         </label>
                     </div>
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="popular"
                                    value="true" {{$product->popular ? 'checked' : ''}}>
                             <span>{{__('admin.popular')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
                     <div class="form-group">
                         <label class="ckbox">
@@ -360,37 +360,37 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         </label>
                     </div>
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="new_collection"
                                    value="true" {{$product->new_collection ? 'checked' : ''}}>
                             <span>{{__('admin.new_collection')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="bunker"
                                    value="true" {{$product->bunker ? 'checked' : ''}}>
                             <span>{{__('admin.bunker')}}</span>
                         </label>
                     </div>
-
-                    <div class="form-group">
+--}}
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="day_product"
                                    value="true" {{$product->day_product ? 'checked' : ''}}>
                             <span>{{__('admin.day_product')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="day_price"
                                    value="true" {{$product->day_price ? 'checked' : ''}}>
                             <span>{{__('admin.day_price')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
                     <div class="form-group">
                         <label class="ckbox">

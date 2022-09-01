@@ -19,7 +19,7 @@ const Shipping = ({seo}) => {
 
   const {cart, cities, promocode, errors, shipping} = usePage().props;
 
-  const [selectedCity, setSelectedCity] = useState(0);
+  const [selectedCity, setSelectedCity] = useState(shipping ? shipping.city_id : 0);
 
   let selected = null;
   if(shipping){
