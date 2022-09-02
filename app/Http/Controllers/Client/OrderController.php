@@ -258,6 +258,7 @@ class OrderController extends Controller
 
         $grand_t = $data['grand_total'];
 
+        $delete_promocode = false;
         if($promocode = session('promocode')){
 
 
@@ -267,12 +268,14 @@ class OrderController extends Controller
 
                     if(in_array($item['product']->parent->id,$promocode_products)){
                         $item['product']['discount'] = $item['product']->parent->promocode->reward;
+                        $delete_promocode = true;
                     }
                 }
             }
 
             if($promocode->type == 'cart'){
                 $data['discount'] = $promocode->reward;
+                $delete_promocode = true;
             }
 
         }
@@ -354,9 +357,9 @@ class OrderController extends Controller
                 $promo_gen = new Promocode();
 
                 $gen = $promo_gen->generateCode();
-                $promocode = \App\Models\PromoCode::query()->where('type','cart')->first();
+                $_promocode = \App\Models\PromoCode::query()->where('type','cart')->first();
                 //dd($promocode);
-                $request->user()->promocode()->create(['promocode_id' => $promocode->id, 'promocode' => $gen]);
+                $request->user()->promocode()->create(['promocode_id' => $_promocode->id, 'promocode' => $gen]);
 
                 $data['product'] = null;
                 $data['code'] = $gen;
@@ -370,6 +373,13 @@ class OrderController extends Controller
                 if($user->referrer && $partner_reward->integer_value){
                     $user->referrer()->update(['balance' => \Illuminate\Support\Facades\DB::raw('balance + '. ($grand_t * $partner_reward->integer_value) / 100)]);
                 }
+
+                Cart::destroy();
+                if($promo_code = session('promocode') && $delete_promocode){
+                    $request->user()->promocode()->where('promocode',$promo_code->userPromocode->promocode)->delete();
+                }
+
+                session()->forget('promocode');
 
                 if($order->payment_method == 1 && $order->payment_type == 'bog'){
                     return app(BogPaymentController::class)->make_order($order->id,$order->grand_total);

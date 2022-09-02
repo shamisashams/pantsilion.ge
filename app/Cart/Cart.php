@@ -267,4 +267,8 @@ class Cart
         return count($cart) + count($cart_collections);
     }
 
+    public function destroy(){
+        \session()->forget(['cart','cart_collections']);
+    }
+
 }
