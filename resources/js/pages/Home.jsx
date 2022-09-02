@@ -18,15 +18,16 @@ const Home = ({ seo }) => {
         });
     const sharedData = usePage().props.localizations;
 
-    const { collections, products, blogs, images, collection } = usePage().props;
+    const { collections, products, blogs, images, collection } =
+        usePage().props;
 
-    console.log(collection)
+    console.log(collection);
 
     let price = 0;
 
     collection.products.map((item, index) => {
-        price += item.price
-    })
+        price += item.price;
+    });
 
     return (
         <Layout seo={seo}>
@@ -46,23 +47,31 @@ const Home = ({ seo }) => {
                                 {renderHTML(collection.description)}
                             </p>
                             <div className="text-3xl bold">
-                                {/* from ₾299 */}
-                                ₾{price}
+                                {/* from ₾299 */}₾{price}
                             </div>
                             <div className="flex items-center justify-start mt-10">
                                 <Link href="/" className="">
                                     <MainButton>
                                         {/* Learn more */}
-                                        {__("client.button_learn_more", sharedData)}
+                                        {__(
+                                            "client.button_learn_more",
+                                            sharedData
+                                        )}
                                     </MainButton>
                                 </Link>
-                                <Link href="/" className="flex items-center md:ml-10 ml-5">
+                                <Link
+                                    href="/"
+                                    className="flex items-center md:ml-10 ml-5"
+                                >
                                     <div className="flex items-center justify-center bg-custom-red text-white w-8 h-8 rounded-full mr-2">
                                         <BiPlay />
                                     </div>
                                     <div className="bold">
                                         {/* Watch video */}
-                                        {__("client.button_watch_video", sharedData)}
+                                        {__(
+                                            "client.button_watch_video",
+                                            sharedData
+                                        )}
                                     </div>
                                 </Link>
                             </div>
@@ -72,9 +81,15 @@ const Home = ({ seo }) => {
                         className="lg:absolute relative lg:right-0 lg:bottom-0 lg:w-2/5 mt-10"
                         style={{ height: "calc(100% - 140px)" }}
                     >
-                        <img src={'/' + collection.set_image} className="w-full h-full object-cover" alt="" />
+                        <img
+                            src={"/" + collection.set_image}
+                            className="w-full h-full object-cover"
+                            alt=""
+                        />
                         {collection.products.map((item, index) => {
-                            let c = item.pivot.coordinates ? item.pivot.coordinates.split(' ') : new Array(4).fill('auto');
+                            let c = item.pivot.coordinates
+                                ? item.pivot.coordinates.split("")
+                                : new Array(4).fill("auto");
                             console.log(c);
                             return (
                                 <PlusBox
@@ -86,7 +101,7 @@ const Home = ({ seo }) => {
                                     para={item.short_description}
                                     price={item.price}
                                 />
-                            )
+                            );
                         })}
                         {/*<PlusBox
                             top="100px"
@@ -137,7 +152,10 @@ const Home = ({ seo }) => {
                             </div>
                             <p className="opacity-50">
                                 {/* New and trending products for best price */}
-                                {__("client.home_special_price_text", sharedData)}
+                                {__(
+                                    "client.home_special_price_text",
+                                    sharedData
+                                )}
                             </p>
                         </div>
                     </div>
@@ -159,17 +177,20 @@ const Home = ({ seo }) => {
                                 provide all the furniture that you can easily and quickly get in
                                 love with */}
                                 {renderHTML(
-                                    __("client.home_getdiscounts_text", sharedData).replace(
-                                        /(?:\r\n|\r|\n)/g,
-                                        "<br>"
-                                    )
+                                    __(
+                                        "client.home_getdiscounts_text",
+                                        sharedData
+                                    ).replace(/(?:\r\n|\r|\n)/g, "<br>")
                                 )}
                             </p>
                             <div className="w-52">
                                 <Link href="/">
                                     <MainButton reverse>
                                         {/* Create account */}
-                                        {__("client.button_create_account", sharedData)}
+                                        {__(
+                                            "client.button_create_account",
+                                            sharedData
+                                        )}
                                     </MainButton>
                                 </Link>
                             </div>
@@ -179,7 +200,6 @@ const Home = ({ seo }) => {
                 <section className="py-20 wrapper">
                     <div className="text-center mb-10">
                         <div className="text-3xl bold mb-2">
-
                             {/* Blog */}
                             {__("client.home_blog", sharedData)}
                         </div>
@@ -192,7 +212,6 @@ const Home = ({ seo }) => {
                 </section>
             </div>
         </Layout>
-
     );
 };
 
