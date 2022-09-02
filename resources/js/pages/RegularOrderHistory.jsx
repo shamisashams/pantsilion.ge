@@ -16,7 +16,7 @@ import Layout from "../Layouts/Layout";
 
 const RegularOrders = ({seo}) => {
 
-    const {user, orders} = usePage().props;
+    const {user, orders, localizations} = usePage().props;
 
   const affiliationLink = useRef();
 
@@ -87,35 +87,35 @@ const RegularOrders = ({seo}) => {
                           className="hidden md:block absolute right-full top-0 h-full bg-white "
                           style={{ width: "500px" }}
                       ></div>
-                      <div>Partner Cabinet</div>
-                      <div className="bold text-2xl mb-5 mt-1">Name Surname</div>
+                      <div>{__('client.client_cabinet',localizations)}</div>
+                      <div className="bold text-2xl mb-5 mt-1">{user.name} {user.surname}</div>
 
                       <Link
                           href={route('client.orders')}
                           className="flex lg:text-lg items-center  justify-start px-5 py-3 transition-all duration-300 bg-custom-dark text-white "
                       >
                           <MdHistory className="w-6 h-6 mr-6" />
-                          <div>Order history</div>
+                          <div>{__('client.order_history',localizations)}</div>
                       </Link>
                       <Link
                           href={route('logout')}
                           className="flex md:text-lg items-center  justify-start px-5 py-3 transition-all duration-300 hover:bg-zinc-100  "
                       >
                           <RiLogoutBoxLine className="w-6 h-6 mr-6" />
-                          <div>Sign out</div>
+                          <div>{__('client.sign_out',localizations)}</div>
                       </Link>
                   </div>
                   <div className=" lg:pt-52 pb-32  mx-auto">
                       <div className=" mx-auto">
                           <div className="text-3xl bold mb-12  text-center">
-                              Order history
+                              {__('client.order_history',localizations)}
                           </div>
                           <div className=" pb-20">
                               <div className="">
                                   <div className="flex justify-between mb-5 text-sm    ">
-                                      <div className="opacity-50 ">Product</div>
-                                      <div className="opacity-50 mx-8  pl-40">Date</div>
-                                      <div className="opacity-50 ">Price</div>
+                                      <div className="opacity-50 ">{__('client.orders_product',localizations)}</div>
+                                      <div className="opacity-50 mx-8  pl-40">{__('client.orders_date',localizations)}</div>
+                                      <div className="opacity-50 ">{__('client.orders_price',localizations)}</div>
                                   </div>
                                   {orders.data.map((item, index) => {
                                       let date = new Date(item.created_at).toUTCString()

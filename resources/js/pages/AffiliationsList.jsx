@@ -6,7 +6,7 @@ import {Link, usePage} from '@inertiajs/inertia-react'
 
 const AffiliationsList = ({seo}) => {
 
-    const {referrals} = usePage().props;
+    const {referrals, localizations} = usePage().props;
 
     console.log(referrals);
 
@@ -95,14 +95,14 @@ const AffiliationsList = ({seo}) => {
                   <div className=" lg:pt-52 pb-32  mx-auto">
                       <div className="lg:w-auto mx-auto">
                           <div className="text-3xl bold mb-12 sm:-ml-20 text-center">
-                              Affiliations list
+                              {__('client.affiliations_list', localizations)}
                           </div>
 
                           <div className="sm:pr-20">
                               <div className="sm:flex justify-between mb-5 text-sm  px-4 hidden ">
-                                  <div className="opacity-50 ">Name Surname</div>
-                                  <div className="opacity-50 mx-8  ">Email</div>
-                                  <div className="opacity-50 ">Registration date</div>
+                                  <div className="opacity-50 ">{__('client.affiliations_name', localizations)}</div>
+                                  <div className="opacity-50 mx-8  ">{__('client.affiliations_email', localizations)}</div>
+                                  <div className="opacity-50 ">{__('client.affiliations_date', localizations)}</div>
                               </div>
                               {referrals.data.map((item, index) => {
                                   let date = new Date(item.created_at).toUTCString()

@@ -11,7 +11,9 @@ import { Inertia } from '@inertiajs/inertia'
 
 const RegularCabinet = ({seo}) => {
 
-    const {user} = usePage().props;
+    const {user,localizations} = usePage().props;
+
+
 
     const { errors } = usePage().props
 
@@ -45,7 +47,7 @@ const RegularCabinet = ({seo}) => {
                           className="hidden md:block absolute right-full top-0 h-full bg-white "
                           style={{ width: "500px" }}
                       ></div>
-                      <div>Client Cabinet</div>
+                      <div>{__('client.client_cabinet',localizations)}</div>
                       <div className="bold text-2xl mb-5 mt-1">{user.name} {user.surname}</div>
 
                       <Link
@@ -53,14 +55,14 @@ const RegularCabinet = ({seo}) => {
                           className="flex lg:text-lg items-center  justify-start px-5 py-3 transition-all duration-300 hover:bg-zinc-100 "
                       >
                           <MdHistory className="w-6 h-6 mr-6" />
-                          <div>Order history</div>
+                          <div>{__('client.order_history',localizations)}</div>
                       </Link>
                       <Link
                           href={route('logout')}
                           className="flex md:text-lg items-center  justify-start px-5 py-3 transition-all duration-300 hover:bg-zinc-100  "
                       >
                           <RiLogoutBoxLine className="w-6 h-6 mr-6" />
-                          <div>Sign out</div>
+                          <div>{__('client.sign_out',localizations)}</div>
                       </Link>
                   </div>
                   <div className="text-center md:pt-52 pb-32  mx-auto">
@@ -88,8 +90,8 @@ const RegularCabinet = ({seo}) => {
                           <EditInput label="Phone number " value={values.phone} onChange={handleChange} id={'phone'} />
                           <EditInput label="Email address " value={values.email} onChange={handleChange} id={'email'} />
                           <div className="grid grid-cols-2 gap-3 pt-3">
-                              <MainButton reverse>Cancel</MainButton>
-                              <MainButton onclick={handleSubmit}>Save Changes</MainButton>
+                              <MainButton reverse>{__('client.cancel',localizations)}</MainButton>
+                              <MainButton onclick={handleSubmit}>{__('client.save_changes',localizations)}</MainButton>
                           </div>
                       </div>
                   </div>

@@ -13,7 +13,7 @@ import Layout from "../Layouts/Layout";
 const AccountSettings = ({seo , user}) => {
   const affiliationLink = useRef();
 
-  const {errors} = usePage().props;
+  const {errors,localizations} = usePage().props;
 
   console.log(errors);
 
@@ -45,7 +45,7 @@ const AccountSettings = ({seo , user}) => {
                   <div className="text-center md:pt-52 pb-32  mx-auto">
                       <div className="sm:w-96 pr-5 max-w-md mx-auto">
                           <form onSubmit={submit}>
-                              <div className="text-3xl bold mb-7">Personal information</div>
+                              <div className="text-3xl bold mb-7">{__('client.personal_info',localizations)}</div>
                               <div className="w-full text-center p-5 bg-white mb-4 border-dashed border-2 rounded border-zinc-300">
                                   <img src="/client/assets/images/icons/file.png" className="mx-auto" alt="" />
                                   <div className="my-3">Upload your ID photo both sides</div>
@@ -53,27 +53,27 @@ const AccountSettings = ({seo , user}) => {
                                   <input multiple type="file" onChange={e => setData('avatar', e.target.files)} />
                               </div>
                               <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                                  <label className="opacity-50">Name</label>
+                                  <label className="opacity-50">{__('client.form_name', localizations)}</label>
                                   <input type="text " value={data.name} className="text-right " onChange={e => setData('name', e.target.value)} />
                               </div>
                               <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                                  <label className="opacity-50">Surname</label>
+                                  <label className="opacity-50">{__('client.form_surname', localizations)}</label>
                                   <input type="text " value={data.surname} className="text-right " onChange={e => setData('surname', e.target.value)} />
                               </div>
                               <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                                  <label className="opacity-50">ID</label>
+                                  <label className="opacity-50">{__('client.form_id_number', localizations)}</label>
                                   <input type="text " value={data.id_number} className="text-right " onChange={e => setData('id_number', e.target.value)} />
                               </div>
                               <EditInput
-                                  label="Address "
+                                  label={__('client.form_address', localizations)}
                                   value={data.address}
                                   onChange={e => setData('address', e.target.innerText)}
                               />
-                              <EditInput label="Phone number " value={data.phone} onChange={e => setData('phone', e.target.innerText)} />
-                              <EditInput label="Email address " value={data.email} onChange={e => setData('email', e.target.innerText)} />
+                              <EditInput label={__('client.form_phone', localizations)} value={data.phone} onChange={e => setData('phone', e.target.innerText)} />
+                              <EditInput label={__('client.form_email', localizations)} value={data.email} onChange={e => setData('email', e.target.innerText)} />
                               <div className="grid grid-cols-2 gap-3 pt-3">
-                                  <MainButton reverse>Cancel</MainButton>
-                                  <MainButton type>Save Changes</MainButton>
+                                  <MainButton reverse>{__('client.cancel',localizations)}</MainButton>
+                                  <MainButton type>{__('client.save_changes',localizations)}</MainButton>
                               </div>
                           </form>
 

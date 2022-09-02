@@ -15,7 +15,7 @@ import Layout from "../Layouts/Layout";
 import {Inertia} from "@inertiajs/inertia";
 
 const Payment = ({seo}) => {
-    const {cart,promocode, shipping, city} = usePage().props;
+    const {cart,promocode, shipping, city, localizations} = usePage().props;
 
     function makeOrder(){
         Inertia.post(route('client.checkout.order'))
@@ -27,13 +27,13 @@ const Payment = ({seo}) => {
                   <div className="xl:w-3/4 w-full mr-10 pt-44 pb-20">
                       <div className="flex justify-between items-start border-b border-zinc-300 md:text-lg text-sm mb-10">
                           <Link href={route('client.cart.index')} className=" bold pb-5  md:w-1/3">
-                              1. Cart
+                              1. {__('client.cart', localizations)}
                           </Link>
                           <Link
                               href={route('client.shipping.index')}
                               className="bold pb-5  pb-5  md:w-1/3 text-center  "
                           >
-                              2. Shipping details
+                              2. {__('client.shipping_details', localizations)}
                           </Link>
                           <Link
                               href={route('client.payment.index')}
@@ -41,7 +41,7 @@ const Payment = ({seo}) => {
 border-custom-red
 text-custom-red bold pb-5  md:w-1/3 text-right"
                           >
-                              3. Payment details
+                              3. {__('client.payment_details', localizations)}
                           </Link>
                       </div>
                       <div className=" mb-16 max-w-lg mx-auto">
