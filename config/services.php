@@ -29,5 +29,15 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'facebook' => [
+        'client_id' => '435281924804350',
+        'client_secret' => '36660df29fab684e74352e54de4c83bb',
+        'redirect' => 'https://gabi.ge/ge/auth/facebook/callback',
+    ],
+    'google' => [
+        'client_id' => '194477847906-5oba7obd2csbm6bn3a6u2jb22usln98o.apps.googleusercontent.com',
+        'client_secret' => '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',
+        'redirect' => 'https://gabi.ge/ge/auth/google/callback',
+    ],
 
 ];

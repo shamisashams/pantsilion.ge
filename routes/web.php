@@ -19,6 +19,9 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ContactController;
 use App\Http\Controllers\Client\AboutUsController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 Route::post('ckeditor/image_upload', [CKEditorController::class, 'upload'])->withoutMiddleware('web')->name('upload');
 
@@ -227,6 +230,67 @@ Route::prefix('{locale?}')
 
             Route::post('test/filter',[\App\Http\Controllers\TestController::class,'filter']);*/
         });
+
+        //Social-------------------------------------------------------
+        Route::get('/auth/facebook/redirect', function () {
+            return Socialite::driver('facebook')->redirect();
+        })->name('fb-redirect');
+
+        Route::get('/auth/facebook/callback', function () {
+            //dd('jdfhgjdhjf urkl');
+            $facebookUser = Socialite::driver('facebook')->stateless()->user();
+
+            //dd($facebookUser);
+            $email = uniqid();
+            if ($facebookUser->email !== null) $email = $facebookUser->email;
+            $user = User::updateOrCreate([
+                'facebook_id' => $facebookUser->id,
+
+            ], [
+                'email' => $email,
+                'name' => $facebookUser->name,
+                'facebook_id' => $facebookUser->id,
+                'facebook_token' => $facebookUser->token,
+                'facebook_refresh_token' => $facebookUser->refreshToken,
+                'avatar' => $facebookUser->avatar,
+            ]);
+
+
+
+            //dd($user);
+
+            Auth::login($user);
+
+            return redirect(route('profile'));
+        })->name('fb-callback');
+
+        Route::get('/auth/google/redirect', function () {
+            return Socialite::driver('google')->redirect();
+        })->name('google-redirect');
+
+        Route::get('/auth/google/callback', function () {
+            $googleUser = Socialite::driver('google')->user();
+
+            //dd($googleUser);
+            $user = User::updateOrCreate([
+                //'facebook_id' => $facebookUser->id,
+                'email' => $googleUser->email,
+            ], [
+                'name' => $googleUser->name,
+                'google_id' => $googleUser->id,
+                'google_token' => $googleUser->token,
+                'google_refresh_token' => $googleUser->refreshToken,
+                'avatar' => $googleUser->avatar,
+            ]);
+
+
+            //dd($user);
+
+            Auth::login($user);
+
+            return redirect(route('profile'));
+        })->name('google-callback');
+        //--------------------------------------------------------------------------
     });
 
 
