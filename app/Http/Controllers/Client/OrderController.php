@@ -6,6 +6,7 @@ use App\BogPay\BogPay;
 use App\BogPay\BogPaymentController;
 use App\Cart\Facade\Cart;
 use App\Http\Controllers\Controller;
+use App\Mail\PromocodeProduct;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Order;
@@ -22,6 +23,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use App\Repositories\Eloquent\ProductRepository;
 use Spatie\TranslationLoader\TranslationLoaders\Db;
@@ -257,53 +259,35 @@ class OrderController extends Controller
         $grand_t = $data['grand_total'];
 
         if($promocode = session('promocode')){
-            $data['discount'] = $promocode->reward;
+
+
+            if($promocode->type == 'product'){
+                $promocode_products = $promocode->products()->select('id')->get()->pluck('id')->toArray();
+                foreach ($cart['products'] as $item){
+
+                    if(in_array($item['product']->parent->id,$promocode_products)){
+                        $item['product']['discount'] = $item['product']->parent->promocode->reward;
+                    }
+                }
+            }
+
+            if($promocode->type == 'cart'){
+                $data['discount'] = $promocode->reward;
+            }
+
         }
+
+
+
 
 
 
 
         //dd($cart);
 
-        $product_ids = [];
-        foreach ($cart['products'] as $item){
-            $product_ids[] = $item['product']->id;
-        }
 
-        $products = Product::whereIn('id',$product_ids)->get();
+        if($cart['count'] > 0){
 
-
-
-
-        if($products){
-            $prod_data = [];
-            foreach ($products as $product){
-                $prod_data[$product->id]['stock'] = $product->stocks()->count();
-                $prod_data[$product->id]['status'] = $product->status;
-                $prod_data[$product->id]['price'] = $product->price;
-                $prod_data[$product->id]['special_price'] = $product->special_price;
-            }
-
-
-
-            $error = true;
-            foreach ($cart['products'] as $item){
-                if(isset($prod_data[$item['product']['id']])){
-                    $price = ($prod_data[$item['product']['id']]['special_price'] !== null) ? $prod_data[$item['product']['id']]['special_price'] : $prod_data[$item['product']['id']]['price'];
-                    if ($price == $item['product']['price'] && $prod_data[$item['product']['id']]['status'] == 1){
-                        $error = false;
-                    }
-                } else {
-                    $error = true;
-                    break;
-                }
-            }
-
-            //dd($data, $cart, $products, $prod_data);
-
-            if ($error){
-                 dd('error cart is not valid');
-            }
 
             try {
                 DataBase::beginTransaction();
@@ -319,6 +303,10 @@ class OrderController extends Controller
                     $data['qty_ordered'] = $item['quantity'];
                     $data['price'] = $item['product']['price'];
                     $data['total'] = $item['product']['price'] * $item['quantity'];
+                    $data['attributes'] = json_encode($item['product']['attributes']);
+                    if ($item['product']->discount){
+                        $data['promocode_discount'] = $item['product']->discount;
+                    }
                     $insert[] = $data;
                 }
                 //dd($insert);
@@ -362,6 +350,17 @@ class OrderController extends Controller
 
                 }
 
+
+                $promo_gen = new Promocode();
+
+                $gen = $promo_gen->generateCode();
+                $promocode = \App\Models\PromoCode::query()->where('type','cart')->first();
+                //dd($promocode);
+                $request->user()->promocode()->create(['promocode_id' => $promocode->id, 'promocode' => $gen]);
+
+                $data['product'] = null;
+                $data['code'] = $gen;
+                Mail::to($request->user())->send(new PromocodeProduct($data));
 
 
                 DataBase::commit();
