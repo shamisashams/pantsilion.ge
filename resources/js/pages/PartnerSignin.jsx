@@ -7,7 +7,7 @@ import {Inertia} from "@inertiajs/inertia";
 
 const PartnerSignin = ({seo}) => {
 
-    const {errors} = usePage().props
+    const {errors, localizations} = usePage().props
     const [values, setValues] = useState({
         username: "",
         password: "",
@@ -32,16 +32,15 @@ const PartnerSignin = ({seo}) => {
           <div className="bg-zinc-100">
               <div className="wrapper max-w-md py-52 text-center">
                   <img src="/client/assets/images/other/handshake.png" className="mx-auto mb-8" alt="" />
-                  <div className="sm:text-5xl text-3xl bold mb-5">Sign in as partner</div>
+                  <div className="sm:text-5xl text-3xl bold mb-5">{__('client.sign_in_partner_header', localizations)}</div>
                   <p className=" mb-10">
-                      This is a page for our partners, To access personal cabinet use
-                      username and password which we provide to you.
+                      {__('client.sign_in_partner_text', localizations)}
                   </p>
                   {errors.username && <div>{errors.username}</div>}
                   <form onSubmit={handleSubmit}>
                       <input
                           type="text"
-                          placeholder="Username"
+                          placeholder={__('client.form_username', localizations)}
                           className="mb-3 border border-zinc-200 pl-4 w-full block bg-transparent h-12 placeholder:text-custom-dark"
                           onChange={handleChange}
                           name="username"
@@ -49,13 +48,13 @@ const PartnerSignin = ({seo}) => {
                       {errors.password && <div>{errors.password}</div>}
                       <input
                           type="password"
-                          placeholder="Password"
+                          placeholder={__('client.form_password', localizations)}
                           className="mb-7 border border-zinc-200 pl-4 w-full block bg-transparent h-12 placeholder:text-custom-dark"
                           onChange={handleChange}
                           name="password"
                       />
 
-                      <MainButton type>Sign in</MainButton>
+                      <MainButton type>{__('client.sign_in_btn', localizations)}</MainButton>
                   </form>
 
 
