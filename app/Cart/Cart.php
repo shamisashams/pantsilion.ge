@@ -18,8 +18,23 @@ class Cart
 
     public function mergeCart($user){
 
+        $db_cart = $user->cart()->firstOrCreate([
+            'user_id' => $user->id
+        ]);
+
+
         $cart =  $this->getCart();
 
+
+        //dd($cart);
+        if($cart){
+            foreach ($cart['products'] as $item){
+                $db_cart->items()->create([
+                    'product_id' => $item['product']->id,
+                    'qty' => $item['quantity']
+                ]);
+            }
+        }
 
 
     }

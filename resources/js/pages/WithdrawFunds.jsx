@@ -11,9 +11,9 @@ const WithdrawFunds = ({seo, user}) => {
 
   const [checked, setChecked] = useState(false);
 
-    const { errors, bank_accounts } = usePage().props
+    const { errors, bank_accounts, localizations } = usePage().props
 
-    const [bankId,setBankId] = useState('Choose account number');
+    const [bankId,setBankId] = useState(__('client.choose_account_number', localizations));
 
 
     const [values, setValues] = useState({
@@ -38,11 +38,11 @@ const WithdrawFunds = ({seo, user}) => {
                   <CabinetTabs />
                   <div className="md:pt-52 pb-32  mx-auto">
                       <div className="sm:w-96 max-w-md mx-auto ">
-                          <div className="bold mb-2">Ballance</div>
+                          <div className="bold mb-2">{__('client.balance', localizations)}</div>
                           <div className="w-full bg-white py-3 px-4 mb-6 bold text-xl ">
                               ₾ {user.balance}
                           </div>
-                          <div className="bold mb-2">Withdraw fund to:</div>
+                          <div className="bold mb-2">{__('client.withdraw_to', localizations)}</div>
                           <div
                               onClick={() => setAccountNumber(!accountNumber)}
                               className="w-full bg-white py-3 px-4 mb-6  relative"
@@ -80,9 +80,9 @@ const WithdrawFunds = ({seo, user}) => {
                                   checked={checked}
                                   onClick={() => setChecked(!checked)}
                               />
-                              <label htmlFor="checkbox">I accept terms and conditions</label>
+                              <label htmlFor="checkbox">{__('client.withdraw_accept_term', localizations)}</label>
                           </div>
-                          <MainButton disabled={!checked} onclick={handleSubmit}>Withdraw</MainButton>
+                          <MainButton disabled={!checked} onclick={handleSubmit}>{__('client.withdraw_btn', localizations)}</MainButton>
                       </div>
                   </div>
               </div>

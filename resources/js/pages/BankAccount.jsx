@@ -8,7 +8,7 @@ import { usePage } from '@inertiajs/inertia-react'
 
 const BankAccount = ({seo, user, bank_account}) => {
 
-    const { errors } = usePage().props
+    const { errors, localizations } = usePage().props
 
     const [values, setValues] = useState({
         bank_id: bank_account ? bank_account.bank_id:null,
@@ -35,13 +35,13 @@ const BankAccount = ({seo, user, bank_account}) => {
                   <CabinetTabs />
                   <div className="text-center md:pt-52 pb-32  mx-auto">
                       <div className="sm:w-96 pr-5 max-w-md mx-auto">
-                          <div className="text-3xl bold mb-12">Bank Account</div>
+                          <div className="text-3xl bold mb-12">{__('client.bank_account', localizations)}</div>
 
-                          <EditInput label="Bank ID " value={values.bank_id} onChange={handleChange} id={'bank_id'} />
-                          <EditInput label="account number " value={values.account_number} onChange={handleChange} id={'account_number'} />
+                          <EditInput label={__('client.form_bank_id', localizations)} value={values.bank_id} onChange={handleChange} id={'bank_id'} />
+                          <EditInput label={__('client.form_account_number', localizations)} value={values.account_number} onChange={handleChange} id={'account_number'} />
                           <div className="grid grid-cols-2 gap-3 pt-5">
-                              <MainButton reverse>Cancel</MainButton>
-                              <MainButton onclick={handleSubmit}>Save Changes</MainButton>
+                              <MainButton reverse>{__('client.cancel', localizations)}</MainButton>
+                              <MainButton onclick={handleSubmit}>{__('client.save_changes', localizations)}</MainButton>
                           </div>
                       </div>
                   </div>

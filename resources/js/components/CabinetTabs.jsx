@@ -12,7 +12,7 @@ import {
 import { Link, usePage, useForm } from "@inertiajs/inertia-react";
 
 const CabinetTabs = () => {
-  const { pathname, user, affiliate_link } = usePage().props;
+  const { pathname, user, affiliate_link, localizations } = usePage().props;
 
 
 
@@ -28,27 +28,27 @@ const CabinetTabs = () => {
     {
       link: route('partner.settings'),
       icon: <RiSettings3Line className="w-6 h-6 mr-6" />,
-      text: "Account settings",
+      text: __('client.account_settings',localizations),
     },
     {
       link: route('partner.bank-account'),
       icon: <RiBankLine className="w-6 h-6 mr-6" />,
-      text: "Bank details",
+      text: __('client.bank_details',localizations),
     },
     {
       link: route('partner.withdraw'),
       icon: <GoCreditCard className="w-6 h-6 mr-6" />,
-      text: "Withdraw funds",
+      text: __('client.withdraw_funds',localizations),
     },
     {
       link: route('partner.referrals'),
       icon: <RiListUnordered className="w-6 h-6 mr-6" />,
-      text: "Affiliations list",
+      text: __('client.affiliations_list',localizations),
     },
     {
       link: route('partner.orders'),
       icon: <MdHistory className="w-6 h-6 mr-6" />,
-      text: "Order history",
+      text: __('client.order_history',localizations)
     },
   ];
 
@@ -58,9 +58,9 @@ const CabinetTabs = () => {
         className="hidden md:block absolute right-full top-0 h-full bg-white"
         style={{ width: "500px" }}
       ></div>
-      <div>Partner Cabinet</div>
+      <div>{__('client.partner_cabinet',localizations)}</div>
       <div className="bold text-2xl mb-5 mt-1">{user.name} {user.surname}</div>
-      <div className="opacity-50">Affiliation link:</div>
+      <div className="opacity-50">{__('client.affiliation_link', localizations)}:</div>
       <div className="relative w-72 flex justify-between md:mb-20 mb-10">
         <input
           ref={affiliationLink}
@@ -95,7 +95,7 @@ const CabinetTabs = () => {
         className="flex md:text-lg items-center  justify-start px-5 py-3 transition-all duration-300 hover:bg-zinc-100  "
       >
         <RiLogoutBoxLine className="w-6 h-6 mr-6" />
-        <div>Sign out</div>
+        <div>{__('client.sign_out', localizations)}</div>
       </Link>
     </div>
   );

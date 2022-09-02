@@ -6,7 +6,7 @@ import {Link, usePage} from "@inertiajs/inertia-react";
 
 const OrderHistory = ({seo}) => {
 
-    const {user, orders} = usePage().props;
+    const {user, orders, localizations} = usePage().props;
 
     let links = function (links) {
         let rows = [];
@@ -66,14 +66,14 @@ const OrderHistory = ({seo}) => {
                   <div className=" lg:pt-52 pb-32  mx-auto">
                       <div className=" mx-auto">
                           <div className="text-3xl bold mb-12  text-center">
-                              Order history
+                              {__('client.order_history', localizations)}
                           </div>
                           <div className=" pb-20">
                               <div className="">
                                   <div className="flex justify-between mb-5 text-sm    ">
-                                      <div className="opacity-50 ">Product</div>
-                                      <div className="opacity-50 mx-8  pl-40">Date</div>
-                                      <div className="opacity-50 ">Price</div>
+                                      <div className="opacity-50 ">{__('client.orders_product', localizations)}</div>
+                                      <div className="opacity-50 mx-8  pl-40">{__('client.orders_product', localizations)}</div>
+                                      <div className="opacity-50 ">{__('client.orders_price', localizations)}</div>
                                   </div>
                                   {orders.data.map((item, index) => {
                                       let date = new Date(item.created_at).toUTCString()
