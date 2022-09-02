@@ -187,14 +187,14 @@ const Navbar = () => {
                                     className={`mt-px rounded bg-zinc-100 py-5 px-4 pl-6 absolute right-0 top-full text-right group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-5 invisible opacity-0 transition-all`}
                                 >
                                     <Link href={route('client.login.index')} className="whitespace-nowrap pb-2">
-                                        Sign in{" "}
+                                        {__('client.nav_sign_in', sharedData)}{" "}
                                     </Link>
                                     <Link href={route('client.registration.index')} className="whitespace-nowrap">
-                                        Create account{" "}
+                                        {__('client.nav_signup', sharedData)}{" "}
                                     </Link>
 
                                     <Link href={route('partner.login.index')} className="whitespace-nowrap">
-                                        Partner signin{" "}
+                                        {__('client.nav_partner_sign_in', sharedData)}{" "}
                                     </Link>
                                 </div>
                             </div>
