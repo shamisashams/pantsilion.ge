@@ -17,7 +17,7 @@ import Layout from "../Layouts/Layout";
 const Shipping = ({seo}) => {
   const [chooseCity, setChooseCity] = useState(false);
 
-  const {cart, cities, promocode, errors, shipping} = usePage().props;
+  const {cart, cities, promocode, errors, shipping, localizations} = usePage().props;
 
   const [selectedCity, setSelectedCity] = useState(shipping ? shipping.city_id : 0);
 
@@ -70,19 +70,19 @@ const Shipping = ({seo}) => {
                   <div className="xl:w-3/4 w-full mr-10 pt-44 pb-20">
                       <div className="flex justify-between items-start border-b border-zinc-300 md:text-lg text-sm mb-10">
                           <Link href={route('client.cart.index')} className=" bold pb-5  md:w-1/3">
-                              1. Cart
+                              1. {__('client.cart', localizations)}
                           </Link>
                           <Link
                               href={route('client.shipping.index')}
                               className="border-b-4 bold pb-5 border-custom-red pb-5 text-custom-red md:w-1/3 text-center  "
                           >
-                              2. Shipping details
+                              2. {__('client.shipping_details', localizations)}
                           </Link>
                           <Link
                               href={route('client.payment.index')}
                               className=" bold pb-5 text-gray-500 md:w-1/3 text-right"
                           >
-                              3. Payment details
+                              3. {__('client.payment_details', localizations)}
                           </Link>
                       </div>
                       <div className="text-center py-5 mb-16 max-w-lg mx-auto">
@@ -283,7 +283,7 @@ const Shipping = ({seo}) => {
                           <div>{promocode ? 'discount %' + promocode.reward :null}</div>
                       </div>
                       <Link href="/payment">
-                          <MainButton onclick={handleSubmit}>Proceed to payment</MainButton>
+                          <MainButton onclick={handleSubmit}>{__('client.to_payment', localizations)}</MainButton>
                       </Link>
                   </div>
               </div>

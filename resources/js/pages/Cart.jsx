@@ -11,7 +11,7 @@ import { Inertia } from '@inertiajs/inertia'
 
 const Cart = ({seo}) => {
 
-    const {cart, flash, promocode} = usePage().props;
+    const {cart, flash, promocode, localizations} = usePage().props;
     console.log(cart);
 
     function removeItem(id){
@@ -52,19 +52,19 @@ const Cart = ({seo}) => {
                               href={route('client.cart.index')}
                               className="border-b-4 border-custom-red bold pb-5 text-custom-red md:w-1/3"
                           >
-                              1. Cart
+                              1. {__('client.cart', localizations)}
                           </Link>
                           <Link
                               href={route('client.shipping.index')}
                               className=" bold pb-5 text-gray-500 md:w-1/3 text-center"
                           >
-                              2. Shipping details
+                              2. {__('client.shipping_details', localizations)}
                           </Link>
                           <Link
                               href={route('client.payment.index')}
                               className=" bold pb-5 text-gray-500 md:w-1/3 text-right"
                           >
-                              3. Payment details
+                              3. {__('client.payment_details', localizations)}
                           </Link>
                       </div>
                       {cart.products.map((item, index) => {
@@ -157,7 +157,7 @@ const Cart = ({seo}) => {
 
                       <Link className="bold" href="/products">
                           <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
-                          Continue shopping
+                          {__('client.continue_shopping', localizations)}
                       </Link>
                   </div>
                   <div
@@ -165,24 +165,24 @@ const Cart = ({seo}) => {
             after:left-full after:top-0 after:bg-white after:w-full after:xl:block after:hidden after:h-full after:min-w-lg"
                   >
                       <div className="mb-10">
-                          <div className="text-3xl bold mb-3">Summary</div>
+                          <div className="text-3xl bold mb-3">{__('client.summary', localizations)}</div>
                           <div className="opacity-50 mb-3 ">({cart.count} items)</div>
                           <div className="flex items-center justify-between border-b border-t border-zinc-200  py-3 mb-5">
                               <div>Subtotal</div>
                               <div>₾ {cart.total}</div>
                           </div>
-                          <div className="text-sky-500 bold mb-3">Use discount code</div>
+                          <div className="text-sky-500 bold mb-3">{__('client.use_promocode', localizations)}</div>
                           <input name="promocode"
                               type="text"
                               className="border border-zinc-200 mb-3 w-full h-10 pl-3"
                                  onChange={handleChange}
                           />
-                          <button onClick={handleSubmit} className="bg-zinc-100 bold py-2 px-10">Apply code</button>
+                          <button onClick={handleSubmit} className="bg-zinc-100 bold py-2 px-10">{__('client.apply_code', localizations)}</button>
                           <div>{flash ? flash :null}</div>
                           <div>{promocode ? 'discount %' + promocode.reward :null}</div>
                       </div>
                       <Link href={route('client.shipping.index')}>
-                          <MainButton>Proceed to Shipping details</MainButton>
+                          <MainButton>{__('client.to_shipping', localizations)}</MainButton>
                       </Link>
                   </div>
               </div>
