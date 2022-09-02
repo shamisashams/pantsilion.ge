@@ -260,9 +260,9 @@
                                 @foreach($color->options as $option)
 
                                     <div class="form-group">
-                                        <label class="ckbox">
-                                            <input type="checkbox" name="color[]" data-checkboxes="mygroup" class="custom-control-input" {{in_array($option->id,$color_ids) ? 'checked':''}} value="{{$option->id}}">
-                                            <span style="margin-left: 20px;background-color: {{$option->color}}">{{$option->label}}</span>
+                                        <label class="rdiobox">
+                                            <input type="radio" name="color[]"  class="custom-control-input" {{in_array($option->id,$color_ids) ? 'checked':''}} value="{{$option->id}}">
+                                            <span style="margin-left: 20px;background-color: {{$option->color}};width: 80px;height: 20px">{{$option->label}}</span>
 
                                         </label>
                                     </div>
@@ -288,61 +288,61 @@
                         </label>
                     </div>
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="popular"
                                    value="true" {{$model->popular ? 'checked' : ''}}>
                             <span>{{__('admin.popular')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="new"
                                    value="true" {{$model->new ? 'checked' : ''}}>
                             <span>{{__('admin.new_product')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="new_collection"
                                    value="true" {{$model->new_collection ? 'checked' : ''}}>
                             <span>{{__('admin.new_collection')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="bunker"
                                    value="true" {{$model->bunker ? 'checked' : ''}}>
                             <span>{{__('admin.bunker')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="day_product"
                                    value="true" {{$model->day_product ? 'checked' : ''}}>
                             <span>{{__('admin.day_product')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="day_price"
                                    value="true" {{$model->day_price ? 'checked' : ''}}>
                             <span>{{__('admin.day_price')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="special_price_tag"
                                    value="true" {{$model->special_price_tag ? 'checked' : ''}}>
                             <span>{{__('admin.special_price_tag')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
                     {{--<div class="form-group">
 

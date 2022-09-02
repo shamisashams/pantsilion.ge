@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             SettingSeeder::class,
             UserSeeder::class,
-            PageSearchSeeder::class
+            PageSearchSeeder::class,
+            AttributeSeeder::class
         ]);
     }
 }

@@ -24,7 +24,8 @@ class PromoCode extends Model
         'user_id',
         'promo_code',
         'reward',
-        'quantity'
+        'quantity',
+        'type'
     ];
 
 
@@ -49,8 +50,8 @@ class PromoCode extends Model
 
 
 
-    public function user()
+    public function products()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Product::class,'promocode_id');
     }
 }

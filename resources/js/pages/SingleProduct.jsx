@@ -29,8 +29,11 @@ const SingleProduct = ({seo}) => {
 
   const [productImages, setProductImages] = useState(product_images)
 
-    const [productStocks, setproductStocks] = useState(stocks[cities[0].id] ?? [])
 
+    const [productStocksOver, setProductStocksOver] = useState(stocks ?? [])
+
+    const [cityId, setCityId] = useState(cities[0].id)
+    const [productStocks, setProductStocks] = useState(stocks[cities[0].id] ?? [])
     const [productVideo, setProductVideo] = useState(product.video ? product.video.path : null)
 
     const [toCart, setToCart] = useState(product)
@@ -42,11 +45,17 @@ const SingleProduct = ({seo}) => {
     const [productSizes, setProductSizes] = useState({});
     const [selectedSize, setSelectedSize] = useState(' select size ');
 
-    const [categoryColorImg, setCategoryColorImg] = useState(category_last.colors[0].file ? '/' + category_last.colors[0].file.path + '/' + category_last.colors[0].file.title:null)
+    const [categoryColorImg, setCategoryColorImg] = useState(category_last.colors.length > 0 ? (category_last.colors[0].file ? '/' + category_last.colors[0].file.path + '/' + category_last.colors[0].file.title:null):null)
 
     const [productPrice, setProductPrice] = useState(`from ₾${product.min_price}`)
+    const [oldPrice, setOldPrice] = useState(``)
+
+    const [productCode, setProductCode] = useState(product.code)
+
+    const [selectedCity,setSelectedCity] = useState(cities[0].title)
 
 
+    console.log(stocks)
 
   console.log(product);
     console.log(category_last);
@@ -93,155 +102,13 @@ const SingleProduct = ({seo}) => {
         return this;
     };
 
-    function selectCorner(corner){
 
-        let sizes = [];
-
-        setProductImages(product_images);
-        setProductVideo(product.video ? product.video.path :null)
-        setProductPrice(`from ₾${product.min_price}`)
-        setSelectedSize(' select size ')
-        setProductId(0)
-
-
-        let obj = {};
-        Object.keys(product_config.corner).map((key,index) => {
-            if(product_config.corner[key].code == corner){
-                console.log(product_config.corner[key].variants)
-
-                product_config.corner[key].variants.map((item, index) => {
-                    let id = [];
-
-                    Object.keys(product_config.size).map((key2,index3) => {
-
-                        if(product_config.size[key2].variants.includes(item)){
-
-
-                            id.push(item);
-
-                            //product_config.size[key2].variants = id;
-                            //product_config.size[key2].variants.remove(item);
-                            sizes.push({id: key2, label: product_config.size[key2].label, variants: id});
-                            //delete product_config.size[key2];
-                        }
-                    })
-                })
-            }
-        })
-
-        let result = {};
-
-        sizes.map((item, index) => {
-
-            if(result.hasOwnProperty(item.id)){
-                console.log(item.id)
-
-                result[item.id].variants = result[item.id].variants.concat(item.variants);
-            }
-            else result[item.id] = {label:item.label,variants: item.variants}
-        })
-
-        console.log(sizes);
-
-        console.log(result);
-        console.log(obj);
-
-        /*let select = document.getElementById('choose_size');
-        select.innerHTML = '<option value=""></option>';*/
-
-        setProductSizes({})
-
-        /*let pick = document.getElementById('choose_color');
-        pick.innerHTML = '<option value=""></option>';*/
-
-        setProductColors([])
-        /*for (var i = 0; i<sizes.length; i++){
-            var opt = document.createElement('option');
-            opt.value = i;
-            opt.innerHTML = sizes[i].label;
-            select.appendChild(opt);
-        }*/
-
-        /*Object.keys(result).map((item,index) => {
-            var opt = document.createElement('option');
-            opt.value = item;
-            opt.innerHTML = result[item].label;
-            select.appendChild(opt);
-        })*/
-
-        setProductSizes(result)
-
-        setproductStocks(stocks[cities[0].id] ?? [] )
-
-        //select.addEventListener('change',function (e){
-
-            /*setProductImages(product_images)
-            setProductVideo(product.video ? product.video.path :null)
-            setProductPrice(`from ₾${product.min_price}`)
-            let colors_ = [];
-            let selected_size = result[e.target.value]
-            console.log(selected_size)
-            selected_size.variants.map((item,index) => {
-
-
-                Object.keys(product_config.color).map((key3,index) => {
-                    if(product_config.color[key3].variants.includes(item)){
-                        //id2.push(item);
-                        //product_config.color[key3].variants.remove(item);
-                        colors_.push({id: item, id2: key3, label:product_config.color[key3].label, color: product_config.color[key3].color});
-                        //delete product_config.color[key3];
-                    }
-                })
-
-            })
-            setProductColors(colors_);
-            console.log(colors_)*/
-            //console.log(p_id2)
-
-            /*pick.innerHTML = '<option value=""></option>';
-            for (var iw = 0; iw<colors_.length; iw++){
-                var opt4 = document.createElement('option');
-                opt4.value = colors_[iw].id;
-                opt4.innerHTML = colors_[iw].label;
-                pick.appendChild(opt4);
-            }
-
-            let selected = [];
-            //pick.removeEventListener('change');
-            pick.addEventListener('change',function (e){
-                selected = e.target.value;
-
-                console.log(selected);
-
-                        document.getElementById('product_id').value = selected;
-
-                document.getElementById('price_actual').innerHTML = '₾' + product_config.variants[selected].variant.price;
-
-                setProductImages(product_config.variants[selected].images);
-
-                setToCart(product_config.variants[selected].variant)
-
-                setproductStocks(product_config.variants[selected].stocks ?? {} )
-                setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
-
-                //console.log(product_config.variants[selected])
-            });*/
-        //});
-
-
-    }
-
-
-    Inertia.on('success', (event) => {
-        if(category_last.corner === 0){
+    function initializeAttributes(){
+        if(category_last.corner === 0 && category_last.size === 1 && category_last.color === 1){
 
             let sizes = [];
 
             Object.keys(product_config.size).map((key2,index3) => {
-
-
-
-
 
 
                 //product_config.size[key2].variants = id;
@@ -266,10 +133,155 @@ const SingleProduct = ({seo}) => {
             setProductSizes(result);
 
         }
+
+        if(category_last.corner === 0 && category_last.size === 0 && category_last.color === 1){
+            let colors = [];
+            Object.keys(product_config.color).map((key2,index3) => {
+
+                product_config.color[key2].variants.map((key4,index3) => {
+
+
+
+                    colors.push({id: key4, label: product_config.color[key2].label, color: product_config.color[key2].color});
+
+
+                })
+
+
+            })
+
+            console.log(colors)
+
+            setProductColors(colors)
+        }
+
+        if(category_last.corner === 0 && category_last.size === 1 && category_last.color === 0){
+            let sizes = [];
+            Object.keys(product_config.size).map((key2,index3) => {
+
+
+                product_config.size[key2].variants.map((item,index) => {
+                    sizes.push({id: item, label: product_config.size[key2].label, variants: []});
+                })
+                //product_config.size[key2].variants = id;
+                //product_config.size[key2].variants.remove(item);
+
+                //delete product_config.size[key2];
+
+            })
+            let result = {};
+
+            sizes.map((item, index) => {
+
+
+                 result[item.id] = {label:item.label,variants: item.variants}
+            })
+            setProductSizes(result)
+        }
+    }
+
+    function selectCorner(corner){
+
+        let sizes = [];
+
+        setProductImages(product_images);
+        setProductVideo(product.video ? product.video.path :null)
+        setProductPrice(`from ₾${product.min_price}`)
+        setSelectedSize(' select size ')
+        setProductId(0)
+        setOldPrice('');
+        setProductStocksOver(stocks ?? [])
+
+        setProductSizes({})
+
+        setProductColors([])
+        let colors = [];
+
+        Object.keys(product_config.corner).map((key,index) => {
+            if(product_config.corner[key].code == corner){
+                console.log(product_config.corner[key].variants)
+
+                product_config.corner[key].variants.map((item, index) => {
+                    let id = [];
+
+                    if(category_last.size === 1){
+                        Object.keys(product_config.size).map((key2,index3) => {
+
+                            if(product_config.size[key2].variants.includes(item)){
+
+
+                                id.push(item);
+
+                                //product_config.size[key2].variants = id;
+                                //product_config.size[key2].variants.remove(item);
+                                sizes.push({id: key2, label: product_config.size[key2].label, variants: id});
+                                //delete product_config.size[key2];
+                            }
+                        })
+                    }
+
+
+                    if(category_last.color === 1 && category_last.size === 0){
+
+
+                        Object.keys(product_config.color).map((key2c,index3c) => {
+
+
+                                if(product_config.color[key2c].variants.includes(item)){
+                                    colors.push({id: item, label: product_config.color[key2c].label, color: product_config.color[key2c].color});
+                                }
+
+
+                        })
+
+                        console.log(colors)
+
+                        setProductColors(colors)
+                    }
+                })
+            }
+        })
+
+        let result = {};
+
+        sizes.map((item, index) => {
+
+            if(result.hasOwnProperty(item.id)){
+                console.log(item.id)
+
+                result[item.id].variants = result[item.id].variants.concat(item.variants);
+            }
+            else result[item.id] = {label:item.label,variants: item.variants}
+        })
+
+        //console.log(sizes);
+
+        //console.log(result);
+        //console.log(category_last);
+
+
+
+
+
+
+        setProductSizes(result)
+
+        setProductStocks(stocks[cities[0].id] ?? [] )
+
+
+
+
+    }
+
+
+    Inertia.on('success', (event) => {
+        initializeAttributes()
     })
 
 
-
+    window.onload = function (e){
+        initializeAttributes()
+    }
 
 
 
@@ -279,8 +291,10 @@ const SingleProduct = ({seo}) => {
         setProductImages(product_images)
         setProductVideo(product.video ? product.video.path :null)
         setProductPrice(`from ₾${product.min_price}`);
-        setproductStocks(stocks[cities[0].id] ?? [] );
+        setProductStocks(stocks[cities[0].id] ?? [] );
+        setProductStocksOver(stocks ?? [])
         setProductId(0)
+        setOldPrice('');
         let colors_ = [];
         let selected_size = productSizes[id]
         console.log(selected_size)
@@ -299,6 +313,33 @@ const SingleProduct = ({seo}) => {
 
         })
         setProductColors(colors_);
+
+        if(category_last.corner === 0 && category_last.size === 1 && category_last.color === 0){
+            let selected = id;
+
+            let price;
+
+            console.log(selected);
+
+            setProductId(selected);
+
+            if(product_config.variants[selected].variant.special_price){
+                price = product_config.variants[selected].variant.special_price;
+                setOldPrice('₾' + product_config.variants[selected].variant.price)
+            } else {
+                price = product_config.variants[selected].variant.price;
+                setOldPrice('')
+            }
+            setProductPrice(price);
+
+            setProductImages(product_config.variants[selected].images);
+
+            setToCart(product_config.variants[selected].variant)
+            setProductStocksOver(product_config.variants[selected].stocks ?? {})
+            setProductStocks(product_config.variants[selected].stocks[cityId] ?? {} )
+            setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
+            setProductCode(product_config.variants[selected].variant.code)
+        }
     }
 
     function selectColor(color){
@@ -308,14 +349,27 @@ const SingleProduct = ({seo}) => {
 
         setProductId(selected);
 
-        setProductPrice('₾' + product_config.variants[selected].variant.price);
+        let price;
+        if(product_config.variants[selected].variant.special_price){
+            price = product_config.variants[selected].variant.special_price;
+            setOldPrice('₾' + product_config.variants[selected].variant.price)
+        } else {
+            price = product_config.variants[selected].variant.price;
+            setOldPrice('')
+        }
+
+        setProductPrice(price);
 
         setProductImages(product_config.variants[selected].images);
 
         setToCart(product_config.variants[selected].variant)
 
-        setproductStocks(product_config.variants[selected].stocks ?? {} )
+        console.log(product_config.variants[selected].stocks)
+
+        setProductStocks(product_config.variants[selected].stocks[cityId] ?? {} )
+        setProductStocksOver(product_config.variants[selected].stocks ?? {})
         setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
+        setProductCode(product_config.variants[selected].variant.code)
     }
 
 
@@ -326,14 +380,18 @@ const SingleProduct = ({seo}) => {
     console.log(product_config)
     let left = false;
     let right = false;
-    Object.keys(product_config.corner).map((key,index) => {
-        if(product_config.corner[key].code == 'left'){
-            left = true;
-        }
-        if(product_config.corner[key].code == 'right'){
-            right = true;
-        }
-    })
+
+    if(category_last.corner === 1 && product_config.corner){
+        Object.keys(product_config.corner).map((key,index) => {
+            if(product_config.corner[key].code == 'left'){
+                left = true;
+            }
+            if(product_config.corner[key].code == 'right'){
+                right = true;
+            }
+        })
+    }
+
 
     /*let c_id = document.getElementById('cities');
 
@@ -343,9 +401,15 @@ const SingleProduct = ({seo}) => {
 
     if(c_id) c_id = c_id.value*/
 
-    function selectCity(e){
+    function selectCity(city){
 
-        setproductStocks(stocks[e.target.value] ?? {});
+        setCityId(city.id)
+        console.log('---------')
+        console.log(productStocks)
+        console.log(city)
+        setProductStocks(stocks[city.id] ?? {});
+
+        setSelectedCity(city.title)
     }
 
   return (
@@ -364,34 +428,34 @@ const SingleProduct = ({seo}) => {
                           </div>:null}
                       </div>
                       <div className="max-w-xl xl:mt-0 mt-20">
-                          <div className="opacity-50">product code # {product.code}</div>
+                          <div className="opacity-50">product code # {productCode}</div>
                           <div className="bold text-4xl my-3">{product.title}</div>
                           <div>
                               {/* if in stock */}
-                              {Object.keys(productStocks).length > 0 ?<IoIosCheckmarkCircleOutline className="w-6 h-6 mb-1 text-green-500 inline-block mr-2" />:null}
-                              {Object.keys(productStocks).length > 0 ? <div className="inline-block ">In stock</div>:null}
+                              {Object.keys(productStocksOver).length > 0 ?<IoIosCheckmarkCircleOutline className="w-6 h-6 mb-1 text-green-500 inline-block mr-2" />:null}
+                              {Object.keys(productStocksOver).length > 0 ? <div className="inline-block ">In stock</div>:null}
 
                               {/* if not in stock */}
-                              {Object.keys(productStocks).length === 0 ?<IoIosCloseCircleOutline className="w-6 h-6 mb-1 text-custom-red inline-block mr-2" />:null}
-                              {Object.keys(productStocks).length === 0 ?<div className="inline-block">Out of stock</div>:null}
+                              {Object.keys(productStocksOver).length === 0 ?<IoIosCloseCircleOutline className="w-6 h-6 mb-1 text-custom-red inline-block mr-2" />:null}
+                              {Object.keys(productStocksOver).length === 0 ?<div className="inline-block">Out of stock</div>:null}
                           </div>
                           <div className="my-3">
                               <div className="bold inline-block line-through text-lg">
-                                  ₾699.50
+                                  {oldPrice}
                               </div>
                               <div className="bold inline-block text-2xl text-custom-red pl-3">
                                   <span id="price_actual">{productPrice}</span>
 
                               </div>
                           </div>
-                          <p>
+                          {product.installment_price ? <p>
                               Installment from:{" "}
-                              <span className="bold text-custom-red pl-2">22 GEL</span>
-                          </p>
+                              <span className="bold text-custom-red pl-2">{product.installment_price} GEL</span>
+                          </p>:null}
                           <p className="my-5">
                               {product.description}
                           </p>
-                          <div className="bold mb-4">Choose corner:</div>
+                          {category_last.corner === 1 ? <div className="bold mb-4">Choose corner:</div>:null}
                           {category_last.corner === 1 ? <div className="flex text-sm mb-5">
                               {left ? <div
                                   onClick={() => {
@@ -435,7 +499,7 @@ const SingleProduct = ({seo}) => {
                               </div>:null}
                           </div>:null}
                           <div className="bold mb-4">Specification</div>
-                          <div className="">
+                          {category_last.size === 1 ? <div className="">
                               <p className="opacity-50 text-sm inline-block mr-2">
                                   size:
                                   <span className="pl-2">(length x height x width x depth)</span>
@@ -496,7 +560,7 @@ const SingleProduct = ({seo}) => {
                                       </button>*/}
                                   </div>
                               </div>
-                          </div>
+                          </div>:null}
                           <p className="opacity-50 text-sm mb-2">
                               material:
                               <span className="pl-2">{product.attributes.material}</span>
@@ -505,7 +569,7 @@ const SingleProduct = ({seo}) => {
                               manufacturer:
                               <span className="pl-2">{product.attributes.brand}</span>
                           </p>
-                          <div className="flex my-5 ">
+                          {category_last.color === 1 ?<div className="flex my-5 ">
                               <p className="whitespace-nowrap opacity-50">Choose color:</p>
                               <div id="color_pick" className="ml-5 max-w-sm mt-1 flex flex-wrap">
                                   {/*<select id="choose_color">
@@ -513,7 +577,7 @@ const SingleProduct = ({seo}) => {
                                   </select>*/}
                                   <ColorPick colors={productColors} onClick={selectColor} />
                               </div>
-                          </div>
+                          </div>:null}
                           <div className="flex flex-wrap -ml-5 mb-7">
                               <Quantity item={product} />
                               <div className="max-w-md ">
@@ -552,7 +616,7 @@ const SingleProduct = ({seo}) => {
                               className="relative inline-block align-middle cursor-default"
                           >
                               <div className="py-2 bold">
-                                  Choose City
+                                  {selectedCity}
                                   <FiChevronDown className="inline-block  ml-1" />
                               </div>
                               <div
@@ -562,10 +626,17 @@ const SingleProduct = ({seo}) => {
                                           : " max-h-0  overflow-y-hidden"
                                   }`}
                               >
-                                  <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
-                                      Tbilisi
-                                  </button>
-                                  <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
+                                  {cities.map((item,index) => {
+                                      return (
+                                      <button onClick={() => {
+                                          selectCity(item)
+                                      }} className="w-full p-3 transition-all hover:bg-zinc-100 block">
+                                          {item.title}
+                                      </button>
+                                      )
+                                  })}
+
+                                  {/*<button className="w-full p-3 transition-all hover:bg-zinc-100 block">
                                       Gori
                                   </button>
                                   <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
@@ -585,17 +656,11 @@ const SingleProduct = ({seo}) => {
                                   </button>
                                   <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
                                       Zugdidi
-                                  </button>
+                                  </button>*/}
                               </div>
 
                           </div>
-                          <select id="cities" onChange={selectCity}>
-                              {cities.map((item,index) => {
-                                  return (
-                                      <option value={item.id}>{item.title}</option>
-                                  )
-                              })}
-                          </select>
+
                           <div className="mt-5 w-72 h-40 scrollbar overflow-y-scroll pr-5 " id="stock_list">
                               {Object.keys(productStocks).length > 0 ? Object.keys(productStocks).map((item, index) => {
                                   //let c_id = document.getElementById('stock_city').value;

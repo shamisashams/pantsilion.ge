@@ -15,7 +15,7 @@ const FurnitureSet = ({seo}) => {
   const [favorite, setFavorite] = useState(false);
   const {collection} = usePage().props;
 
-  const [colorId, setColorId] = useState(0);
+  const [colorId, setColorId] = useState(collection.colors[0].id);
 
 
 
@@ -42,6 +42,28 @@ const FurnitureSet = ({seo}) => {
 
   }
 
+  function addToCartItem(product){
+      if(product.stocks !== null){
+          if(product.stocks.length === 0){
+              alert('out of stock')
+              return;
+          }
+      } else {
+          alert('out of stock')
+          return;
+      }
+
+      Inertia.post(route('add-to-cart'), {id: product.id,qty:1});
+  }
+
+    function addToWishlist(id){
+        Inertia.post(route('client.favorite.add'), {id:id});
+    }
+
+    function addToWishlistCollection(id){
+        Inertia.post(route('client.favorite.add-set'), {id:id});
+    }
+
   return (
       <Layout seo={seo}>
           <>
@@ -60,6 +82,13 @@ const FurnitureSet = ({seo}) => {
                               title={item.title}
                               para={item.short_description}
                               price={item.price}
+                              addToCart={() => {
+                                  addToCartItem(item)
+                              }}
+
+                              addToWishlist={()=>{
+                                  addToWishlist(item.id)
+                              }}
                           />
                       )
                   })}
@@ -137,7 +166,10 @@ const FurnitureSet = ({seo}) => {
                           <div className="w-44 my-5">
                               <div className="flex justify-between mb-2">
                                   <button
-                                      onClick={() => setFavorite(!favorite)}
+                                      onClick={() => {
+                                          setFavorite(!favorite)
+                                          addToWishlistCollection(collection.id)
+                                      }}
                                       className="shrink-0 hover:bg-zinc-200 rounded-full flex items-center justify-center w-12 h-12 transition-all duration-500 "
                                   >
                                       <FiHeart className={favorite ? "text-custom-red" : ""} />

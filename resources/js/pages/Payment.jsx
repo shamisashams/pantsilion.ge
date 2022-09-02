@@ -133,7 +133,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                           </div>
                           <MainButton onclick={makeOrder}> Make a payment now</MainButton>
                       </div>
-                      <Link className="bold text-center" href="/cart">
+                      <Link className="bold text-center" href={route('client.cart.index')}>
                           <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
                           Back to carts
                       </Link>

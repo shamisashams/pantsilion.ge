@@ -155,8 +155,17 @@
                                                 @lang('admin.label') - {{$locale}}
                                             </th>
                                         @endforeach
+                                            @if($attribute->code == 'corner')
                                         <th>@lang('admin.code')</th>
+                                            @endif
+
+                                            @if($attribute->code == 'color')
                                             <th>@lang('admin.color')</th>
+                                            @endif
+
+                                            @if($attribute->code == 'size')
+                                                <th>@lang('admin.size_value')</th>
+                                            @endif
                                     </tr>
 
                                     <?php
@@ -170,19 +179,31 @@
 
 
                                                 <td>
-                                                    <input class="form-control" type="text" name="options[{{$item->id}}][{{$locale}}][label]" value="{{$item->translate($locale)->label}}">
+                                                    <input class="form-control" type="text" name="options[{{$item->id}}][{{$locale}}][label]" value="{{$item->translate($locale) ? $item->translate($locale)->label : null}}">
                                                 </td>
 
                                             @endforeach
+                                            @if($attribute->code == 'corner')
                                             <td>
-                                                <input class="form-control" name="options[{{$item->id}}][code]" value="{{$item->code}}">
+                                                <input class="form-control" name="options[{{$item->id}}][code]" readonly value="{{$item->code}}">
                                             </td>
+                                            @endif
+                                            @if($attribute->code == 'size')
+                                                <td>
+                                                    <input class="form-control" name="options[{{$item->id}}][value]" readonly value="{{$item->code}}">
+                                                </td>
+                                            @endif
+                                            @if($attribute->code == 'color')
                                             <td>
                                                 <input class="form-control" name="options[{{$item->id}}][color]" value="{{$item->color}}" data-jscolor="{}">
                                             </td>
+                                            @endif
+
+                                            @if($attribute->code !== 'corner')
                                             <td>
                                                 <a href="javascript:void(0);" class="del-option"><i class="fa fa-trash-alt"></i></a>
                                             </td>
+                                            @endif
                                         </tr>
                                     @endforeach
 
@@ -277,6 +298,9 @@
 
         let locales = @json(config('translatable.locales'));
 
+        let attribute = @json($attribute);
+
+        console.log(attribute)
 
         let ind = 1;
 
@@ -291,8 +315,11 @@
                 tr.append('<td> <input class="form-control" type="text" name="options[option_'+ ind +']['+ locales[name] +'][label]" value=""> </td>');
 
             })
-            tr.append('<td><input class="form-control" name="options[option_'+ ind +'][code]"></td>')
-            tr.append('<td><input class="form-control" name="options[option_'+ ind +'][color]" value="#FFFFFF" data-jscolor="{}"></td>')
+
+
+            if(attribute.code === 'corner') tr.append('<td><input class="form-control" name="options[option_'+ ind +'][code]"></td>')
+            if(attribute.code === 'color')tr.append('<td><input class="form-control" name="options[option_'+ ind +'][color]" value="#FFFFFF" data-jscolor="{}"></td>')
+            if(attribute.code === 'size')tr.append('<td><input class="form-control" name="options[option_'+ ind +'][value]"></td>')
 
             tr.append('<td><a href="javascript:void(0);" class="del-option"><i class="fa fa-trash-alt"></i></a></td>');
 

@@ -110,12 +110,21 @@
                                                    class="pl-3">
                                                     <i class="fa fa-edit">@lang('admin.edit_button')</i>
                                                 </a>
-
+                                                <?php
+                                                $codes = [
+                                                    'corner',
+                                                    'size',
+                                                    'color',
+                                                    'material',
+                                                    'brand'
+                                                ];
+                                                ?>
+                                                @if(!in_array($attribute->code,$codes))
                                                 <a href="{{locale_route('attribute.destroy',$attribute->id)}}"
                                                    class="pl-3">
                                                     <i class="fa fa-edit">@lang('admin.delete_button')</i>
                                                 </a>
-
+                                                @endif
 
                                             </td>
                                         </tr>

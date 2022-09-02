@@ -69,7 +69,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/client/cabinet');
+            return redirect()->back();
         }
 
         return back()->withErrors([
@@ -186,7 +186,7 @@ class AuthController extends Controller
             if(Hash::check($request->post('password'),$partner->user->password)){
                 //dd($partner->user->password);
                 Auth::loginUsingId($partner->user_id);
-                return redirect()->intended('/');
+                return redirect()->back();
             } else {
                 return back()->withErrors(['username' => 'wrong']);
             }

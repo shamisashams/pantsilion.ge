@@ -13,6 +13,10 @@ import Layout from "../Layouts/Layout";
 const AccountSettings = ({seo , user}) => {
   const affiliationLink = useRef();
 
+  const {errors} = usePage().props;
+
+  console.log(errors);
+
   console.log(user)
   const copyText = () => {
     navigator.clipboard.writeText(affiliationLink.current.value);
@@ -46,7 +50,7 @@ const AccountSettings = ({seo , user}) => {
                                   <img src="/client/assets/images/icons/file.png" className="mx-auto" alt="" />
                                   <div className="my-3">Upload your ID photo both sides</div>
                                   <div className="text-sm opacity-50">or drag and drop it here</div>
-                                  <input type="file" onChange={e => setData('avatar', e.target.files[0])} />
+                                  <input multiple type="file" onChange={e => setData('avatar', e.target.files)} />
                               </div>
                               <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                                   <label className="opacity-50">Name</label>
@@ -63,9 +67,10 @@ const AccountSettings = ({seo , user}) => {
                               <EditInput
                                   label="Address "
                                   value={data.address}
+                                  onChange={e => setData('address', e.target.innerText)}
                               />
-                              <EditInput label="Phone number " value={data.phone} onChange={e => setData('phone', e.target.value)} />
-                              <EditInput label="Email address " value={data.email} onChange={e => setData('phone', e.target.value)} />
+                              <EditInput label="Phone number " value={data.phone} onChange={e => setData('phone', e.target.innerText)} />
+                              <EditInput label="Email address " value={data.email} onChange={e => setData('email', e.target.innerText)} />
                               <div className="grid grid-cols-2 gap-3 pt-3">
                                   <MainButton reverse>Cancel</MainButton>
                                   <MainButton type>Save Changes</MainButton>

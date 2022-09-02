@@ -30,7 +30,8 @@ class User extends Authenticatable
         'id_number',
         'phone',
         'affiliate_id',
-        'referred_by'
+        'referred_by',
+        'address'
     ];
 
     /**
@@ -67,7 +68,7 @@ class User extends Authenticatable
 
     public function files(): MorphMany
     {
-        return $this->morphMany(File::class, 'fileable');
+        return $this->morphMany(File::class, 'fileable')->where('type','!=',File::CV);
     }
 
     public function cv(): MorphOne{
@@ -92,15 +93,27 @@ class User extends Authenticatable
     }
 
     public function promoCode(){
-        return $this->hasOne(PromoCode::class);
+        return $this->hasOne(UserPromoCode::class);
     }
 
     public function promoCodes(){
-        return $this->hasMany(PromoCode::class);
+        return $this->hasMany(UserPromoCode::class);
     }
 
     public function orders(){
         return $this->hasMany(Order::class);
+    }
+
+    public function bankAccount(){
+        return $this->hasOne(BankAccount::class);
+    }
+
+    public function bankAccounts(){
+        return $this->hasMany(BankAccount::class);
+    }
+
+    public function cart(){
+        return $this->hasOne(Cart::class);
     }
 
 }

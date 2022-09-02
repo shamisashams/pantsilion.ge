@@ -2,7 +2,7 @@ import React from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import CabinetTabs from "../components/CabinetTabs";
 import Layout from "../Layouts/Layout";
-import { usePage } from '@inertiajs/inertia-react'
+import {Link, usePage} from '@inertiajs/inertia-react'
 
 const AffiliationsList = ({seo}) => {
 
@@ -37,6 +37,56 @@ const AffiliationsList = ({seo}) => {
 
   }
 
+    let links = function (links) {
+        let rows = [];
+        //links.shift();
+        //links.splice(-1);
+        {
+            links.map(function (item, index) {
+                if (index > 0 && index < links.length - 1) {
+                    rows.push(
+                        <Link
+                            href={item.url}
+                            className={item.active ? "bold mx-2 underline" : "bold mx-2"}
+                        >
+                            {item.label}
+                        </Link>
+                    );
+                }
+            });
+        }
+        return <div className="nums"> {rows.length > 1 ? rows : null} </div>;
+    };
+
+    let linksPrev = function (links) {
+        let rowCount = 0;
+        links.map(function (item, index) {
+            if (index > 0 && index < links.length - 1) {
+                rowCount++;
+            }
+        });
+        return rowCount > 1 ? (
+            <Link href={links[0].url}>
+                <Arrow color="#2F3E51" rotate="90" />
+                <Arrow color="#2F3E51" rotate="90" />
+            </Link>
+        ) : null;
+    };
+    let linksNext = function (links) {
+        let rowCount = 0;
+        links.map(function (item, index) {
+            if (index > 0 && index < links.length - 1) {
+                rowCount++;
+            }
+        });
+        return rowCount > 1 ? (
+            <Link href={links[links.length - 1].url}>
+                <Arrow color="#2F3E51" rotate="-90" />
+                <Arrow color="#2F3E51" rotate="-90" />
+            </Link>
+        ) : null;
+    };
+
   return (
       <Layout seo={seo}>
           <div className="overflow-hidden bg-zinc-100">
@@ -54,7 +104,8 @@ const AffiliationsList = ({seo}) => {
                                   <div className="opacity-50 mx-8  ">Email</div>
                                   <div className="opacity-50 ">Registration date</div>
                               </div>
-                              {referrals.map((item, index) => {
+                              {referrals.data.map((item, index) => {
+                                  let date = new Date(item.created_at).toUTCString()
                                   return (
                                       <div
                                           key={index}
@@ -62,7 +113,7 @@ const AffiliationsList = ({seo}) => {
                                       >
                                           <div className="opacity-50 ">{item.name} {item.surname}</div>
                                           <div className="mx-8  ">{item.email}</div>
-                                          <div className="opacity-50 ">{item.created_at}</div>
+                                          <div className="opacity-50 ">{date}</div>
 
                                           <button onClick={() => {
                                                 removeReferral(item.id);
@@ -73,9 +124,11 @@ const AffiliationsList = ({seo}) => {
                                   );
                               })}
                               <div className="flex items-center justify-center text-lg mt-20">
-                                  <button className="bold mx-2 underline">1</button>
+                                  {/*<button className="bold mx-2 underline">1</button>
                                   <button className="bold mx-2 ">2</button>
-                                  <button className="bold mx-2 ">3</button>
+                                  <button className="bold mx-2 ">3</button>*/}
+
+                                  {links(referrals.links)}
                               </div>
                           </div>
                       </div>

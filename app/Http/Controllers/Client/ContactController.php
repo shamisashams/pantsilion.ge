@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Mail\ContactEmail;
+use App\Models\City;
 use App\Models\Page;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -27,7 +28,10 @@ class ContactController extends Controller
         }
 
 
-        return Inertia::render('Contact', ["page" => $page, "seo" => [
+        return Inertia::render('Contact', [
+            "cities" => City::with(['translation','contacts','contacts.translation'])->get(),
+            "page" => $page,
+            "seo" => [
             "title"=>$page->meta_title,
             "description"=>$page->meta_description,
             "keywords"=>$page->meta_keyword,

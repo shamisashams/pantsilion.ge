@@ -164,31 +164,62 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$category) {
                         </div>
                     </div>
 
-                    <div class="form-group mb-0 justify-content-end">
+                    {{--<div class="form-group mb-0 justify-content-end">
                         <div class="checkbox">
                             <div class="custom-checkbox custom-control">
                                 <input type="checkbox" data-checkboxes="mygroup" name="corner" class="custom-control-input" id="checkbox-corner" {{$category->corner ? 'checked' : ''}}>
                                 <label for="checkbox-corner" class="custom-control-label mt-1">{{__('admin.corner')}}</label>
                             </div>
                         </div>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group mb-0 justify-content-end">
+                    {{--<div class="form-group mb-0 justify-content-end">
                         <div class="checkbox">
                             <div class="custom-checkbox custom-control">
                                 <input type="checkbox" data-checkboxes="mygroup" name="size" class="custom-control-input" id="checkbox-size" {{$category->size ? 'checked' : ''}}>
                                 <label for="checkbox-size" class="custom-control-label mt-1">{{__('admin.size')}}</label>
                             </div>
                         </div>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group mb-0 justify-content-end">
+                    {{--<div class="form-group mb-0 justify-content-end">
                         <div class="checkbox">
                             <div class="custom-checkbox custom-control">
                                 <input type="checkbox" data-checkboxes="mygroup" name="color" class="custom-control-input" id="checkbox-color" {{$category->color ? 'checked' : ''}}>
                                 <label for="checkbox-color" class="custom-control-label mt-1">{{__('admin.color')}}</label>
                             </div>
                         </div>
+                    </div>--}}
+                    <?php
+                    $attrs = [
+                        'corner_color' => 'Corner & Color',
+                        'size_color' => 'Size & Color',
+                        'size' => 'Size',
+                        'color' => 'Color'
+                    ];
+                    $sel_a = null;
+                    if($category->corner == 1 && $category->color == 1 && $category->size == 0){
+                        $sel_a = 'corner_color';
+                    }
+                    if($category->corner == 0 && $category->color == 0 && $category->size == 1){
+                        $sel_a = 'size';
+                    }
+                    if($category->corner == 0 && $category->color == 1 && $category->size == 0){
+                        $sel_a = 'color';
+                    }
+                    if($category->corner == 0 && $category->color == 1 && $category->size == 1){
+                        $sel_a = 'size_color';
+                    }
+                    ?>
+
+                    <div class="form-group">
+                        <label class="form-label">@lang('admin.fiter_attributes')</label>
+                        <select class="form-control" name="filter">
+                            <option value="">--none--</option>
+                            @foreach($attrs as $k => $attr)
+                                <option value="{{$k}}" {{$k == $sel_a ? 'selected':''}}>{{$attr}}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="form-group mb-0 mt-3 justify-content-end">

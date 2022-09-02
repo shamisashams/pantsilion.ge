@@ -51,7 +51,10 @@ const PlusBox = (props) => {
           </div>
           <div className="flex items-center">
             <button
-              onClick={() => setAddToCart(!addToCart)}
+              onClick={() => {
+                  setAddToCart(!addToCart)
+                  props.addToCart()
+              }}
               className="bg-zinc-100 bold h-10 pl-6 pr-2 whitespace-nowrap mr-2"
             >
               Add to cart{" "}
@@ -63,7 +66,10 @@ const PlusBox = (props) => {
             </button>
             <button
               className=" w-10 h-10 rounded-full flex items-center justify-center hover:bg-zinc-100 transition-all cursor-pointer relative "
-              onClick={() => setFavorite(!favorite)}
+              onClick={() => {
+                  setFavorite(!favorite)
+                  props.addToWishlist()
+              }}
             >
               <FiHeart className={favorite ? "text-custom-red" : ""} />
             </button>

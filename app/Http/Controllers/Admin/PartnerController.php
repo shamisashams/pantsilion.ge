@@ -146,12 +146,19 @@ class PartnerController extends Controller
 
         $request->validate([
             'username' => 'required|unique:partners,username,'.$user_id . ',user_id',
-            'password' => 'required'
+            'password' => 'nullable',
         ]);
+
+
         //dd($request->all());
         $saveData = Arr::except($request->except('_token','_method'), []);
 
-        $saveData['password'] = Hash::make($saveData['password']);
+        if($saveData['password']){
+            $saveData['password'] = Hash::make($saveData['password']);
+        } else {
+            unset($saveData['password']);
+        }
+
 
         //dd($saveData);
         $this->userRepository->update($user_id, $saveData);
@@ -172,11 +179,11 @@ class PartnerController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy(string $locale, Slider $slider)
+    public function destroy(string $locale, User $user)
     {
-        if (!$this->userRepository->delete($slider->id)) {
-            return redirect(locale_route('slider.show', $slider->id))->with('danger', __('admin.not_delete_message'));
+        if (!$this->userRepository->delete($user->id)) {
+            return redirect(locale_route('partner.show', $user->id))->with('danger', __('admin.not_delete_message'));
         }
-        return redirect(locale_route('slider.index'))->with('success', __('admin.delete_message'));
+        return redirect(locale_route('partner.index'))->with('success', __('admin.delete_message'));
     }
 }

@@ -3,7 +3,7 @@ import {FiPlus, FiMinus} from 'react-icons/fi'
 import {Inertia} from "@inertiajs/inertia";
 
 const Quantity = ({item, cart ,collection}) => {
-    const [number, setNumber ] = useState(parseInt(item.quantity ?? 1))
+    const [number, setNumber ] = useState(parseInt(item.quantity > 0 ? item.quantity : 1))
 
     const decrease = () => {
         if(number > 1 ) {

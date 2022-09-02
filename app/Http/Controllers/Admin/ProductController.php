@@ -16,13 +16,16 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductAttributeValue;
 use App\Models\ProductSet;
+use App\Models\PromoCode;
 use App\Models\Stock;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\Eloquent\ProductAttributeValueRepository;
 use App\Repositories\ProductRepositoryInterface;
+use App\Rules\ColorMatch;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -30,6 +33,7 @@ use Illuminate\Support\Arr;
 use ReflectionException;
 use App\Repositories\Eloquent\AttributeRepository;
 use function Symfony\Component\Translation\t;
+use Illuminate\Database\Eloquent\Builder as Builder_;
 
 class ProductController extends Controller
 {
@@ -116,7 +120,8 @@ class ProductController extends Controller
             'categories' => $this->categories,
             'attributes' => $this->attributeRepository->all(),
             'stocks' => Stock::with('translation')->get(),
-            'collections' => ProductSet::all()
+            'collections' => ProductSet::all(),
+            'promocodes' => PromoCode::query()->where('type','product')->get()
         ]);
     }
 
@@ -236,7 +241,8 @@ class ProductController extends Controller
             'categories' => $this->categories,
             'attributes' => $this->attributeRepository->all(),
             'stocks' => Stock::with('translation')->get(),
-            'collections' => ProductSet::all()
+            'collections' => ProductSet::all(),
+            'promocodes' => PromoCode::query()->where('type','product')->get()
         ]);
     }
 
@@ -251,6 +257,10 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, string $locale, Product $product)
     {
+        //dd($request->all());
+        $request->validate([
+            'collection_id' => ['nullable',new ColorMatch($request)]
+        ]);
         //dd($request->all());
         $saveData = Arr::except($request->except('_token'), []);
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
@@ -267,7 +277,9 @@ class ProductController extends Controller
         $attributes = $saveData['attribute'];
         unset($saveData['attribute']);
 
-        //dd($attributes);
+        //dd($request->file('images'));
+
+
 
         $this->productRepository->update($product->id, $saveData);
 
@@ -275,11 +287,22 @@ class ProductController extends Controller
 
         $this->productRepository->saveVideo($request);
 
+
         $product->categories()->sync($saveData['categories'] ?? []);
+
+        if($product->parent_id === null){
+            foreach ($product->variants as $variant){
+                $variant->categories()->sync($saveData['categories'] ?? []);
+            }
+        }
 
         $product->stocks()->sync($saveData['stock_id'] ?? []);
 
+
+
         $product->collections()->sync($saveData['collection_id'] ? [$saveData['collection_id']]:[]);
+
+        //dd($attributes);
 
 
         //update product attributes
@@ -373,7 +396,8 @@ class ProductController extends Controller
             'method' => $method,
             'categories' => $this->categories,
             'attributes' => $this->attributeRepository->all(),
-            'stocks' => Stock::with('translation')->get()
+            'stocks' => Stock::with('translation')->get(),
+            'promocodes' => PromoCode::query()->where('type','product')->get()
         ]);
     }
 

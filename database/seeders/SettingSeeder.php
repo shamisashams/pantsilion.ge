@@ -36,6 +36,9 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'instagram'
+            ],
+            [
+                'key' => 'partner_reward'
             ]
 
         ];

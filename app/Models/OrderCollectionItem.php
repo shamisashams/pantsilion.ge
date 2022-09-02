@@ -10,7 +10,15 @@ class OrderCollectionItem extends Model
 {
     use HasFactory;
 
-    protected $table = 'order_items';
+    protected $table = 'order_collection_items';
+
+    protected $fillable = [
+        'order_collections_id',
+        'product_id',
+        'title',
+        'price',
+        'attributes'
+    ];
 
 
     public function orderCollection(): BelongsTo

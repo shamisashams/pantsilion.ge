@@ -15,7 +15,10 @@ const Contact = ({ seo }) => {
         message: "",
     });
 
-    const { pathname, errors } = usePage().props;
+
+    const { pathname, errors, cities } = usePage().props;
+
+    console.log(cities)
 
     function handleChange(e) {
         const key = e.target.name;
@@ -38,6 +41,16 @@ const Contact = ({ seo }) => {
     const sharedData = usePage().props.localizations;
 
     const [chooseCity, setChooseCity] = useState(false);
+
+    const [selectedCity, setSelectedCity] = useState(cities.length > 0 ? cities[0].title : 'Choose city');
+    const [contacts, setContacts] = useState(cities.length > 0 ? cities[0].contacts : []);
+
+    function selectCity(city){
+        console.log(city)
+        setContacts(city.contacts)
+        setSelectedCity(city.title)
+    }
+
     return (
         <Layout seo={seo}>
             <div className="py-44 relative">
@@ -50,7 +63,37 @@ const Contact = ({ seo }) => {
                     <div className="flex justify-between items-start flex-col lg:flex-row">
                         <div>
                             <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-12 xl:gap-20 mb-10">
-                                <div>
+                                {contacts.map((item,index) => {
+                                    return (
+                                        <div>
+                                            <div className="flex items-start mb-7">
+                                                <img className="mr-3" src="/client/assets/images/svg/pin.svg" alt="" />
+                                                <div>
+                                                    <div className="mb-2 bold">Address</div>
+                                                    <div>{item.address}</div>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start mb-7">
+                                                <img className="mr-3" src="/client/assets/images/svg/phone.svg" alt="" />
+                                                <div>
+                                                    <div className="mb-2 bold">Phone number</div>
+                                                    <div>
+                                                        {renderHTML(item.phone.newLineToBr())}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start mb-7">
+                                                <img className="mr-3" src="/client/assets/images/svg/clock.svg" alt="" />
+                                                <div>
+                                                    <div className="mb-2 bold">Working hours</div>
+                                                    <div>{item.working_hours}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+
+                               {/* <div>
                                     <div className="flex items-start mb-7">
                                         <img className="mr-3" src="/client/assets/images/svg/pin.svg" alt="" />
                                         <div>
@@ -101,40 +144,14 @@ const Contact = ({ seo }) => {
                                             <div>10:00 - 19:00</div>
                                         </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <div className="flex items-start mb-7">
-                                        <img className="mr-3" src="/client/assets/images/svg/pin.svg" alt="" />
-                                        <div>
-                                            <div className="mb-2 bold">Address</div>
-                                            <div>Didube, eristavi # 1</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-start mb-7">
-                                        <img className="mr-3" src="/client/assets/images/svg/phone.svg" alt="" />
-                                        <div>
-                                            <div className="mb-2 bold">Phone number</div>
-                                            <div>
-                                                +995 599 87 38 44 <br />
-                                                +995 0322 04 05 50
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-start mb-7">
-                                        <img className="mr-3" src="/client/assets/images/svg/clock.svg" alt="" />
-                                        <div>
-                                            <div className="mb-2 bold">Working hours</div>
-                                            <div>10:00 - 19:00</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>*/}
                             </div>
                             <div
                                 onClick={() => setChooseCity(!chooseCity)}
                                 className="w-80 h-16 mb-3 text-center bg-custom-dark text-white relative"
                             >
                                 <div className="w-full h-full flex items-center justify-center relative">
-                                    Choose city
+                                    {selectedCity}
                                     <FiChevronDown className="absolute top-1/2 -translate-y-1/2 right-5" />
                                     <img
                                         src="/client/assets/images/svg/flag-white.svg"
@@ -148,10 +165,18 @@ const Contact = ({ seo }) => {
                                         : " max-h-0  overflow-y-hidden"
                                         }`}
                                 >
-                                    <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
-                                        Tbilisi
-                                    </button>
-                                    <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
+
+                                    {cities.map((item, index) => {
+                                        return (
+                                            <button onClick={() => {
+                                                selectCity(item)
+                                            }} className="w-full p-3 transition-all hover:bg-zinc-100 block">
+                                                {item.title}
+                                            </button>
+                                        )
+                                    })}
+
+                                    {/*<button className="w-full p-3 transition-all hover:bg-zinc-100 block">
                                         Gori
                                     </button>
                                     <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
@@ -171,7 +196,7 @@ const Contact = ({ seo }) => {
                                     </button>
                                     <button className="w-full p-3 transition-all hover:bg-zinc-100 block">
                                         Zugdidi
-                                    </button>
+                                    </button>*/}
                                 </div>
                             </div>
                         </div>

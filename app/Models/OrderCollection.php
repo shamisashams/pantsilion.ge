@@ -13,6 +13,12 @@ class OrderCollection extends Model
 
     protected $table = 'order_collections';
 
+    protected $fillable = [
+        'order_id',
+        'product_set_id',
+        'title',
+        'total_price'
+    ];
 
     public function order(): BelongsTo
     {
@@ -20,7 +26,7 @@ class OrderCollection extends Model
     }
 
     public function items():HasMany{
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderCollectionItem::class,'order_collections_id');
     }
 
 

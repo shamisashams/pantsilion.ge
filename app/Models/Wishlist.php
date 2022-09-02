@@ -22,7 +22,8 @@ class Wishlist extends Model
 
     protected $fillable = [
         'user_id',
-        'product_id'
+        'product_id',
+        'product_set_id'
     ];
 
 
@@ -60,5 +61,13 @@ class Wishlist extends Model
     public function product()
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
+    }
+
+    public function collection(){
+        return $this->hasOne(ProductSet::class,'id','product_set_id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

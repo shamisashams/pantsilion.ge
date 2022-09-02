@@ -10,6 +10,7 @@ import MainButton from "../components/MainButton";
 import BlogSlider from "../components/BlogSlider";
 import PlusBox from "../components/PlusBox";
 import Layout from "../Layouts/Layout";
+import { Inertia } from "@inertiajs/inertia";
 
 const Home = ({ seo }) => {
     const renderHTML = (rawHTML) =>
@@ -23,87 +24,106 @@ const Home = ({ seo }) => {
 
     console.log(collection);
 
-    let price = 0;
+    function addToCartItem(product) {
+        if (product.stocks !== null) {
+            if (product.stocks.length === 0) {
+                alert("out of stock");
+                return;
+            }
+        } else {
+            alert("out of stock");
+            return;
+        }
 
-    collection.products.map((item, index) => {
-        price += item.price;
-    });
+        Inertia.post(route("add-to-cart"), { id: product.id, qty: 1 });
+    }
+
+    function addToWishlist(id) {
+        Inertia.post(route("client.favorite.add"), { id: id });
+    }
 
     return (
         <Layout seo={seo}>
             <div className="overflow-hidden">
-                <section className="lg:h-screen bg-gray-50 relative">
-                    <div className="wrapper lg:h-full lg:pt-0 pt-40 flex items-center justify-between ">
-                        <div className="lg:w-3/5 lg:mr-5">
-                            <div className="lg:text-6xl text-4xl max-w-3xl bold ">
-                                {/* Super quality furniture for your home */}
-                                {collection.title}
-                            </div>
-                            <p className="lg:my-10 my-6 max-w-3xl text-justify">
-                                {/* Choose from a wide range of premium quality wooden furniture
+                {collection ? (
+                    <section className="lg:h-screen bg-gray-50 relative">
+                        <div className="wrapper lg:h-full lg:pt-0 pt-40 flex items-center justify-between ">
+                            <div className="lg:w-3/5 lg:mr-5">
+                                <div className="lg:text-6xl text-4xl max-w-3xl bold ">
+                                    {/* Super quality furniture for your home */}
+                                    {collection.title}
+                                </div>
+                                <p className="lg:my-10 my-6 max-w-3xl text-justify">
+                                    {/* Choose from a wide range of premium quality wooden furniture
                                 online. Comfort is our priority to satisfy our customers, and we
                                 provide all the furniture that you can easily and quickly get in
                                 love with */}
-                                {renderHTML(collection.description)}
-                            </p>
-                            <div className="text-3xl bold">
-                                {/* from ₾299 */}₾{price}
-                            </div>
-                            <div className="flex items-center justify-start mt-10">
-                                <Link href="/" className="">
-                                    <MainButton>
-                                        {/* Learn more */}
-                                        {__(
-                                            "client.button_learn_more",
-                                            sharedData
-                                        )}
-                                    </MainButton>
-                                </Link>
-                                <Link
-                                    href="/"
-                                    className="flex items-center md:ml-10 ml-5"
-                                >
-                                    <div className="flex items-center justify-center bg-custom-red text-white w-8 h-8 rounded-full mr-2">
-                                        <BiPlay />
-                                    </div>
-                                    <div className="bold">
-                                        {/* Watch video */}
-                                        {__(
-                                            "client.button_watch_video",
-                                            sharedData
-                                        )}
-                                    </div>
-                                </Link>
+                                    {renderHTML(collection.description)}
+                                </p>
+                                <div className="text-3xl bold">
+                                    {/* from ₾299 */}₾{collection.price}
+                                </div>
+                                <div className="flex items-center justify-start mt-10">
+                                    <Link href="/" className="">
+                                        <MainButton>
+                                            {/* Learn more */}
+                                            {__(
+                                                "client.button_learn_more",
+                                                sharedData
+                                            )}
+                                        </MainButton>
+                                    </Link>
+                                    <Link
+                                        href="/"
+                                        className="flex items-center md:ml-10 ml-5"
+                                    >
+                                        <div className="flex items-center justify-center bg-custom-red text-white w-8 h-8 rounded-full mr-2">
+                                            <BiPlay />
+                                        </div>
+                                        <div className="bold">
+                                            {/* Watch video */}
+                                            {__(
+                                                "client.button_watch_video",
+                                                sharedData
+                                            )}
+                                        </div>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div
-                        className="lg:absolute relative lg:right-0 lg:bottom-0 lg:w-2/5 mt-10"
-                        style={{ height: "calc(100% - 140px)" }}
-                    >
-                        <img
-                            src={"/" + collection.set_image}
-                            className="w-full h-full object-cover"
-                            alt=""
-                        />
-                        {collection.products.map((item, index) => {
-                            let c = item.pivot.coordinates
-                                ? item.pivot.coordinates.split("")
-                                : new Array(4).fill("auto");
-                            console.log(c);
-                            return (
-                                <PlusBox
-                                    top={c[0]}
-                                    right={c[1]}
-                                    bottom={c[2]}
-                                    left={c[3]}
-                                    title={item.title}
-                                    para={item.short_description}
-                                    price={item.price}
-                                />
-                            );
-                        })}
-                        {/*<PlusBox
+                        <div
+                            className="lg:absolute relative lg:right-0 lg:bottom-0 lg:w-2/5 mt-10"
+                            style={{ height: "calc(100% - 140px)" }}
+                        >
+                            <img
+                                src={"/" + collection.set_image}
+                                className="w-full h-full object-cover"
+                                alt=""
+                            />
+                            {collection.products.map((item, index) => {
+                                let c = item.pivot.coordinates
+                                    ? item.pivot.coordinates.split(" ")
+                                    : new Array(4).fill("auto");
+                                console.log(c);
+                                return (
+                                    <PlusBox
+                                        top={c[0]}
+                                        right={c[1]}
+                                        bottom={c[2]}
+                                        left={c[3]}
+                                        title={item.title}
+                                        para={item.short_description}
+                                        price={item.price}
+                                        addToCart={() => {
+                                            addToCartItem(item);
+                                        }}
+                                        addToWishlist={() => {
+                                            addToWishlist(item.id);
+                                        }}
+                                    />
+                                );
+                            })}
+                            {/*<PlusBox
                             top="100px"
                             right="auto"
                             bottom="auto"
@@ -113,8 +133,9 @@ const Home = ({ seo }) => {
                             price="299.00"
                         />
                         <PlusBox top="auto" right="260px" bottom="200px" left="auto" />*/}
-                    </div>
-                </section>
+                        </div>
+                    </section>
+                ) : null}
                 <section className="wrapper py-20">
                     <div className="text-center mb-10">
                         <div className="text-3xl bold mb-2">

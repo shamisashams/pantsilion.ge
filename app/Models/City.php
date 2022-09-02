@@ -61,4 +61,8 @@ class City extends Model
     {
         return $this->morphOne(File::class, 'fileable');
     }
+
+    public function contacts(){
+        return $this->hasMany(Contact::class);
+    }
 }

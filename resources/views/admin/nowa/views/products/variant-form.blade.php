@@ -7,6 +7,8 @@ $stock_ids = $product->stocks->pluck("id")->toArray();
 //dd($stock_ids);
 
 
+
+
 $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
     $html = '<ul style="margin: initial !important;padding: initial !important;">';
@@ -14,7 +16,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
         if(in_array($category->id,$ids)) $checked = 'checked';
         else $checked = '';
         $html .= '<li style="margin-bottom: 5px"><label class="ckbox">
-                        <input type="checkbox" name="categories[]" data-checkboxes="mygroup" class="custom-control-input" '. $checked .' id="'.$category->id.'" value="'.$category->id.'">
+                        <input disabled type="checkbox" name="categories[]" data-checkboxes="mygroup" class="custom-control-input" '. $checked .' id="'.$category->id.'" value="'.$category->id.'">
                         <span style="margin-left: 5px">'.$category->title.'</span>
 
                         </label></li>';
@@ -74,6 +76,12 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
     <input name="old-images[]" id="old_images" hidden disabled value="{{$product->files}}">
     <!-- row -->
     {!! Form::model($product,['url' => $url, 'method' => $method,'files' => true]) !!}
+
+    @if($product->parent_id === null)
+        @foreach($ids as $id)
+            <input type="hidden" name="categories[]" value="{{$id}}">
+        @endforeach
+    @endif
     <div class="row">
         <div class="col-lg-6 col-md-12">
             <div class="card">
@@ -282,6 +290,49 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                     </div>
 
                     <div class="form-group">
+                        <label class="form-label">@lang('admin.installment_price')</label>
+                        <input type="number" class="form-control" name="installment_price" value="{{$product->installment_price}}">
+
+                        @error('installment_price')
+                        <small class="text-danger">
+                            <div class="error">
+                                {{$message}}
+                            </div>
+                        </small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">@lang('admin.video')</label>
+                        <textarea name="video" class="form-control">{{$product->video ? $product->video->path:null}}</textarea>
+                        @error('video')
+                        <small class="text-danger">
+                            <div class="error">
+                                {{$message}}
+                            </div>
+                        </small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">@lang('admin.promocode')</label>
+                        <select name="promocode_id" class="form-control">
+                            <option value=""></option>
+                            @foreach($promocodes as $promocode)
+                                <option value="{{$promocode->id}}" {{$product->promocode_id == $promocode->id ? 'selected':''}}>{{$promocode->reward}}</option>
+                            @endforeach
+                        </select>
+
+                        @error('promocode')
+                        <small class="text-danger">
+                            <div class="error">
+                                {{$message}}
+                            </div>
+                        </small>
+                        @enderror
+                    </div>
+
+                    {{--<div class="form-group">
                         {!! Form::label('code',__('admin.quantity'),['class' => 'form-label']) !!}
                         {!! Form::number('quantity',$product->quantity,['class' => 'form-control','min' => '0']) !!}
 
@@ -292,7 +343,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                             </div>
                         </small>
                         @enderror
-                    </div>
+                    </div>--}}
 
                     <div class="form-group">
                         <div class="main-content-label mg-b-5">
@@ -323,13 +374,13 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         </label>
                     </div>
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="popular"
                                    value="true" {{$product->popular ? 'checked' : ''}}>
                             <span>{{__('admin.popular')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
                     <div class="form-group">
                         <label class="ckbox">
@@ -339,37 +390,37 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         </label>
                     </div>
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="new_collection"
                                    value="true" {{$product->new_collection ? 'checked' : ''}}>
                             <span>{{__('admin.new_collection')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="bunker"
                                    value="true" {{$product->bunker ? 'checked' : ''}}>
                             <span>{{__('admin.bunker')}}</span>
                         </label>
                     </div>
-
-                    <div class="form-group">
+--}}
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="day_product"
                                    value="true" {{$product->day_product ? 'checked' : ''}}>
                             <span>{{__('admin.day_product')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="day_price"
                                    value="true" {{$product->day_price ? 'checked' : ''}}>
                             <span>{{__('admin.day_price')}}</span>
                         </label>
-                    </div>
+                    </div>--}}
 
                     <div class="form-group">
                         <label class="ckbox">
@@ -408,7 +459,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
                     @foreach($attributes as $item)
                         <div class="form-group">
-                            <label class="form-label">{{$item->name}}</label>
+                            <label class="form-label">{{$item->code}}</label>
 
                             @if($item->type == 'select')
                                 <select class="form-control" name="attribute[{{$item->id}}]">
@@ -421,7 +472,9 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                                 } else $selected = '';
                                             } else $selected = '';
                                         ?>
-                                        <option value="{{$option->id}}"{{$selected}}>{{$option->label}}</option>
+
+
+                                        <option value="{{$option->id}}"{{$selected}}>{{$option->code}} {{$option->label}} {{$option->value}}</option>
                                     @endforeach
                                 </select>
                             @else
@@ -483,7 +536,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
 
 
-                    <div class="image-uploader">
+                    {{--<div class="image-uploader">
                         <div class="uploaded">
 
                             @foreach($product->files as $item)
@@ -504,7 +557,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
                             @endforeach
                         </div>
-                    </div>
+                    </div>--}}
 
 
                 </div>

@@ -23,7 +23,9 @@ class PaymentController extends Controller
     protected $productRepository;
 
     public function __construct(ProductRepository $productRepository){
+
         $this->productRepository = $productRepository;
+        //if(!session('shipping')) return redirect()->route('client.shipping.index');
     }
 
     /**

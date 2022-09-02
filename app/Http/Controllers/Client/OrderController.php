@@ -12,6 +12,8 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Page;
 use App\Models\Product;
+use App\Models\ProductSet;
+use App\Models\Setting;
 use App\Promocode\Promocode;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Contracts\Foundation\Application;
@@ -261,7 +263,7 @@ class OrderController extends Controller
 
 
 
-
+        //dd($cart);
 
         $product_ids = [];
         foreach ($cart['products'] as $item){
@@ -269,6 +271,8 @@ class OrderController extends Controller
         }
 
         $products = Product::whereIn('id',$product_ids)->get();
+
+
 
 
         if($products){
@@ -320,13 +324,52 @@ class OrderController extends Controller
                 //dd($insert);
                 OrderItem::insert($insert);
 
+                $total = 0;
+                foreach ($cart['collections'] as $item){
+                    $collection = $order->collections()->create([
+                        'product_set_id' => $item['collection']->id,
+                        'title' => $item['collection']->title,
+                        'total_price' => $item['collection']->price
+                    ]);
+                    foreach ($item['collection']->products as $_item){
+
+                        $product_attributes = $_item->attribute_values;
+
+                        $result = [];
+
+                        foreach ($product_attributes as $_item_){
+                            $options = $_item_->attribute->options;
+                            $value = '';
+                            foreach ($options as $option){
+                                if($_item_->attribute->type == 'select'){
+                                    if($_item_->integer_value == $option->id) {
+                                        $result[$_item_->attribute->code] = $option->label;
+                                    }
+
+                                }
+                            }
+
+                        }
+
+
+                        $collection->items()->create([
+                            'product_id' => $_item->id,
+                            'title' => $_item->title,
+                            'price' => $_item->price,
+                            'attributes' => json_encode($result)
+                        ]);
+                    }
+
+                }
+
 
 
                 DataBase::commit();
 
+                $partner_reward = Setting::query()->where('key','partner_reward')->first();
 
-                if($user->referrer){
-                    $user->referrer()->update(['balance' => ($grand_t * 10) / 100]);
+                if($user->referrer && $partner_reward->integer_value){
+                    $user->referrer()->update(['balance' => \Illuminate\Support\Facades\DB::raw('balance + '. ($grand_t * $partner_reward->integer_value) / 100)]);
                 }
 
                 if($order->payment_method == 1 && $order->payment_type == 'bog'){
@@ -362,7 +405,7 @@ class OrderController extends Controller
 
     public function statusSuccess($order_id){
         $order = Order::query()->where('id',$order_id)->with('items')->first();
-        return Inertia::render('Success/Success',['order' => $order])->withViewData([
+        return Inertia::render('Success',['order' => $order])->withViewData([
             'meta_title' => 'success',
             'meta_description' => 'success',
             'meta_keyword' => 'success',

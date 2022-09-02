@@ -70,7 +70,7 @@ const PartnerJoin = ({seo}) => {
                               attach file
                           </div>
                       </div>
-                      <MainButton>Sign in</MainButton>
+                      <MainButton type>Sign in</MainButton>
                   </form>
 
               </div>

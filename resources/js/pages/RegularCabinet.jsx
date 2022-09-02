@@ -20,18 +20,20 @@ const RegularCabinet = ({seo}) => {
         surname: user.surname ?? '',
         email: user.email,
         id_number: user.id_number,
+        address: user.address ?? '',
+        phone: user.phone ?? '',
     })
 
     function handleChange(e) {
         setValues(values => ({
             ...values,
-            [e.target.id]: e.target.value,
+            [e.target.id]: e.target.innerText,
         }))
     }
 
     function handleSubmit(e) {
         e.preventDefault()
-        Inertia.post('/users', values)
+        Inertia.post(route('client.save-settings'), values)
     }
 
   return (
@@ -79,13 +81,15 @@ const RegularCabinet = ({seo}) => {
                           </div>
                           <EditInput
                               label="Address "
-                              value="street name #22. Tbilisi, Georgia"
+                              value={values.address}
+                              onChange={handleChange}
+                              id={'address'}
                           />
-                          <EditInput label="Phone number " value={values.phone} />
-                          <EditInput label="Email address " value={values.email} />
+                          <EditInput label="Phone number " value={values.phone} onChange={handleChange} id={'phone'} />
+                          <EditInput label="Email address " value={values.email} onChange={handleChange} id={'email'} />
                           <div className="grid grid-cols-2 gap-3 pt-3">
                               <MainButton reverse>Cancel</MainButton>
-                              <MainButton>Save Changes</MainButton>
+                              <MainButton onclick={handleSubmit}>Save Changes</MainButton>
                           </div>
                       </div>
                   </div>

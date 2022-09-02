@@ -41,6 +41,7 @@
                                 <tr>
                                     <th>@lang('admin.id')</th>
                                     <th>@lang('admin.status')</th>
+                                    <th>@lang('admin.path')</th>
                                     <th>@lang('admin.title')</th>
                                     <th>@lang('admin.actions')</th>
                                 </tr>
@@ -61,6 +62,9 @@
                                         </select>
                                     </th>
                                     <th>
+
+                                    </th>
+                                    <th>
                                         <input class="form-control" type="text" name="title" onchange="this.form.submit()"
                                                value="{{Request::get('title')}}"
                                                class="validate {{$errors->has('title') ? '' : 'valid'}}">
@@ -79,6 +83,68 @@
                                                 @else
                                                     <span class="red-text">@lang('admin.not_active')</span>
                                                 @endif
+                                            </td>
+                                            <td>
+                                                <?php
+
+                                                $path = [];
+                                                $arr = [];
+
+
+
+                                                    $ancestors = $item->ancestors;
+                                                    if(count($ancestors)){
+                                                        foreach ($ancestors as $ancestor){
+                                                            $arr[count($ancestors)]['ancestors'][] = $ancestor;
+                                                            $arr[count($ancestors)]['current'] = $item;
+                                                        }
+                                                    } else {
+                                                        $arr[0]['ancestors'] = [];
+                                                        $arr[0]['current'] = $item;
+                                                    }
+
+
+
+
+
+                                                $max = max(array_keys($arr));
+
+                                                $k = 0;
+                                                foreach ($arr[$max]['ancestors'] as $ancestor){
+                                                    $path[$k]['id'] = $ancestor->id;
+                                                    $path[$k]['slug'] = $ancestor->slug;
+                                                    $path[$k]['title'] = $ancestor->title;
+
+                                                    $path[$k]['corner'] = $ancestor->corner;
+                                                    $path[$k]['size'] = $ancestor->size;
+                                                    $path[$k]['color'] = $ancestor->color;
+                                                    $k++;
+                                                }
+
+                                                $path[$k]['id'] = $arr[$max]['current']->id;
+                                                $path[$k]['slug'] = $arr[$max]['current']->slug;
+                                                $path[$k]['title'] = $arr[$max]['current']->title;
+
+                                                $path[$k]['corner'] = $arr[$max]['current']->corner;
+                                                $path[$k]['size'] = $arr[$max]['current']->size;
+                                                $path[$k]['color'] = $arr[$max]['current']->color;
+
+                                                ?>
+                                                    <nav aria-label="breadcrumb">
+                                                        <ol class="breadcrumb breadcrumb-style mg-b-0">
+
+                                                            @foreach($path as $_path)
+                                                                <li class="breadcrumb-item">
+                                                                    <a href="{{route('category.edit',$_path['id'])}}">{{$_path['title']}}</a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ol>
+
+
+                                                    </nav>
+
+
+
                                             </td>
                                             <td>
                                                 <div class="panel panel-primary tabs-style-2">

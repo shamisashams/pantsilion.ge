@@ -71,8 +71,9 @@ class PartnerController extends Controller
         $attributes['affiliate_id'] = (string) Str::uuid();
 
         //dd($attributes);
-        $this->userRepository->create(Arr::except($attributes,['cv']));
-        $this->userRepository->uploadCv($request);
+        $model = $this->userRepository->create(Arr::except($attributes,['cv']));
+        //dd($model);
+        $this->userRepository->uploadCv($model, $request);
 
         return redirect()->back()->with('success','added');
     }
@@ -132,7 +133,10 @@ class PartnerController extends Controller
 
         //dd($files);
 
-        return Inertia::render('BankAccount', ["page" => $page, "seo" => [
+        return Inertia::render('BankAccount', [
+            "bank_account" => auth()->user()->bankAccount,
+            "page" => $page,
+            "seo" => [
             "title"=>$page->meta_title,
             "description"=>$page->meta_description,
             "keywords"=>$page->meta_keyword,
@@ -148,6 +152,17 @@ class PartnerController extends Controller
             'og_title' => $page->meta_og_title,
             'og_description' => $page->meta_og_description
         ]);
+    }
+
+    public function saveBankAccount(Request $request){
+        $data = $request->validate([
+            'bank_id' => 'required',
+            'account_number' => 'required'
+        ]);
+
+        auth()->user()->bankAccount()->updateOrCreate(['user_id' => auth()->id()],$data);
+
+        return redirect()->back();
     }
 
     public function withdraw(){
@@ -168,7 +183,10 @@ class PartnerController extends Controller
 
         //dd($files);
 
-        return Inertia::render('WithdrawFunds', ["page" => $page, "seo" => [
+        return Inertia::render('WithdrawFunds', [
+            "bank_accounts" => auth()->user()->bankAccounts,
+            "page" => $page,
+            "seo" => [
             "title"=>$page->meta_title,
             "description"=>$page->meta_description,
             "keywords"=>$page->meta_keyword,
@@ -184,6 +202,12 @@ class PartnerController extends Controller
             'og_title' => $page->meta_og_title,
             'og_description' => $page->meta_og_description
         ]);
+    }
+
+    public function withdrawCreate(Request $request){
+
+        $bankAccount = auth()->user()->bankAccount()->where('id',$request->post('bank_account'))->first();
+        dd($bankAccount);
     }
 
     public function referrals(){
@@ -214,7 +238,7 @@ class PartnerController extends Controller
 //            "locale" => App::getLocale()
         ], 'gallery_img' => $files,
             'images' => $images,
-            'referrals' => auth()->user()->referrals
+            'referrals' => auth()->user()->referrals()->orderBy('created_at','desc')->paginate(1)
         ])->withViewData([
             'meta_title' => $page->meta_title,
             'meta_description' => $page->meta_description,
@@ -243,7 +267,9 @@ class PartnerController extends Controller
 
         //dd($files);
 
-        return Inertia::render('OrderHistory', ["page" => $page, "seo" => [
+        return Inertia::render('OrderHistory', [
+            "orders" => auth()->user()->orders()->orderBy('created_at','desc')->paginate(3),
+            "page" => $page, "seo" => [
             "title"=>$page->meta_title,
             "description"=>$page->meta_description,
             "keywords"=>$page->meta_keyword,
@@ -261,7 +287,31 @@ class PartnerController extends Controller
         ]);
     }
 
-    public function updateInfo(){
+    public function updateInfo(Request $request){
+        if(count(auth()->user()->files) > 0){
+            $data = $request->validate([
+                'address' => 'required',
+                'phone' => 'required',
+                'email' => 'required|email|unique:users,email,' . auth()->id(),
+            ]);
+        } else {
+            $data = $request->validate([
+                'address' => 'required',
+                'phone' => 'required',
+                'email' => 'required|email|unique:users,email,' . auth()->id(),
+                'avatar' => 'required'
+            ]);
+        }
 
+
+        $data = Arr::except($data,'avatar');
+
+        //dd($data);
+
+        $this->userRepository->update(auth()->id(),$data);
+
+        $this->userRepository->uploadId($request);
+
+        return redirect()->back();
     }
 }
