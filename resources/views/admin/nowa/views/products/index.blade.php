@@ -86,18 +86,18 @@
                                                 <?php
                                                 $path = [];
                                                 $arr = [];
-                                                foreach ($item->categories as $key =>$item){
+                                                foreach ($item->categories as $key =>$cat){
 
 
-                                                    $ancestors = $item->ancestors;
+                                                    $ancestors = $cat->ancestors;
                                                     if(count($ancestors)){
                                                         foreach ($ancestors as $ancestor){
                                                             $arr[count($ancestors)]['ancestors'][] = $ancestor;
-                                                            $arr[count($ancestors)]['current'] = $item;
+                                                            $arr[count($ancestors)]['current'] = $cat;
                                                         }
                                                     } else {
                                                         $arr[0]['ancestors'] = [];
-                                                        $arr[0]['current'] = $item;
+                                                        $arr[0]['current'] = $cat;
                                                     }
                                                 }
 
