@@ -54,6 +54,7 @@
                                                value="{{Request::get('id')}}"
                                                class="validate {{$errors->has('id') ? '' : 'valid'}}">
                                     </th>
+                                    <th></th>
                                     <th>
                                         <select class="form-control" name="category_id" onchange="this.form.submit()">
                                             <option value="" {{Request::get('category_id') === '' ? 'selected' :''}}>@lang('admin.any')</option>
@@ -81,7 +82,56 @@
                                         <tr>
                                             <th scope="row">{{$item->id}}</th>
                                             <td>{{$item->parent_id === null ? 'configurable' : 'simple - parent id#: '. $item->parent->id}}</td>
-                                            <td></td>
+                                            <td>
+                                                <?php
+                                                $path = [];
+                                                $arr = [];
+                                                foreach ($item->categories as $key =>$item){
+
+
+                                                    $ancestors = $item->ancestors;
+                                                    if(count($ancestors)){
+                                                        foreach ($ancestors as $ancestor){
+                                                            $arr[count($ancestors)]['ancestors'][] = $ancestor;
+                                                            $arr[count($ancestors)]['current'] = $item;
+                                                        }
+                                                    } else {
+                                                        $arr[0]['ancestors'] = [];
+                                                        $arr[0]['current'] = $item;
+                                                    }
+                                                }
+
+                                                $max = max(array_keys($arr));
+
+                                                $k = 0;
+                                                foreach ($arr[$max]['ancestors'] as $ancestor){
+                                                    $path[$k]['id'] = $ancestor->id;
+                                                    $path[$k]['slug'] = $ancestor->slug;
+                                                    $path[$k]['title'] = $ancestor->title;
+                                                    $path[$k]['colors'] = $ancestor->colors;
+                                                    $path[$k]['corner'] = $ancestor->corner;
+                                                    $path[$k]['size'] = $ancestor->size;
+                                                    $path[$k]['color'] = $ancestor->color;
+                                                    $k++;
+                                                }
+
+                                                $path[$k]['id'] = $arr[$max]['current']->id;
+                                                $path[$k]['slug'] = $arr[$max]['current']->slug;
+                                                $path[$k]['title'] = $arr[$max]['current']->title;
+                                                $path[$k]['colors'] = $arr[$max]['current']->colors;
+                                                $path[$k]['corner'] = $arr[$max]['current']->corner;
+                                                $path[$k]['size'] = $arr[$max]['current']->size;
+                                                $path[$k]['color'] = $arr[$max]['current']->color;
+
+                                                $path_str = '';
+
+                                                foreach ($path as $itm){
+                                                    $path_str .= $itm['title'] . ' -> ';
+                                                }
+                                                $path_str = substr($path_str,0,-4);
+                                                ?>
+                                                {{$path_str}}
+                                            </td>
 
                                             <td>
 
