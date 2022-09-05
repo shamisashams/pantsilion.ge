@@ -1,56 +1,145 @@
 {
     "menu": [
         {
-            "url": "category.index",
-            "name": "პროდ. კატეგორიები",
-            "i18n": "category",
-            "icon": "language",
-            "slug": "category"
+            "url": "city.index",
+            "name": "1) Cities",
+            "i18n": "city",
+            "icon": "city",
+            "slug": "city"
         },
         {
-            "url": "product.index",
-            "name": "პროდუქცია",
-            "i18n": "product",
-            "icon": "language",
-            "slug": "product",
+            "url": "javascript:void(0)",
+            "name": "2) Catalog",
+            "i18n": "user",
+            "icon": "brightness_low",
+            "slug": "user",
             "submenu": [
-
                 {
                     "url": "category.index",
-                    "name": "კატეგორიები",
+                    "name": "1) პროდ. კატეგორიები",
                     "i18n": "category",
                     "icon": "language",
                     "slug": "category"
+                },
+                {
+                    "url": "attribute.index",
+                    "name": "2) ატრიბუტები",
+                    "i18n": "attributes",
+                    "icon": "language",
+                    "slug": "attribute"
+                },
+                {
+                    "url": "stock.index",
+                    "name": "3) Stock",
+                    "i18n": "stock",
+                    "icon": "stock",
+                    "slug": "stock"
+                },
+                {
+                    "url": "product.index",
+                    "name": "4) პროდუქცია",
+                    "i18n": "product",
+                    "icon": "language",
+                    "slug": "product"
+                },
+                {
+                    "url": "collection.index",
+                    "name": "5) Collection",
+                    "i18n": "collection",
+                    "icon": "collection",
+                    "slug": "collection"
                 }
             ]
         },
         {
-            "url": "attribute.index",
-            "name": "ატრიბუტები",
-            "i18n": "attributes",
-            "icon": "language",
-            "slug": "attribute"
+            "url": "javascript:void(0)",
+            "name": "3) Users",
+            "i18n": "user",
+            "icon": "brightness_low",
+            "slug": "user",
+            "submenu": [
+                {
+                    "url": "partner.index",
+                    "name": "partner",
+                    "i18n": "partner",
+                    "icon": "partner",
+                    "slug": "partner"
+                },
+                {
+                    "url": "user.index",
+                    "name": "customer",
+                    "i18n": "user",
+                    "icon": "user",
+                    "slug": "user"
+                }
+            ]
         },
         {
-            "url": "page.index",
-            "name": "გვერდები",
-            "i18n": "page",
-            "icon": "language",
-            "slug": "page"
+            "url": "javascript:void(0)",
+            "name": "4) Languages",
+            "i18n": "user",
+            "icon": "brightness_low",
+            "slug": "user",
+            "submenu": [
+                {
+                    "url": "language.index",
+                    "name": "ენები",
+                    "i18n": "language",
+                    "icon": "language",
+                    "slug": "language"
+                },
+                {
+                    "url": "translation.index",
+                    "name": "თარგმნა",
+                    "i18n": "translation",
+                    "icon": "g_translate",
+                    "slug": "translation"
+                }
+            ]
         },
         {
-            "url": "slider.index",
-            "name": "სლაიდერი",
-            "i18n": "slider",
-            "icon": "language",
-            "slug": "slider"
-        },
-        {
-            "url": "language.index",
-            "name": "ენები",
-            "i18n": "language",
-            "icon": "language",
-            "slug": "language"
+            "url": "javascript:void(0)",
+            "name": "5) Site Content",
+            "i18n": "user",
+            "icon": "brightness_low",
+            "slug": "user",
+            "submenu": [
+                {
+                    "url": "slider.index",
+                    "name": "სლაიდერი",
+                    "i18n": "slider",
+                    "icon": "language",
+                    "slug": "slider"
+                },
+                {
+                    "url": "page.index",
+                    "name": "გვერდები",
+                    "i18n": "page",
+                    "icon": "language",
+                    "slug": "page"
+                },
+                {
+                    "url": "team.index",
+                    "name": "team",
+                    "i18n": "team",
+                    "icon": "team",
+                    "slug": "team"
+                },
+                {
+                    "url": "contact.index",
+                    "name": "contact",
+                    "i18n": "contact",
+                    "icon": "contact",
+                    "slug": "contact"
+                },
+                {
+                    "url": "blog.index",
+                    "name": "ბლოგი",
+                    "i18n": "blog",
+                    "icon": "g_translate",
+                    "slug": "blog"
+                }
+            ]
         },
         {
             "url": "setting.index",
@@ -60,67 +149,11 @@
             "slug": "setting"
         },
         {
-            "url": "translation.index",
-            "name": "თარგმნა",
-            "i18n": "translation",
-            "icon": "g_translate",
-            "slug": "translation"
-        },
-        {
-            "url": "password.index",
-            "name": "პაროლის შეცვლა",
-            "i18n": "change password",
-            "icon": "g_translate",
-            "slug": "change_password"
-        },
-        {
             "url": "order.index",
             "name": "შეკვეთები",
             "i18n": "order",
             "icon": "g_translate",
             "slug": "orders"
-        },
-        {
-            "url": "blog.index",
-            "name": "ბლოგი",
-            "i18n": "blog",
-            "icon": "g_translate",
-            "slug": "blog"
-        },
-        {
-            "url": "partner.index",
-            "name": "partner",
-            "i18n": "partner",
-            "icon": "partner",
-            "slug": "partner"
-        },
-        {
-            "url": "city.index",
-            "name": "city",
-            "i18n": "city",
-            "icon": "city",
-            "slug": "city"
-        },
-        {
-            "url": "stock.index",
-            "name": "stock",
-            "i18n": "stock",
-            "icon": "stock",
-            "slug": "stock"
-        },
-        {
-            "url": "collection.index",
-            "name": "collection",
-            "i18n": "collection",
-            "icon": "collection",
-            "slug": "collection"
-        },
-        {
-            "url": "team.index",
-            "name": "team",
-            "i18n": "team",
-            "icon": "team",
-            "slug": "team"
         },
         {
             "url": "promocode.index",
@@ -130,18 +163,11 @@
             "slug": "promocode"
         },
         {
-            "url": "contact.index",
-            "name": "contact",
-            "i18n": "contact",
-            "icon": "contact",
-            "slug": "contact"
-        },
-        {
-            "url": "user.index",
-            "name": "customer",
-            "i18n": "user",
-            "icon": "user",
-            "slug": "user"
+            "url": "password.index",
+            "name": "პაროლის შეცვლა",
+            "i18n": "change password",
+            "icon": "g_translate",
+            "slug": "change_password"
         }
     ],
     "_comment": [
