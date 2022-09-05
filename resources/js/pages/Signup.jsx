@@ -70,10 +70,10 @@ const Signup = ({seo}) => {
                 <p className="w-fit mx-auto bg-zinc-100 px-4 relative z-10">{__('client.or', localizations)}</p>
             </div>
             <div className="flex justify-center items-center mt-8">
-                <a href="#" className="flex justify-center items-center border border-sky-600 w-16 h-16 mx-2">
+                <a href={route('google-redirect')} className="flex justify-center items-center border border-sky-600 w-16 h-16 mx-2">
                     <img src="/client/assets/images/icons/google.png" alt="" />
                 </a>
-                <a href="#" className="flex justify-center items-center border border-sky-600 w-16 h-16 mx-2">
+                <a href={route('fb-redirect')} className="flex justify-center items-center border border-sky-600 w-16 h-16 mx-2">
                     <img src="/client/assets/images/icons/facebook.png" alt="" />
                 </a>
             </div>
