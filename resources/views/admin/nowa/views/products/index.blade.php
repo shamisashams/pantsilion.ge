@@ -81,7 +81,7 @@
                                     @foreach($data as $item)
                                         <tr>
                                             <th scope="row">{{$item->id}}</th>
-                                            <td>{{$item->parent_id === null ? 'configurable' : 'simple - parent id#: '. $item->parent->id}}</td>
+                                            <td><a href="{{$item->parent_id === null ? route('product.edit',$item->id) : route('product.edit',$item->parent_id)}}">{{$item->parent_id === null ? 'configurable' : 'simple - parent id#: '. $item->parent->id}}</a> </td>
                                             <td>
                                                 <?php
                                                 $path = [];
