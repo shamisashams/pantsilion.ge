@@ -1,15 +1,38 @@
 {
     "menu": [
         {
+            "url": "javascript:void(0)",
+            "name": "1) Languages",
+            "i18n": "user",
+            "icon": "brightness_low",
+            "slug": "user",
+            "submenu": [
+                {
+                    "url": "language.index",
+                    "name": "ენები",
+                    "i18n": "language",
+                    "icon": "language",
+                    "slug": "language"
+                },
+                {
+                    "url": "translation.index",
+                    "name": "თარგმნა",
+                    "i18n": "translation",
+                    "icon": "g_translate",
+                    "slug": "translation"
+                }
+            ]
+        },
+        {
             "url": "city.index",
-            "name": "1) Cities",
+            "name": "2) Cities",
             "i18n": "city",
             "icon": "city",
             "slug": "city"
         },
         {
             "url": "javascript:void(0)",
-            "name": "2) Catalog",
+            "name": "3) Catalog",
             "i18n": "user",
             "icon": "brightness_low",
             "slug": "user",
@@ -53,7 +76,7 @@
         },
         {
             "url": "javascript:void(0)",
-            "name": "3) Users",
+            "name": "Users",
             "i18n": "user",
             "icon": "brightness_low",
             "slug": "user",
@@ -76,30 +99,7 @@
         },
         {
             "url": "javascript:void(0)",
-            "name": "4) Languages",
-            "i18n": "user",
-            "icon": "brightness_low",
-            "slug": "user",
-            "submenu": [
-                {
-                    "url": "language.index",
-                    "name": "ენები",
-                    "i18n": "language",
-                    "icon": "language",
-                    "slug": "language"
-                },
-                {
-                    "url": "translation.index",
-                    "name": "თარგმნა",
-                    "i18n": "translation",
-                    "icon": "g_translate",
-                    "slug": "translation"
-                }
-            ]
-        },
-        {
-            "url": "javascript:void(0)",
-            "name": "5) Site Content",
+            "name": "Site Content",
             "i18n": "user",
             "icon": "brightness_low",
             "slug": "user",
