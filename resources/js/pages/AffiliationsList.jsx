@@ -3,6 +3,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import CabinetTabs from "../components/CabinetTabs";
 import Layout from "../Layouts/Layout";
 import {Link, usePage} from '@inertiajs/inertia-react'
+import { Inertia } from '@inertiajs/inertia'
 
 const AffiliationsList = ({seo}) => {
 
@@ -34,7 +35,7 @@ const AffiliationsList = ({seo}) => {
   ];
 
   function removeReferral(id){
-
+      Inertia.get(route('partner.referral-remove',id),{id:id})
   }
 
     let links = function (links) {

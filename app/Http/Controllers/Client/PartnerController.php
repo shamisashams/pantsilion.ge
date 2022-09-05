@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Certificate;
 use App\Models\Page;
+use App\Models\User;
 use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -312,6 +313,11 @@ class PartnerController extends Controller
 
         $this->userRepository->uploadId($request);
 
+        return redirect()->back();
+    }
+
+    public function referralRemove(Request $request){
+        User::query()->where('referred_by',auth()->user()->affiliate_id)->where('id',$request->get('id'))->update(['referred_by' => null]);
         return redirect()->back();
     }
 }
