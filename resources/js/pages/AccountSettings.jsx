@@ -52,14 +52,17 @@ const AccountSettings = ({seo , user}) => {
                                   <div className="text-sm opacity-50">or drag and drop it here</div>
                                   <input multiple type="file" onChange={e => setData('avatar', e.target.files)} />
                               </div>
+                              {errors.avatar && <div>{errors.avatar}</div>}
                               <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                                   <label className="opacity-50">{__('client.form_name', localizations)}</label>
                                   <input type="text " value={data.name} className="text-right " onChange={e => setData('name', e.target.value)} />
                               </div>
+                              {errors.name && <div>{errors.name}</div>}
                               <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                                   <label className="opacity-50">{__('client.form_surname', localizations)}</label>
                                   <input type="text " value={data.surname} className="text-right " onChange={e => setData('surname', e.target.value)} />
                               </div>
+                              {errors.surname && <div>{errors.surname}</div>}
                               <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                                   <label className="opacity-50">{__('client.form_id_number', localizations)}</label>
                                   <input type="text " value={data.id_number} className="text-right " onChange={e => setData('id_number', e.target.value)} />
@@ -69,8 +72,11 @@ const AccountSettings = ({seo , user}) => {
                                   value={data.address}
                                   onChange={e => setData('address', e.target.innerText)}
                               />
+                              {errors.address && <div>{errors.address}</div>}
                               <EditInput label={__('client.form_phone', localizations)} value={data.phone} onChange={e => setData('phone', e.target.innerText)} />
+                              {errors.phone && <div>{errors.phone}</div>}
                               <EditInput label={__('client.form_email', localizations)} value={data.email} onChange={e => setData('email', e.target.innerText)} />
+                              {errors.email && <div>{errors.email}</div>}
                               <div className="grid grid-cols-2 gap-3 pt-3">
                                   <MainButton reverse>{__('client.cancel',localizations)}</MainButton>
                                   <MainButton type>{__('client.save_changes',localizations)}</MainButton>

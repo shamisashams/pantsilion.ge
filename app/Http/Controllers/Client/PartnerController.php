@@ -289,6 +289,7 @@ class PartnerController extends Controller
     }
 
     public function updateInfo(Request $request){
+        //dd($request->all());
         if(count(auth()->user()->files) > 0){
             $data = $request->validate([
                 'address' => 'required',
