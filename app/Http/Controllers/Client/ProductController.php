@@ -111,6 +111,7 @@ class ProductController extends Controller
         $stocks = [];
 
         $config = [];
+        $prices = [];
         foreach ($product->variants()->with(['video','stocks','stocks.translation'])->get() as $variant){
             $product_attributes = $variant->attribute_values;
 
@@ -146,7 +147,8 @@ class ProductController extends Controller
 
             $prices[] = $variant->price;
 
-            $product['min_price']= min($prices);
+
+
             if(count($variant->stocks)){
                 foreach ($variant->stocks as $stock){
                     $stocks[$stock->city_id][$stock->id] = $stock;
@@ -159,8 +161,10 @@ class ProductController extends Controller
 
         }
 
+        $product['min_price']= min($prices);
         //dd($config);
 
+        //dd($prices);
         //dd($stocks);
 
 

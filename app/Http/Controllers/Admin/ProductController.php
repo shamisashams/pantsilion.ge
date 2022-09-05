@@ -424,10 +424,14 @@ class ProductController extends Controller
         $product_v = $this->productRepository->create($saveData);
         $product_v->categories()->sync($saveData['categories']);
 
+        $product_v->stocks()->sync($saveData['stock_id'] ?? []);
+
         // Save Files
         if ($request->hasFile('images')) {
-            $product_v = $this->productRepository->saveFiles($product->id, $request);
+            $product_v = $this->productRepository->saveFiles($product_v->id, $request);
         }
+
+        $this->productRepository->saveVideo($request, $product_v->id);
 
 
         //save product attributes
