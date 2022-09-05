@@ -42,6 +42,7 @@
                                     <th>@lang('admin.type')</th>
                                     <th>@lang('admin.category')</th>
                                     <th>@lang('admin.status')</th>
+                                    <th>@lang('admin.stock')</th>
                                     <th>@lang('admin.title')</th>
                                     <th>@lang('admin.actions')</th>
                                 </tr>
@@ -140,6 +141,24 @@
                                                 @else
                                                     <span class="red-text">@lang('admin.not_active')</span>
                                                 @endif
+                                            </td>
+                                            <td>
+                                                <?php
+                                                $stock_ids = $item->stocks->pluck("id")->toArray();
+                                                $_stocks = '';
+
+
+                                                foreach ($stocks as $_stock){
+                                                    if(in_array($_stock->id,$stock_ids)) $_checked = 'checked';
+                                                    else $_checked = '';
+                                                    $_stocks .= '<div class="form-group"><label class="ckbox">
+                        <input onclick="return false" type="checkbox" name="stock_id[]" data-checkboxes="mygroup" class="custom-control-input" '. $_checked .' value="'.$_stock->id.'">
+                        <span style="margin-left: 5px">'.$_stock->title.'</span>
+
+                        </label></div>';
+                                                }
+                                                ?>
+                                                {!! $item->parent_id !== null ? $_stocks: '' !!}
                                             </td>
                                             <td>
                                                 <div class="panel panel-primary tabs-style-2">

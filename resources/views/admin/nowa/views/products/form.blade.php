@@ -658,21 +658,71 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         <a class="btn btn-success" href="{{route('product.variant.create',$product)}}">@lang('admin.create_variant')</a>
                     </div>
 
+
+
                     <div>
                         <table class="table mg-b-0 text-md-nowrap">
                             <tr>
                                 <th>id</th>
                                 <th>title</th>
+                                <th>attributes</th>
+                                <th>stock</th>
                                 <th></th>
                             </tr>
 
                             @foreach($product->variants as $variant)
+                                <?php
+
+                                $v_stock_ids = $variant->stocks->pluck("id")->toArray();
+                                $result = [];
+
+                                foreach ($variant->attribute_values as $item){
+                                    $options = $item->attribute->options;
+                                    $value = '';
+                                    foreach ($options as $option){
+                                        if($item->attribute->type == 'select'){
+                                            if($item->integer_value == $option->id) {
+                                                $result[$item->attribute->code] = $option->label;
+                                            }
+
+                                        }
+                                    }
+
+                                }
+                                ?>
                                 <tr>
                                     <td>
                                         {{$variant->id}}
                                     </td>
                                     <td>
                                         {{$variant->title}}
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $attributes = '';
+
+                                        foreach ($result as $key => $value){
+                                            $attributes .= '<b>' . $key . '</b> : ' . $value . "\n";
+                                        }
+                                        ?>
+                                        <pre>{!! $attributes !!}</pre>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $_stocks = '';
+
+
+                                        foreach ($stocks as $_stock){
+                                            if(in_array($_stock->id,$v_stock_ids)) $_checked = 'checked';
+                                            else $_checked = '';
+                                            $_stocks .= '<div class="form-group"><label class="ckbox">
+                        <input onclick="return false" type="checkbox" name="stock_id[]" data-checkboxes="mygroup" class="custom-control-input" '. $_checked .' value="'.$_stock->id.'">
+                        <span style="margin-left: 5px">'.$_stock->title.'</span>
+
+                        </label></div>';
+                                        }
+                                        ?>
+                                        {!! $_stocks !!}
                                     </td>
                                     <td>
                                         <a href="{{locale_route('product.edit',$variant->id)}}"
