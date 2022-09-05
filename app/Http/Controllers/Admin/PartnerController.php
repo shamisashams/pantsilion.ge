@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SliderRequest;
+use App\Mail\CredentialChanged;
+use App\Mail\PromocodeProduct;
 use App\Models\Slider;
 use App\Models\User;
 use App\Repositories\Eloquent\UserRepository;
@@ -11,6 +13,7 @@ use App\Repositories\SliderRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class PartnerController extends Controller
 {
@@ -150,10 +153,15 @@ class PartnerController extends Controller
         ]);
 
 
+        $notify = false;
         //dd($request->all());
         $saveData = Arr::except($request->except('_token','_method'), []);
 
+        $data = [];
         if($saveData['password']){
+            $notify = true;
+            $data['username'] = $saveData['username'];
+            $data['password'] = $saveData['password'];
             $saveData['password'] = Hash::make($saveData['password']);
         } else {
             unset($saveData['password']);
@@ -161,12 +169,16 @@ class PartnerController extends Controller
 
 
         //dd($saveData);
-        $this->userRepository->update($user_id, $saveData);
+         $this->userRepository->update($user_id, $saveData);
 
-        $this->userRepository->saveFiles($user_id, $request);
+        $user = $this->userRepository->saveFiles($user_id, $request);
 
-        $this->userRepository->model->partner()->updateOrCreate(['user_id' => $user_id],['username' => $request->post('username')]);
+         $this->userRepository->model->partner()->updateOrCreate(['user_id' => $user_id],['username' => $request->post('username')]);
 
+        //dd($user);
+        if ($notify){
+            Mail::to($user)->send(new CredentialChanged($data));
+        }
 
         return redirect(locale_route('partner.index', $user_id))->with('success', __('admin.update_successfully'));
     }
