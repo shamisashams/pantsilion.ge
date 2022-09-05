@@ -280,7 +280,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$category) {
                                 @foreach($category->colors as $color)
                                     <tr>
                                         <td>{{$color->id}}</td>
-                                        <td>{{$color->color}}</td>
+                                        <td style="background-color: {{$color->color}}">{{$color->color}}</td>
                                         <td>
                                             <a href="{{locale_route('category.edit_color',[$category,$color->id])}}"
                                                class="pl-3">

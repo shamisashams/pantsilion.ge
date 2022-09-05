@@ -43,6 +43,7 @@
                                     <th>@lang('admin.category')</th>
                                     <th>@lang('admin.status')</th>
                                     <th>@lang('admin.stock')</th>
+                                    <th>@lang('admin.attributes')</th>
                                     <th>@lang('admin.title')</th>
                                     <th>@lang('admin.actions')</th>
                                 </tr>
@@ -72,6 +73,8 @@
                                             <option value="0" {{Request::get('status') === '0' ? 'selected' :''}}>@lang('admin.not_active')</option>
                                         </select>
                                     </th>
+                                    <th></th>
+                                    <th></th>
                                     <th>
                                         <input class="form-control" type="text" name="title" onchange="this.form.submit()"
                                                value="{{Request::get('title')}}"
@@ -159,6 +162,31 @@
                                                 }
                                                 ?>
                                                 {!! $item->parent_id !== null ? $_stocks: '' !!}
+                                            </td>
+                                            <td>
+                                                <?php
+                                                $result = [];
+                                                foreach ($item->attribute_values as $_item){
+                                                    $options = $_item->attribute->options;
+                                                    $value = '';
+                                                    foreach ($options as $option){
+                                                        if($_item->attribute->type == 'select'){
+                                                            if($_item->integer_value == $option->id) {
+                                                                $result[$_item->attribute->code] = $option->label;
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                }
+
+                                                $attributes = '';
+
+                                                foreach ($result as $key => $value){
+                                                    $attributes .= '<b>' . $key . '</b> : ' . $value . "\n";
+                                                }
+                                                ?>
+                                                    <pre>{!! $attributes !!}</pre>
                                             </td>
                                             <td>
                                                 <div class="panel panel-primary tabs-style-2">
