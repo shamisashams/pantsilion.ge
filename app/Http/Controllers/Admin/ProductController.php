@@ -405,7 +405,7 @@ class ProductController extends Controller
     public function variantStore(Request $request, $locale, Product $product){
 //dd($request->all());
         $request->validate([
-           'slug' => 'required|unique:products,slug',
+           'slug' => 'required|alpha_dash|unique:products,slug',
             'price' => 'required'
         ]);
 
