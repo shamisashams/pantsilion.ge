@@ -42,6 +42,17 @@ const FurnitureSet = ({seo}) => {
 
   }
 
+    function buwNow(collection){
+        console.log(collection)
+        if(colorId > 0){
+
+            Inertia.post(route('add-to-cart-collection'), {collection:collection.id, color: colorId, buy_now: true});
+        } else {
+            alert('select color')
+        }
+
+    }
+
   function addToCartItem(product){
       if(product.stocks !== null){
           if(product.stocks.length === 0){
@@ -183,7 +194,9 @@ const FurnitureSet = ({seo}) => {
                                       Add to cart
                                   </button>
                               </div>
-                              <MainButton>Buy now</MainButton>
+                              <MainButton onclick={() => {
+                                  buwNow(collection)
+                              }}>Buy now</MainButton>
                           </div>
                       </div>
                   </div>

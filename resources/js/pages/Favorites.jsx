@@ -28,11 +28,28 @@ const Favorites = ({seo}) => {
         Inertia.post(route('add-to-cart'), {id: product.id,qty:qty});
     }
 
+    function buyNow(product,qty){
+        if(product.stocks){
+            alert('out of stock')
+            return;
+        }
+        Inertia.post(route('add-to-cart'), {id: product.id,qty:qty, buy_now:true});
+    }
+
     function addToCartCollection(collection){
         console.log(collection)
 
 
             Inertia.post(route('add-to-cart-collection'), {collection:collection.id});
+
+
+    }
+
+    function buyNowCollection(collection){
+        console.log(collection)
+
+
+        Inertia.post(route('add-to-cart-collection'), {collection:collection.id, buy_now: true});
 
 
     }
@@ -82,7 +99,11 @@ const Favorites = ({seo}) => {
                           </button>
                           <div className="w-52 ml-10 mr-3">
                               {" "}
-                              <MainButton>Buy now</MainButton>
+                              <MainButton onclick={() => {
+                                  let qty = document.getElementById('qty_' + item.product.id).value;
+                                  console.log(qty)
+                                  buyNow(item.product,qty)
+                              }}>Buy now</MainButton>
                           </div>
                           <div className="">
                               {" "}
@@ -116,7 +137,7 @@ const Favorites = ({seo}) => {
                                       Size: {item.size}
                                   </div>
                                   <Link href="/" className=" text-sm text-sky-500 hover:underline">
-                                      Edit
+                                      furniture set
                                   </Link>
                               </div>
                           </div>
@@ -133,7 +154,13 @@ const Favorites = ({seo}) => {
                           </button>
                           <div className="w-52 ml-10 mr-3">
                               {" "}
-                              <MainButton>Buy now</MainButton>
+                              <MainButton onclick={() => {
+
+                                  let qty = document.getElementById('qty_' + item.collection.id).value;
+                                  console.log(qty)
+                                  buyNowCollection(item.collection)
+
+                              }}>Buy now</MainButton>
                           </div>
                           <div className="">
                               {" "}

@@ -581,7 +581,16 @@ const SingleProduct = ({seo}) => {
                           <div className="flex flex-wrap -ml-5 mb-7">
                               <Quantity item={product} />
                               <div className="max-w-md ">
-                                  <MainButton>Buy now</MainButton>
+                                  <MainButton onclick={() => {
+                                      let qty = document.getElementById('qty_' + product.id).value;
+                                      console.log(qty)
+                                      let product_id = document.getElementById('product_id').value;
+                                      if(toCart.parent_id !== null){
+                                          buyNow(toCart,qty)
+                                      } else {
+                                          alert('select options');
+                                      }
+                                  }}>Buy now</MainButton>
                               </div>
                               <input type="hidden" id="product_id" value={productId}/>
                               <button
