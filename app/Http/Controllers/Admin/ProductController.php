@@ -404,6 +404,11 @@ class ProductController extends Controller
 
     public function variantStore(Request $request, $locale, Product $product){
 //dd($request->all());
+        $request->validate([
+           'slug' => 'required|unique:products,slug',
+            'price' => 'required'
+        ]);
+
         $saveData = Arr::except($request->except('_token'), []);
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
         $saveData['stock'] = isset($saveData['stock']) && (bool)$saveData['stock'];
