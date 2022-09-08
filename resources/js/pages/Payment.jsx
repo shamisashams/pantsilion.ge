@@ -17,8 +17,14 @@ import {Inertia} from "@inertiajs/inertia";
 const Payment = ({seo}) => {
     const {cart,promocode, shipping, city, localizations} = usePage().props;
 
+    const [bank,setBank] = useState('space_bank');
+
     function makeOrder(){
-        Inertia.post(route('client.checkout.order'))
+        Inertia.post(route('client.checkout.order'),{payment_type:bank})
+    }
+
+    function selectBank(bank){
+        setBank(bank);
     }
   return (
       <Layout seo={seo}>

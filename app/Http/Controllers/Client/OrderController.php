@@ -16,6 +16,7 @@ use App\Models\Product;
 use App\Models\ProductSet;
 use App\Models\Setting;
 use App\Promocode\Promocode;
+use App\SpacePay\SpacePay;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -281,11 +282,6 @@ class OrderController extends Controller
         }
 
 
-
-
-
-
-
         //dd($cart);
 
 
@@ -385,6 +381,11 @@ class OrderController extends Controller
                     return app(BogPaymentController::class)->make_order($order->id,$order->grand_total);
                 } elseif($order->payment_method == 1 && $order->payment_type == 'tbc'){
                     return redirect(locale_route('order.failure',$order->id));
+                }
+                elseif($order->payment_method == 1 && $order->payment_type == 'space_bank'){
+                    $space = new SpacePay();
+
+                    $data = $space->createQr();
                 }
                  else {
                     return redirect(locale_route('order.success',$order->id));

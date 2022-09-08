@@ -28,6 +28,8 @@ Route::post('ckeditor/image_upload', [CKEditorController::class, 'upload'])->wit
 Route::any('bog/callback/status', [\App\BogPay\BogCallbackController::class, 'status'])->withoutMiddleware('web')->name('bogCallbackStatus');
 Route::any('bog/callback/refund',[\App\BogPay\BogCallbackController::class, 'refund'])->withoutMiddleware('web')->name('bogCallbackRefund');
 
+Route::any('space/callback/status', [\App\SpacePay\SpaceCallbackController::class, 'status'])->withoutMiddleware('web')->name('spaceCallbackStatus');
+
 Route::redirect('', config('translatable.fallback_locale'));
 Route::prefix('{locale?}')
     ->group(function () {
