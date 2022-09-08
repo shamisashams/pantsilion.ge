@@ -4,10 +4,37 @@ import { Link, usePage } from "@inertiajs/inertia-react";
 // import { navigations } from "./NavData";
 //import map from "../assets/images/other/map.png";
 import MainButton from "./MainButton";
-import { socialMedia } from "./NavData";
+//import { socialMedia } from "./NavData";
 import { Inertia } from "@inertiajs/inertia";
 
 const Footer = () => {
+
+
+    const {info} = usePage().props;
+
+    const socialMedia = [
+        {
+            icon: "/client/assets/images/sm/1.png",
+            name: "Facebook",
+            link: info.facebook,
+        },
+        {
+            icon: "/client/assets/images/sm/2.png",
+            name: "Instagram",
+            link: info.instagram,
+        },
+        {
+            icon: "/client/assets/images/sm/3.png",
+            name: "TikTok",
+            link: info.tiktok,
+        },
+        {
+            icon: "/client/assets/images/sm/4.png",
+            name: "Linkdin",
+            link: info.linkdin,
+        },
+    ];
+
     const renderHTML = (rawHTML) =>
         React.createElement("div", {
             dangerouslySetInnerHTML: { __html: rawHTML },
@@ -136,11 +163,11 @@ const Footer = () => {
 
                         {socialMedia.map((item, index) => {
                             return (
-                                <Link href={item.link} key={index}>
+                                <a href={item.link} key={index}>
                                     <div className="bold lg:ml-5 ml-3 inline-block lg:text-base">
                                         {item.name}
                                     </div>
-                                </Link>
+                                </a>
                             );
                         })}
                     </div>
