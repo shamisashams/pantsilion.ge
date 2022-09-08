@@ -265,6 +265,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         @enderror
                     </div>
 
+                    @if($product->created_at and $product->parent_id !== null)
                     <div class="form-group">
                         {!! Form::label('price',__('admin.price'),['class' => 'form-label']) !!}
                         {!! Form::number('price',$product->price,['class' => 'form-control','step' => '0.01','min' => '0']) !!}
@@ -277,7 +278,9 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         </small>
                         @enderror
                     </div>
+                    @endif
 
+                    @if($product->created_at and $product->parent_id !== null)
                     <div class="form-group">
                         {!! Form::label('special_price',__('admin.special_price'),['class' => 'form-label']) !!}
                         {!! Form::number('special_price',$product->special_price,['class' => 'form-control','step' => '0.01','min' => '0']) !!}
@@ -290,6 +293,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         </small>
                         @enderror
                     </div>
+                    @endif
 
                     <div class="form-group">
                         <label class="form-label">@lang('admin.installment_price')</label>
@@ -385,7 +389,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                     </div>
 
 
-
+                    @if($product->created_at and $product->parent_id !== null)
                     <div class="form-group">
                         <div class="main-content-label mg-b-5">
                             @lang('admin.product_stock')
@@ -400,6 +404,8 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                             </label>
                         </div>
                     @endforeach
+                    @endif
+
 
                     <div class="form-group">
                         <div class="main-content-label mg-b-5">
@@ -485,6 +491,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         @enderror
 
                     </div>--}}
+                    @if($product->created_at and $product->parent_id !== null)
                     <div class="form-group">
                         <div class="main-content-label mg-b-5">
                             @lang('admin.product_collection')
@@ -513,7 +520,10 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         @enderror
                     </div>
 
+                    @endif
 
+
+                    @if($product->created_at and $product->parent_id !== null)
 
                     <div class="form-group">
                         <div class="main-content-label mg-b-5">
@@ -573,6 +583,9 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         </div>
 
                     @endforeach
+
+
+                    @endif
 
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>

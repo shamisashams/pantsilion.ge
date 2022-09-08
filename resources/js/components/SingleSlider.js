@@ -40,7 +40,7 @@ const SingleSlider = ({images}) => {
               className=" pb-12"
               style={{ maxHeight: "600px" }}
             >
-              <img alt="" src={'/' + item.path + '/' + item.title} className="w-full h-full object-cover" />
+              <img alt="" src={item.file_full_url} className="w-full h-full object-cover" />
             </SwiperSlide>
           );
         })}
@@ -79,7 +79,7 @@ const SingleSlider = ({images}) => {
             <SwiperSlide key={index}>
               <img
                 alt=""
-                src={'/' + item.path + '/' + item.title}
+                src={item.file_full_url}
                 className="h-full w-full object-cover transition-all duration-300"
               />
             </SwiperSlide>

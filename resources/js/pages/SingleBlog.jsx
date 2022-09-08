@@ -27,7 +27,7 @@ const SingleBlog = ({seo}) => {
                   Back to Blog
               </Link>
               <div className="max-w-6xl">
-                  <img className="my-5" src={blog.latest_image ? '/' + blog.latest_image.path + '/' + blog.latest_image.title:null} alt="" />
+                  <img className="my-5" src={blog.latest_image ? blog.latest_image.file_full_url :null} alt="" />
                   <div className="opacity-50 tetx-sm">{blog.created_at}</div>
                   <div className="text-3xl bold mt-8 mb-5">
                       {blog.title}

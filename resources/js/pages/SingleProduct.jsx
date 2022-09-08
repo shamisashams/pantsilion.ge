@@ -45,7 +45,7 @@ const SingleProduct = ({seo}) => {
     const [productSizes, setProductSizes] = useState({});
     const [selectedSize, setSelectedSize] = useState(' select size ');
 
-    const [categoryColorImg, setCategoryColorImg] = useState(category_last.colors.length > 0 ? (category_last.colors[0].file ? '/' + category_last.colors[0].file.path + '/' + category_last.colors[0].file.title:null):null)
+    const [categoryColorImg, setCategoryColorImg] = useState(category_last.colors.length > 0 ? (category_last.colors[0].file ? category_last.colors[0].file.file_full_url :null):null)
 
     const [productPrice, setProductPrice] = useState(`from ₾${product.min_price}`)
     const [oldPrice, setOldPrice] = useState(``)
@@ -374,7 +374,7 @@ const SingleProduct = ({seo}) => {
 
 
     function selectCategoryColor(color){
-        setCategoryColorImg(color.file ? '/' + color.file.path + '/' + color.file.title:null)
+        setCategoryColorImg(color.file ? color.file_full_url:null)
     }
 
     console.log(product_config)

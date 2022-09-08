@@ -93,4 +93,8 @@ class ProductSet extends Model
     {
         return $this->morphOne(Video::class, 'videoable');
     }
+
+    public function getSetImageAttribute($value){
+        return asset($value);
+    }
 }

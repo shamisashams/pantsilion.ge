@@ -266,6 +266,9 @@ class ProductController extends Controller
 
         }
 
+
+
+
         //dd($product);
         //dd($category);
         //$result = [];

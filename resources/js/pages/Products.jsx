@@ -111,10 +111,8 @@ const Products = ({ seo }) => {
                                     sale={item.sale}
                                     img={
                                         item.latest_image
-                                            ? "/" +
-                                              item.latest_image.path +
-                                              "/" +
-                                              item.latest_image.title
+                                            ?
+                                              item.latest_image.file_full_url
                                             : null
                                     }
                                     name={item.title}

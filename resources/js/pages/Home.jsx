@@ -96,7 +96,7 @@ const Home = ({ seo }) => {
                             style={{ height: "calc(100% - 140px)" }}
                         >
                             <img
-                                src={"/" + collection.set_image}
+                                src={collection.set_image}
                                 className="w-full h-full object-cover"
                                 alt=""
                             />
@@ -205,7 +205,7 @@ const Home = ({ seo }) => {
                                 )}
                             </p>
                             <div className="w-52">
-                                <Link href="/">
+                                <Link href={route('client.registration.index')}>
                                     <MainButton reverse>
                                         {/* Create account */}
                                         {__(

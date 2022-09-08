@@ -80,7 +80,7 @@ const FurnitureSet = ({seo}) => {
           <>
               <div className="relative w-full h-fit">
                   <div className="absolute top-0 left-0 w-full h-72 bg-gradient-to-b from-white to-transparent"></div>
-                  <img src={'/' + collection.set_image} className="w-full h-auto" alt="" />
+                  <img src={collection.set_image} className="w-full h-auto" alt="" />
                   {collection.products.map((item, index) => {
                       let c = item.pivot.coordinates ? item.pivot.coordinates.split(' ') : new Array(4).fill('auto');
                       console.log(c);
@@ -147,7 +147,7 @@ const FurnitureSet = ({seo}) => {
                                           <div className=" flex items-center">
                                               <div className="w-20 h-20 mr-3 shrink-0">
                                                   <img
-                                                      src={item.latest_image ? '/' + item.latest_image.path + '/' + item.latest_image.title:null}
+                                                      src={item.latest_image ? item.latest_image.file_full_url :null}
                                                       className="w-full h-full object-cover"
                                                       alt=""
                                                   />

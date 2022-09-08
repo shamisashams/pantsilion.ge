@@ -149,7 +149,7 @@ class ProductController extends Controller
         $saveData['day_product'] = isset($saveData['day_product']) && (bool)$saveData['day_product'];
         $saveData['special_price_tag'] = isset($saveData['special_price_tag']) && (bool)$saveData['special_price_tag'];
 
-        $attributes = $saveData['attribute'];
+        $attributes = isset($saveData['attribute']) ? $saveData['attribute'] : [];
         unset($saveData['attribute']);
 
         $product = $this->productRepository->create($saveData);
@@ -162,7 +162,10 @@ class ProductController extends Controller
 
         $this->productRepository->saveVideo($request);
 
-        $product->collections()->sync($saveData['collection_id'] ? [$saveData['collection_id']]:[]);
+        if(isset($saveData['collection_id'])){
+            $product->collections()->sync($saveData['collection_id'] ? [$saveData['collection_id']]:[]);
+        }
+
 
 
         //save product attributes
@@ -196,7 +199,7 @@ class ProductController extends Controller
 
 
 
-        return redirect(locale_route('product.index', $product->id))->with('success', __('admin.create_successfully'));
+        return redirect(locale_route('product.edit', $product->id))->with('success', __('admin.create_successfully'));
 
     }
 
