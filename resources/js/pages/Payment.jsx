@@ -17,9 +17,13 @@ import {Inertia} from "@inertiajs/inertia";
 const Payment = ({seo}) => {
     const {cart,promocode, shipping, city, localizations} = usePage().props;
 
-    const [bank,setBank] = useState('space_bank');
+    const [bank,setBank] = useState(null);
 
     function makeOrder(){
+        if(bank == null){
+            alert('select bank');
+            return;
+        }
         Inertia.post(route('client.checkout.order'),{payment_type:bank})
     }
 
@@ -124,18 +128,22 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                               Or make an installment
                           </div>
                           <div className="grid grid-cols-2 gap-3 mb-5">
-                              <Link
-                                  href="/"
+                              <button
+                                  onClick={() => {
+                                      selectBank('bog')
+                                  }}
                                   className="bg-white flex justify-center items-center py-2"
                               >
                                   <img src="/client/assets/images/icons/5.png" alt="" />
-                              </Link>
-                              <Link
-                                  href="/"
+                              </button>
+                              <button
+                                  onClick={() => {
+                                      selectBank('space_bank')
+                                  }}
                                   className="bg-white flex justify-center items-center py-2"
                               >
                                   <img src="/client/assets/images/icons/6.png" alt="" />
-                              </Link>
+                              </button>
                           </div>
                           <MainButton onclick={makeOrder}> Make a payment now</MainButton>
                       </div>

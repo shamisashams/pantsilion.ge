@@ -254,7 +254,7 @@ class OrderController extends Controller
         $data['city'] = City::query()->where('id',session('shipping.city_id'))->first()->title;
         $data['address'] = session('shipping.address');
         $data['info'] = session('shipping.comment');
-        $data['payment_method'] = 0;
+        $data['payment_method'] = 1;
         $data['user_id'] = $user->id;
 
         $grand_t = $data['grand_total'];
@@ -397,6 +397,7 @@ class OrderController extends Controller
 
 
         }
+
 
     }
 
