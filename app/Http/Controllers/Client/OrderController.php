@@ -370,7 +370,7 @@ class OrderController extends Controller
                     $user->referrer()->update(['balance' => \Illuminate\Support\Facades\DB::raw('balance + '. ($grand_t * $partner_reward->integer_value) / 100)]);
                 }
 
-                Cart::destroy();
+                //Cart::destroy();
                 if($promo_code = session('promocode') && $delete_promocode){
                     $request->user()->promocode()->where('promocode',$promo_code->userPromocode->promocode)->delete();
                 }
@@ -392,6 +392,7 @@ class OrderController extends Controller
                 }
 
             } catch (QueryException $exception){
+                dd($exception->getMessage());
                 DataBase::rollBack();
             }
 
@@ -399,6 +400,7 @@ class OrderController extends Controller
         }
 
 
+        return redirect()->route('client.home.index');
     }
 
     public function bogResponse(Request $request){
