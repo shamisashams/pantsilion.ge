@@ -283,7 +283,7 @@ class OrderController extends Controller
         }
 
 
-        $space = new SpacePay('pantsilion.ge','2f6ea5f1-78f6-4d50-a666-b7e9a0b46791');
+
 
         //dd($cart);
 
