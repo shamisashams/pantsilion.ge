@@ -29,6 +29,7 @@ use Inertia\Inertia;
 use App\Repositories\Eloquent\ProductRepository;
 use Spatie\TranslationLoader\TranslationLoaders\Db;
 use Illuminate\Support\Facades\DB as DataBase;
+use function Symfony\Component\String\s;
 
 class OrderController extends Controller
 {
@@ -282,6 +283,8 @@ class OrderController extends Controller
         }
 
 
+        $space = new SpacePay('pantsilion.ge','2f6ea5f1-78f6-4d50-a666-b7e9a0b46791');
+
         //dd($cart);
 
 
@@ -383,9 +386,19 @@ class OrderController extends Controller
                     return redirect(locale_route('order.failure',$order->id));
                 }
                 elseif($order->payment_method == 1 && $order->payment_type == 'space_bank'){
-                    $space = new SpacePay();
+                    $space = new SpacePay('pantsilion.ge','2f6ea5f1-78f6-4d50-a666-b7e9a0b46791');
 
-                    $data = $space->createQr();
+                    $data = $space->createQr($order->grand_total,$order->id);
+
+                    $response = json_decode($data,true);
+
+                    if($response['status']['code'] == 1){
+
+                        return Inertia::location($response['data']['redirectUrl']);
+                    } else {
+
+                        dd($response['status']['message']);
+                    }
                 }
                  else {
                     return redirect(locale_route('order.success',$order->id));
@@ -412,7 +425,7 @@ class OrderController extends Controller
         else if($order->status == 'error') return redirect(route('order.failure'));
         else {
             sleep(3);
-            return redirect('https://bunkeri1.ge/' . app()->getLocale() . '/payments/bog/status?order_id='.$order->id);
+            return redirect('https://pantsilion.ge/' . app()->getLocale() . '/payments/bog/status?order_id='.$order->id);
         }
     }
 

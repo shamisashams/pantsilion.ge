@@ -46,11 +46,11 @@ class SpacePay
      */
 
     public function createQr(
-        string $PhoneNumber,
         float $TotalAmount,
         string $OrderId,
-        float $GrandTotalAmount = null,
-        float $DiscountAmount = null,
+        string $PhoneNumber = null,
+        $GrandTotalAmount = 0,
+        $DiscountAmount = 0,
         int $Type = 1,
         string $returnUrl = '',
         array $Products = []
@@ -95,7 +95,27 @@ class SpacePay
             'json' => $json
         ]);
 
-        return $response->getBody();
+        return $response->getBody()->getContents();
+    }
+
+    public function checkStatus($orderId){
+        $url = $this->apiUrl.$this->checkStatus;
+
+        $response = $this->http_client->request('GET', $url, [
+
+                'query' => [
+                    'MerchantName' => $this->merchant,
+                    'OrderId' => $orderId,
+                    'Secret' => $this->secret
+                ]
+
+        ]);
+
+        return $response->getBody()->getContents();
+    }
+
+    public function installmentCancel(){
+
     }
 
 }
