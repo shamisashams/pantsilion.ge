@@ -358,7 +358,10 @@ class OrderController extends Controller
                 $gen = $promo_gen->generateCode();
                 $_promocode = \App\Models\PromoCode::query()->where('type','cart')->first();
                 //dd($promocode);
-                $request->user()->promocode()->create(['promocode_id' => $_promocode->id, 'promocode' => $gen]);
+                if ($_promocode){
+                    $request->user()->promocode()->create(['promocode_id' => $_promocode->id, 'promocode' => $gen]);
+                }
+
 
                 $data['product'] = null;
                 $data['code'] = $gen;
