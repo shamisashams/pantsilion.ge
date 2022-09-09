@@ -92,12 +92,12 @@
                                             <td>
 
 
-                                                @if(!$language->default)
+
                                                     <a href="{{locale_route('language.edit',$language->id)}}"
                                                        class="pl-3">
                                                         <i class="fa fa-edit">შეცვლა</i>
                                                     </a>
-
+                                                @if(!$language->default)
                                                     <a href="{{locale_route('language.destroy',$language->id)}}"
                                                        onclick="return confirm('Are you sure?')" class="pl-3">
                                                         <i class="fa fa-edit">წაშლა</i>
