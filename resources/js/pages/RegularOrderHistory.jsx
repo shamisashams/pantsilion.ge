@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { MdContentCopy } from "react-icons/md";
 import { GoCreditCard } from "react-icons/go";
 import { MdHistory } from "react-icons/md";
+import Moment from 'moment';
 import {
   RiSettings3Line,
   RiBankLine,
@@ -118,7 +119,7 @@ const RegularOrders = ({seo}) => {
                                       <div className="opacity-50 ">{__('client.orders_price',localizations)}</div>
                                   </div>
                                   {orders.data.map((item, index) => {
-                                      let date = new Date(item.created_at).toUTCString()
+                                      let date = Moment(item.created_at).format('DD.MM.YYYY');
                                       return (
                                           <div
                                               key={index}
@@ -136,11 +137,11 @@ const RegularOrders = ({seo}) => {
                                                   </div>
                                                   <div>
                                                       <div className="bold mb-1">{item.first_name} {item.last_name}</div>
-                                                      {/*<div className="text-sm opacity-50 mb-1">
-                                                          Color: {item.color}
+                                                      <div className="text-sm opacity-50 mb-1">
+                                                         {/* Color: {item.color}
                                                           <br />
-                                                          Size: {item.size}
-                                                      </div>*/}
+                                                          Size: {item.size}*/}
+                                                      </div>
                                                   </div>
                                               </div>
                                               <div className="opacity-50 mr-8">{date}</div>

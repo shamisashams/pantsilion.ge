@@ -3,6 +3,7 @@ import { cartList } from "../components/Data";
 import CabinetTabs from "../components/CabinetTabs";
 import Layout from "../Layouts/Layout";
 import {Link, usePage} from "@inertiajs/inertia-react";
+import Moment from 'moment';
 
 const OrderHistory = ({seo}) => {
 
@@ -76,7 +77,7 @@ const OrderHistory = ({seo}) => {
                                       <div className="opacity-50 ">{__('client.orders_price', localizations)}</div>
                                   </div>
                                   {orders.data.map((item, index) => {
-                                      let date = new Date(item.created_at).toUTCString()
+                                      let date = Moment(item.created_at).format('DD.MM.YYYY');
                                       return (
                                           <div
                                               key={index}
