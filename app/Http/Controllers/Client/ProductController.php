@@ -98,7 +98,12 @@ class ProductController extends Controller
             foreach ($options as $option){
                 if($item->attribute->type == 'select'){
                     if($item->integer_value == $option->id) {
-                        $result[$item->attribute->code] = $option->label;
+                        if($item->attribute->code == 'size'){
+                            $result[$item->attribute->code] = $option->value;
+                        }
+                        else {
+                            $result[$item->attribute->code] = $option->label;
+                        }
                     }
 
                 }
@@ -127,6 +132,7 @@ class ProductController extends Controller
                             $result[$item->attribute->code]['id'] = $option->id;
                             $result[$item->attribute->code]['code'] = $option->code;
                             $result[$item->attribute->code]['color'] = $option->color;
+                            $result[$item->attribute->code]['value'] = $option->value;
                         }
 
                     }
@@ -139,6 +145,7 @@ class ProductController extends Controller
                 $config[$key][$item['id']]['label'] = $item['label'];
                 $config[$key][$item['id']]['code'] = $item['code'];
                 $config[$key][$item['id']]['color'] = $item['color'];
+                $config[$key][$item['id']]['value'] = $item['value'];
                 $config[$key][$item['id']]['variants'][] = $variant->id;
             }
             $config['variants'][$variant->id]['prices'] = $variant->price;

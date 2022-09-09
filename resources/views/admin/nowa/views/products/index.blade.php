@@ -172,7 +172,16 @@
                                                     foreach ($options as $option){
                                                         if($_item->attribute->type == 'select'){
                                                             if($_item->integer_value == $option->id) {
-                                                                $result[$_item->attribute->code] = $option->label;
+                                                                if($_item->attribute->code == 'size'){
+                                                                    $result[$_item->attribute->code] = $option->value;
+                                                                }
+                                                                elseif ($_item->attribute->code == 'corner'){
+                                                                    $result[$_item->attribute->code] = $option->code;
+                                                                }
+                                                                else {
+                                                                    $result[$_item->attribute->code] = $option->label;
+                                                                }
+
                                                             }
 
                                                         }

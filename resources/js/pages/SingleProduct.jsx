@@ -113,7 +113,7 @@ const SingleProduct = ({seo}) => {
 
                 //product_config.size[key2].variants = id;
                 //product_config.size[key2].variants.remove(item);
-                sizes.push({id: key2, label: product_config.size[key2].label, variants: product_config.size[key2].variants});
+                sizes.push({id: key2, label: product_config.size[key2].value, variants: product_config.size[key2].variants});
                 //delete product_config.size[key2];
 
             })
@@ -161,7 +161,7 @@ const SingleProduct = ({seo}) => {
 
 
                 product_config.size[key2].variants.map((item,index) => {
-                    sizes.push({id: item, label: product_config.size[key2].label, variants: []});
+                    sizes.push({id: item, label: product_config.size[key2].value, variants: []});
                 })
                 //product_config.size[key2].variants = id;
                 //product_config.size[key2].variants.remove(item);
@@ -214,7 +214,7 @@ const SingleProduct = ({seo}) => {
 
                                 //product_config.size[key2].variants = id;
                                 //product_config.size[key2].variants.remove(item);
-                                sizes.push({id: key2, label: product_config.size[key2].label, variants: id});
+                                sizes.push({id: key2, label: product_config.size[key2].value, variants: id});
                                 //delete product_config.size[key2];
                             }
                         })
@@ -374,7 +374,7 @@ const SingleProduct = ({seo}) => {
 
 
     function selectCategoryColor(color){
-        setCategoryColorImg(color.file ? color.file_full_url:null)
+        setCategoryColorImg(color.file ? color.file.file_full_url:null)
     }
 
     console.log(product_config)

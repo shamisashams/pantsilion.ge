@@ -695,7 +695,15 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                                     foreach ($options as $option){
                                         if($item->attribute->type == 'select'){
                                             if($item->integer_value == $option->id) {
-                                                $result[$item->attribute->code] = $option->label;
+                                                if($item->attribute->code == 'size'){
+                                                    $result[$item->attribute->code] = $option->value;
+                                                }
+                                                elseif ($item->attribute->code == 'corner'){
+                                                    $result[$item->attribute->code] = $option->code;
+                                                }
+                                                else {
+                                                    $result[$item->attribute->code] = $option->label;
+                                                }
                                             }
 
                                         }

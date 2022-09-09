@@ -190,7 +190,7 @@
                                             @endif
                                             @if($attribute->code == 'size')
                                                 <td>
-                                                    <input class="form-control" name="options[{{$item->id}}][value]" readonly value="{{$item->code}}">
+                                                    <input class="form-control" name="options[{{$item->id}}][value]" value="{{$item->value}}">
                                                 </td>
                                             @endif
                                             @if($attribute->code == 'color')
