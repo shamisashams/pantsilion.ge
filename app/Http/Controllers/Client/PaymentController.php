@@ -35,7 +35,7 @@ class PaymentController extends Controller
      */
     public function index(string $locale, Request $request)
     {
-        if(!session('shipping')) return redirect()->route('client.cart.index');
+        if(!session('shipping')) return redirect()->route('client.shipping.index');
         $page = Page::where('key', 'products')->firstOrFail();
         $products = Product::with(['files'])->whereHas('categories',function (Builder $query){
             $query->where('status', 1);
