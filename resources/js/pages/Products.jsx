@@ -11,6 +11,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import MultiRangeSlider from "../components/RangeSlider/RangeSlider";
 import Layout from "../Layouts/Layout";
 import { Inertia } from "@inertiajs/inertia";
+import RangeSlider from "../components/PriceRange/PriceRange";
 
 const Products = ({ seo }) => {
     let appliedFilters = {};
@@ -168,10 +169,15 @@ const Products = ({ seo }) => {
                             })}
                         </div>
                         <div className="mt-10">
-                            <MultiRangeSlider
+                            {/*<MultiRangeSlider
                                 onChange={({ min, max }) => {}}
                                 appliedFilters={appliedFilters}
-                            />
+                            />*/}
+
+                            <div style={{width:'200px'}}>
+                                <RangeSlider appliedFilters={appliedFilters} />
+                            </div>
+
                         </div>
 
                         <ul className={` pt-0 transition-all duration-500  `}>
