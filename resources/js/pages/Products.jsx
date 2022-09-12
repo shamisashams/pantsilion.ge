@@ -13,7 +13,7 @@ import Layout from "../Layouts/Layout";
 import { Inertia } from "@inertiajs/inertia";
 
 const Products = ({ seo }) => {
-    let appliedFilters = [];
+    let appliedFilters = {};
     let urlParams = new URLSearchParams(window.location.search);
 
     urlParams.forEach((value, index) => {
@@ -49,6 +49,8 @@ const Products = ({ seo }) => {
                 appliedFilters["subcategory"].push(item.id);
             } else appliedFilters["subcategory"] = [item.id];
 
+            console.log(appliedFilters)
+
             let params = [];
             for (let key in appliedFilters) {
                 params.push(key + "=" + appliedFilters[key].join(","));
@@ -65,6 +67,7 @@ const Products = ({ seo }) => {
             removeA(appliedFilters["subcategory"], item.toString());
         else delete appliedFilters["subcategory"];
 
+        console.log(appliedFilters)
         let params = [];
 
         for (let key in appliedFilters) {
@@ -93,7 +96,7 @@ const Products = ({ seo }) => {
     subcategories.map((item,index) => {
         subcats[item.id] = item.title;
     });
-    console.log(subcats)
+
 
     return (
         <Layout seo={seo}>
