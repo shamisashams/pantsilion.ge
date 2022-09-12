@@ -78,7 +78,7 @@ const Products = ({ seo }) => {
     };
 
     const clearFilter = function () {
-        appliedFilters = [];
+        appliedFilters = {};
         let params = [];
 
         for (let key in appliedFilters) {
