@@ -138,6 +138,13 @@
                     "i18n": "blog",
                     "icon": "g_translate",
                     "slug": "blog"
+                },
+                {
+                    "url": "gallery.index",
+                    "name": "gallery",
+                    "i18n": "gallery",
+                    "icon": "gallery",
+                    "slug": "gallery"
                 }
             ]
         },
