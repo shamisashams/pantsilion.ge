@@ -9,7 +9,7 @@ import { BsGlobe2 } from "react-icons/bs";
 import { useState } from "react";
 import Category from "./Category";
 
-import { Inertia } from '@inertiajs/inertia'
+import { Inertia } from "@inertiajs/inertia";
 
 const Navbar = () => {
     const renderHTML = (rawHTML) =>
@@ -21,22 +21,23 @@ const Navbar = () => {
     const navigations = [
         {
             text: __("client.navbar_home", sharedData),
-            link: route('client.home.index'),
+            link: route("client.home.index"),
         },
         {
             text: __("client.navbar_aboutus", sharedData),
-            link: route('client.about.index'),
+            link: route("client.about.index"),
         },
         {
             text: __("client.navbar_contact", sharedData),
-            link: route('client.contact.index'),
+            link: route("client.contact.index"),
         },
         {
             text: __("client.navbar_blog", sharedData),
-            link: route('client.blog.index'),
+            link: route("client.blog.index"),
         },
     ];
-    const { locales, currentLocale, locale_urls, cart_count, wishlist_count } = usePage().props;
+    const { locales, currentLocale, locale_urls, cart_count, wishlist_count } =
+        usePage().props;
     const [searchInput, setSearchInput] = useState(false);
     const [showCategory, setShowCategory] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -49,37 +50,40 @@ const Navbar = () => {
         }
     });
 
-
     const [values, setValues] = useState({
         first_name: "",
         last_name: "",
         email: "",
-    })
+    });
 
     function handleChange(e) {
         const key = e.target.name;
-        const value = e.target.value
-        setValues(values => ({
+        const value = e.target.value;
+        setValues((values) => ({
             ...values,
             [key]: value,
-        }))
+        }));
     }
 
     function handleSubmit(e) {
-        e.preventDefault()
-        Inertia.get(route('search.index'), values)
+        e.preventDefault();
+        Inertia.get(route("search.index"), values);
     }
 
     return (
         <>
             <div
-                className={`fixed left-0 top-0 w-full pb-3 z-50 transition-all duration-500 ${scrolled ? "bg-white shadow" : ""
-                    }`}
+                className={`fixed left-0 top-0 w-full pb-3 z-50 transition-all duration-500 ${
+                    scrolled ? "bg-white shadow" : ""
+                }`}
             >
                 <div className="wrapper">
                     <div className="flex items-center justify-between md:py-3 pt-1">
                         <Link href="/">
-                            <img src="/client/assets/images/logo/1.png" alt="" />
+                            <img
+                                src="/client/assets/images/logo/1.png"
+                                alt=""
+                            />
                         </Link>
                         <ul className="hidden md:inline-block">
                             {navigations.map((nav, index) => {
@@ -98,8 +102,9 @@ const Navbar = () => {
                         <div>
                             <button
                                 onClick={() => setShowCategory(!showCategory)}
-                                className={`inline-block md:py-3 md:px-5 md:-ml-5 rounded-full transition-all md:hover:bg-zinc-100 ${showCategory ? "md:bg-zinc-100" : ""
-                                    }`}
+                                className={`inline-block md:py-3 md:px-5 md:-ml-5 rounded-full transition-all md:hover:bg-zinc-100 ${
+                                    showCategory ? "md:bg-zinc-100" : ""
+                                }`}
                             >
                                 {showCategory ? (
                                     <IoCloseOutline className="inline-block md:mr-2 w-5 h-5 md:mb-1" />
@@ -113,14 +118,14 @@ const Navbar = () => {
                                 </span>
                             </button>
                             <Link
-                                href={route('client.category.new')}
+                                href={route("client.category.new")}
                                 className="hidden md:inline-block py-3 px-5 rounded-full transition-all hover:bg-zinc-100"
                             >
                                 {/* New products */}
                                 {__("client.navbar_new_products", sharedData)}
                             </Link>
                             <Link
-                                href={route('client.category.sale')}
+                                href={route("client.category.sale")}
                                 className="hidden md:inline-block py-3 px-5 rounded-full transition-all hover:bg-zinc-100"
                             >
                                 {/* Sale */}
@@ -129,15 +134,22 @@ const Navbar = () => {
                         </div>
                         <div className="flex items-center">
                             <div
-                                className={` rounded-full relative md:h-12 h-10 overflow-hidden  transition-all  ${searchInput
-                                    ? "w-60 bg-zinc-100"
-                                    : " md:w-12 w-10 bg-transparent"
-                                    }`}
+                                className={` rounded-full relative md:h-12 h-10 overflow-hidden  transition-all  ${
+                                    searchInput
+                                        ? "w-60 bg-zinc-100"
+                                        : " md:w-12 w-10 bg-transparent"
+                                }`}
                             >
-                                <form onSubmit={handleSubmit}>
+                                <form
+                                    className="h-full"
+                                    onSubmit={handleSubmit}
+                                >
                                     <input
-                                        className={`bg-transparent h-full w-full text-sm pl-5  transition-all   ${searchInput ? " opacity-100" : "  opacity-0"
-                                            }`}
+                                        className={`bg-transparent h-full w-full text-sm pl-5  transition-all   ${
+                                            searchInput
+                                                ? " opacity-100"
+                                                : "  opacity-0"
+                                        }`}
                                         type="text"
                                         placeholder="Search here"
                                         name="term"
@@ -149,33 +161,41 @@ const Navbar = () => {
                                     className="md:w-12 w-10 h-full rounded-full flex items-center justify-center hover:bg-zinc-100 absolute top-0 right-0 transition-all cursor-pointer"
                                     onClick={() => setSearchInput(!searchInput)}
                                 >
-                                    {searchInput ? <IoCloseOutline /> : <FiSearch />}
+                                    {searchInput ? (
+                                        <IoCloseOutline />
+                                    ) : (
+                                        <FiSearch />
+                                    )}
                                 </div>
                             </div>
                             <Link
-                                href={route('client.favorite.index')}
+                                href={route("client.favorite.index")}
                                 className="md:w-12 md:h-12 w-10 h-10 rounded-full flex items-center justify-center hover:bg-zinc-100 transition-all cursor-pointer relative hover:text-custom-red"
                                 onClick={() => ""}
                             >
-                                {wishlist_count > 0 ? <button
-                                    className="absolute top-0 right-0 text-xs w-5 h-5 rounded-full bg-custom-red text-white bold shadow shadow-custom-red"
-                                    style={{ fontSize: "11px" }}
-                                >
-                                    {wishlist_count}
-                                </button> : null}
+                                {wishlist_count > 0 ? (
+                                    <button
+                                        className="absolute top-0 right-0 text-xs w-5 h-5 rounded-full bg-custom-red text-white bold shadow shadow-custom-red"
+                                        style={{ fontSize: "11px" }}
+                                    >
+                                        {wishlist_count}
+                                    </button>
+                                ) : null}
                                 <FiHeart />
                             </Link>
                             <Link
-                                href={route('client.cart.index')}
+                                href={route("client.cart.index")}
                                 className="md:w-12 md:h-12 w-10 h-10 rounded-full flex items-center justify-center hover:bg-zinc-100 transition-all cursor-pointer relative"
                                 onClick={() => ""}
                             >
-                                {cart_count > 0 ? <button
-                                    className="absolute top-0 right-0 text-xs w-5 h-5 rounded-full bg-custom-red text-white bold shadow shadow-custom-red"
-                                    style={{ fontSize: "11px" }}
-                                >
-                                    {cart_count}
-                                </button> : null}
+                                {cart_count > 0 ? (
+                                    <button
+                                        className="absolute top-0 right-0 text-xs w-5 h-5 rounded-full bg-custom-red text-white bold shadow shadow-custom-red"
+                                        style={{ fontSize: "11px" }}
+                                    >
+                                        {cart_count}
+                                    </button>
+                                ) : null}
                                 <FiShoppingCart />
                             </Link>
                             <div
@@ -186,15 +206,29 @@ const Navbar = () => {
                                 <div
                                     className={`mt-px rounded bg-zinc-100 py-5 px-4 pl-6 absolute right-0 top-full text-right group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-5 invisible opacity-0 transition-all`}
                                 >
-                                    <Link href={route('client.login.index')} className="whitespace-nowrap pb-2">
-                                        {__('client.nav_sign_in', sharedData)}{" "}
+                                    <Link
+                                        href={route("client.login.index")}
+                                        className="whitespace-nowrap block pb-2"
+                                    >
+                                        {__("client.nav_sign_in", sharedData)}{" "}
                                     </Link>
-                                    <Link href={route('client.registration.index')} className="whitespace-nowrap">
-                                        {__('client.nav_signup', sharedData)}{" "}
+                                    <Link
+                                        href={route(
+                                            "client.registration.index"
+                                        )}
+                                        className="whitespace-nowrap block"
+                                    >
+                                        {__("client.nav_signup", sharedData)}{" "}
                                     </Link>
 
-                                    <Link href={route('partner.login.index')} className="whitespace-nowrap">
-                                        {__('client.nav_partner_sign_in', sharedData)}{" "}
+                                    <Link
+                                        href={route("partner.login.index")}
+                                        className="whitespace-nowrap block"
+                                    >
+                                        {__(
+                                            "client.nav_partner_sign_in",
+                                            sharedData
+                                        )}{" "}
                                     </Link>
                                 </div>
                             </div>
@@ -206,7 +240,6 @@ const Navbar = () => {
                                 <div
                                     className={` bg-zinc-100 w-full rounded-full text-center py-5 pt-10 absolute right-0 top-0 group-hover:opacity-100 group-hover:visible group-hover:max-h-40 max-h-0 overflow-hidden invisible opacity-0 transition-all duration-500`}
                                 >
-
                                     {Object.keys(locales).map((name, index) => {
                                         if (locales[name] === currentLocale) {
                                             return (
@@ -221,7 +254,6 @@ const Navbar = () => {
                                         }
                                     })}
 
-
                                     {Object.keys(locales).map((name, index) => {
                                         if (locales[name] !== currentLocale) {
                                             return (
@@ -234,8 +266,6 @@ const Navbar = () => {
                                             );
                                         }
                                     })}
-
-
                                 </div>
                             </div>
                         </div>
