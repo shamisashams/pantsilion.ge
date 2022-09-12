@@ -19,11 +19,16 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ContactController;
 use App\Http\Controllers\Client\AboutUsController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 Route::post('ckeditor/image_upload', [CKEditorController::class, 'upload'])->withoutMiddleware('web')->name('upload');
 
 Route::any('bog/callback/status', [\App\BogPay\BogCallbackController::class, 'status'])->withoutMiddleware('web')->name('bogCallbackStatus');
 Route::any('bog/callback/refund',[\App\BogPay\BogCallbackController::class, 'refund'])->withoutMiddleware('web')->name('bogCallbackRefund');
+
+Route::any('space/callback/status', [\App\SpacePay\SpaceCallbackController::class, 'status'])->withoutMiddleware('web')->name('spaceCallbackStatus');
 
 Route::redirect('', config('translatable.fallback_locale'));
 Route::prefix('{locale?}')
@@ -147,6 +152,7 @@ Route::prefix('{locale?}')
             Route::post('partner/settings',[\App\Http\Controllers\Client\PartnerController::class,'updateInfo'])->name('partner.update-info');
             Route::post('partner/bak-account',[\App\Http\Controllers\Client\PartnerController::class,'saveBankAccount'])->name('partner.save-bank-account');
             Route::post('partner/withdraw',[\App\Http\Controllers\Client\PartnerController::class,'withdrawCreate'])->name('partner.withdraw-create');
+            Route::get('partner/{referral}/remove',[\App\Http\Controllers\Client\PartnerController::class,'referralRemove'])->name('partner.referral-remove');
         });
 
         Route::middleware(['auth_client'])->group(function (){
@@ -227,6 +233,67 @@ Route::prefix('{locale?}')
 
             Route::post('test/filter',[\App\Http\Controllers\TestController::class,'filter']);*/
         });
+
+        //Social-------------------------------------------------------
+        Route::get('/auth/facebook/redirect', function () {
+            return Socialite::driver('facebook')->redirect();
+        })->name('fb-redirect');
+
+        Route::get('/auth/facebook/callback', function () {
+            //dd('jdfhgjdhjf urkl');
+            $facebookUser = Socialite::driver('facebook')->stateless()->user();
+
+            //dd($facebookUser);
+            $email = uniqid();
+            if ($facebookUser->email !== null) $email = $facebookUser->email;
+            $user = User::updateOrCreate([
+                'facebook_id' => $facebookUser->id,
+
+            ], [
+                'email' => $email,
+                'name' => $facebookUser->name,
+                'facebook_id' => $facebookUser->id,
+                'facebook_token' => $facebookUser->token,
+                'facebook_refresh_token' => $facebookUser->refreshToken,
+                'avatar' => $facebookUser->avatar,
+            ]);
+
+
+
+            //dd($user);
+
+            Auth::login($user);
+
+            return redirect(route('profile'));
+        })->name('fb-callback');
+
+        Route::get('/auth/google/redirect', function () {
+            return Socialite::driver('google')->redirect();
+        })->name('google-redirect');
+
+        Route::get('/auth/google/callback', function () {
+            $googleUser = Socialite::driver('google')->user();
+
+            //dd($googleUser);
+            $user = User::updateOrCreate([
+                //'facebook_id' => $facebookUser->id,
+                'email' => $googleUser->email,
+            ], [
+                'name' => $googleUser->name,
+                'google_id' => $googleUser->id,
+                'google_token' => $googleUser->token,
+                'google_refresh_token' => $googleUser->refreshToken,
+                'avatar' => $googleUser->avatar,
+            ]);
+
+
+            //dd($user);
+
+            Auth::login($user);
+
+            return redirect(route('profile'));
+        })->name('google-callback');
+        //--------------------------------------------------------------------------
     });
 
 

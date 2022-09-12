@@ -202,8 +202,11 @@ class BaseRepository implements EloquentRepositoryInterface
     }
 
 
-    public function saveVideo($request){
+    public function saveVideo($request,int $id = null){
         //dd($request->all());
+        if($id !== null){
+            $this->model = $this->findOrFail($id);
+        }
         if(!$request->post('video')){
             $this->model->video()->delete();
         } else {

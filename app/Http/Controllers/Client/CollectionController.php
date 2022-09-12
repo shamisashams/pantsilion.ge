@@ -21,7 +21,7 @@ class CollectionController extends Controller
 
     public function index()
     {
-        $page = Page::where('key', 'about')->firstOrFail();
+        $page = Page::where('key', 'furniture_set')->firstOrFail();
 
         $images = [];
         foreach ($page->sections as $sections){

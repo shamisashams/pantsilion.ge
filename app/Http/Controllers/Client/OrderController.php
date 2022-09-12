@@ -6,6 +6,7 @@ use App\BogPay\BogPay;
 use App\BogPay\BogPaymentController;
 use App\Cart\Facade\Cart;
 use App\Http\Controllers\Controller;
+use App\Mail\PromocodeProduct;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Order;
@@ -15,6 +16,7 @@ use App\Models\Product;
 use App\Models\ProductSet;
 use App\Models\Setting;
 use App\Promocode\Promocode;
+use App\SpacePay\SpacePay;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -22,10 +24,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use App\Repositories\Eloquent\ProductRepository;
 use Spatie\TranslationLoader\TranslationLoaders\Db;
 use Illuminate\Support\Facades\DB as DataBase;
+use function Symfony\Component\String\s;
 
 class OrderController extends Controller
 {
@@ -251,13 +255,31 @@ class OrderController extends Controller
         $data['city'] = City::query()->where('id',session('shipping.city_id'))->first()->title;
         $data['address'] = session('shipping.address');
         $data['info'] = session('shipping.comment');
-        $data['payment_method'] = 0;
+        $data['payment_method'] = 1;
         $data['user_id'] = $user->id;
 
         $grand_t = $data['grand_total'];
 
+        $delete_promocode = false;
         if($promocode = session('promocode')){
-            $data['discount'] = $promocode->reward;
+
+
+            if($promocode->type == 'product'){
+                $promocode_products = $promocode->products()->select('id')->get()->pluck('id')->toArray();
+                foreach ($cart['products'] as $item){
+
+                    if(in_array($item['product']->parent->id,$promocode_products)){
+                        $item['product']['discount'] = $item['product']->parent->promocode->reward;
+                        $delete_promocode = true;
+                    }
+                }
+            }
+
+            if($promocode->type == 'cart'){
+                $data['discount'] = $promocode->reward;
+                $delete_promocode = true;
+            }
+
         }
 
 
@@ -265,45 +287,9 @@ class OrderController extends Controller
 
         //dd($cart);
 
-        $product_ids = [];
-        foreach ($cart['products'] as $item){
-            $product_ids[] = $item['product']->id;
-        }
 
-        $products = Product::whereIn('id',$product_ids)->get();
+        if($cart['count'] > 0){
 
-
-
-
-        if($products){
-            $prod_data = [];
-            foreach ($products as $product){
-                $prod_data[$product->id]['stock'] = $product->stocks()->count();
-                $prod_data[$product->id]['status'] = $product->status;
-                $prod_data[$product->id]['price'] = $product->price;
-                $prod_data[$product->id]['special_price'] = $product->special_price;
-            }
-
-
-
-            $error = true;
-            foreach ($cart['products'] as $item){
-                if(isset($prod_data[$item['product']['id']])){
-                    $price = ($prod_data[$item['product']['id']]['special_price'] !== null) ? $prod_data[$item['product']['id']]['special_price'] : $prod_data[$item['product']['id']]['price'];
-                    if ($price == $item['product']['price'] && $prod_data[$item['product']['id']]['status'] == 1){
-                        $error = false;
-                    }
-                } else {
-                    $error = true;
-                    break;
-                }
-            }
-
-            //dd($data, $cart, $products, $prod_data);
-
-            if ($error){
-                 dd('error cart is not valid');
-            }
 
             try {
                 DataBase::beginTransaction();
@@ -319,6 +305,10 @@ class OrderController extends Controller
                     $data['qty_ordered'] = $item['quantity'];
                     $data['price'] = $item['product']['price'];
                     $data['total'] = $item['product']['price'] * $item['quantity'];
+                    $data['attributes'] = json_encode($item['product']['attributes']);
+                    if ($item['product']->discount){
+                        $data['promocode_discount'] = $item['product']->discount;
+                    }
                     $insert[] = $data;
                 }
                 //dd($insert);
@@ -364,6 +354,22 @@ class OrderController extends Controller
 
 
 
+                $_promocode = \App\Models\PromoCode::query()->where('type','cart')->first();
+                //dd($promocode);
+                if ($_promocode){
+                    $promo_gen = new Promocode();
+                    $gen = $promo_gen->generateCode();
+
+                    $request->user()->promocode()->create(['promocode_id' => $_promocode->id, 'promocode' => $gen]);
+                    $data['product'] = null;
+                    $data['code'] = $gen;
+                    Mail::to($request->user())->send(new PromocodeProduct($data));
+                }
+
+
+
+
+
                 DataBase::commit();
 
                 $partner_reward = Setting::query()->where('key','partner_reward')->first();
@@ -372,22 +378,47 @@ class OrderController extends Controller
                     $user->referrer()->update(['balance' => \Illuminate\Support\Facades\DB::raw('balance + '. ($grand_t * $partner_reward->integer_value) / 100)]);
                 }
 
+                //Cart::destroy();
+                if($promo_code = session('promocode') && $delete_promocode){
+                    $request->user()->promocode()->where('promocode',$promo_code->userPromocode->promocode)->delete();
+                }
+
+                session()->forget('promocode');
+
                 if($order->payment_method == 1 && $order->payment_type == 'bog'){
                     return app(BogPaymentController::class)->make_order($order->id,$order->grand_total);
                 } elseif($order->payment_method == 1 && $order->payment_type == 'tbc'){
                     return redirect(locale_route('order.failure',$order->id));
+                }
+                elseif($order->payment_method == 1 && $order->payment_type == 'space_bank'){
+                    $space = new SpacePay('pantsilion.ge','2f6ea5f1-78f6-4d50-a666-b7e9a0b46791');
+
+                    $data = $space->createQr($order->grand_total,$order->id);
+
+                    $response = json_decode($data,true);
+
+                    if($response['status']['code'] == 1){
+
+                        return Inertia::location($response['data']['redirectUrl']);
+                    } else {
+
+                        dd($response['status']['message']);
+                    }
                 }
                  else {
                     return redirect(locale_route('order.success',$order->id));
                 }
 
             } catch (QueryException $exception){
+                dd($exception->getMessage());
                 DataBase::rollBack();
             }
 
 
         }
 
+
+        return redirect()->route('client.home.index');
     }
 
     public function bogResponse(Request $request){
@@ -399,7 +430,7 @@ class OrderController extends Controller
         else if($order->status == 'error') return redirect(route('order.failure'));
         else {
             sleep(3);
-            return redirect('https://bunkeri1.ge/' . app()->getLocale() . '/payments/bog/status?order_id='.$order->id);
+            return redirect('https://pantsilion.ge/' . app()->getLocale() . '/payments/bog/status?order_id='.$order->id);
         }
     }
 

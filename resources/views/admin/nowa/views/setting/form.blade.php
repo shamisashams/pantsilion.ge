@@ -97,7 +97,11 @@
                     </div>
 
 
-
+                    <div class="form-group mb-0 mt-3 justify-content-end">
+                        <div>
+                            {!! Form::submit(__('admin.update'),['class' => 'btn btn-primary']) !!}
+                        </div>
+                    </div>
 
                 </div>
             </div>

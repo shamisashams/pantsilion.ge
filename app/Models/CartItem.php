@@ -22,8 +22,11 @@ class CartItem extends Model
 
     protected $fillable = [
         'cart_id',
-        'product_id'
+        'product_id',
+        'qty'
     ];
+
+    protected $primaryKey = 'product_id';
 
 
 

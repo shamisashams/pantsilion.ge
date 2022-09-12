@@ -350,7 +350,7 @@ const Shipping = ({ seo }) => {
                             </div>
                             <div className="flex items-center justify-between  mb-5">
                                 <div>Shipping</div>
-                                <div className="bold text-lg">₾ 4495.55</div>
+                                <div className="bold text-lg">₾ 0.00</div>
                             </div>
                             <div>
                                 {promocode

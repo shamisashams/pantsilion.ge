@@ -218,6 +218,9 @@ class CartController extends Controller
 
         Cart::add($request);
 
+        if ($request->post('buy_now')){
+            return redirect()->route('client.cart.index');
+        }
         return redirect()->back();
 
     }
@@ -225,6 +228,9 @@ class CartController extends Controller
     public function addToCartCollection(Request $request){
         Cart::addCollection($request);
 
+        if ($request->post('buy_now')){
+            return redirect()->route('client.cart.index');
+        }
         return redirect()->back();
     }
 

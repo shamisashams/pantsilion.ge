@@ -25,7 +25,7 @@ const Gallery = ({gallery}) => {
               <div className="w-full h-full relative after:w-full after:h-full after:top-0 after:left-0 after:bg-white after:opacity-0 group-hover:after:opacity-50 after:transition-all after:duration-700">
                 <img
                   className="w-full h-full object-cover  scale-110 group-hover:scale-100 transition-all duration-500"
-                  src={item.latest_image ? '/' + item.latest_image.path + '/' + item.latest_image.title:null}
+                  src={item.latest_image ? item.latest_image.file_full_url :null}
                   alt=""
                   style={{ maxHeight: "420px" }}
                 />

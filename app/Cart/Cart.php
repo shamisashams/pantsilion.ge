@@ -26,17 +26,34 @@ class Cart
         $cart =  $this->getCart();
 
 
+
         //dd($cart);
         if($cart){
+            $db_cart->items()->delete();
             foreach ($cart['products'] as $item){
-                $db_cart->items()->create([
+                $db_cart->items()->updateOrCreate([
                     'product_id' => $item['product']->id,
-                    'qty' => $item['quantity']
+                ],[
+                    'qty' => $item['quantity'],
                 ]);
             }
         }
 
 
+        $arr = [];
+        if (auth()->user()){
+            $db_cart = auth()->user()->cart()->with('items')->first();
+
+            foreach ($db_cart->items as $item){
+                $obj = [
+                    'product_id' => $item->product_id,
+                    'quantity' => $item->qty,
+                    'price' => $item->price
+                ];
+                $arr[] = (object)$obj;
+            }
+            //\session(['cart' => $arr]);
+        }
     }
 
     public function add($request){
@@ -74,6 +91,10 @@ class Cart
             }
 
 
+
+            if($user = auth()->user()){
+                $this->mergeCart($user);
+            }
 
 
     }
@@ -130,7 +151,9 @@ class Cart
 
 
         }
-
+        if($user = auth()->user()){
+            $this->mergeCart($user);
+        }
     }
 
     public function removeCollection($request){
@@ -171,6 +194,9 @@ class Cart
             session(['cart' => $cart]);
 
         }
+        if($user = auth()->user()){
+            $this->mergeCart($user);
+        }
     }
 
     public function updateCollection($request){
@@ -191,16 +217,24 @@ class Cart
     }
 
     public function getCart(){
+
+
+
+
+
+
         $products = array();
         $collections = [];
         $cart = session('cart') ?? array();
+
+        //dd($cart,$arr);
         $total = 0;
         $total_c = 0;
 
         //dd($cart);
         if ($cart !== null) {
             foreach ($cart as $_item) {
-                $product = Product::with(['translation','latestImage'])->where(['id' => $_item->product_id])->first();
+                $product = Product::with(['translation','latestImage','attribute_values'])->where(['id' => $_item->product_id])->first();
                 $product_attributes = $product->attribute_values;
 
                 $result = [];
@@ -265,6 +299,13 @@ class Cart
         $cart = session('cart') ?? array();
         $cart_collections = session('cart_collections') ?? array();
         return count($cart) + count($cart_collections);
+    }
+
+    public function destroy(){
+        \session()->forget(['cart','cart_collections']);
+        if($user = auth()->user()){
+            $this->mergeCart($user);
+        }
     }
 
 }

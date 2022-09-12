@@ -98,7 +98,12 @@ class ProductController extends Controller
             foreach ($options as $option){
                 if($item->attribute->type == 'select'){
                     if($item->integer_value == $option->id) {
-                        $result[$item->attribute->code] = $option->label;
+                        if($item->attribute->code == 'size'){
+                            $result[$item->attribute->code] = $option->value;
+                        }
+                        else {
+                            $result[$item->attribute->code] = $option->label;
+                        }
                     }
 
                 }
@@ -111,6 +116,7 @@ class ProductController extends Controller
         $stocks = [];
 
         $config = [];
+        $prices = [];
         foreach ($product->variants()->with(['video','stocks','stocks.translation'])->get() as $variant){
             $product_attributes = $variant->attribute_values;
 
@@ -126,6 +132,7 @@ class ProductController extends Controller
                             $result[$item->attribute->code]['id'] = $option->id;
                             $result[$item->attribute->code]['code'] = $option->code;
                             $result[$item->attribute->code]['color'] = $option->color;
+                            $result[$item->attribute->code]['value'] = $option->value;
                         }
 
                     }
@@ -138,6 +145,7 @@ class ProductController extends Controller
                 $config[$key][$item['id']]['label'] = $item['label'];
                 $config[$key][$item['id']]['code'] = $item['code'];
                 $config[$key][$item['id']]['color'] = $item['color'];
+                $config[$key][$item['id']]['value'] = $item['value'];
                 $config[$key][$item['id']]['variants'][] = $variant->id;
             }
             $config['variants'][$variant->id]['prices'] = $variant->price;
@@ -146,7 +154,8 @@ class ProductController extends Controller
 
             $prices[] = $variant->price;
 
-            $product['min_price']= min($prices);
+
+
             if(count($variant->stocks)){
                 foreach ($variant->stocks as $stock){
                     $stocks[$stock->city_id][$stock->id] = $stock;
@@ -159,8 +168,10 @@ class ProductController extends Controller
 
         }
 
+        $product['min_price']= min($prices);
         //dd($config);
 
+        //dd($prices);
         //dd($stocks);
 
 
@@ -238,7 +249,7 @@ class ProductController extends Controller
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
             ->inRandomOrder()
             ->groupBy('products.id')
-            ->with('latestImage')->get();
+            ->with('latestImage','variants')->get();
 
         foreach ($similar_products as $_product){
             $product_attributes = $_product->attribute_values;
@@ -259,8 +270,18 @@ class ProductController extends Controller
 
             }
             $_product['attributes'] = $_result;
+            $prices = [];
+
+            foreach ($_product->variants as $variant){
+                $prices[] = $variant->price;
+            }
+            $_product['min_price'] = min($prices);
+
 
         }
+
+
+
 
         //dd($product);
         //dd($category);

@@ -17,8 +17,18 @@ import {Inertia} from "@inertiajs/inertia";
 const Payment = ({seo}) => {
     const {cart,promocode, shipping, city, localizations} = usePage().props;
 
+    const [bank,setBank] = useState(null);
+
     function makeOrder(){
-        Inertia.post(route('client.checkout.order'))
+        if(bank == null){
+            alert('select bank');
+            return;
+        }
+        Inertia.post(route('client.checkout.order'),{payment_type:bank})
+    }
+
+    function selectBank(bank){
+        setBank(bank);
     }
   return (
       <Layout seo={seo}>
@@ -118,18 +128,22 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                               Or make an installment
                           </div>
                           <div className="grid grid-cols-2 gap-3 mb-5">
-                              <Link
-                                  href="/"
+                              <button
+                                  onClick={() => {
+                                      selectBank('bog')
+                                  }}
                                   className="bg-white flex justify-center items-center py-2"
                               >
                                   <img src="/client/assets/images/icons/5.png" alt="" />
-                              </Link>
-                              <Link
-                                  href="/"
+                              </button>
+                              <button
+                                  onClick={() => {
+                                      selectBank('space_bank')
+                                  }}
                                   className="bg-white flex justify-center items-center py-2"
                               >
                                   <img src="/client/assets/images/icons/6.png" alt="" />
-                              </Link>
+                              </button>
                           </div>
                           <MainButton onclick={makeOrder}> Make a payment now</MainButton>
                       </div>
@@ -210,12 +224,12 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                           </div>
                           <div className="flex items-center justify-between  mb-5">
                               <div>Shipping</div>
-                              <div className="bold text-lg">₾ 4495.55</div>
+                              <div className="bold text-lg">₾ 0</div>
                           </div>
                       </div>
                       <div className="flex items-center justify-between  mb-5">
                           <div className="bold text-lg">Total</div>
-                          <div className="bold text-xl">₾ 4495.55</div>
+                          <div className="bold text-xl">₾ {cart.total}</div>
                       </div>
                       <div>{promocode ? 'discount %' + promocode.reward :null}</div>
                   </div>

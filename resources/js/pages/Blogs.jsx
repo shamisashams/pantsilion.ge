@@ -87,7 +87,7 @@ const Blogs = ({ seo }) => {
                                 link={route('client.blog.show', item.slug)}
                                 date={item.created_at}
                                 title={item.title}
-                                img={item.oldest_image ? '/' + item.oldest_image.path + '/' + item.oldest_image.title : null}
+                                img={item.oldest_image ? item.oldest_image.file_full_url : null}
                                 paragraph={item.short_description}
                             />
                         );

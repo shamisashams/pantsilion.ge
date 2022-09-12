@@ -10,7 +10,7 @@ import {Inertia} from "@inertiajs/inertia";
 
 const Favorites = ({seo}) => {
 
-    const {wishlist} = usePage().props;
+    const {wishlist,localizations} = usePage().props;
 
     console.log(wishlist);
 
@@ -28,6 +28,14 @@ const Favorites = ({seo}) => {
         Inertia.post(route('add-to-cart'), {id: product.id,qty:qty});
     }
 
+    function buyNow(product,qty){
+        if(product.stocks){
+            alert('out of stock')
+            return;
+        }
+        Inertia.post(route('add-to-cart'), {id: product.id,qty:qty, buy_now:true});
+    }
+
     function addToCartCollection(collection){
         console.log(collection)
 
@@ -37,10 +45,19 @@ const Favorites = ({seo}) => {
 
     }
 
+    function buyNowCollection(collection){
+        console.log(collection)
+
+
+        Inertia.post(route('add-to-cart-collection'), {collection:collection.id, buy_now: true});
+
+
+    }
+
   return (
       <Layout seo={seo}>
           <div className="wrapper py-40">
-              <div className="text-4xl bold mb-10">Favorites</div>
+              <div className="text-4xl bold mb-10">{__('client.favorites_title',localizations)}</div>
               {wishlist.map((item, index) => {
                   return (
                       item.product ? <div
@@ -52,7 +69,7 @@ const Favorites = ({seo}) => {
                           <div className="shrink-0 lg:w-96 w-80 flex items-center">
                               <div className="w-32 h-32 mr-5 shrink-0">
                                   <img
-                                      src={item.product.latest_image ? '/' + item.product.latest_image.path + '/' + item.product.latest_image.title:null}
+                                      src={item.product.latest_image ? item.product.latest_image.file_full_url:null}
                                       className="w-full h-full object-cover"
                                       alt=""
                                   />
@@ -82,7 +99,11 @@ const Favorites = ({seo}) => {
                           </button>
                           <div className="w-52 ml-10 mr-3">
                               {" "}
-                              <MainButton>Buy now</MainButton>
+                              <MainButton onclick={() => {
+                                  let qty = document.getElementById('qty_' + item.product.id).value;
+                                  console.log(qty)
+                                  buyNow(item.product,qty)
+                              }}>{__('client.buy_now',localizations)}</MainButton>
                           </div>
                           <div className="">
                               {" "}
@@ -92,7 +113,7 @@ const Favorites = ({seo}) => {
                                   console.log(qty)
                                       addToCart(item.product,qty)
 
-                              }} reverse>Add to cart</MainButton>
+                              }} reverse>{__('client.add_to_cart',localizations)}</MainButton>
                           </div>
                       </div>:<div
                           key={index}
@@ -103,7 +124,7 @@ const Favorites = ({seo}) => {
                           <div className="shrink-0 lg:w-96 w-80 flex items-center">
                               <div className="w-32 h-32 mr-5 shrink-0">
                                   <img
-                                      src={item.collection.latest_image ? '/' + item.collection.latest_image.path + '/' + item.collection.latest_image.title:null}
+                                      src={item.collection.latest_image ? item.collection.latest_image.file_full_url :null}
                                       className="w-full h-full object-cover"
                                       alt=""
                                   />
@@ -116,7 +137,7 @@ const Favorites = ({seo}) => {
                                       Size: {item.size}
                                   </div>
                                   <Link href="/" className=" text-sm text-sky-500 hover:underline">
-                                      Edit
+                                      furniture set
                                   </Link>
                               </div>
                           </div>
@@ -133,7 +154,13 @@ const Favorites = ({seo}) => {
                           </button>
                           <div className="w-52 ml-10 mr-3">
                               {" "}
-                              <MainButton>Buy now</MainButton>
+                              <MainButton onclick={() => {
+
+                                  let qty = document.getElementById('qty_' + item.collection.id).value;
+                                  console.log(qty)
+                                  buyNowCollection(item.collection)
+
+                              }}>{__('client.buy_now',localizations)}</MainButton>
                           </div>
                           <div className="">
                               {" "}
@@ -143,7 +170,7 @@ const Favorites = ({seo}) => {
                                   console.log(qty)
                                   addToCartCollection(item.collection)
 
-                              }} reverse>Add to cart</MainButton>
+                              }} reverse>{__('client.add_to_cart',localizations)}</MainButton>
                           </div>
                       </div>
                   );

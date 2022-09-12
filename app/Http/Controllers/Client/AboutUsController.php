@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Certificate;
+use App\Models\Gallery;
 use App\Models\Page;
 use App\Models\Team;
 use Inertia\Inertia;
@@ -34,10 +35,17 @@ class AboutUsController extends Controller
         $files = [];
         if($page->images) $files = $page->files;
 
+        $gallery = Gallery::with('files')->where('status',1)->first();
+
+        if(!$gallery){
+            $gallery = [];
+        }
+
         //dd($files);
 
         return Inertia::render('About', [
             "team" => Team::with(['translation','file'])->where('status',1)->get(),
+            "gallery" => $gallery,
             "page" => $page,
             "seo" => [
             "title"=>$page->meta_title,

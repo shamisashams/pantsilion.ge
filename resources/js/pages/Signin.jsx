@@ -45,11 +45,11 @@ const Signin = ({seo}) => {
             <div className="relative my-7 text-center after:h-px after:w-full after:top-1/2 after:-translate-y-1/2 after:left-0 after:bg-zinc-300">
                 <p className="w-fit mx-auto bg-zinc-100 px-4 relative z-10">{__('client.or', localizations)}</p>
             </div>
-            <a href="#" className="flex justify-center items-center border border-sky-600 w-full h-12 mb-3 text-sky-600">
+            <a href={route('google-redirect')} className="flex justify-center items-center border border-sky-600 w-full h-12 mb-3 text-sky-600">
                 <img className="mr-3" src="/client/assets/images/icons/google.png" alt="" />
                 <div>Sing in with Google</div>
             </a>
-            <a href="#" className="flex justify-center items-center border border-sky-600 w-full h-12 mb-3 text-sky-600">
+            <a href={route('fb-redirect')} className="flex justify-center items-center border border-sky-600 w-full h-12 mb-3 text-sky-600">
                 <img className="mr-3" src="/client/assets/images/icons/facebook.png" alt="" />
                 <div>Sing in with Facebook</div>
             </a>

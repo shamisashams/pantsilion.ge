@@ -16,9 +16,9 @@ class BogPaymentController extends Controller
     //
     private $bog_pay;
 
-    private $client_id = '14722';
+    private $client_id = '28642';
 
-    private $secret_key = '4cffd65bc65f529cec4f7fcfb25d4d98';
+    private $secret_key = '5e6daf50f65a575e873c6abf085c23f1';
 
 
 
@@ -38,7 +38,7 @@ class BogPaymentController extends Controller
 
         $response = $this->bog_pay->make_order(
             1,
-            'https://bunkeri1.ge/' . app()->getLocale() . '/payments/bog/status?order_id='.$order_id,
+            'https://pantsilion.ge/' . app()->getLocale() . '/payments/bog/status?order_id='.$order_id,
             [['currency_code' => 'GEL', 'value' => $total]],
             0,
             [],

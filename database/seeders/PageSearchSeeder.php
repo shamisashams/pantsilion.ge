@@ -17,10 +17,12 @@ class PageSearchSeeder extends Seeder
         //Page::truncate();
         // Pages array
         $pages = [
-            [
+            /*[
                 'key' => 'search'
-            ],
-
+            ],*/
+            [
+                'key' => 'blogs'
+            ]
 
         ];
 

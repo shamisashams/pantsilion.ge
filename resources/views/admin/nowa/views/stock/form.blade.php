@@ -134,7 +134,7 @@
                     </div>
 
                     <div class="form-group">
-                        {!! Form::label("long",__('admin.lat'),['class' => 'form-label']) !!}
+                        {!! Form::label("long",__('admin.long'),['class' => 'form-label']) !!}
                         {!! Form::text("long",$model->long ?? '',['class' => 'form-control']) !!}
 
                         @error($locale.'.long')

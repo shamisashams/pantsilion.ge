@@ -3,7 +3,7 @@ import React from "react";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import MainButton from "../components/MainButton";
 //import img1 from "../assets/images/other/1.png";
-import Gallery from "../components/Gallery";
+import Gallery from "../components/Gallery2";
 import TeamSlider from "../components/TeamSlider";
 import Layout from "../Layouts/Layout";
 
@@ -14,6 +14,9 @@ const About = ({ seo, images }) => {
             dangerouslySetInnerHTML: { __html: rawHTML },
         });
     const sharedData = usePage().props.localizations;
+
+    const {gallery} = usePage().props;
+    console.log(gallery)
 
     return (
         <Layout seo={seo}>
@@ -79,7 +82,7 @@ const About = ({ seo, images }) => {
                             {__("client.about_gallery_text", sharedData)}
                         </p>
                     </div>
-                    <Gallery gallery={[]} />
+                    <Gallery gallery={gallery.files} />
                 </section>
                 <section>
                     <div className="text-center mb-10">

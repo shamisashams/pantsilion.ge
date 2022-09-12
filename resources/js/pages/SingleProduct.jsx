@@ -25,7 +25,7 @@ const SingleProduct = ({seo}) => {
   const [chooseSize, setChooseSize] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
-  const {category_last, product, product_images, similar_products, product_config,cities, stocks} = usePage().props;
+  const {category_last, product, product_images, similar_products, product_config,cities, stocks, localizations} = usePage().props;
 
   const [productImages, setProductImages] = useState(product_images)
 
@@ -45,7 +45,7 @@ const SingleProduct = ({seo}) => {
     const [productSizes, setProductSizes] = useState({});
     const [selectedSize, setSelectedSize] = useState(' select size ');
 
-    const [categoryColorImg, setCategoryColorImg] = useState(category_last.colors.length > 0 ? (category_last.colors[0].file ? '/' + category_last.colors[0].file.path + '/' + category_last.colors[0].file.title:null):null)
+    const [categoryColorImg, setCategoryColorImg] = useState(category_last.colors.length > 0 ? (category_last.colors[0].file ? category_last.colors[0].file.file_full_url :null):null)
 
     const [productPrice, setProductPrice] = useState(`from ₾${product.min_price}`)
     const [oldPrice, setOldPrice] = useState(``)
@@ -113,7 +113,7 @@ const SingleProduct = ({seo}) => {
 
                 //product_config.size[key2].variants = id;
                 //product_config.size[key2].variants.remove(item);
-                sizes.push({id: key2, label: product_config.size[key2].label, variants: product_config.size[key2].variants});
+                sizes.push({id: key2, label: product_config.size[key2].value, variants: product_config.size[key2].variants});
                 //delete product_config.size[key2];
 
             })
@@ -161,7 +161,7 @@ const SingleProduct = ({seo}) => {
 
 
                 product_config.size[key2].variants.map((item,index) => {
-                    sizes.push({id: item, label: product_config.size[key2].label, variants: []});
+                    sizes.push({id: item, label: product_config.size[key2].value, variants: []});
                 })
                 //product_config.size[key2].variants = id;
                 //product_config.size[key2].variants.remove(item);
@@ -214,7 +214,7 @@ const SingleProduct = ({seo}) => {
 
                                 //product_config.size[key2].variants = id;
                                 //product_config.size[key2].variants.remove(item);
-                                sizes.push({id: key2, label: product_config.size[key2].label, variants: id});
+                                sizes.push({id: key2, label: product_config.size[key2].value, variants: id});
                                 //delete product_config.size[key2];
                             }
                         })
@@ -374,7 +374,7 @@ const SingleProduct = ({seo}) => {
 
 
     function selectCategoryColor(color){
-        setCategoryColorImg(color.file ? '/' + color.file.path + '/' + color.file.title:null)
+        setCategoryColorImg(color.file ? color.file.file_full_url:null)
     }
 
     console.log(product_config)
@@ -449,13 +449,13 @@ const SingleProduct = ({seo}) => {
                               </div>
                           </div>
                           {product.installment_price ? <p>
-                              Installment from:{" "}
+                              {__('client.product_installment',localizations)}:{" "}
                               <span className="bold text-custom-red pl-2">{product.installment_price} GEL</span>
                           </p>:null}
                           <p className="my-5">
                               {product.description}
                           </p>
-                          {category_last.corner === 1 ? <div className="bold mb-4">Choose corner:</div>:null}
+                          {category_last.corner === 1 ? <div className="bold mb-4">{__('client.product_corner',localizations)}:</div>:null}
                           {category_last.corner === 1 ? <div className="flex text-sm mb-5">
                               {left ? <div
                                   onClick={() => {
@@ -498,7 +498,7 @@ const SingleProduct = ({seo}) => {
                                   <p>Right side</p>
                               </div>:null}
                           </div>:null}
-                          <div className="bold mb-4">Specification</div>
+                          <div className="bold mb-4">{__('client.product_specification',localizations)}</div>
                           {category_last.size === 1 ? <div className="">
                               <p className="opacity-50 text-sm inline-block mr-2">
                                   size:
@@ -562,15 +562,15 @@ const SingleProduct = ({seo}) => {
                               </div>
                           </div>:null}
                           <p className="opacity-50 text-sm mb-2">
-                              material:
+                              {__('client.product_material',localizations)}:
                               <span className="pl-2">{product.attributes.material}</span>
                           </p>
                           <p className="opacity-50 text-sm ">
-                              manufacturer:
+                              {__('client.product_brand',localizations)}:
                               <span className="pl-2">{product.attributes.brand}</span>
                           </p>
                           {category_last.color === 1 ?<div className="flex my-5 ">
-                              <p className="whitespace-nowrap opacity-50">Choose color:</p>
+                              <p className="whitespace-nowrap opacity-50">{__('client.product_color',localizations)}:</p>
                               <div id="color_pick" className="ml-5 max-w-sm mt-1 flex flex-wrap">
                                   {/*<select id="choose_color">
                                       <option value=""></option>
@@ -581,7 +581,16 @@ const SingleProduct = ({seo}) => {
                           <div className="flex flex-wrap -ml-5 mb-7">
                               <Quantity item={product} />
                               <div className="max-w-md ">
-                                  <MainButton>Buy now</MainButton>
+                                  <MainButton onclick={() => {
+                                      let qty = document.getElementById('qty_' + product.id).value;
+                                      console.log(qty)
+                                      let product_id = document.getElementById('product_id').value;
+                                      if(toCart.parent_id !== null){
+                                          buyNow(toCart,qty)
+                                      } else {
+                                          alert('select options');
+                                      }
+                                  }}>{__('client.buy_now',localizations)}</MainButton>
                               </div>
                               <input type="hidden" id="product_id" value={productId}/>
                               <button
@@ -598,7 +607,7 @@ const SingleProduct = ({seo}) => {
 
                                   }}
                               >
-                                  Add to cart
+                                  {__('client.add_to_cart',localizations)}
                               </button>
                               <button
                                   onClick={() => {
@@ -610,7 +619,7 @@ const SingleProduct = ({seo}) => {
                                   <FiHeart className={favorite ? "text-custom-red" : ""} />
                               </button>
                           </div>
-                          <p className="opacity-50 ">check availability</p>
+                          <p className="opacity-50 ">{__('client.check_availability',localizations)}</p>
                           <div
                               onClick={() => setChooseCity(!chooseCity)}
                               className="relative inline-block align-middle cursor-default"
@@ -711,13 +720,13 @@ const SingleProduct = ({seo}) => {
                       </div>
                   </div>
                   <div className="w-full my-10 mb-20">
-                      <div className="bold text-lg mb-5">Customize your furniture:</div>
+                      <div className="bold text-lg mb-5">{__('client.furniture_customize',localizations)}</div>
                       <img id="cat_col_img" src={categoryColorImg} alt="" className="w-full mb-5" />
                       <div className="flex items-center justify-center flex-wrap">
                           <ColorPick colors={category_last.colors} onClick={selectCategoryColor} />
                       </div>
                   </div>
-                  <div className="bold text-lg mb-7">Similar products</div>
+                  <div className="bold text-lg mb-7">{__('client.similar_products',localizations)}</div>
                   <ProductSlider products={similar_products} />
               </div>
           </>

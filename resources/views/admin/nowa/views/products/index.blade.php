@@ -42,6 +42,8 @@
                                     <th>@lang('admin.type')</th>
                                     <th>@lang('admin.category')</th>
                                     <th>@lang('admin.status')</th>
+                                    <th>@lang('admin.stock')</th>
+                                    <th>@lang('admin.attributes')</th>
                                     <th>@lang('admin.title')</th>
                                     <th>@lang('admin.actions')</th>
                                 </tr>
@@ -54,6 +56,7 @@
                                                value="{{Request::get('id')}}"
                                                class="validate {{$errors->has('id') ? '' : 'valid'}}">
                                     </th>
+                                    <th></th>
                                     <th>
                                         <select class="form-control" name="category_id" onchange="this.form.submit()">
                                             <option value="" {{Request::get('category_id') === '' ? 'selected' :''}}>@lang('admin.any')</option>
@@ -70,6 +73,8 @@
                                             <option value="0" {{Request::get('status') === '0' ? 'selected' :''}}>@lang('admin.not_active')</option>
                                         </select>
                                     </th>
+                                    <th></th>
+                                    <th></th>
                                     <th>
                                         <input class="form-control" type="text" name="title" onchange="this.form.submit()"
                                                value="{{Request::get('title')}}"
@@ -80,8 +85,57 @@
                                     @foreach($data as $item)
                                         <tr>
                                             <th scope="row">{{$item->id}}</th>
-                                            <td>{{$item->parent_id === null ? 'configurable' : 'simple - parent id#: '. $item->parent->id}}</td>
-                                            <td></td>
+                                            <td><a href="{{$item->parent_id === null ? route('product.edit',$item->id) : route('product.edit',$item->parent_id)}}">{{$item->parent_id === null ? 'configurable' : 'simple - parent id#: '. $item->parent->id}}</a> </td>
+                                            <td>
+                                                <?php
+                                                $path = [];
+                                                $arr = [];
+                                                foreach ($item->categories as $key =>$cat){
+
+
+                                                    $ancestors = $cat->ancestors;
+                                                    if(count($ancestors)){
+                                                        foreach ($ancestors as $ancestor){
+                                                            $arr[count($ancestors)]['ancestors'][] = $ancestor;
+                                                            $arr[count($ancestors)]['current'] = $cat;
+                                                        }
+                                                    } else {
+                                                        $arr[0]['ancestors'] = [];
+                                                        $arr[0]['current'] = $cat;
+                                                    }
+                                                }
+
+                                                $max = max(array_keys($arr));
+
+                                                $k = 0;
+                                                foreach ($arr[$max]['ancestors'] as $ancestor){
+                                                    $path[$k]['id'] = $ancestor->id;
+                                                    $path[$k]['slug'] = $ancestor->slug;
+                                                    $path[$k]['title'] = $ancestor->title;
+                                                    $path[$k]['colors'] = $ancestor->colors;
+                                                    $path[$k]['corner'] = $ancestor->corner;
+                                                    $path[$k]['size'] = $ancestor->size;
+                                                    $path[$k]['color'] = $ancestor->color;
+                                                    $k++;
+                                                }
+
+                                                $path[$k]['id'] = $arr[$max]['current']->id;
+                                                $path[$k]['slug'] = $arr[$max]['current']->slug;
+                                                $path[$k]['title'] = $arr[$max]['current']->title;
+                                                $path[$k]['colors'] = $arr[$max]['current']->colors;
+                                                $path[$k]['corner'] = $arr[$max]['current']->corner;
+                                                $path[$k]['size'] = $arr[$max]['current']->size;
+                                                $path[$k]['color'] = $arr[$max]['current']->color;
+
+                                                $path_str = '';
+
+                                                foreach ($path as $itm){
+                                                    $path_str .= $itm['title'] . ' -> ';
+                                                }
+                                                $path_str = substr($path_str,0,-4);
+                                                ?>
+                                                {{$path_str}}
+                                            </td>
 
                                             <td>
 
@@ -90,6 +144,58 @@
                                                 @else
                                                     <span class="red-text">@lang('admin.not_active')</span>
                                                 @endif
+                                            </td>
+                                            <td>
+                                                <?php
+                                                $stock_ids = $item->stocks->pluck("id")->toArray();
+                                                $_stocks = '';
+
+
+                                                foreach ($stocks as $_stock){
+                                                    if(in_array($_stock->id,$stock_ids)) $_checked = 'checked';
+                                                    else $_checked = '';
+                                                    $_stocks .= '<div class="form-group"><label class="ckbox">
+                        <input onclick="return false" type="checkbox" name="stock_id[]" data-checkboxes="mygroup" class="custom-control-input" '. $_checked .' value="'.$_stock->id.'">
+                        <span style="margin-left: 5px">'.$_stock->title.'</span>
+
+                        </label></div>';
+                                                }
+                                                ?>
+                                                {!! $item->parent_id !== null ? $_stocks: '' !!}
+                                            </td>
+                                            <td>
+                                                <?php
+                                                $result = [];
+                                                foreach ($item->attribute_values as $_item){
+                                                    $options = $_item->attribute->options;
+                                                    $value = '';
+                                                    foreach ($options as $option){
+                                                        if($_item->attribute->type == 'select'){
+                                                            if($_item->integer_value == $option->id) {
+                                                                if($_item->attribute->code == 'size'){
+                                                                    $result[$_item->attribute->code] = $option->value;
+                                                                }
+                                                                elseif ($_item->attribute->code == 'corner'){
+                                                                    $result[$_item->attribute->code] = $option->code;
+                                                                }
+                                                                else {
+                                                                    $result[$_item->attribute->code] = $option->label;
+                                                                }
+
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                }
+
+                                                $attributes = '';
+
+                                                foreach ($result as $key => $value){
+                                                    $attributes .= '<b>' . $key . '</b> : ' . $value . "\n";
+                                                }
+                                                ?>
+                                                    <pre>{!! $attributes !!}</pre>
                                             </td>
                                             <td>
                                                 <div class="panel panel-primary tabs-style-2">

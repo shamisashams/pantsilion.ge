@@ -1,1 +1,1 @@
-Promocode - {{$code}} on {{$product->title}}
+Promocode - {{$code}} on {{$product ? $product->title : null}}

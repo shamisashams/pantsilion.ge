@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { MdContentCopy } from "react-icons/md";
 import { GoCreditCard } from "react-icons/go";
 import { MdHistory } from "react-icons/md";
+import Moment from "moment";
 import {
     RiSettings3Line,
     RiBankLine,

@@ -55,9 +55,9 @@ const ProductSlider = ({products}) => {
                 link={route('client.product.show',item.slug)}
                 new={item.new}
                 sale={item.sale}
-                img={item.latest_image ? '/' + item.latest_image.path + '/' + item.latest_image.title:null}
+                img={item.latest_image ? item.latest_image.file_full_url:null}
                 name={item.title}
-                price={item.price}
+                price={item.min_price}
                 oldPrice={item.oldPrice}
                 paragraph={item.short_description}
                 id={item.id}

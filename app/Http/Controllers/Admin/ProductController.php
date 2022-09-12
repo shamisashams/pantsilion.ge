@@ -83,10 +83,11 @@ class ProductController extends Controller
         ]);*/
 
         return view('admin.nowa.views.products.index', [
-            'data' => $this->productRepository->getData($request, ['translations', 'categories']),
+            'data' => $this->productRepository->getData($request, ['translations', 'categories','stocks','categories.ancestors','categories.colors']),
+            'stocks' => Stock::with('translation')->get(),
             'categories' => $this->categoryRepository->model->leftJoin('category_translations',function ($join){
                 $join->on('category_translations.category_id','categories.id')->where('category_translations.locale',app()->getLocale());
-            })->orderBy('title')->get()
+            })->orderBy('title')->select('categories.id','category_translations.title')->get()
         ]);
     }
 
@@ -148,7 +149,7 @@ class ProductController extends Controller
         $saveData['day_product'] = isset($saveData['day_product']) && (bool)$saveData['day_product'];
         $saveData['special_price_tag'] = isset($saveData['special_price_tag']) && (bool)$saveData['special_price_tag'];
 
-        $attributes = $saveData['attribute'];
+        $attributes = isset($saveData['attribute']) ? $saveData['attribute'] : [];
         unset($saveData['attribute']);
 
         $product = $this->productRepository->create($saveData);
@@ -161,7 +162,10 @@ class ProductController extends Controller
 
         $this->productRepository->saveVideo($request);
 
-        $product->collections()->sync($saveData['collection_id'] ? [$saveData['collection_id']]:[]);
+        if(isset($saveData['collection_id'])){
+            $product->collections()->sync($saveData['collection_id'] ? [$saveData['collection_id']]:[]);
+        }
+
 
 
         //save product attributes
@@ -195,7 +199,7 @@ class ProductController extends Controller
 
 
 
-        return redirect(locale_route('product.index', $product->id))->with('success', __('admin.create_successfully'));
+        return redirect(locale_route('product.edit', $product->id))->with('success', __('admin.create_successfully'));
 
     }
 
@@ -403,6 +407,11 @@ class ProductController extends Controller
 
     public function variantStore(Request $request, $locale, Product $product){
 //dd($request->all());
+        $request->validate([
+           'slug' => 'required|alpha_dash|unique:products,slug',
+            'price' => 'required'
+        ]);
+
         $saveData = Arr::except($request->except('_token'), []);
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
         $saveData['stock'] = isset($saveData['stock']) && (bool)$saveData['stock'];
@@ -423,10 +432,14 @@ class ProductController extends Controller
         $product_v = $this->productRepository->create($saveData);
         $product_v->categories()->sync($saveData['categories']);
 
+        $product_v->stocks()->sync($saveData['stock_id'] ?? []);
+
         // Save Files
         if ($request->hasFile('images')) {
-            $product_v = $this->productRepository->saveFiles($product->id, $request);
+            $product_v = $this->productRepository->saveFiles($product_v->id, $request);
         }
+
+        $this->productRepository->saveVideo($request, $product_v->id);
 
 
         //save product attributes

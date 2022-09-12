@@ -17,7 +17,7 @@ class IsPartner
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->is_partner || auth()->user()->is_admin) {
+        if (auth()->user()->is_partner) {
             return $next($request);
         } else {
             auth()->logout();

@@ -25,7 +25,7 @@ class PaymentController extends Controller
     public function __construct(ProductRepository $productRepository){
 
         $this->productRepository = $productRepository;
-        //if(!session('shipping')) return redirect()->route('client.shipping.index');
+
     }
 
     /**
@@ -35,6 +35,7 @@ class PaymentController extends Controller
      */
     public function index(string $locale, Request $request)
     {
+        if(!session('shipping')) return redirect()->route('client.shipping.index');
         $page = Page::where('key', 'products')->firstOrFail();
         $products = Product::with(['files'])->whereHas('categories',function (Builder $query){
             $query->where('status', 1);

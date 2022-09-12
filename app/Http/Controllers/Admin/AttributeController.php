@@ -147,6 +147,7 @@ class AttributeController extends Controller
      */
     public function update(Request $request, string $locale, Attribute $attribute)
     {
+        //dd($request->all());
         $request->validate([
             'code'       => ['required', 'unique:attributes,code,' .$attribute->id, new Code()],
             'type'       => 'required'
