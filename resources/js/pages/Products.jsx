@@ -87,6 +87,14 @@ const Products = ({ seo }) => {
 
     const { subcategories, products } = usePage().props;
 
+
+
+    let subcats = {};
+    subcategories.map((item,index) => {
+        subcats[item.id] = item.title;
+    });
+    console.log(subcats)
+
     return (
         <Layout seo={seo}>
             <>
@@ -145,7 +153,7 @@ const Products = ({ seo }) => {
                                         className="inline-block text-sm opacity-50 w-fit py-1 pl-3 pr-2 bg-zinc-200 rounded-full mr-1 mb-1"
                                         key={index}
                                     >
-                                        {item}
+                                        {subcats[item]}
                                         <button
                                             onClick={() => removeSelected(item)}
                                             className=" inline-block "
