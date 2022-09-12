@@ -249,7 +249,7 @@ class ProductController extends Controller
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
             ->inRandomOrder()
             ->groupBy('products.id')
-            ->with('latestImage')->get();
+            ->with('latestImage','variants')->get();
 
         foreach ($similar_products as $_product){
             $product_attributes = $_product->attribute_values;
@@ -270,6 +270,13 @@ class ProductController extends Controller
 
             }
             $_product['attributes'] = $_result;
+            $prices = [];
+
+            foreach ($_product->variants as $variant){
+                $prices[] = $variant->price;
+            }
+            $_product['min_price'] = min($prices);
+
 
         }
 

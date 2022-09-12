@@ -45,8 +45,15 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
             ->whereHas('categories',function ($query){
             $query->where('status',1);
-        })->with(['latestImage'])->inRandomOrder()->get();
+        })->with(['latestImage','variants'])->inRandomOrder()->get();
 
+        $prices = [];
+        foreach ($products as $item){
+            foreach ($item->variants as $variant){
+                $prices[] = $variant->price;
+            }
+            $item['min_price'] = min($prices);
+        }
         //dd($products);
         return $products;
     }
