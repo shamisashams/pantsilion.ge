@@ -56,11 +56,24 @@
                                     </th>
 
                                     <th>
-                                        <input class="form-control" type="text" name="title" onchange="this.form.submit()"
-                                               value="{{Request::get('title')}}"
-                                               class="validate {{$errors->has('title') ? '' : 'valid'}}">
+                                        <input class="form-control" type="text" name="reward" onchange="this.form.submit()"
+                                               value="{{Request::get('reward')}}"
+                                               class="validate {{$errors->has('reward') ? '' : 'valid'}}">
                                     </th>
-                                    <th></th>
+                                    <th>
+                                        <?php
+                                        $types = [
+                                            'product' => 'Product',
+                                            'cart' => 'Cart'
+                                        ];
+                                        ?>
+                                        <select class="form-control" name="type" onchange="this.form.submit()">
+                                            <option value=""></option>
+                                            @foreach($types as $key => $value)
+                                                <option value="{{$key}}" {{Request::get('type') == $key ? 'selected':''}}>{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                    </th>
 
 
                                 @if($data)

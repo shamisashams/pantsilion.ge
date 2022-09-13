@@ -87,6 +87,12 @@ class PromocodeController extends Controller
 
         $saveData = $request->except('_token');
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
+        //dd($saveData);
+        if($saveData['type'] == 'cart'){
+            if(PromoCode::where('type','cart')->count() > 0){
+                return redirect()->back()->with('danger','you can create only one promocode of type cart');
+            }
+        }
         $slider = $this->promoCodeRepository->create($saveData);
 
         // Save Files
