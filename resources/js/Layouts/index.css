@@ -75,3 +75,20 @@ textarea {
 .thumbnailSlider .swiper-slide-thumb-active {
     opacity: 1;
 }
+
+/* order tables style start */
+.orderHistoryTable td {
+    padding: 20px 50px;
+    border-bottom: 1px solid #e9eaeb;
+}
+@media screen and (max-width: 1400px) {
+    .orderHistoryTable.details td {
+        padding: 20px 38px;
+    }
+}
+@media screen and (max-width: 1100px) {
+    .orderHistoryTable td {
+        padding: 20px 38px;
+    }
+}
+/* order tables style end */

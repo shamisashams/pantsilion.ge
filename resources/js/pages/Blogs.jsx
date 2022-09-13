@@ -5,7 +5,6 @@ import Layout from "@/Layouts/Layout";
 import { Link, usePage } from "@inertiajs/inertia-react";
 
 const Blogs = ({ seo }) => {
-
     const renderHTML = (rawHTML) =>
         React.createElement("div", {
             dangerouslySetInnerHTML: { __html: rawHTML },
@@ -24,7 +23,11 @@ const Blogs = ({ seo }) => {
                     rows.push(
                         <Link
                             href={item.url}
-                            className={item.active ? "bold mx-2 underline" : "bold mx-2"}
+                            className={
+                                item.active
+                                    ? "bold mx-2 underline"
+                                    : "bold mx-2"
+                            }
                         >
                             {item.label}
                         </Link>
@@ -64,7 +67,6 @@ const Blogs = ({ seo }) => {
         ) : null;
     };
 
-
     return (
         <Layout seo={seo}>
             <div className="wrapper py-40 lg:px-20">
@@ -84,10 +86,14 @@ const Blogs = ({ seo }) => {
                             <BlogBox
                                 key={index}
                                 largeImg
-                                link={route('client.blog.show', item.slug)}
+                                link={route("client.blog.show", item.slug)}
                                 date={item.created_at}
                                 title={item.title}
-                                img={item.oldest_image ? item.oldest_image.file_full_url : null}
+                                img={
+                                    item.oldest_image
+                                        ? item.oldest_image.file_full_url
+                                        : null
+                                }
                                 paragraph={item.short_description}
                             />
                         );
@@ -101,7 +107,6 @@ const Blogs = ({ seo }) => {
                 </div>
             </div>
         </Layout>
-
     );
 };
 

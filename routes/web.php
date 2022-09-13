@@ -158,6 +158,7 @@ Route::prefix('{locale?}')
         Route::middleware(['auth_client'])->group(function (){
             Route::get('client/cabinet',[\App\Http\Controllers\Client\UserController::class,'index'])->name('client.cabinet');
             Route::get('client/orders',[\App\Http\Controllers\Client\UserController::class,'orders'])->name('client.orders');
+            Route::get('client/order-details',[\App\Http\Controllers\Client\UserController::class,'orderDetails'])->name('client.order-details');
             Route::get('favorites',[\App\Http\Controllers\Client\FavoriteController::class,'index'])->name('client.favorite.index');
             Route::post('favorites',[\App\Http\Controllers\Client\FavoriteController::class,'addToWishlist'])->name('client.favorite.add');
             Route::post('favorites-set',[\App\Http\Controllers\Client\FavoriteController::class,'addToWishlistCollection'])->name('client.favorite.add-set');

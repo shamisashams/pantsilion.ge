@@ -14,6 +14,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { cartList } from "../components/Data";
 import Layout from "../Layouts/Layout";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import Moment from "moment";
 
 const RegularOrders = ({ seo }) => {
     const { user, orders, localizations } = usePage().props;
@@ -84,9 +85,9 @@ const RegularOrders = ({ seo }) => {
         <Layout seo={seo}>
             <div className="overflow-hidden bg-zinc-100">
                 <div className="wrapper h-full flex items-center justify-between flex-col lg:flex-row">
-                    <div className="md:bg-white md:pt-60 pt-32 w-full md:w-auto relative md:pb-32 pb-10 pr-5 h-auto md:self-stretch md:pr-20">
+                    <div className="lg:bg-white md:pt-60 pt-32 w-full lg:w-auto relative md:pb-32 pb-10 pr-0 h-auto md:self-stretch md:pr-20">
                         <div
-                            className="hidden md:block absolute right-full top-0 h-full bg-white "
+                            className="hidden lg:block absolute right-full top-0 h-full bg-white "
                             style={{ width: "500px" }}
                         ></div>
                         <div>{__("client.client_cabinet", localizations)}</div>
@@ -111,71 +112,71 @@ const RegularOrders = ({ seo }) => {
                             <div>{__("client.sign_out", localizations)}</div>
                         </Link>
                     </div>
-                    <div className=" lg:pt-52 pb-32  mx-auto">
+                    <div className="md:pt-10 lg:pt-52 pb-32  mx-auto md:w-auto w-full">
                         <div className=" mx-auto">
-                            <div className="text-3xl bold mb-12  text-center">
+                            <div className="text-3xl bold mb-12  ">
                                 {__("client.order_history", localizations)}
                             </div>
-                            <div className=" pb-20">
-                                <div className="">
-                                    <div className="flex justify-between mb-5 text-sm pr-10">
-                                        <div className="opacity-50 ">
-                                            {/* {__(
-                                                "client.orders_product",
-                                                localizations
-                                            )} */}
-                                            ID
-                                        </div>
-                                        <div className="opacity-50 mx-8 ">
-                                            {__(
-                                                "client.orders_date",
-                                                localizations
-                                            )}
-                                        </div>
-                                        <div className="opacity-50">
-                                            {__(
-                                                "client.orders_price",
-                                                localizations
-                                            )}
-                                        </div>
-                                    </div>
-                                    {orders.data.map((item, index) => {
-                                        let date = Moment(item.created_at).format('DD.MM.YYYY')
-                                        return (
-                                            <div
-                                                key={index}
-                                                className={`flex justify-between items-center border-b border-zinc-200 pb-5 mb-5 md:w-auto sm:w-96 w-80 md:overflow-x-hidden  overflow-x-scroll scrollbar whitespace-nowrap ${
-                                                    orders.data.length ===
-                                                    index + 1
-                                                        ? "border-none mb-10"
-                                                        : ""
-                                                }`}
-                                            >
-                                                <div className="shrink-0  flex items-center">
-                                                    {item.id}
-                                                </div>
-                                                <div className="opacity-50 mx-8">
-                                                    {date}
-                                                </div>
-                                                <div className=" bold whitespace-nowrap  ">
-                                                    ₾ {item.grand_total}
-                                                </div>
-                                                <button className="ml-5">
-                                                    <BsThreeDotsVertical />
-                                                </button>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                            <div className="md:overflow-hidden overflow-x-scroll  w-full">
+                                <div className=" pb-20">
+                                    <table className=" orderHistoryTable text-sm whitespace-nowrap  ">
+                                        <tr>
+                                            <td className="opacity-50 ">
+                                                Order ID
+                                            </td>
+                                            <td className="opacity-50 ">
+                                                Date
+                                            </td>
+                                            <td className="opacity-50 ">
+                                                {__(
+                                                    "client.orders_price",
+                                                    localizations
+                                                )}
+                                            </td>
+                                            <td className="opacity-50 ">
+                                                Details
+                                            </td>
+                                        </tr>
 
-                                <div className="flex items-center justify-center text-lg mt-10">
-                                    {/*<button className="bold mx-2 underline">1</button>
+                                        {orders.data.map((item, index) => {
+                                            let date = Moment(
+                                                item.created_at
+                                            ).format("DD.MM.YYYY");
+                                            return (
+                                                <tr key={index}>
+                                                    <td>
+                                                        <strong>
+                                                            {item.id}
+                                                        </strong>
+                                                    </td>
+                                                    <td> {date}</td>
+                                                    <td>
+                                                        {" "}
+                                                        ₾ {item.grand_total}
+                                                    </td>
+                                                    <td>
+                                                        <Link
+                                                            href={route(
+                                                                "client.order-details"
+                                                            )}
+                                                        >
+                                                            <BsThreeDotsVertical className="w-5 h-5" />
+                                                        </Link>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </table>
+
+                                    <div className="flex items-center justify-center text-lg mt-10">
+                                        {/*<button className="bold mx-2 underline">1</button>
                                   <button className="bold mx-2 ">2</button>
                                   <button className="bold mx-2 ">3</button>*/}
 
-                                    {links(orders.links)}
-                                </div>
-                            </div>{" "}
+                                        {links(orders.links)}
+                                    </div>
+                                </div>{" "}
+                            </div>
                         </div>
                     </div>
                 </div>
