@@ -39,6 +39,7 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('admin.id')</th>
+                                    <th>@lang('admin.slug')</th>
                                     <th>@lang('admin.type')</th>
                                     <th>@lang('admin.category')</th>
                                     <th>@lang('admin.status')</th>
@@ -55,6 +56,11 @@
                                         <input class="form-control" type="number" name="id" onchange="this.form.submit()"
                                                value="{{Request::get('id')}}"
                                                class="validate {{$errors->has('id') ? '' : 'valid'}}">
+                                    </th>
+                                    <th>
+                                        <input class="form-control" type="text" name="slug" onchange="this.form.submit()"
+                                               value="{{Request::get('slug')}}"
+                                               class="validate {{$errors->has('slug') ? '' : 'valid'}}">
                                     </th>
                                     <th></th>
                                     <th>
@@ -85,6 +91,7 @@
                                     @foreach($data as $item)
                                         <tr>
                                             <th scope="row">{{$item->id}}</th>
+                                            <th scope="row">{{$item->slug}}</th>
                                             <td><a href="{{$item->parent_id === null ? route('product.edit',$item->id) : route('product.edit',$item->parent_id)}}">{{$item->parent_id === null ? 'configurable' : 'simple - parent id#: '. $item->parent->id}}</a> </td>
                                             <td>
                                                 <?php
