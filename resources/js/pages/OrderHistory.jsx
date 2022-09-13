@@ -97,9 +97,7 @@ const OrderHistory = ({ seo }) => {
                                         </div>
                                     </div>
                                     {orders.data.map((item, index) => {
-                                        let date = new Date(
-                                            item.created_at
-                                        ).toUTCString();
+                                        let date = Moment(item.created_at).format('DD.MM.YYYY')
                                         return (
                                             <div
                                                 key={index}
@@ -111,7 +109,7 @@ const OrderHistory = ({ seo }) => {
                                                 }`}
                                             >
                                                 <div className="shrink-0  flex items-center">
-                                                    orderID
+                                                    {item.id}
                                                 </div>
                                                 <div className="opacity-50 mx-8">
                                                     {date}
