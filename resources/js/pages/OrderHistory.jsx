@@ -4,7 +4,6 @@ import CabinetTabs from "../components/CabinetTabs";
 import Layout from "../Layouts/Layout";
 import { Link, usePage } from "@inertiajs/inertia-react";
 //import { Link, usePage } from "@inertiajs/inertia-react";
-import Moment from "moment";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 const OrderHistory = ({ seo }) => {
