@@ -278,7 +278,7 @@ class ProductController extends Controller
         $saveData['special_price_tag'] = isset($saveData['special_price_tag']) && (bool)$saveData['special_price_tag'];
 
         //dd($saveData);
-        $attributes = $saveData['attribute'];
+        $attributes = isset($saveData['attribute']) ? $saveData['attribute'] : [];
         unset($saveData['attribute']);
 
         //dd($request->file('images'));
@@ -304,7 +304,7 @@ class ProductController extends Controller
 
 
 
-        $product->collections()->sync($saveData['collection_id'] ? [$saveData['collection_id']]:[]);
+        $product->collections()->sync(isset($saveData['collection_id']) ? [$saveData['collection_id']]:[]);
 
         //dd($attributes);
 
@@ -356,6 +356,7 @@ class ProductController extends Controller
 
 
 
+        $this->updateMinMaxPrice($product);
 
         return redirect(locale_route('product.index', $product->id))->with('success', __('admin.update_successfully'));
     }
@@ -472,8 +473,25 @@ class ProductController extends Controller
         }
 
 
+        $this->updateMinMaxPrice($product);
 
         return redirect(locale_route('product.edit', $product->id))->with('success', __('admin.update_successfully'));
+
+    }
+
+    public function updateMinMaxPrice($product){
+        $prices = [];
+        foreach ($product->variants as $variant){
+            $prices[] = $variant->price;
+        }
+        if(!empty($prices)){
+            $min_price = min($prices);
+            $max_price = max($prices);
+            $product->update([
+                'min_price' => $min_price,
+                'max_price' => $max_price
+            ]);
+        }
 
     }
 }

@@ -88,7 +88,9 @@ class Product extends Model implements Searchable
         'corner',
         'size',
         'promocode_id',
-        'installment_price'
+        'installment_price',
+        'min_price',
+        'max_price'
     ];
 
     /** @var string */

@@ -679,6 +679,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                                 <th>id</th>
                                 <th>title</th>
                                 <th>attributes</th>
+                                <th>price</th>
                                 <th>stock</th>
                                 <th></th>
                             </tr>
@@ -728,6 +729,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                                         ?>
                                         <pre>{!! $attributes !!}</pre>
                                     </td>
+                                    <td>{{$variant->price}}</td>
                                     <td>
                                         <?php
                                         $_stocks = '';
