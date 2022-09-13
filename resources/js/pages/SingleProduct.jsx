@@ -366,7 +366,7 @@ const SingleProduct = ({seo}) => {
 
         console.log(product_config.variants[selected].stocks)
 
-        setProductStocks(product_config.variants[selected].stocks[cityId] ?? {} )
+        setProductStocks(product_config.variants[selected].stocks ? product_config.variants[selected].stocks[cityId] ?? {} : {} )
         setProductStocksOver(product_config.variants[selected].stocks ?? {})
         setProductVideo(product_config.variants[selected].variant.video ? product_config.variants[selected].variant.video.path:null)
         setProductCode(product_config.variants[selected].variant.code)

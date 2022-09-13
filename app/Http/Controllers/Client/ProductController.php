@@ -168,6 +168,8 @@ class ProductController extends Controller
 
         }
 
+        //dd($config);
+
         $product['min_price']= min($prices);
         //dd($config);
 
