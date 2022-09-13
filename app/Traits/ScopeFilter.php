@@ -263,6 +263,20 @@ trait ScopeFilter
 
     }
 
+    public function scopeReward($query, $value)
+    {
+
+        return $query->where('reward', 'like', '%' . $value . '%');
+
+    }
+
+    public function scopeType($query, $value)
+    {
+
+        return $query->where('type',  $value );
+
+    }
+
 
     public function scopeCategoryId($query, $category_id){
         return $query->whereHas('categories', function ($query) use ($category_id) {

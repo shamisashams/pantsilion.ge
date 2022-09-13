@@ -41,10 +41,14 @@ class PromoCode extends Model
                 'hasParam' => true,
                 'scopeMethod' => 'status'
             ],
-            'title' => [
+            'reward' => [
                 'hasParam' => true,
-                'scopeMethod' => 'titleTranslation'
-            ]
+                'scopeMethod' => 'reward'
+            ],
+            'type' => [
+                'hasParam' => true,
+                'scopeMethod' => 'type'
+            ],
         ];
     }
 
