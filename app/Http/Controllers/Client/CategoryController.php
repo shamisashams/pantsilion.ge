@@ -98,7 +98,7 @@ class CategoryController extends Controller
             'category' => $category,
             'subcategories' => $subCategories,
             'images' => $images,
-            'filter' => $this->getAttributes(),
+            'filter' => $this->getAttributes($category),
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,
@@ -118,7 +118,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    private function getAttributes():array{
+    private function getAttributes($category = null):array{
         $attrs = $this->attributeRepository->model->with('options')->orderBy('position')->get();
         $result['attributes'] = [];
         $key = 0;
@@ -137,8 +137,8 @@ class CategoryController extends Controller
             $result['attributes'][$key]['options'] = $_options;
             $key++;
         }
-        $result['price']['max'] = $this->productRepository->getMaxprice();
-        $result['price']['min'] = $this->productRepository->getMinprice();
+        $result['price']['max'] = $this->productRepository->getMaxprice($category);
+        $result['price']['min'] = $this->productRepository->getMinprice($category);
         //dd($result);
         return $result;
     }
