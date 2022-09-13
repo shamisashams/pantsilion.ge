@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Certificate;
+use App\Models\Order;
 use App\Models\Page;
 use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Http\Request;
@@ -108,7 +109,8 @@ class UserController extends Controller
             'og_description' => $page->meta_og_description
         ]);
     }
-    public function orderDetails(){
+    public function orderDetails($locale, $order_id){
+        //dd($order);
         $page = Page::where('key', 'about')->firstOrFail();
 
         $images = [];
@@ -124,10 +126,13 @@ class UserController extends Controller
         $files = [];
         if($page->images) $files = $page->files;
 
-        //dd($files);
+
+        $order = auth()->user()->orders()->where('id',$order_id)->with(['items','collections','collections.items'])->firstOrFail();
+
+        //dd($order);
 
         return Inertia::render('RegularOrderDetails', [
-            "orders" => auth()->user()->orders()->orderBy('created_at','desc')->paginate(3),
+            "order" => $order,
             "page" => $page, "seo" => [
             "title"=>$page->meta_title,
             "description"=>$page->meta_description,

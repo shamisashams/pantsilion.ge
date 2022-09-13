@@ -52,6 +52,7 @@ class Cart
                 ];
                 $arr[] = (object)$obj;
             }
+            //dd($arr);
             //\session(['cart' => $arr]);
         }
     }
@@ -245,7 +246,16 @@ class Cart
                     foreach ($options as $option){
                         if($item->attribute->type == 'select'){
                             if($item->integer_value == $option->id) {
-                                $result[$item->attribute->code] = $option->label;
+
+                                if($item->attribute->code == 'size'){
+                                    $result[$item->attribute->code] = $option->value;
+                                }
+                                elseif ($item->attribute->code == 'color'){
+                                    $result[$item->attribute->code] = $option->color;
+                                }
+                                else {
+                                    $result[$item->attribute->code] = $option->label;
+                                }
                             }
 
                         }

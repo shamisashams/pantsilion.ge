@@ -156,9 +156,7 @@ const RegularOrders = ({ seo }) => {
                                                     </td>
                                                     <td>
                                                         <Link
-                                                            href={route(
-                                                                "client.order-details"
-                                                            )}
+                                                            href={route("client.order-details",item.id)}
                                                         >
                                                             <BsThreeDotsVertical className="w-5 h-5" />
                                                         </Link>

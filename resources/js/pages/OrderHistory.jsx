@@ -114,7 +114,8 @@ const OrderHistory = ({ seo }) => {
                                                     <td>
                                                         <Link
                                                             href={route(
-                                                                "client.registration.index"
+                                                                "partner.order-details",
+                                                                item.id
                                                             )}
                                                         >
                                                             <BsThreeDotsVertical className="w-5 h-5" />

@@ -149,6 +149,7 @@ Route::prefix('{locale?}')
             Route::get('partner/withdraw-funds',[\App\Http\Controllers\Client\PartnerController::class,'withdraw'])->name('partner.withdraw');
             Route::get('partner/referrals',[\App\Http\Controllers\Client\PartnerController::class,'referrals'])->name('partner.referrals');
             Route::get('partner/orders',[\App\Http\Controllers\Client\PartnerController::class,'orders'])->name('partner.orders');
+            Route::get('partner/order/{order}/details',[\App\Http\Controllers\Client\PartnerController::class,'orderDetails'])->name('partner.order-details');
             Route::post('partner/settings',[\App\Http\Controllers\Client\PartnerController::class,'updateInfo'])->name('partner.update-info');
             Route::post('partner/bak-account',[\App\Http\Controllers\Client\PartnerController::class,'saveBankAccount'])->name('partner.save-bank-account');
             Route::post('partner/withdraw',[\App\Http\Controllers\Client\PartnerController::class,'withdrawCreate'])->name('partner.withdraw-create');
@@ -158,7 +159,7 @@ Route::prefix('{locale?}')
         Route::middleware(['auth_client'])->group(function (){
             Route::get('client/cabinet',[\App\Http\Controllers\Client\UserController::class,'index'])->name('client.cabinet');
             Route::get('client/orders',[\App\Http\Controllers\Client\UserController::class,'orders'])->name('client.orders');
-            Route::get('client/order-details',[\App\Http\Controllers\Client\UserController::class,'orderDetails'])->name('client.order-details');
+            Route::get('client/order/{order}/details',[\App\Http\Controllers\Client\UserController::class,'orderDetails'])->name('client.order-details');
             Route::get('favorites',[\App\Http\Controllers\Client\FavoriteController::class,'index'])->name('client.favorite.index');
             Route::post('favorites',[\App\Http\Controllers\Client\FavoriteController::class,'addToWishlist'])->name('client.favorite.add');
             Route::post('favorites-set',[\App\Http\Controllers\Client\FavoriteController::class,'addToWishlistCollection'])->name('client.favorite.add-set');

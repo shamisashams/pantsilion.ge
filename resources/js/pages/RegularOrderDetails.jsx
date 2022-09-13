@@ -17,11 +17,11 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import Moment from "moment";
 
 const RegularOrderDetails = ({ seo }) => {
-    const { user, orders, localizations } = usePage().props;
+    const { user, order, localizations } = usePage().props;
 
     const affiliationLink = useRef();
 
-    console.log(orders);
+    console.log(order);
 
     const copyText = () => {
         navigator.clipboard.writeText(affiliationLink.current.value);
@@ -121,12 +121,14 @@ const RegularOrderDetails = ({ seo }) => {
                                 <div className="mb-4">
                                     Data:{" "}
                                     <span className="opacity-50">
-                                        15.05.2022
+                                        {Moment(
+                                            order.created_at
+                                        ).format("DD.MM.YYYY")}
                                     </span>
                                 </div>
                                 <div>
                                     Total price:{" "}
-                                    <span className="opacity-50">2250 ₾</span>
+                                    <span className="opacity-50">{order.grand_total} ₾</span>
                                 </div>
                             </div>
                             <div className="md:overflow-hidden overflow-x-scroll  w-full">
@@ -137,7 +139,13 @@ const RegularOrderDetails = ({ seo }) => {
                                                 Product name
                                             </td>
                                             <td className="opacity-50 ">
+                                                Quantity
+                                            </td>
+                                            <td className="opacity-50 ">
                                                 Price
+                                            </td>
+                                            <td className="opacity-50 ">
+                                                Total
                                             </td>
                                             <td className="opacity-50 ">
                                                 Color
@@ -149,7 +157,30 @@ const RegularOrderDetails = ({ seo }) => {
                                                 Material
                                             </td>
                                         </tr>
-                                        <tr>
+                                        {order.items.map((item, index) => {
+                                            return (
+                                                <tr>
+                                                    <td className="bold">
+                                                        {item.name}
+                                                    </td>
+                                                    <td>{item.qty_ordered}</td>
+                                                    <td>₾ {item.price}</td>
+                                                    <td>₾ {item.total}</td>
+                                                    <td>
+                                                        <div
+                                                            className="w-5 h-5 rounded-full mx-auto"
+                                                            style={{
+                                                                backgroundColor:
+                                                                    item.attributes ? item.attributes.color:null,
+                                                            }}
+                                                        ></div>
+                                                    </td>
+                                                    <td>{item.attributes ? item.attributes.size:null}cm</td>
+                                                    <td>{item.attributes ? item.attributes.material :null}</td>
+                                                </tr>
+                                            )
+                                        })}
+                                        {/*<tr>
                                             <td className="bold">
                                                 Product name
                                             </td>
@@ -199,7 +230,7 @@ const RegularOrderDetails = ({ seo }) => {
                                             </td>
                                             <td>155x25x225x112 cm</td>
                                             <td>leather</td>
-                                        </tr>
+                                        </tr>*/}
                                     </table>
 
                                     <div className="flex items-center justify-center text-lg mt-10">
@@ -207,7 +238,7 @@ const RegularOrderDetails = ({ seo }) => {
                                   <button className="bold mx-2 ">2</button>
                                   <button className="bold mx-2 ">3</button>*/}
 
-                                        {links(orders.links)}
+
                                     </div>
                                 </div>{" "}
                             </div>

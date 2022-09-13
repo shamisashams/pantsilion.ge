@@ -333,7 +333,15 @@ class OrderController extends Controller
                             foreach ($options as $option){
                                 if($_item_->attribute->type == 'select'){
                                     if($_item_->integer_value == $option->id) {
-                                        $result[$_item_->attribute->code] = $option->label;
+                                        if($_item_->attribute->code == 'size'){
+                                            $result[$_item_->attribute->code] = $option->value;
+                                        }
+                                        elseif ($_item_->attribute->code == 'color'){
+                                            $result[$_item_->attribute->code] = $option->color;
+                                        }
+                                        else {
+                                            $result[$_item_->attribute->code] = $option->label;
+                                        }
                                     }
 
                                 }
