@@ -314,12 +314,13 @@ class CategoryController extends Controller
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
         $saveData['category_id'] = $category->id;
         //dd($saveData);
-        $this->categoryColorRepository->create($saveData);
+        $categoryColor = $this->categoryColorRepository->create($saveData);
 
         // Save Files
-        if ($request->hasFile('images')) {
-            $this->categoryColorRepository->saveFiles($category->id, $request);
-        }
+
+
+        $this->categoryColorRepository->saveFiles($categoryColor->id, $request);
+
 
 
         return redirect(locale_route('category.edit', $category->id))->with('success', __('admin.create_successfully'));
