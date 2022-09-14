@@ -63,6 +63,15 @@ Route::prefix('{locale?}')
                 Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
                 Route::get('product/{product}/destroy', [\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('product.destroy');
                 Route::post('product/{product?}/upload-cropped',[\App\Http\Controllers\Admin\ProductController::class, 'uploadCropped'])->name('product.crop-upload');
+                Route::get('product/{product}/add_color',[\App\Http\Controllers\Admin\ProductController::class,'addColor'])->name('product.add-color');
+                Route::post('product/{product}/store_color',[\App\Http\Controllers\Admin\ProductController::class,'storeColor'])->name('product.store_color');
+                Route::get('product/{product}/{product_color}/edit_color',[\App\Http\Controllers\Admin\ProductController::class,'editColor'])->name('product.edit_color');
+                Route::put('product/{product}/{product_color}/update_color',[\App\Http\Controllers\Admin\ProductController::class,'updateColor'])->name('product.update_color');
+                Route::get('product/{product}/{product_color}/delete_color',[\App\Http\Controllers\Admin\ProductController::class,'deleteColor'])->name('product.delete_color');
+//
+
+
+
 
                 Route::get('product/variant/{product}/create',[\App\Http\Controllers\Admin\ProductController::class, 'variantCreate'])->name('product.variant.create');
                 Route::post('product/variant/{product}/store',[\App\Http\Controllers\Admin\ProductController::class, 'variantStore'])->name('product.variant.store');

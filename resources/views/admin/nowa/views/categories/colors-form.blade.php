@@ -48,7 +48,7 @@
                         <label class="form-label">@lang('admin.color')</label>
                         <input class="form-control" name="color" value="{{$category_color->color}}" data-jscolor="{}">
                     </div>
-                    @error('slug')
+                    @error('color')
                     <small class="text-danger">
                         <div class="error">
                             {{$message}}

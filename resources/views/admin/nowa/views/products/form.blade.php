@@ -688,6 +688,52 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
     <!-- row closed -->
     {!! Form::close() !!}
 
+
+
+    @if($product->created_at)
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="main-content-label mg-b-5">
+                                @lang('admin.colors')
+                                <div class="form-group">
+                                    <a class="btn btn-success" href="{{route('product.add-color',$product)}}">@lang('admin.add_colors')</a>
+                                </div>
+
+                                <table class="table">
+                                    <tr>
+                                        <th>id</th>
+                                        <th>color</th>
+                                        <th></th>
+                                    </tr>
+                                    @foreach($product->colors as $color)
+                                        <tr>
+                                            <td>{{$color->id}}</td>
+                                            <td style="background-color: {{$color->color}}">{{$color->color}}</td>
+                                            <td>
+                                                <a href="{{locale_route('product.edit_color',[$product,$color->id])}}"
+                                                   class="pl-3">
+                                                    <i class="fa fa-edit">შეცვლა</i>
+                                                </a>
+                                                <a href="{{locale_route('product.delete_color',[$product,$color->id])}}"
+                                                   onclick="return confirm('Are you sure?')" class="pl-3">
+                                                    <i class="fa fa-edit">წაშლა</i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+
     @if($product->created_at and $product->parent_id == null)
     <div class="row">
         <div class="col-lg-12 col-md-12">

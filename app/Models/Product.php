@@ -226,4 +226,9 @@ class Product extends Model implements Searchable
         return $this->belongsTo(PromoCode::class);
     }
 
+
+    public function colors(){
+        return $this->hasMany(ProductColor::class);
+    }
+
 }

@@ -13,13 +13,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Attribute;
 use App\Models\Category;
+use App\Models\CategoryColor;
 use App\Models\Product;
 use App\Models\ProductAttributeValue;
+use App\Models\ProductColor;
 use App\Models\ProductSet;
 use App\Models\PromoCode;
 use App\Models\Stock;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\Eloquent\ProductAttributeValueRepository;
+use App\Repositories\Eloquent\ProductColorRepository;
 use App\Repositories\ProductRepositoryInterface;
 use App\Rules\ColorMatch;
 use Illuminate\Contracts\Foundation\Application;
@@ -56,12 +59,15 @@ class ProductController extends Controller
 
     private $productAttributeValueRepository;
 
+    private $productColorRepository;
+
     private $categories;
     public function __construct(
         ProductRepositoryInterface  $productRepository,
         CategoryRepositoryInterface $categoryRepository,
         AttributeRepository $attributeRepository,
-        ProductAttributeValueRepository $productAttributeValueRepository
+        ProductAttributeValueRepository $productAttributeValueRepository,
+        ProductColorRepository $productColorRepository
     )
     {
         $this->productRepository = $productRepository;
@@ -69,6 +75,7 @@ class ProductController extends Controller
         $this->categories = $this->categoryRepository->getCategoryTree();
         $this->attributeRepository = $attributeRepository;
         $this->productAttributeValueRepository = $productAttributeValueRepository;
+        $this->productColorRepository = $productColorRepository;
     }
 
     /**
@@ -507,5 +514,86 @@ class ProductController extends Controller
 
     public function uploadCropped(Request $request, $locale, Product $product){
         $this->productRepository->uploadCropped($request, $product->id);
+    }
+
+
+    public function addColor($locale,Product $product){
+
+        //dd($category);
+
+
+        //dd($categories);
+
+        $url = locale_route('product.store_color', [$product], false);
+        $method = 'POST';
+
+        return view('admin.nowa.views.categories.colors-form', [
+            'category' => $product,
+            'url' => $url,
+            'method' => $method,
+            'category_color' => new ProductColor()
+        ]);
+    }
+
+    public function storeColor(Request $request, $locale, Product $product){
+        $saveData = $request->except(['_token']);
+        $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
+        $saveData['product_id'] = $product->id;
+        //dd($saveData);
+        $categoryColor = $this->productColorRepository->create($saveData);
+
+        // Save Files
+
+
+        $this->productColorRepository->saveFiles($categoryColor->id, $request);
+
+
+
+        return redirect(locale_route('product.edit', $product->id))->with('success', __('admin.create_successfully'));
+
+
+    }
+
+    public function editColor($locate,Product $product,ProductColor $productColor){
+        $url = locale_route('product.update_color', [$product->id,$productColor->id], false);
+        $method = 'PUT';
+
+
+
+
+
+        return view('admin.nowa.views.categories.colors-form', [
+            'category' => $product,
+            'url' => $url,
+            'method' => $method,
+            'category_color' => $productColor
+        ]);
+    }
+
+    public function updateColor(Request $request,$locale,Product $product,ProductColor $productColor){
+        $saveData = $request->except('_token','_method');
+        //$saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
+
+
+        //dd($saveData);
+        $this->productColorRepository->update($productColor->id, $saveData);
+
+
+        // Save Files
+
+        $this->productColorRepository->saveFiles($productColor->id, $request);
+
+        //dd(count($data));
+
+
+        return redirect(locale_route('product.edit', $product->id))->with('success', __('admin.update_successfully'));
+    }
+
+    public function deleteColor($locale, Product $product, ProductColor $productColor){
+
+        if (!$this->productColorRepository->delete($productColor->id)) {
+            return redirect(locale_route('product.edit', $product->id))->with('danger', __('admin.not_delete_message'));
+        }
+        return redirect(locale_route('product.edit', $product->id))->with('success', __('admin.delete_message'));
     }
 }
