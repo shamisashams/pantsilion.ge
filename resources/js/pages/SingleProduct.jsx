@@ -534,7 +534,7 @@ const SingleProduct = ({ seo }) => {
                                     </span>
                                 </p>
                             ) : null}
-                            <p className="my-5">{product.description}</p>
+                            <p className="my-5">{renderHTML(product.description)}</p>
                             {category_last.corner === 1 ? (
                                 <div className="bold mb-4">
                                     {__("client.product_corner", localizations)}
