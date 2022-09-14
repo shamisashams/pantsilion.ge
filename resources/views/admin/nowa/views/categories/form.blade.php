@@ -192,6 +192,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$category) {
                     </div>--}}
                     <?php
                     $attrs = [
+                        'corner_size_color' => 'Corner & Size & Color',
                         'corner_color' => 'Corner & Color',
                         'size_color' => 'Size & Color',
                         'size' => 'Size',
@@ -209,6 +210,9 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$category) {
                     }
                     if($category->corner == 0 && $category->color == 1 && $category->size == 1){
                         $sel_a = 'size_color';
+                    }
+                    if($category->corner == 1 && $category->color == 1 && $category->size == 1){
+                        $sel_a = 'corner_size_color';
                     }
                     ?>
 

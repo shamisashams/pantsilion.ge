@@ -116,6 +116,11 @@ class CategoryController extends Controller
             $saveData['color'] = 1;
             $saveData['size'] = 0;
         }
+        if($filter == 'corner_size_color'){
+            $saveData['corner'] = 1;
+            $saveData['color'] = 1;
+            $saveData['size'] = 1;
+        }
         if(!$filter){
             $saveData['corner'] = 0;
             $saveData['color'] = 0;
@@ -216,6 +221,11 @@ class CategoryController extends Controller
             $saveData['corner'] = 0;
             $saveData['color'] = 1;
             $saveData['size'] = 0;
+        }
+        if($filter == 'corner_size_color'){
+            $saveData['corner'] = 1;
+            $saveData['color'] = 1;
+            $saveData['size'] = 1;
         }
         if(!$filter){
             $saveData['corner'] = 0;
