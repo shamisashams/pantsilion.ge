@@ -72,7 +72,7 @@ class CategoryController extends Controller
             foreach ($product->variants as $variant){
                 $prices[] = $variant->price;
             }
-            $product['min_price'] = min($prices);
+            $product['min_price'] = !empty($prices) ? min($prices) : 0;
 
         }
 

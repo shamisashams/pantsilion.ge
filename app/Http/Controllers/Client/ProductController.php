@@ -277,7 +277,8 @@ class ProductController extends Controller
             foreach ($_product->variants as $variant){
                 $prices[] = $variant->price;
             }
-            $_product['min_price'] = min($prices);
+
+            $_product['min_price'] = !empty($prices) ? min($prices) : 0;
 
 
         }

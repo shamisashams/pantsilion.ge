@@ -59,6 +59,8 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
     <!--  smart photo master css -->
     <link href="{{asset('assets/plugins/SmartPhoto-master/smartphoto.css')}}" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{asset('admin/croppie/croppie.css')}}" />
+
 @endsection
 
 @section('content')
@@ -77,7 +79,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
     <!-- row -->
     {!! Form::model($product,['url' => $url, 'method' => $method,'files' => true]) !!}
 
-    <input type="hidden" name="base_64">
+    <input id="inp_crop_img" type="hidden" name="base64_img">
 
     @if($product->parent_id === null)
         @foreach($ids as $id)
@@ -521,6 +523,31 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
     </div>
 
     <!-- /row -->
+
+
+    <!-- /row -->
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h6 class="card-title mb-1">@lang('admin.product_image_crop_upload')</h6>
+                    </div>
+
+                    <div>
+                        <p>Select a image file to crop</p>
+                        <input type="file" id="inputFile" accept="image/png, image/jpeg">
+                    </div>
+                    <div id="actions" style="display: none;">
+                        <button id="cropBtn" type="button">Crop</button>
+                    </div>
+                    <div id="croppieMount"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+
     <!-- row -->
     <div class="row">
         <div class="col-lg-12 col-md-12">
@@ -529,7 +556,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                     <div>
                         <h6 class="card-title mb-1">@lang('admin.prouctimages')</h6>
                     </div>
-                    <div class="input-images"></div>
+                    {{--<div class="input-images"></div>--}}
                     @if ($errors->has('images'))
                         <span class="help-block">
                                             {{ $errors->first('images') }}
@@ -697,6 +724,92 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
         $('[data-rm_img]').click(function (e){
             $(this).parents('.uploaded-image').remove();
         })
+    </script>
+
+    <script src="{{asset('admin/croppie/croppie.js')}}"></script>
+    <script>
+        let croppie = null;
+        let croppieMount = document.getElementById('croppieMount');
+
+        let cropBtn = document.getElementById('cropBtn');
+
+        let inputFile = document.getElementById('inputFile');
+
+        let actions = document.getElementById('actions');
+
+        function cleanUpCroppie() {
+            croppieMount.innerHTML = '';
+            croppieMount.classList.remove('croppie-container');
+
+            croppie = null;
+        }
+
+        inputFile.addEventListener('change', () => {
+            cleanUpCroppie();
+
+            // Our input file
+            let file = inputFile.files[0];
+
+            let reader = new FileReader();
+            reader.onloadend = function(event) {
+                // Get the data url of the file
+                const data = event.target.result;
+
+                // ...
+            }
+
+            reader.readAsDataURL(file);
+
+            reader.onloadend = function(event) {
+                // Get the data ulr of the file
+                const data = event.target.result;
+
+                croppie = new Croppie(croppieMount, {
+                    url: data,
+                    viewport: {
+                        width: 800,
+                        height: 500,
+
+                    },
+                    boundary: {
+                        width: 1000,
+                        height: 700
+                    },
+                    mouseWheelZoom: false,
+                    enableResize: true,
+                });
+
+                // Binds the image to croppie
+                croppie.bind();
+
+                // Unhide the `actions` div element
+                actions.style.display = '';
+            }
+        })
+
+
+        cropBtn.addEventListener('click', () => {
+            // Get the cropped image result from croppie
+            croppie.result({
+                type: 'base64',
+                circle: false,
+                format: 'png',
+                size: 'original'
+            }).then((imageResult) => {
+                // Initialises a FormData object and appends the base64 image data to it
+                let formData = new FormData();
+                formData.append('base64_img', imageResult);
+                formData.append('_token', '{{csrf_token()}}');
+
+                document.getElementById('inp_crop_img').value = imageResult;
+                // Sends a POST request to upload_cropped.php
+
+                alert('cropped')
+
+            });
+        });
+
+
     </script>
 
 @endsection

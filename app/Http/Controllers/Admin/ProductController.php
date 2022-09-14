@@ -445,6 +445,11 @@ class ProductController extends Controller
             $product_v = $this->productRepository->saveFiles($product_v->id, $request);
         }
 
+        if ($request->has('base64_img')) {
+
+            $product_v = $this->productRepository->uploadCropped($request, $product_v->id);
+        }
+
         $this->productRepository->saveVideo($request, $product_v->id);
 
 
