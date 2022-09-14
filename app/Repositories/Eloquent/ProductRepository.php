@@ -208,6 +208,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             if ($category) {
 
                 return $this->model->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')->where('products.parent_id','!=',null)->whereIn('product_categories.category_id', explode(',', $category->id))->max('price');
+            } else {
+                return $this->model->where('parent_id','!=',null)->max('price');
             }
         }
 
