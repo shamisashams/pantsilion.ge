@@ -84,7 +84,7 @@ class ProductController extends Controller
         $product = Product::query()->where(['status' => true, 'slug' => $slug])->whereHas('categories', function (Builder $query) {
             $query->where('status', 1);
 
-        })->with(['latestImage','video'])->firstOrFail();
+        })->with(['latestImage','video','colors.file'])->firstOrFail();
 
         $productImages = $product->files()->orderBy('id','desc')->get();
 
@@ -170,11 +170,11 @@ class ProductController extends Controller
 
         //dd($config);
 
-        $product['min_price']= min($prices);
+        $product['min_price']= !empty($prices) ? min($prices) : 0;
         //dd($config);
 
         //dd($prices);
-        //dd($stocks);
+        //dd($product);
 
 
         //dd(last($product->categories));

@@ -58,9 +58,9 @@ const SingleProduct = ({ seo }) => {
     const [selectedSize, setSelectedSize] = useState(" select size ");
 
     const [categoryColorImg, setCategoryColorImg] = useState(
-        category_last.colors.length > 0
-            ? category_last.colors[0].file
-                ? category_last.colors[0].file.file_full_url
+        product.colors.length > 0
+            ? product.colors[0].file
+                ? product.colors[0].file.file_full_url
                 : null
             : null
     );
@@ -924,7 +924,7 @@ const SingleProduct = ({ seo }) => {
 
                         <div className="flex items-center justify-center flex-wrap">
                             <ColorPick
-                                colors={category_last.colors}
+                                colors={product.colors}
                                 onClick={selectCategoryColor}
                             />
                         </div>
