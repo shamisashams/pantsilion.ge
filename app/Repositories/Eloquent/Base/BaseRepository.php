@@ -11,6 +11,7 @@ namespace App\Repositories\Eloquent\Base;
 
 use App\Models\File;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use ReflectionClass;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -222,5 +223,37 @@ class BaseRepository implements EloquentRepositoryInterface
 
         }
 
+    }
+
+
+    public function uploadCropped($request, $id){
+        //dd($product);
+        $this->model = $this->findOrFail($id);
+        $data = explode(',', $request->post('base64_img'));
+// Decode the base64 data
+        $data = base64_decode($data[1]);
+
+
+
+        if ($request->has('base64_img')) {
+            // Get Name Of model
+            $reflection = new ReflectionClass(get_class($this->model));
+            $modelName = $reflection->getShortName();
+
+
+            $imagename = date('Ymdhis') .'crop.png';
+            $destination = base_path() . '/storage/app/public/' . $modelName . '/' . $this->model->id;
+
+            Storage::put('public/Product/' . $this->model->id . '/' . $imagename,$data);
+            $this->model->files()->create([
+                'title' => $imagename,
+                'path' => 'storage/' . $modelName . '/' . $this->model->id,
+                'format' => 'png',
+                'type' => File::FILE_DEFAULT,
+                'youtube' =>  null
+            ]);
+
+        }
+        return $this->model;
     }
 }

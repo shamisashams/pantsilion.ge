@@ -62,6 +62,7 @@ Route::prefix('{locale?}')
                 // Product
                 Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
                 Route::get('product/{product}/destroy', [\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('product.destroy');
+                Route::post('product/{product?}/upload-cropped',[\App\Http\Controllers\Admin\ProductController::class, 'uploadCropped'])->name('product.crop-upload');
 
                 Route::get('product/variant/{product}/create',[\App\Http\Controllers\Admin\ProductController::class, 'variantCreate'])->name('product.variant.create');
                 Route::post('product/variant/{product}/store',[\App\Http\Controllers\Admin\ProductController::class, 'variantStore'])->name('product.variant.store');

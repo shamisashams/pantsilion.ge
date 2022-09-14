@@ -160,6 +160,11 @@ class ProductController extends Controller
             $product = $this->productRepository->saveFiles($product->id, $request);
         }
 
+        if ($request->has('base64_img')) {
+
+            $product = $this->productRepository->uploadCropped($request, $product->id);
+        }
+
         $this->productRepository->saveVideo($request);
 
         if(isset($saveData['collection_id'])){
@@ -493,5 +498,9 @@ class ProductController extends Controller
             ]);
         }
 
+    }
+
+    public function uploadCropped(Request $request, $locale, Product $product){
+        $this->productRepository->uploadCropped($request, $product->id);
     }
 }

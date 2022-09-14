@@ -77,6 +77,8 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
     <!-- row -->
     {!! Form::model($product,['url' => $url, 'method' => $method,'files' => true]) !!}
 
+    <input type="hidden" name="base_64">
+
     @if($product->parent_id === null)
         @foreach($ids as $id)
             <input type="hidden" name="categories[]" value="{{$id}}">
