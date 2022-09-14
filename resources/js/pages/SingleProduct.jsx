@@ -563,7 +563,7 @@ const SingleProduct = ({ seo }) => {
                                                 } `}
                                             >
                                                 <img
-                                                    src="/client/assets/images/icons/sofa1.png"
+                                                    src="/client/assets/images/icons/sofa2.png"
                                                     alt=""
                                                 />
                                             </div>
@@ -590,7 +590,7 @@ const SingleProduct = ({ seo }) => {
                                                 } `}
                                             >
                                                 <img
-                                                    src="/client/assets/images/icons/sofa2.png"
+                                                    src="/client/assets/images/icons/sofa1.png"
                                                     alt=""
                                                 />
                                             </div>
