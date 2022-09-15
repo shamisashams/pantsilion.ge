@@ -27,7 +27,8 @@ class Order extends Model
         'grand_total',
         'payment_type',
         'user_id',
-        'discount'
+        'discount',
+        'ship_price'
     ];
 
     public function getFilterScopes(): array

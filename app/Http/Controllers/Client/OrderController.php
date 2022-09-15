@@ -257,6 +257,7 @@ class OrderController extends Controller
         $data['info'] = session('shipping.comment');
         $data['payment_method'] = 1;
         $data['user_id'] = $user->id;
+        $data['ship_price'] = session('shipping.ship_price');
 
         $grand_t = $data['grand_total'];
 
@@ -362,6 +363,14 @@ class OrderController extends Controller
 
 
 
+
+
+
+
+
+
+                DataBase::commit();
+
                 $_promocode = \App\Models\PromoCode::query()->where('type','cart')->first();
                 //dd($promocode);
                 if ($_promocode){
@@ -371,14 +380,8 @@ class OrderController extends Controller
                     $request->user()->promocode()->create(['promocode_id' => $_promocode->id, 'promocode' => $gen]);
                     $data['product'] = null;
                     $data['code'] = $gen;
-                    Mail::to($request->user())->send(new PromocodeProduct($data));
+                    //Mail::to($request->user())->send(new PromocodeProduct($data));
                 }
-
-
-
-
-
-                DataBase::commit();
 
                 $partner_reward = Setting::query()->where('key','partner_reward')->first();
 

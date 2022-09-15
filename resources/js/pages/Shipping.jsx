@@ -17,12 +17,16 @@ import Layout from "../Layouts/Layout";
 const Shipping = ({ seo }) => {
     const [chooseCity, setChooseCity] = useState(false);
 
+
+
     const { cart, cities, promocode, errors, shipping, localizations } =
         usePage().props;
 
     const [selectedCity, setSelectedCity] = useState(
         shipping ? shipping.city_id : 0
     );
+
+    const [shipPrice, setShipPrice] = useState(shipping ? shipping.ship_price : 0);
 
     let selected = null;
     if (shipping) {
@@ -41,6 +45,8 @@ const Shipping = ({ seo }) => {
         setSelectedCity(city.id);
         setSelectedCityL(city.title);
         values.city_id = city.id;
+        values.ship_price = city.ship_price;
+        setShipPrice(city.ship_price);
     }
 
     const [values, setValues] = useState({
@@ -48,6 +54,7 @@ const Shipping = ({ seo }) => {
         address: shipping ? shipping.address : null,
         phone: shipping ? shipping.phone : null,
         comment: shipping ? shipping.comment : null,
+        ship_price: shipping ? shipping.ship_price : 0,
     });
 
     function handleChange(e) {
@@ -350,7 +357,7 @@ const Shipping = ({ seo }) => {
                             </div>
                             <div className="flex items-center justify-between  mb-5">
                                 <div>Shipping</div>
-                                <div className="bold text-lg">₾ 0.00</div>
+                                <div className="bold text-lg">₾ {shipPrice}</div>
                             </div>
                             <div>
                                 {promocode

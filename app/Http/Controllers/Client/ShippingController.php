@@ -238,6 +238,7 @@ class ShippingController extends Controller
            'city_id' => 'required',
            'address' => 'required',
            'phone' => 'required',
+           'ship_price' => 'numeric',
            'comment' => 'nullable'
         ]);
         //dd($data);
