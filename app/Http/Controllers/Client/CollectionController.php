@@ -72,7 +72,9 @@ class CollectionController extends Controller
         $set_products = [];
 
         foreach ($collection->products as $item){
-            $set_products[] = $item->parent;
+            $set_products[$item->parent->id] = $item->parent;
+
+
 
             $product_attributes = $item->attribute_values;
 
@@ -102,6 +104,8 @@ class CollectionController extends Controller
 
             $item['attributes'] = $result;
         }
+
+        $set_products = array_values($set_products);
 
         //dd($set_products);
         return Inertia::render('FurnitureSet',[
