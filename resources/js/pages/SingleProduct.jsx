@@ -913,7 +913,7 @@ const SingleProduct = ({ seo }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full my-10 mb-20">
+                    {product.colors.length > 0 ? <div className="w-full my-10 mb-20">
                         <div className="bold text-lg mb-5">
                             {__("client.furniture_customize", localizations)}
                         </div>
@@ -932,7 +932,7 @@ const SingleProduct = ({ seo }) => {
                                 onClick={selectCategoryColor}
                             />
                         </div>
-                    </div>
+                    </div>:null}
                     <div className="bold text-lg mb-7">
                         {__("client.similar_products", localizations)}
                     </div>

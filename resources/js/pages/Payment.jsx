@@ -229,7 +229,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                       </div>
                       <div className="flex items-center justify-between  mb-5">
                           <div className="bold text-lg">Total</div>
-                          <div className="bold text-xl">₾ {cart.total + shipping.ship_price}</div>
+                          <div className="bold text-xl">₾ {parseFloat(cart.total) + parseFloat(shipping.ship_price)}</div>
                       </div>
                       <div>{promocode ? 'discount %' + promocode.reward :null}</div>
                   </div>
