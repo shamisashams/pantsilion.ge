@@ -467,7 +467,16 @@
                                 product title
                             </th>
                             <th>
-                                coordinates
+                                top
+                            </th>
+                            <th>
+                                right
+                            </th>
+                            <th>
+                                bottom
+                            </th>
+                            <th>
+                                left
                             </th>
                             <th>
 
@@ -482,8 +491,21 @@
                                 <td>
                                     {{$product->title}}
                                 </td>
+                                <?php
+                                $coordinates = explode(' ',$product->pivot->coordinates);
+                                //dd($coordinates);
+                                ?>
                                 <td>
-                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{$product->pivot->coordinates}}">
+                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{$coordinates[0]}}">
+                                </td>
+                                <td>
+                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{$coordinates[1]}}">
+                                </td>
+                                <td>
+                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{$coordinates[2]}}">
+                                </td>
+                                <td>
+                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{$coordinates[3]}}">
                                 </td>
                                 <td>
                                     <a href="{{locale_route('product.edit',$product->id)}}"
@@ -629,14 +651,57 @@
             $(this).parents('.uploaded-image').remove();
         })
 
+        $('.edit_coordinates').keypress(function (e){
+            let index = $('.edit_coordinates').index($(this));
+
+
+
+            switch (index) {
+                case 0:
+                    if($(this).val() !== 'auto'){
+                        $('.edit_coordinates').eq(2).val('auto');
+                    }
+                    break;
+                case 1:
+                    if($(this).val() !== 'auto'){
+                        $('.edit_coordinates').eq(3).val('auto');
+                    }
+                    break;
+                case 2:
+                    if($(this).val() !== 'auto'){
+                        $('.edit_coordinates').eq(0).val('auto');
+                    }
+                    break;
+                case 3:
+                    if($(this).val() !== 'auto'){
+                        $('.edit_coordinates').eq(1).val('auto');
+                    }
+                    break;
+            }
+            if($(this).val() == ''){
+                $(this).val('auto')
+            }
+        });
 
         $('.edit_coordinates').change(function (e){
             //e.preventDefault();
             let $this = $(this);
             let val = $this.val();
 
+            let inputs = $('input[data-id="'+ $this.data('id') +'"]');
 
-            let data = {val: val, _token: '{{csrf_token()}}',id:$this.data('id')}
+
+
+            let val_arr = [];
+            let value = '';
+            inputs.each(function (index,item){
+                val_arr.push($(item).val());
+            });
+            value = val_arr.join(' ');
+
+            //console.log(value);
+
+            let data = {val: value, _token: '{{csrf_token()}}',id:$this.data('id')}
 
 
 

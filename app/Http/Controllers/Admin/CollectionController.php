@@ -197,6 +197,7 @@ class CollectionController extends Controller
 
     public function coordinatesUpdate(Request $request){
 
+        //dd($request->all());
         ProductProductSet::query()->where('id',$request->post('id'))->update(['coordinates' => $request->post('val')]);
         return ['msg' => 'success','status' => 'ok'];
 

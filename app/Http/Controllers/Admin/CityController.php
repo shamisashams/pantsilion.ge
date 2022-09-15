@@ -128,6 +128,7 @@ class CityController extends Controller
      */
     public function update(SliderRequest $request, string $locale, City $city)
     {
+        //dd($request->all());
         $saveData = Arr::except($request->except('_token'), []);
         //$saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
 

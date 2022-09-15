@@ -120,18 +120,18 @@
                 <div class="card-body">
 
 
-                    {{--<div class="form-group">
-                        {!! Form::label("youtube_url",__('admin.btn_link'),['class' => 'form-label']) !!}
-                        {!! Form::text("youtube_url",$slider->youtube_url ?? '',['class' => 'form-control']) !!}
+                    <div class="form-group">
+                        {!! Form::label("ship_price",__('admin.ship_price'),['class' => 'form-label']) !!}
+                        {!! Form::number("ship_price",$model->ship_price ?? '',['class' => 'form-control']) !!}
 
-                        @error($locale.'.youtube_url')
+                        @error('ship_price')
                         <small class="text-danger">
                             <div class="error">
                                 {{$message}}
                             </div>
                         </small>
                         @enderror
-                    </div>--}}
+                    </div>
                     {{--<div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="status"

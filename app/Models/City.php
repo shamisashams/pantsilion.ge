@@ -22,6 +22,7 @@ class City extends Model
 
     protected $fillable = [
         'status',
+        'ship_price'
     ];
 
 
