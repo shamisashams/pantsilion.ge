@@ -221,7 +221,7 @@ const Shipping = ({ seo }) => {
                                 </div>
                                 {/*</form>*/}
                             </div>
-                            <iframe
+                            {/*<iframe
                                 src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d23822.04792854892!2d44.783817693307526!3d41.72578394199125!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sge!4v1662101938952!5m2!1sen!2sge"
                                 width="100%"
                                 height="100%"
@@ -229,7 +229,7 @@ const Shipping = ({ seo }) => {
                                 allowFullScreen=""
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
-                            ></iframe>
+                            ></iframe>*/}
                         </div>
                         <Link className="bold" href="/cart">
                             <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
