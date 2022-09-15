@@ -651,7 +651,7 @@
             $(this).parents('.uploaded-image').remove();
         })
 
-        $('.edit_coordinates').keypress(function (e){
+        $('.edit_coordinates').keyup(function (e){
             let index = $('.edit_coordinates').index($(this));
 
 
