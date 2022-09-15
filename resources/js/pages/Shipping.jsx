@@ -167,6 +167,7 @@ const Shipping = ({ seo }) => {
                                           Zugdidi
                                       </button>*/}
                                     </div>
+                                    {errors.city_id && <div>{errors.city_id}</div>}
                                 </div>
 
                                 <div className="relative mb-3">
@@ -183,6 +184,7 @@ const Shipping = ({ seo }) => {
                                         onChange={handleChange}
                                         value={values.address}
                                     />
+                                    {errors.address && <div>{errors.address}</div>}
                                 </div>
                                 <div className="relative mb-3">
                                     {" "}
@@ -199,6 +201,7 @@ const Shipping = ({ seo }) => {
                                         onChange={handleChange}
                                         value={values.phone}
                                     />
+                                    {errors.phone && <div>{errors.phone}</div>}
                                 </div>
                                 <div className="relative mb-3">
                                     {" "}
