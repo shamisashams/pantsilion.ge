@@ -29,7 +29,7 @@ const RegularCabinet = ({seo}) => {
     function handleChange(e) {
         setValues(values => ({
             ...values,
-            [e.target.id]: e.target.innerText,
+            [e.target.name]: e.target.value,
         }))
     }
 
@@ -71,24 +71,37 @@ const RegularCabinet = ({seo}) => {
 
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                               <label className="opacity-50">Name</label>
-                              <input type="text " value="Name" className="text-right " value={values.name} onChange={handleChange} />
+                              <input type="text " value="Name" name="name" className="text-right " value={values.name} onChange={handleChange} />
                           </div>
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                               <label className="opacity-50">Surname</label>
-                              <input type="text " value="Surname" className="text-right " value={values.surname} onChange={handleChange} />
+                              <input type="text " value="Surname" name="surname" className="text-right " value={values.surname} onChange={handleChange} />
                           </div>
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                               <label className="opacity-50">ID</label>
-                              <input type="text " value="01012022011" className="text-right " value={values.id_number} onChange={handleChange} />
+                              <input type="text " value="01012022011" name="id_number" className="text-right " value={values.id_number} onChange={handleChange} />
                           </div>
-                          <EditInput
+
+                          <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
+                              <label className="opacity-50">Address</label>
+                              <input type="text " value="+99500000000" name="address" className="text-right " value={values.address} onChange={handleChange} />
+                          </div>
+                          <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
+                              <label className="opacity-50">Phone</label>
+                              <input type="text " value="+99500000000" name="phone" className="text-right " value={values.phone} onChange={handleChange} />
+                          </div>
+                          <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
+                              <label className="opacity-50">Email Address</label>
+                              <input type="text " value="+99500000000" name="email" className="text-right " value={values.email} onChange={handleChange} />
+                          </div>
+                          {/*<EditInput
                               label="Address "
                               value={values.address}
                               onChange={handleChange}
                               id={'address'}
                           />
                           <EditInput label="Phone number " value={values.phone} onChange={handleChange} id={'phone'} />
-                          <EditInput label="Email address " value={values.email} onChange={handleChange} id={'email'} />
+                          <EditInput label="Email address " value={values.email} onChange={handleChange} id={'email'} />*/}
                           <div className="grid grid-cols-2 gap-3 pt-3">
                               <MainButton reverse>{__('client.cancel',localizations)}</MainButton>
                               <MainButton onclick={handleSubmit}>{__('client.save_changes',localizations)}</MainButton>

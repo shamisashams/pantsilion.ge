@@ -67,15 +67,27 @@ const AccountSettings = ({seo , user}) => {
                                   <label className="opacity-50">{__('client.form_id_number', localizations)}</label>
                                   <input type="text " value={data.id_number} className="text-right " onChange={e => setData('id_number', e.target.value)} />
                               </div>
-                              <EditInput
+                              <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
+                                  <label className="opacity-50">{__('client.form_address', localizations)}</label>
+                                  <input type="text " value={data.address} className="text-right " onChange={e => setData('address', e.target.value)} />
+                              </div>
+                              {/*<EditInput
                                   label={__('client.form_address', localizations)}
                                   value={data.address}
                                   onChange={e => setData('address', e.target.innerText)}
-                              />
+                              />*/}
                               {errors.address && <div>{errors.address}</div>}
-                              <EditInput label={__('client.form_phone', localizations)} value={data.phone} onChange={e => setData('phone', e.target.innerText)} />
+                              <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
+                                  <label className="opacity-50">{__('client.form_phone', localizations)}</label>
+                                  <input type="text " value={data.phone} className="text-right " onChange={e => setData('phone', e.target.value)} />
+                              </div>
+                              {/*<EditInput label={__('client.form_phone', localizations)} value={data.phone} onChange={e => setData('phone', e.target.innerText)} />*/}
                               {errors.phone && <div>{errors.phone}</div>}
-                              <EditInput label={__('client.form_email', localizations)} value={data.email} onChange={e => setData('email', e.target.innerText)} />
+                              <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
+                                  <label className="opacity-50">{__('client.form_email', localizations)}</label>
+                                  <input type="text " value={data.email} className="text-right " onChange={e => setData('email', e.target.value)} />
+                              </div>
+                              {/*<EditInput label={__('client.form_email', localizations)} value={data.email} onChange={e => setData('email', e.target.innerText)} />*/}
                               {errors.email && <div>{errors.email}</div>}
                               <div className="grid grid-cols-2 gap-3 pt-3">
                                   <MainButton reverse>{__('client.cancel',localizations)}</MainButton>
