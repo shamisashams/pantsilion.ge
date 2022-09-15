@@ -481,6 +481,10 @@ const SingleProduct = ({ seo }) => {
                             {product.video ? (
                                 <div className="w-full sm:h-96 h-60 mt-20">
                                     {renderHTML(productVideo)}
+                                    {/*<iframe width="560" height="315" src=""
+                                            title="YouTube video player" frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen></iframe>*/}
                                 </div>
                             ) : null}
                         </div>

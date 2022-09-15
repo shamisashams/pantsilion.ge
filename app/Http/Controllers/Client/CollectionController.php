@@ -67,10 +67,43 @@ class CollectionController extends Controller
         //\Illuminate\Support\Facades\DB::enableQueryLog();
 
 
-        $collection = ProductSet::query()->where('slug',$slug)->with(['video','translation','files','products','products.translation','products.latestImage','products.stocks','colors'])->firstOrFail();
+        $collection = ProductSet::query()->where('slug',$slug)->with(['video','translation','files','products.translation','products.attribute_values','products.latestImage','products.stocks','products.parent.translation','products.parent.latestImage','colors'])->firstOrFail();
 
+        $set_products = [];
 
-        //dd($blog);
+        foreach ($collection->products as $item){
+            $set_products[] = $item->parent;
+
+            $product_attributes = $item->attribute_values;
+
+            $result = [];
+
+            foreach ($product_attributes as $_item){
+                $options = $_item->attribute->options;
+                $value = '';
+                foreach ($options as $option){
+                    if($_item->attribute->type == 'select'){
+                        if($_item->integer_value == $option->id) {
+                            if($_item->attribute->code == 'size'){
+                                $result[$_item->attribute->code] = $option->value;
+                            }
+                            elseif($_item->attribute->code == 'color'){
+                                $result[$_item->attribute->code] = $option->color;
+                            }
+                            else {
+                                $result[$_item->attribute->code] = $option->label;
+                            }
+                        }
+
+                    }
+                }
+
+            }
+
+            $item['attributes'] = $result;
+        }
+
+        //dd($set_products);
         return Inertia::render('FurnitureSet',[
             'product' => null,
             'category_path' => null,
@@ -78,6 +111,7 @@ class CollectionController extends Controller
             'product_images' => null,
             'product_attributes' => null,
             'collection' => $collection,
+            'set_products' => $set_products,
             "seo" => [
                 "title"=>$collection->meta_title,
                 "description"=>$collection->meta_description,

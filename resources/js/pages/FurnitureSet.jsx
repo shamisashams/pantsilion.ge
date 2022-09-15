@@ -13,7 +13,7 @@ import {Inertia} from "@inertiajs/inertia";
 
 const FurnitureSet = ({seo}) => {
   const [favorite, setFavorite] = useState(false);
-  const {collection} = usePage().props;
+  const {collection,set_products,localizations} = usePage().props;
 
   const [colorId, setColorId] = useState(collection.colors[0].id);
 
@@ -132,7 +132,7 @@ const FurnitureSet = ({seo}) => {
                           </div>:null}
                       </div>
                       <div className="max-w-xl xl:mt-0 mt-20">
-                          <div className="opacity-50">product code # 11425</div>
+                          <div className="opacity-50">{__("client.product_code", localizations)} # {collection.code}</div>
                           <div className="bold text-4xl my-3">{collection.title}</div>
                           {renderHTML(collection.description)}
                           <div className="my-8">
@@ -155,7 +155,7 @@ const FurnitureSet = ({seo}) => {
                                               <div>
                                                   <div className="bold mb-1">{item.title} </div>
                                                   <div className="text-sm opacity-50 mb-1">
-                                                      size: {item.size}
+                                                      size: {item.attributes.size}
                                                   </div>
                                               </div>
                                           </div>
@@ -165,13 +165,13 @@ const FurnitureSet = ({seo}) => {
                               })}
                           </div>
                           <div className="flex my-5 ">
-                              <p className="whitespace-nowrap">Available colors:</p>
+                              <p className="whitespace-nowrap">{__("client.set_colors", localizations)}:</p>
                               <div className="ml-5 max-w-sm mt-1 flex flex-wrap">
                                   <ColorPick colors={collection.colors} onClick={changeColor} />
                               </div>
                           </div>
                           <div className="text-xl">
-                              Price for full set:{" "}
+                              {__("client.set_price", localizations)}:{" "}
                               <span className="bold text-3xl pl-2"> ₾{collection.price}</span>
                           </div>
                           <div className="w-44 my-5">
@@ -191,18 +191,18 @@ const FurnitureSet = ({seo}) => {
                                   }}
                                       className={`ml- whitespace-nowrap bold  border border-custom-dark  py-2 px-3 rounded transition-all duration-500 bg-transparent text-custom-dark hover:bg-custom-dark hover:text-white`}
                                   >
-                                      Add to cart
+                                      {__("client.add_to_cart", localizations)}
                                   </button>
                               </div>
                               <MainButton onclick={() => {
                                   buwNow(collection)
-                              }}>Buy now</MainButton>
+                              }}>{__("client.buy_now", localizations)}</MainButton>
                           </div>
                       </div>
                   </div>
-                  <div className="bold text-2xl mb-1">Products in this set</div>
-                  <p className="opacity-50 mb-7">Most popular products form us</p>
-                  <ProductSlider products={collection.products} />
+                  <div className="bold text-2xl mb-1">{__("client.products_in_set", localizations)}</div>
+                  <p className="opacity-50 mb-7">{__("client.most_popular", localizations)}</p>
+                  <ProductSlider products={set_products} />
               </div>
           </>
       </Layout>
