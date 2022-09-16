@@ -690,7 +690,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
 
 
 
-    @if($product->created_at)
+    @if($product->created_at and $product->parent_id === null)
         <div class="row">
             <div class="col-lg-12 col-md-12">
                 <div class="card">
@@ -805,7 +805,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                                         ?>
                                         <pre>{!! $attributes !!}</pre>
                                     </td>
-                                    <td>{{$variant->price}}</td>
+                                    <td>{!! $variant->special_price ? $variant->special_price .' <span style="text-decoration: line-through;">' . $variant->price . '</span>' : $variant->price !!}</td>
                                     <td>
                                         <?php
                                         $_stocks = '';

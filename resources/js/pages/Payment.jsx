@@ -169,7 +169,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                           <div className=" flex items-start">
                                               <div className="w-20 h-20 mr-3 shrink-0">
                                                   <img
-                                                      src={item.product.latest_image ? '/' + item.product.latest_image.path + '/' + item.product.latest_image.title:null}
+                                                      src={item.product.latest_image ?  item.product.latest_image.file_full_url :null}
                                                       className="w-full h-full object-cover"
                                                       alt=""
                                                   />
@@ -183,7 +183,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                                   </div>
                                               </div>
                                           </div>
-                                          <div className="text-lg ml-4">₾{item.product.price}</div>
+                                          <div className="text-lg ml-4">₾{item.product.special_price ? item.product.special_price : item.product.price}</div>
                                       </div>
                                   );
                               })}
@@ -197,7 +197,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                           <div className=" flex items-start">
                                               <div className="w-20 h-20 mr-3 shrink-0">
                                                   <img
-                                                      src={item.collection.latest_image ? '/' + item.collection.latest_image.path + '/' + item.collection.latest_image.title:null}
+                                                      src={item.collection.latest_image ? item.collection.latest_image.file_full_url :null}
                                                       className="w-full h-full object-cover"
                                                       alt=""
                                                   />
@@ -212,7 +212,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                                   </div>
                                               </div>
                                           </div>
-                                          <div className="text-lg ml-4">₾{item.collection.price}</div>
+                                          <div className="text-lg ml-4">₾{item.collection.special_price ? item.collection.special_price : item.collection.price}</div>
                                       </div>
                                   );
                               })}

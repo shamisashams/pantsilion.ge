@@ -258,14 +258,9 @@ const Shipping = ({ seo }) => {
                                                         src={
                                                             item.product
                                                                 .latest_image
-                                                                ? "/" +
+                                                                ?
                                                                   item.product
-                                                                      .latest_image
-                                                                      .path +
-                                                                  "/" +
-                                                                  item.product
-                                                                      .latest_image
-                                                                      .title
+                                                                      .latest_image.file_full_url
                                                                 : null
                                                         }
                                                         className="w-full h-full object-cover"
@@ -290,7 +285,7 @@ const Shipping = ({ seo }) => {
                                                 </div>
                                             </div>
                                             <div className="text-lg ml-4">
-                                                ₾{item.product.price}
+                                                ₾{item.product.special_price ? item.product.special_price : item.product.price}
                                             </div>
                                         </div>
                                     );
@@ -308,16 +303,11 @@ const Shipping = ({ seo }) => {
                                                         src={
                                                             item.collection
                                                                 .latest_image
-                                                                ? "/" +
+                                                                ?
                                                                   item
                                                                       .collection
-                                                                      .latest_image
-                                                                      .path +
-                                                                  "/" +
-                                                                  item
-                                                                      .collection
-                                                                      .latest_image
-                                                                      .title
+                                                                      .latest_image.file_full_url
+
                                                                 : null
                                                         }
                                                         className="w-full h-full object-cover"
@@ -345,7 +335,7 @@ const Shipping = ({ seo }) => {
                                                 </div>
                                             </div>
                                             <div className="text-lg ml-4">
-                                                ₾{item.collection.price}
+                                                ₾{item.collection.special_price ? item.collection.special_price : item.collection.price}
                                             </div>
                                         </div>
                                     );

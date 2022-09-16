@@ -50,7 +50,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         $prices = [];
         foreach ($products as $item){
             foreach ($item->variants as $variant){
-                $prices[] = $variant->price;
+                $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
             }
             $item['min_price'] = min($prices);
         }

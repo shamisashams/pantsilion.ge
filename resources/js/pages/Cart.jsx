@@ -101,7 +101,7 @@ const Cart = ({seo}) => {
 
                                   <Quantity item={item} cart={true} />
                                   <div className="w-28 text-lg bold whitespace-nowrap mx-4">
-                                      ₾ {item.product.price}
+                                      ₾ {item.product.special_price ? item.product.special_price : item.product.price}
                                   </div>
 
                                   <button onClick={() => {removeItem(item.product.id)}} className="shrink-0 w-12 h-12 flex items-center justify-center rounded-full text-custom-red hover:bg-zinc-200 hover:text-black  transition-all">
@@ -145,7 +145,7 @@ const Cart = ({seo}) => {
 
                                   <Quantity item={item} collection={true} />
                                   <div className="w-28 text-lg bold whitespace-nowrap mx-4">
-                                      ₾ {item.collection.price}
+                                      ₾ {item.collection.special_price ? item.collection.special_price : item.collection.price}
                                   </div>
 
                                   <button onClick={() => {removeCollection(item.collection.id)}} className="shrink-0 w-12 h-12 flex items-center justify-center rounded-full text-custom-red hover:bg-zinc-200 hover:text-black  transition-all">

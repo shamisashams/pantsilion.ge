@@ -152,7 +152,7 @@ class ProductController extends Controller
             $config['variants'][$variant->id]['images'] = $variant->files;
             $config['variants'][$variant->id]['variant'] = $variant;
 
-            $prices[] = $variant->price;
+            $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
 
 
 
@@ -275,7 +275,7 @@ class ProductController extends Controller
             $prices = [];
 
             foreach ($_product->variants as $variant){
-                $prices[] = $variant->price;
+                $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
             }
 
             $_product['min_price'] = !empty($prices) ? min($prices) : 0;
