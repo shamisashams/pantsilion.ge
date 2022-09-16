@@ -16,6 +16,7 @@ use App\Models\Slider;
 use App\Models\User;
 use App\Repositories\Eloquent\Base\BaseRepository;
 use App\Repositories\SliderRepositoryInterface;
+use Illuminate\Http\Request;
 use ReflectionClass;
 
 /**
@@ -81,13 +82,13 @@ class UserRepository extends BaseRepository
         return $this->model;
     }
 
-    public function getPartners(){
+    public function getPartners(Request $request){
 
-        return $this->model->where('is_partner',1)->paginate(10);
+        return $this->model->filter($request)->where('is_partner',1)->paginate(10);
     }
 
-    public function getCustomers(){
-        return $this->model->where('is_partner',0)->where('is_admin',0)->paginate(10);
+    public function getCustomers(Request $request){
+        return $this->model->filter($request)->where('is_partner',0)->where('is_admin',0)->paginate(10);
     }
 
 }

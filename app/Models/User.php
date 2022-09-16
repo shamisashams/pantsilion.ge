@@ -61,7 +61,18 @@ class User extends Authenticatable
     public function getFilterScopes(): array
     {
         return [
-
+            'id' => [
+                'hasParam' => true,
+                'scopeMethod' => 'id'
+            ],
+            'email' => [
+                'hasParam' => true,
+                'scopeMethod' => 'email'
+            ],
+            'name' => [
+                'hasParam' => true,
+                'scopeMethod' => 'fullName'
+            ],
         ];
     }
 

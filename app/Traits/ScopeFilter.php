@@ -278,6 +278,13 @@ trait ScopeFilter
 
     }
 
+    public function scopeFullName($query, $value)
+    {
+
+        return $query->where('name',  'like', '%' . $value . '%' )->orWhere('surname',  'like', '%' . $value . '%' );
+
+    }
+
     public function scopeParentId($query, $value){
 
         if ($value == 1){

@@ -55,12 +55,14 @@
                                                class="validate {{$errors->has('id') ? '' : 'valid'}}">
                                     </th>
                                     <th>
-
+                                        <input class="form-control" type="text" name="email" onchange="this.form.submit()"
+                                               value="{{Request::get('email')}}"
+                                               class="validate {{$errors->has('email') ? '' : 'valid'}}">
                                     </th>
                                     <th>
-                                        <input class="form-control" type="text" name="key" onchange="this.form.submit()"
-                                               value="{{Request::get('key')}}"
-                                               class="validate {{$errors->has('key') ? '' : 'valid'}}">
+                                        <input class="form-control" type="text" name="name" onchange="this.form.submit()"
+                                               value="{{Request::get('name')}}"
+                                               class="validate {{$errors->has('name') ? '' : 'valid'}}">
                                     </th>
                                     <th>
                                         <input class="form-control" type="text" name="value" onchange="this.form.submit()"
