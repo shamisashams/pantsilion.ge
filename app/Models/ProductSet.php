@@ -105,4 +105,5 @@ class ProductSet extends Model
     public function getProductCountAttribute(){
         return $this->products()->count();
     }
+
 }

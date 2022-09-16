@@ -26,5 +26,8 @@ class OrderCollectionItem extends Model
         return $this->belongsTo(OrderCollection::class);
     }
 
+    public function getAttributesAttribute($value){
+        return json_decode($value);
+    }
 
 }

@@ -56,7 +56,7 @@
                                 {{$order->address}}<br>
                                 {{$order->info}}<br>
                                 <b>Payment Method ></b> {{$order->payment_method ? 'Bank' : 'Cash'}}<br>
-                                <b>Courier Service ></b> {{$order->courier_service === 0 ? 'Tbilisi' : 'Region'}}
+                                <b>Shipping price ></b> {{$order->ship_price}}
                             </address>
                         </div>
                         {{--<div class="col-lg-6 text-end">
@@ -95,6 +95,36 @@
                                 <td class="tx-right">{{$item->price}}₾</td>
                                 <td class="tx-right">{{$item->total}}₾</td>
                             </tr>
+                            @endforeach
+
+                            @foreach($order->collections as $item)
+                                <tr>
+                                    <td>Furniture-set: {{$item->title}}<br>
+                                        Color: {{$item->items[0]->attributes->color}}
+                                    </td>
+
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <th>product</th>
+                                                <th>price</th>
+                                            </tr>
+                                            @foreach($item->items as $prod)
+                                                <tr>
+                                                    <td>
+                                                        {{$prod->title}}
+                                                    </td>
+                                                    <td>
+                                                        {{$prod->price}}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    </td>
+
+                                    <td class="tx-right">{{$item->price}}₾</td>
+                                    <td class="tx-right">{{$item->total_price}}₾</td>
+                                </tr>
                             @endforeach
 
                             <tr>
