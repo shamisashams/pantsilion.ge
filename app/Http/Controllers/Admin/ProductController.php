@@ -498,17 +498,34 @@ class ProductController extends Controller
 
     public function updateMinMaxPrice($product){
         $prices = [];
-        foreach ($product->variants as $variant){
-            $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
+        if($product->parent_id === null){
+            foreach ($product->variants as $variant){
+                $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
+            }
+            //dd($prices);
+            if(!empty($prices)){
+                $min_price = min($prices);
+                $max_price = max($prices);
+                $product->update([
+                    'min_price' => $min_price,
+                    'max_price' => $max_price
+                ]);
+            }
+        } else {
+            foreach ($product->parent->variants as $variant){
+                $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
+            }
+            //dd($prices);
+            if(!empty($prices)){
+                $min_price = min($prices);
+                $max_price = max($prices);
+                $product->parent()->update([
+                    'min_price' => $min_price,
+                    'max_price' => $max_price
+                ]);
+            }
         }
-        if(!empty($prices)){
-            $min_price = min($prices);
-            $max_price = max($prices);
-            $product->update([
-                'min_price' => $min_price,
-                'max_price' => $max_price
-            ]);
-        }
+
 
     }
 
