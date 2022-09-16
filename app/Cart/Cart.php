@@ -272,9 +272,11 @@ class Cart
                     ];
                 }
             }
-            foreach ($cart as $item) {
 
-                    $total += intval($item->quantity) * floatval($item->price);
+            //dd($cart);
+            foreach ($products as $item) {
+
+                    $total += intval($item['quantity']) * floatval($item['product']->special_price ? $item['product']->special_price : $item['product']->price);
 
             }
 
@@ -297,9 +299,9 @@ class Cart
                 }
             }
         }
-        foreach ($cart_collection as $item) {
+        foreach ($collections as $item) {
 
-            $total_c += intval($item->quantity) * floatval($item->price);
+            $total_c += intval($item['quantity']) * floatval($item['collection']->special_price ? $item['collection']->special_price : $item['collection']->price);
 
         }
         return array('count' => count($cart) + count($cart_collection), 'products' => $products, 'collections' => $collections, 'total' => $total + $total_c);

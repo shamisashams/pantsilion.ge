@@ -304,7 +304,7 @@ class OrderController extends Controller
                     $data['product_id'] = $item['product']['id'];
                     $data['name'] = $item['product']['title'];
                     $data['qty_ordered'] = $item['quantity'];
-                    $data['price'] = $item['product']['price'];
+                    $data['price'] = $item['product']->special_price ? $item['product']->special_price : $item['product']['price'] ;
                     $data['total'] = $item['product']['price'] * $item['quantity'];
                     $data['attributes'] = json_encode($item['product']['attributes']);
                     if ($item['product']->discount){
@@ -320,7 +320,7 @@ class OrderController extends Controller
                     $collection = $order->collections()->create([
                         'product_set_id' => $item['collection']->id,
                         'title' => $item['collection']->title,
-                        'total_price' => $item['collection']->price
+                        'total_price' => $item['collection']->special_price ? $item['collection']->special_price : $item['collection']->price
                     ]);
                     foreach ($item['collection']->products as $_item){
 
