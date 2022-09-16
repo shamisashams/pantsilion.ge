@@ -135,6 +135,7 @@ Route::prefix('{locale?}')
 
                 Route::resource('collection', \App\Http\Controllers\Admin\CollectionController::class)->parameters(['collection' => 'product_set']);
                 Route::get('collection/{product_set}/destroy', [\App\Http\Controllers\Admin\CollectionController::class, 'destroy'])->name('collection.destroy');
+                Route::post('collection/{product_set?}/upload-cropped',[\App\Http\Controllers\Admin\CollectionController::class, 'uploadCropped'])->name('collection.crop-upload');
                 Route::put('collection/coordinates/update',[\App\Http\Controllers\Admin\CollectionController::class,'coordinatesUpdate'])->name('collection.update.coordinates');
                 Route::get('collection/product/{product}/remove',[\App\Http\Controllers\Admin\CollectionController::class,'removeProduct'])->name('collection.destroy.product');
 

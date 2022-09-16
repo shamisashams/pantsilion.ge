@@ -39,7 +39,7 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('admin.id')</th>
-
+                                    <th>@lang('admin.product_count')</th>
                                     <th>@lang('admin.status')</th>
                                     <th>@lang('admin.title')</th>
                                     <th>@lang('admin.actions')</th>
@@ -54,6 +54,7 @@
                                                class="validate {{$errors->has('id') ? '' : 'valid'}}">
                                     </th>
 
+                                    <th></th>
                                     <th>
                                         <select class="form-control" name="status" onchange="this.form.submit()">
                                             <option value="" {{Request::get('status') === '' ? 'selected' :''}}>@lang('admin.any')</option>
@@ -72,7 +73,7 @@
                                         <tr>
                                             <th scope="row">{{$item->id}}</th>
 
-
+                                            <td>{{$item->product_count}}</td>
                                             <td>
 
                                                 @if($item->status)

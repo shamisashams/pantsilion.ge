@@ -44,7 +44,7 @@ class CollectionController extends Controller
         ]);*/
 
         return view('admin.nowa.views.collection.index', [
-            'data' => $this->collectionRepository->getData($request, ['translations'])
+            'data' => $this->collectionRepository->getData($request, ['translations','colors'])
         ]);
     }
 
@@ -102,6 +102,11 @@ class CollectionController extends Controller
         if ($request->hasFile('set_image')) {
 
             $this->collectionRepository->saveSetImage($slider->id, $request);
+        }
+
+        if ($request->has('base64_img')) {
+
+            $this->collectionRepository->uploadCropped($request, $slider->id);
         }
 
         $this->collectionRepository->model->colors()->sync($request->post('color') ?? []);
@@ -206,5 +211,9 @@ class CollectionController extends Controller
     public function removeProduct($locale,$id){
         ProductProductSet::query()->where('id',$id)->delete();
         return redirect()->back()->with('success', __('admin.delete_message'));
+    }
+
+    public function uploadCropped(Request $request, $locale, ProductSet $productSet){
+        $this->collectionRepository->uploadCropped($request, $productSet->id);
     }
 }

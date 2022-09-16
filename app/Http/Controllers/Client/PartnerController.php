@@ -337,13 +337,19 @@ class PartnerController extends Controller
                 'address' => 'required',
                 'phone' => 'required',
                 'email' => 'required|email|unique:users,email,' . auth()->id(),
+                'id_number' => 'required',
+                'name' => 'required',
+                'surname' => 'required'
             ]);
         } else {
             $data = $request->validate([
                 'address' => 'required',
                 'phone' => 'required',
                 'email' => 'required|email|unique:users,email,' . auth()->id(),
-                'avatar' => 'required'
+                'avatar' => 'required',
+                'id_number' => 'required',
+                'name' => 'required',
+                'surname' => 'required'
             ]);
         }
 

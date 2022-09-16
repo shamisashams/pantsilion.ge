@@ -18,7 +18,7 @@ const BankAccount = ({seo, user, bank_account}) => {
     function handleChange(e) {
         setValues(values => ({
             ...values,
-            [e.target.id]: e.target.innerText,
+            [e.target.name]: e.target.value,
         }))
     }
 
@@ -37,8 +37,18 @@ const BankAccount = ({seo, user, bank_account}) => {
                       <div className="sm:w-96 pr-5 max-w-md mx-auto">
                           <div className="text-3xl bold mb-12">{__('client.bank_account', localizations)}</div>
 
-                          <EditInput label={__('client.form_bank_id', localizations)} value={values.bank_id} onChange={handleChange} id={'bank_id'} />
-                          <EditInput label={__('client.form_account_number', localizations)} value={values.account_number} onChange={handleChange} id={'account_number'} />
+                          <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
+                              <label className="opacity-50">{__('client.form_bank_id', localizations)}</label>
+                              <input type="text " name="bank_id" value={values.bank_id} className="text-right " onChange={handleChange} />
+                          </div>
+
+                          <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
+                              <label className="opacity-50">{__('client.form_account_number', localizations)}</label>
+                              <input type="text " name="account_number" value={values.account_number} className="text-right " onChange={handleChange} />
+                          </div>
+
+                          {/*<EditInput label={__('client.form_bank_id', localizations)} value={values.bank_id} onChange={handleChange} id={'bank_id'} />
+                          <EditInput label={__('client.form_account_number', localizations)} value={values.account_number} onChange={handleChange} id={'account_number'} />*/}
                           <div className="grid grid-cols-2 gap-3 pt-5">
                               <MainButton reverse>{__('client.cancel', localizations)}</MainButton>
                               <MainButton onclick={handleSubmit}>{__('client.save_changes', localizations)}</MainButton>

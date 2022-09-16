@@ -244,7 +244,7 @@ class BaseRepository implements EloquentRepositoryInterface
             $imagename = date('Ymdhis') .'crop.png';
             $destination = base_path() . '/storage/app/public/' . $modelName . '/' . $this->model->id;
 
-            Storage::put('public/Product/' . $this->model->id . '/' . $imagename,$data);
+            Storage::put('public/' . $modelName . '/' . $this->model->id . '/' . $imagename,$data);
             $this->model->files()->create([
                 'title' => $imagename,
                 'path' => 'storage/' . $modelName . '/' . $this->model->id,

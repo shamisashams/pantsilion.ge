@@ -31,6 +31,10 @@ class ProductSet extends Model
         'code'
     ];
 
+    protected $appends = [
+      'product_count'
+    ];
+
 
     protected $translationModel = ProductSetTranslation::class;
 
@@ -96,5 +100,9 @@ class ProductSet extends Model
 
     public function getSetImageAttribute($value){
         return asset($value);
+    }
+
+    public function getProductCountAttribute(){
+        return $this->products()->count();
     }
 }
