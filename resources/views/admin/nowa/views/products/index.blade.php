@@ -62,7 +62,20 @@
                                                value="{{Request::get('slug')}}"
                                                class="validate {{$errors->has('slug') ? '' : 'valid'}}">
                                     </th>
-                                    <th></th>
+                                    <th>
+                                        <?php
+                                        $types = [
+                                          1 => 'configurable',
+                                          2 => 'variants'
+                                        ];
+                                        ?>
+                                        <select name="parent" class="form-control" onchange="this.form.submit()">
+                                            <option value=""></option>
+                                            @foreach($types as $key => $type)
+                                                <option value="{{$key}}" {{Request::get('parent') == $key ? 'selected' :''}}>{{$type}}</option>
+                                            @endforeach
+                                        </select>
+                                    </th>
                                     <th>
                                         <select class="form-control" name="category_id" onchange="this.form.submit()">
                                             <option value="" {{Request::get('category_id') === '' ? 'selected' :''}}>@lang('admin.any')</option>

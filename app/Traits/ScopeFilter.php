@@ -59,6 +59,7 @@ trait ScopeFilter
                 $activeFilters [$key] = $request->{$key};
             }
         }
+        //dd($activeFilters);
         return $activeFilters;
     }
 
@@ -275,6 +276,14 @@ trait ScopeFilter
 
         return $query->where('type',  $value );
 
+    }
+
+    public function scopeParentId($query, $value){
+
+        if ($value == 1){
+            return $query->where('parent_id',null);
+        }
+        return $query->where('parent_id','!=',null);
     }
 
 
