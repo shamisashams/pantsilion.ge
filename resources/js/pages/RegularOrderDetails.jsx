@@ -126,10 +126,21 @@ const RegularOrderDetails = ({ seo }) => {
                                         ).format("DD.MM.YYYY")}
                                     </span>
                                 </div>
-                                <div>
+                                <div className="mb-4">
                                     Total price:{" "}
                                     <span className="opacity-50">{order.grand_total} ₾</span>
                                 </div>
+                                {order.collections.length > 0 ?
+
+                                    order.collections.map((collection,i) => {
+                                        return (
+                                            <div>
+                                                Furniture set:{" "}
+                                                <span className="opacity-50">{order.collections[0].title}</span>
+                                            </div>
+                                        )
+                                        })
+                                    :null}
                             </div>
                             <div className="md:overflow-hidden overflow-x-scroll  w-full">
                                 <div className=" pb-20">
@@ -179,6 +190,38 @@ const RegularOrderDetails = ({ seo }) => {
                                                     <td>{item.attributes ? item.attributes.material :null}</td>
                                                 </tr>
                                             )
+                                        })}
+
+                                        {order.collections.map((item, index) => {
+
+
+                                            return (
+                                                item.items.map((product,index_) => {
+                                                    return (
+                                                        <tr>
+                                                            <td className="bold">
+                                                                {product.title}
+                                                            </td>
+                                                            <td>{1}</td>
+                                                            <td>₾ {product.price}</td>
+                                                            <td>₾ {product.price}</td>
+                                                            <td>
+                                                                <div
+                                                                    className="w-5 h-5 rounded-full mx-auto"
+                                                                    style={{
+                                                                        backgroundColor:
+                                                                            product.attributes ? product.attributes.color:null,
+                                                                    }}
+                                                                ></div>
+                                                            </td>
+                                                            <td>{product.attributes ? product.attributes.size:null}cm</td>
+                                                            <td>{product.attributes ? product.attributes.material :null}</td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            )
+
+
                                         })}
                                         {/*<tr>
                                             <td className="bold">
