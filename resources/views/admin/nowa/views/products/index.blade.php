@@ -147,14 +147,22 @@
                                                 $path[$k]['size'] = $arr[$max]['current']->size;
                                                 $path[$k]['color'] = $arr[$max]['current']->color;
 
-                                                $path_str = '';
 
-                                                foreach ($path as $itm){
-                                                    $path_str .= $itm['title'] . ' -> ';
-                                                }
-                                                $path_str = substr($path_str,0,-4);
                                                 ?>
-                                                {{$path_str}}
+
+
+                                                    <nav aria-label="breadcrumb">
+                                                        <ol class="breadcrumb breadcrumb-style mg-b-0">
+
+                                                            @foreach($path as $_path)
+                                                                <li class="breadcrumb-item">
+                                                                    <a href="{{route('category.edit',$_path['id'])}}">{{$_path['title']}}</a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ol>
+
+
+                                                    </nav>
                                             </td>
 
                                             <td>
