@@ -64,7 +64,7 @@ class PartnerController extends Controller
             'surname' => 'required',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required',
-            'cv' => 'required'
+            'cv' => 'nullable'
         ]);
 
         $attributes['is_partner'] = 1;
