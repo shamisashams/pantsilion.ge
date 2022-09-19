@@ -98,6 +98,7 @@ const Products = ({ seo }) => {
         subcats[item.id] = item.title;
     });
 
+    console.log(products)
 
     return (
         <Layout seo={seo}>
@@ -129,7 +130,7 @@ const Products = ({ seo }) => {
                                     }
                                     name={item.title}
                                     price={item.min_price}
-                                    oldPrice={item.oldPrice}
+                                    oldPrice={item.special_price}
                                     paragraph={item.short_description}
                                     id={item.id}
                                 />

@@ -67,12 +67,17 @@ class CategoryController extends Controller
                 }
 
             }
+            $sale = false;
             $prices = [];
             $product['attributes'] = $_result;
             foreach ($product->variants as $variant){
                 $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
+                if($variant->special_price){
+                    $sale = true;
+                }
             }
             $product['min_price'] = !empty($prices) ? min($prices) : 0;
+            $product['sale'] = $sale;
 
         }
 
@@ -240,6 +245,17 @@ class CategoryController extends Controller
             }
             $product['attributes'] = $_result;
 
+            $sale = false;
+
+            foreach ($product->variants as $variant){
+
+                if($variant->special_price){
+                    $sale = true;
+                }
+            }
+
+            $product['sale'] = $sale;
+
         }
 
         foreach (Category::where('parent_id','!=',null)->get()->toArray() as $item){
@@ -307,7 +323,16 @@ class CategoryController extends Controller
             }
             $product['attributes'] = $_result;
 
+            $sale = false;
 
+            foreach ($product->variants as $variant){
+
+                if($variant->special_price){
+                    $sale = true;
+                }
+            }
+
+            $product['sale'] = $sale;
 
 
 

@@ -69,6 +69,17 @@ class SearchController extends Controller
             }
             $product['attributes'] = $_result;
 
+            $sale = false;
+
+            foreach ($product->variants as $variant){
+
+                if($variant->special_price){
+                    $sale = true;
+                }
+            }
+
+            $product['sale'] = $sale;
+
         }
 
 

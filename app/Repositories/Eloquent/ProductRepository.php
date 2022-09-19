@@ -48,11 +48,17 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         })->with(['latestImage','variants'])->inRandomOrder()->get();
 
         $prices = [];
+        $sale = false;
         foreach ($products as $item){
             foreach ($item->variants as $variant){
                 $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
+                if($variant->special_price){
+                    $sale = true;
+                }
             }
             $item['min_price'] = min($prices);
+            $item['sale'] = $sale;
+
         }
         //dd($products);
         return $products;
