@@ -24,6 +24,7 @@ function locale_route($name, $parameters = [], bool $absolute = true): string
         'locale' => $uriSegments[1]
     ], Arr::wrap($parameters));
 
+    //dd(request()->query);
 
-    return route($name, $parameters, $absolute);
+    return route($name, array_merge($parameters,request()->query()), $absolute);
 }
