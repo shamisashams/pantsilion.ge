@@ -273,6 +273,13 @@
                                 @endforeach
                             @endif
 
+                        @error('color.*')
+                        <small class="text-danger">
+                            <div class="error">
+                                {{$message}}
+                            </div>
+                        </small>
+                        @enderror
                     </div>
 
 
@@ -495,6 +502,9 @@
                                 product title
                             </th>
                             <th>
+                                product color
+                            </th>
+                            <th>
                                 top
                             </th>
                             <th>
@@ -517,7 +527,35 @@
                                     {{$product->id}}
                                 </td>
                                 <td>
-                                    {{$product->title}}
+                                    <a href="{{route('product.edit',$product)}}">{{$product->title}}</a>
+                                </td>
+                                <td>
+                                    <?php
+                                    foreach ($product->attribute_values as $item){
+                                        $options = $item->attribute->options;
+                                        $value = '';
+                                        foreach ($options as $option){
+                                            if($item->attribute->type == 'select'){
+                                                if($item->integer_value == $option->id) {
+                                                    if($item->attribute->code == 'size'){
+                                                        $result[$item->attribute->code] = $option->value;
+                                                    }
+                                                    if($item->attribute->code == 'color'){
+                                                        $result[$item->attribute->code] = $option->color;
+                                                    }
+                                                    else {
+                                                        $result[$item->attribute->code] = $option->label;
+                                                    }
+                                                }
+
+                                            }
+                                        }
+
+                                    }
+
+                                    $result;
+                                    ?>
+                                    <span style="background-color: {{$result['color']}};width: 25px;height: 25px;display: block"></span>
                                 </td>
                                 <?php
                                 $coordinates = explode(' ',$product->pivot->coordinates);

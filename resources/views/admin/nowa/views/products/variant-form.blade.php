@@ -460,8 +460,15 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                     $prod_attr_bool = \Illuminate\Support\Arr::pluck($product->attribute_values,'boolean_value','attribute_id');
                     //dd($prod_attr_bool,$prod_attr);
                     ?>
-
+                    <?php
+                    $arr = [
+                        'material',
+                        'brand'
+                    ];
+                    ?>
                     @foreach($attributes as $item)
+
+                        @if(!in_array($item->code,$arr))
                         <div class="form-group">
                             <label class="form-label">{{$item->code}}</label>
 
@@ -506,7 +513,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
                             @endif
                         </div>
-
+                        @endif
                     @endforeach
 
                     <div class="form-group mb-0 mt-3 justify-content-end">

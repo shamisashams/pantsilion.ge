@@ -47,7 +47,7 @@ class ColorMatch implements Rule
 
         //dd($color_id);
         //
-        $collection_color = ProductSet::whereHas('colors',function (Builder_ $query) use ($color_id){
+        $collection_color = ProductSet::where('id',$this->request->collection_id)->whereHas('colors',function (Builder_ $query) use ($color_id){
             $query->where('color_id',$color_id);
         })->count();
         return $collection_color;

@@ -14,6 +14,7 @@ use App\Repositories\Eloquent\CityRepository;
 use App\Repositories\Eloquent\CollectionRepository;
 use App\Repositories\Eloquent\StockRepository;
 use App\Repositories\SliderRepositoryInterface;
+use App\Rules\ColorMatchCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
@@ -161,6 +162,7 @@ class CollectionController extends Controller
         //dd($request->all());
         $request->validate([
             config('translatable.fallback_locale') . '.title' => 'required|string|max:255',
+            'color.*' => new ColorMatchCollection($productSet,$request)
         ]);
         $saveData = Arr::except($request->except('_token'), []);
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];

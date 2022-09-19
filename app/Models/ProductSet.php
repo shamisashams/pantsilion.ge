@@ -32,7 +32,7 @@ class ProductSet extends Model
     ];
 
     protected $appends = [
-      'product_count'
+      'product_count',
     ];
 
 
@@ -105,5 +105,6 @@ class ProductSet extends Model
     public function getProductCountAttribute(){
         return $this->products()->count();
     }
+
 
 }
