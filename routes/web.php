@@ -70,6 +70,7 @@ Route::prefix('{locale?}')
                 Route::get('product/{product}/{product_color}/delete_color',[\App\Http\Controllers\Admin\ProductController::class,'deleteColor'])->name('product.delete_color');
 //
 
+                Route::post('product/search',[\App\Http\Controllers\Admin\BlogController::class,'getProducts'])->name('product.search.ajax');
 
 
 

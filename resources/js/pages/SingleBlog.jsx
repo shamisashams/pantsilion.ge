@@ -85,18 +85,24 @@ const SingleBlog = ({seo}) => {
                       et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
                       takimata sanctus est Lorem{" "}
                   </p>*/}
-                  {/*<div className="my-10">
-                      <div className="max-w-xs mx-3 mb-10 inline-block">
-                          <ProductBox
-                              new
-                              img="/client/assets/images/products/1.png"
-                              name="New product"
-                              price="258"
-                              paragraph="Choose from a wide range of premium quality wooden furniture online. "
-                              link="/single-product"
-                          />
-                      </div>
-                      <div className="max-w-xs mx-3 mb-10 inline-block">
+                  {blog.products.length > 0 ? <div className="my-10">
+                          {blog.products.map((item, index) => {
+                                return (
+                                    <div className="max-w-xs mx-3 mb-10 inline-block">
+                                        <ProductBox
+                                            new={item.new}
+                                            sale={item.sale}
+                                            img={item.latest_image ? item.latest_image.file_full_url :null}
+                                            name={item.title}
+                                            price={item.min_price}
+                                            paragraph={item.short_description}
+                                            link={route('client.product.show',item.slug)}
+                                        />
+                                    </div>
+                                )
+                          })}
+
+                      {/*<div className="max-w-xs mx-3 mb-10 inline-block">
                           <ProductBox
                               new
                               img="/client/assets/images/products/2.png"
@@ -115,8 +121,8 @@ const SingleBlog = ({seo}) => {
                               paragraph="Choose from a wide range of premium quality wooden furniture online. "
                               link="/single-product"
                           />
-                      </div>
-                  </div>*/}
+                      </div>*/}
+                  </div>:null}
 
                   {/*<p className="mb-5 text-justify max-w-4xl">
                       sed diam voluptua. At vero eos et accusam et justo duo dolores et ea

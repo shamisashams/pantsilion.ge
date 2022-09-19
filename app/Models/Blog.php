@@ -132,4 +132,8 @@ class Blog extends Model implements Searchable
         return (new Carbon($value))->format('d  F  Y');
     }
 
+    public function products(){
+        return $this->belongsToMany(Product::class,'blog_products');
+    }
+
 }

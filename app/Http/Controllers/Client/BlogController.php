@@ -61,10 +61,19 @@ class BlogController extends Controller
         //\Illuminate\Support\Facades\DB::enableQueryLog();
 
 
-        $blog = Blog::query()->where('slug',$slug)->with(['translation','latestImage'])->firstOrFail();
+        $blog = Blog::query()->where('slug',$slug)->with(['translation','latestImage','products.translation','products.latestImage'])->firstOrFail();
 
         $related_blogs = Blog::query()->where('id','!=',$blog->id)->with(['translation','latestImage'])->limit(4)->inRandomOrder()->get();
 
+        foreach ($blog->products as $product){
+            $prices = [];
+
+            foreach ($product->variants as $variant){
+                $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
+            }
+
+            $product['min_price'] = !empty($prices) ? min($prices) : 0;
+        }
 
         return Inertia::render('SingleBlog',[
             'product' => null,

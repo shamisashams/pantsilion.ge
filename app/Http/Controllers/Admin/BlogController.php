@@ -199,12 +199,39 @@ class BlogController extends Controller
 
 
 
+        $blog->products()->sync($saveData['product_id'] ?? []);
 
 
 
 
 
         return redirect(locale_route('blog.index', $blog->id))->with('success', __('admin.update_successfully'));
+    }
+
+
+    public function getProducts(Request $request){
+        $params = $request->all();
+        if(isset($params['term'])){
+            $query = Product::where(function ($tQ) use ($params){
+                $tQ->whereTranslationLike('title', '%'.$params['term'].'%')
+                    ->orWhereTranslationLike('description', '%'.$params['term'].'%');
+            });
+
+        }
+        $query->where('parent_id',null);
+
+        $data = $query->limit(10)->get();
+
+        $li = '';
+        foreach ($data as $item){
+            $li .= '<li>';
+            $li .= '<a href="javascript:void(0)" data-sel_product="'. $item->id .'">';
+            $li .= $item->title;
+            $li .= '</a>';
+            $li .= '</li>';
+        }
+
+        return $li;
     }
 
     /**

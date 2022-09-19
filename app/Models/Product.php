@@ -235,4 +235,8 @@ class Product extends Model implements Searchable
         return $this->hasMany(ProductColor::class);
     }
 
+    public function blogs(){
+        return $this->belongsToMany(Blog::class,'blog_products');
+    }
+
 }
