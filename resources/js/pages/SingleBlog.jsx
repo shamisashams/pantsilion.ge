@@ -90,6 +90,7 @@ const SingleBlog = ({seo}) => {
                                 return (
                                     <div className="max-w-xs mx-3 mb-10 inline-block">
                                         <ProductBox
+                                            id={item.id}
                                             new={item.new}
                                             sale={item.sale}
                                             img={item.latest_image ? item.latest_image.file_full_url :null}
