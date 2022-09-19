@@ -540,14 +540,14 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                     $prod_attr_bool = \Illuminate\Support\Arr::pluck($product->attribute_values,'boolean_value','attribute_id');
                     //dd($prod_attr_bool,$prod_attr);
                     ?>
-
+                    <?php
+                    $arr = [
+                        'material',
+                        'brand'
+                    ];
+                    ?>
                     @foreach($attributes as $item)
-                        <?php
-                        $arr = [
-                            'material',
-                            'brand'
-                        ];
-                        ?>
+
                         @if(($product->created_at and $product->parent_id == null) && in_array($item->code,$arr))
                             <div class="form-group">
                                 <label class="form-label">{{$item->code}}</label>
@@ -638,6 +638,49 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
 
                                     @endif
                                 </div>
+                        @elseif(!$product->created_at && in_array($item->code,$arr))
+                            <div class="form-group">
+                                <label class="form-label">{{$item->code}}</label>
+
+                                @if($item->type == 'select')
+                                    <select class="form-control" name="attribute[{{$item->id}}]">
+                                        <option value=""></option>
+                                        @foreach($item->options as $option)
+                                            <?php
+                                            if (isset($prod_attr[$item->id])){
+                                                if($prod_attr[$item->id] == $option->id){
+                                                    $selected = ' selected';
+                                                } else $selected = '';
+                                            } else $selected = '';
+                                            ?>
+                                            <option value="{{$option->id}}"{{$selected}}>{{$option->code}} {{$option->label}} {{$option->value}}</option>
+                                        @endforeach
+                                    </select>
+                                @else
+
+                                    <?php
+                                    if (isset($prod_attr_bool[$item->id])){
+                                        if($prod_attr_bool[$item->id]){
+                                            $checked = ' checked';
+                                            $val = 1;
+                                        } else {
+                                            $checked = '';
+                                            $val = 0;
+                                        }
+                                    } else {
+                                        $checked = '';
+                                        $val = 0;
+                                    }
+                                    ?>
+
+                                    <label class="ckbox">
+                                        <input type="hidden" name="attribute[{{$item->id}}]" value="{{$val}}">
+                                        <input class="bool_ckbox" type="checkbox"{{$checked}}>
+                                        <span></span>
+                                    </label>
+
+                                @endif
+                            </div>
                             @endif
                     @endforeach
 
