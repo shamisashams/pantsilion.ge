@@ -125,7 +125,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                         <div class="tab-pane {{$active}}" id="lang-{{$locale}}">
                                             <div class="form-group">
                                                 <label class="form-label">@lang('admin.title')</label>
-                                                <input type="text" name="{{$locale.'[title]'}}" class="form-control" placeholder="Name" value="{{$product->translate($locale)->title ?? ''}}">
+                                                <input type="text" name="{{$locale.'[title]'}}" class="form-control" placeholder="Name" value="{{$product->translate($locale)->title ?? old($locale.'.title')}}">
                                                 @error($locale.'.title')
                                                 <small class="text-danger">
                                                     <div class="error">
@@ -152,7 +152,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                                 <label class="form-label" for="description">@lang('admin.description')</label>
                                                 <textarea class="form-control" id="description-{{$locale}}"
                                                           name="{{$locale}}[description]'">
-                                                    {!! $product->translate($locale)->description ?? '' !!}
+                                                    {!! $product->translate($locale)->description ?? old($locale.'.description') !!}
                                                 </textarea>
                                                 @error($locale.'.description')
                                                 <small class="text-danger">
@@ -170,7 +170,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                             </div>
                                             <div class="form-group">
                                                 {!! Form::label($locale.'[meta_title]',__('admin.meta_title'),['class' => 'form-label']) !!}
-                                                {!! Form::text($locale.'[meta_title]',$product->translate($locale)->meta_title ?? '',['class' => 'form-control']) !!}
+                                                {!! Form::text($locale.'[meta_title]',$product->translate($locale)->meta_title ?? old($locale.'.meta_title'),['class' => 'form-control']) !!}
 
                                                 @error($locale.'.meta_title')
                                                 <small class="text-danger">
@@ -182,7 +182,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                             </div>
                                             <div class="form-group">
                                                 {!! Form::label($locale.'[meta_description]',__('admin.meta_description'),['class' => 'form-label']) !!}
-                                                {!! Form::text($locale.'[meta_description]',$product->translate($locale)->meta_keyword ?? '',['class' => 'form-control']) !!}
+                                                {!! Form::text($locale.'[meta_description]',$product->translate($locale)->meta_description ?? old($locale.'.meta_description'),['class' => 'form-control']) !!}
 
                                                 @error($locale.'.meta_description')
                                                 <small class="text-danger">
@@ -194,7 +194,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                             </div>
                                             <div class="form-group">
                                                 {!! Form::label($locale.'[meta_keyword]',__('admin.meta_keyword'),['class' => 'form-label']) !!}
-                                                {!! Form::text($locale.'[meta_keyword]',$product->translate($locale)->meta_description ?? '',['class' => 'form-control']) !!}
+                                                {!! Form::text($locale.'[meta_keyword]',$product->translate($locale)->meta_keyword ?? old($locale.'.meta_keyword'),['class' => 'form-control']) !!}
 
                                                 @error($locale.'.meta_keyword')
                                                 <small class="text-danger">
@@ -269,7 +269,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
                     <div class="form-group">
                         {!! Form::label('price',__('admin.price'),['class' => 'form-label']) !!}
-                        {!! Form::number('price',$product->price,['class' => 'form-control','step' => '0.01','min' => '0']) !!}
+                        {!! Form::number('price',$product->price ?? old('price'),['class' => 'form-control','step' => '0.01','min' => '0']) !!}
 
                         @error('price')
                         <small class="text-danger">
@@ -282,7 +282,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
                     <div class="form-group">
                         {!! Form::label('special_price',__('admin.special_price'),['class' => 'form-label']) !!}
-                        {!! Form::number('special_price',$product->special_price,['class' => 'form-control','step' => '0.01','min' => '0']) !!}
+                        {!! Form::number('special_price',$product->special_price ?? old('special_price'),['class' => 'form-control','step' => '0.01','min' => '0']) !!}
 
                         @error('special_price')
                         <small class="text-danger">
@@ -295,7 +295,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
                     <div class="form-group">
                         <label class="form-label">@lang('admin.installment_price')</label>
-                        <input type="number" class="form-control" name="installment_price" value="{{$product->installment_price}}">
+                        <input type="number" class="form-control" name="installment_price" value="{{$product->installment_price ?? old('installment_price')}}">
 
                         @error('installment_price')
                         <small class="text-danger">
@@ -308,7 +308,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
                     <div class="form-group">
                         <label class="form-label">@lang('admin.video')</label>
-                        <textarea name="video" class="form-control">{{$product->video ? $product->video->path:null}}</textarea>
+                        <textarea name="video" class="form-control">{{$product->video ? $product->video->path:old('video')}}</textarea>
                         @error('video')
                         <small class="text-danger">
                             <div class="error">
