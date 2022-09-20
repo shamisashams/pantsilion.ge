@@ -235,10 +235,7 @@ const Navbar = () => {
                                         href={route("partner.join")}
                                         className="whitespace-nowrap block"
                                     >
-                                        {__(
-                                            "client.nav_partner_join",
-                                            sharedData
-                                        )}{" "}
+                                        {__("client.nav_partner_join", sharedData)}{" "}
                                     </Link>
                                 </div>
                             </div>
