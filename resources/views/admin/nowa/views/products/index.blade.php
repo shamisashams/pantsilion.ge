@@ -108,7 +108,7 @@
                                             <td><a href="{{$item->parent_id === null ? route('product.edit',$item->id) : route('product.edit',$item->parent_id)}}">{{$item->parent_id === null ? 'configurable' : 'simple - parent id#: '. $item->parent->id}}</a> </td>
                                             <td>
                                                 <?php
-                                                $path = [];
+                                                /*$path = [];
                                                 $arr = [];
                                                 foreach ($item->categories as $key =>$cat){
 
@@ -145,7 +145,7 @@
                                                 $path[$k]['colors'] = $arr[$max]['current']->colors;
                                                 $path[$k]['corner'] = $arr[$max]['current']->corner;
                                                 $path[$k]['size'] = $arr[$max]['current']->size;
-                                                $path[$k]['color'] = $arr[$max]['current']->color;
+                                                $path[$k]['color'] = $arr[$max]['current']->color;*/
 
 
                                                 ?>
