@@ -154,11 +154,11 @@
                                                     <nav aria-label="breadcrumb">
                                                         <ol class="breadcrumb breadcrumb-style mg-b-0">
 
-                                                            @foreach($path as $_path)
+                                                           {{-- @foreach($path as $_path)
                                                                 <li class="breadcrumb-item">
                                                                     <a href="{{route('category.edit',$_path['id'])}}">{{$_path['title']}}</a>
                                                                 </li>
-                                                            @endforeach
+                                                            @endforeach--}}
                                                         </ol>
 
 
