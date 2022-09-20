@@ -226,7 +226,7 @@ const SingleProduct = ({ seo }) => {
         setProductId(0);
         setOldPrice("");
         setProductStocksOver(stocks ?? []);
-
+        setToCart(product);
         setProductSizes({});
 
         setProductColors([]);
@@ -329,6 +329,7 @@ const SingleProduct = ({ seo }) => {
         setProductStocksOver(stocks ?? []);
         setProductId(0);
         setOldPrice("");
+        setToCart(product);
         let colors_ = [];
         let selected_size = productSizes[id];
         console.log(selected_size);
