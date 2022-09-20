@@ -1259,7 +1259,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
         });
 
 
-        let size_attr = @json($size_attr);
+
         console.log(size_attr);
 
         $('#add_size').click(function (e){
