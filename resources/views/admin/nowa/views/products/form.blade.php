@@ -775,6 +775,68 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
     </div>
 
 
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h6 class="card-title mb-1">@lang('admin.add_matras_variant')</h6>
+                    </div>
+
+
+                    <button type="button" id="add_size">add size</button>
+
+                    <div id="variants">
+
+                        @foreach($product->variants as $variant)
+
+                            <?php
+                            $prod_attr = \Illuminate\Support\Arr::pluck($variant->attribute_values,'integer_value','attribute_id');
+                            $size_attr  = [];
+                            ?>
+
+                        <div class="row row-sm">
+                            <div class="col-lg">
+                                <select class="form-control" name="matras[{{$variant->id}}][option_id]">
+                                    <option value=""></option>
+                                    @foreach($attributes as $item)
+                                        @if($item->code == 'size')
+                                            <?php
+                                            $size_attr = $item;
+                                            ?>
+                                            @foreach($item->options as $option)
+                                                <?php
+                                                if (isset($prod_attr[$item->id])){
+                                                    if($prod_attr[$item->id] == $option->id){
+                                                        $selected = ' selected';
+                                                    } else $selected = '';
+                                                } else $selected = '';
+                                                ?>
+                                                <option value="{{$option->id}}" {{$selected}}>{{$option->value}}</option>
+
+                                            @endforeach
+                                            @break
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-lg mg-t-10 mg-lg-t-0">
+                                <input class="form-control" placeholder="Price" type="number" name="matras[{{$variant->id}}][price]" value="{{$variant->price}}">
+                            </div>
+                            <div class="col-lg mg-t-10 mg-lg-t-0">
+                                <input class="form-control" placeholder="Special Price" type="number" name="matras[{{$variant->id}}][special_price]" value="{{$variant->special_price}}">
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- row closed -->
 
@@ -1151,6 +1213,80 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
             });
         });
 
+        let interval;
+
+        $('#search_product').keyup(function (e){
+            let val = $(this).val();
+
+            clearInterval(interval);
+            interval = setTimeout(function () {
+                console.log(val.length);
+                if (val.length > 0) {
+                    $.ajax({
+                        url: '{{route('product.search.ajax')}}',
+                        type: 'post',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            term: val
+                        },
+                        beforeSend: function (){
+
+                        },
+                        success: function (data){
+                            console.log(data);
+                            $('#product_list').html(data);
+                        }
+                    });
+                } else {
+                    $('#product_list').html('');
+                }
+            }, 600);
+        })
+
+        $(document).on('click','[data-sel_product]',function (e){
+            let id = $(this).data('sel_product');
+            let title =  $(this).text();
+            let inp = `<li>
+                    <span>${title}</span>
+                        <input type="hidden" name="product_id[]" value="${id}">
+<a href="javascript:;" class="delete_product">delete</a>
+                        </li>`;
+            $('#selected_products').append(inp)
+        });
+
+        $('.delete_product').click(function (e){
+            $(this).parents('li').remove();
+        });
+
+
+        let size_attr = @json($size_attr);
+        console.log(size_attr);
+
+        $('#add_size').click(function (e){
+
+            let opt = '';
+            size_attr.options.forEach(function (el,i){
+                opt += `<option value="${el.id}">${el.value}</option>`;
+            })
+
+            let row = `<div class="row row-sm">
+                            <div class="col-lg">
+                                <select class="form-control" name="matras_opt_id[]">
+                                    <option value="">${opt}</option>
+
+            </select>
+        </div>
+        <div class="col-lg mg-t-10 mg-lg-t-0">
+            <input class="form-control" placeholder="Price" type="number" name="matras_price[]" value="">
+                            </div>
+                            <div class="col-lg mg-t-10 mg-lg-t-0">
+                                <input class="form-control" placeholder="Special Price" type="number" name="matras_s_price[]" value="">
+                            </div>
+                        </div>`;
+
+
+            $('#variants').append(row);
+        });
 
     </script>
 

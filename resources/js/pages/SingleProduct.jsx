@@ -692,18 +692,18 @@ const SingleProduct = ({ seo }) => {
                                     </div>
                                 </div>
                             ) : null}
-                            <p className="opacity-50 text-sm mb-2">
+                            {product.attributes.material ? <p className="opacity-50 text-sm mb-2">
                                 {__("client.product_material", localizations)}:
                                 <span className="pl-2">
                                     {product.attributes.material}
                                 </span>
-                            </p>
-                            <p className="opacity-50 text-sm ">
+                            </p>:null}
+                            {product.attributes.brand ? <p className="opacity-50 text-sm ">
                                 {__("client.product_brand", localizations)}:
                                 <span className="pl-2">
                                     {product.attributes.brand}
                                 </span>
-                            </p>
+                            </p>:null}
                             {category_last.color === 1 ? (
                                 <div className=" my-5 ">
                                     <p className="whitespace-nowrap opacity-50">

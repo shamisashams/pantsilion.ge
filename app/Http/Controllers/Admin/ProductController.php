@@ -293,6 +293,26 @@ class ProductController extends Controller
         $attributes = isset($saveData['attribute']) ? $saveData['attribute'] : [];
         unset($saveData['attribute']);
 
+        $matras = $saveData['matras'];
+
+        unset($saveData['matras']);
+
+        //dd($matras,$request->matras_price,$request->matras_price);
+
+        foreach ($matras as $var_id => $matras_variant){
+            $product_atribute = ProductAttributeValue::where('product_id',$var_id)
+                ->where('attribute_id',Attribute::where('code','size')->first()->id)->first();
+
+            if ($product_atribute){
+                $data['integer_value'] = $matras_variant['option_id'];
+                ProductAttributeValue::where('product_id',$product_atribute->product_id)
+                    ->where('attribute_id',$product_atribute->attribute_id)
+                    ->update($data);
+            }
+            Product::where('id',$var_id)->update(['price' => $matras_variant['price'], 'special_price' => $matras_variant['special_price']]);
+        }
+
+
         //dd($request->file('images'));
 
 

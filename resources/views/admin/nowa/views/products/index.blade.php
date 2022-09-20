@@ -125,7 +125,7 @@
                                                     }
                                                 }
 
-                                                $max = max(array_keys($arr));
+                                                $max = max(array_keys($arr) ?? 0);
 
                                                 $k = 0;
                                                 foreach ($arr[$max]['ancestors'] as $ancestor){
