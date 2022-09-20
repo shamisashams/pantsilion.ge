@@ -41,15 +41,18 @@ const ProductBox = (props) => {
           >
             <FiHeart className={favorite ? "text-custom-red" : ""} />
           </button>
-          <button
-            onClick={() => {
-                setAddToCart(!addToCart)
-                addToCartF(props.id)
-            }}
-            className="bg-white rounded-lg flex items-center justify-center w-12 h-12 mx-2 transition-all duration-500 translate-y-16 group-hover:translate-y-0"
-          >
-            <FiShoppingCart className={addToCart ? "text-orange-400" : ""} />
-          </button>{" "}
+          <Link href={props.link}>
+              <button
+                  onClick={() => {
+                      setAddToCart(!addToCart)
+                      addToCartF(props.id)
+                  }}
+                  className="bg-white rounded-lg flex items-center justify-center w-12 h-12 mx-2 transition-all duration-500 translate-y-16 group-hover:translate-y-0"
+              >
+                  <FiShoppingCart className={addToCart ? "text-orange-400" : ""} />
+              </button>
+          </Link>
+            {" "}
           <Link href={props.link}>
             <button className="bg-white rounded-lg flex items-center justify-center w-12 h-12 transition-all duration-500 translate-y-24 group-hover:translate-y-0">
               <FiSearch />

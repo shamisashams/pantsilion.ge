@@ -476,7 +476,7 @@ const SingleProduct = ({ seo }) => {
                         <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
                         Back to carts
                     </Link>
-                    <div className="flex flex-col xl:flex-row mt-7 mb-20 justify-start">
+                    <div className="flex flex-col xl:flex-row mt-7 mb-20 justify-start items-start">
                         <div className="max-w-2xl xl:mr-20">
                             <SingleSlider images={productImages} />
                             {product.video ? (
