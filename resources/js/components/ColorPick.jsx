@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { colors } from "./Data";
 
 const ColorPick = ({ colors, onClick }) => {
-    const [chooseColor, setChooseColor] = useState(0);
+    const [chooseColor, setChooseColor] = useState("");
     //console.log(colors)
     const handleClick = (color, index) => {
         setChooseColor(index);

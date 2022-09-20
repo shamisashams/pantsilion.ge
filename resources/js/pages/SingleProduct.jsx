@@ -475,7 +475,7 @@ const SingleProduct = ({ seo }) => {
                         <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
                         Back to carts
                     </Link>
-                    <div className="flex flex-col xl:flex-row mt-7 mb-20">
+                    <div className="flex flex-col xl:flex-row mt-7 mb-20 justify-start">
                         <div className="max-w-2xl xl:mr-20">
                             <SingleSlider images={productImages} />
                             {product.video ? (
@@ -538,7 +538,9 @@ const SingleProduct = ({ seo }) => {
                                     </span>
                                 </p>
                             ) : null}
-                            <p className="my-5">{renderHTML(product.description)}</p>
+                            <p className="my-5">
+                                {renderHTML(product.description)}
+                            </p>
                             {category_last.corner === 1 ? (
                                 <div className="bold mb-4">
                                     {__("client.product_corner", localizations)}
@@ -913,26 +915,31 @@ const SingleProduct = ({ seo }) => {
                             </div>
                         </div>
                     </div>
-                    {product.colors.length > 0 ? <div className="w-full my-10 mb-20">
-                        <div className="bold text-lg mb-5">
-                            {__("client.furniture_customize", localizations)}
-                        </div>
-                        <div className="w-full h-96 mb-5">
-                            <img
-                                id="cat_col_img"
-                                src={categoryColorImg}
-                                alt=""
-                                className="w-full h-full object-contain"
-                            />
-                        </div>
+                    {product.colors.length > 0 ? (
+                        <div className="w-full my-10 mb-20">
+                            <div className="bold text-lg mb-5">
+                                {__(
+                                    "client.furniture_customize",
+                                    localizations
+                                )}
+                            </div>
+                            <div className="w-full h-96 mb-5">
+                                <img
+                                    id="cat_col_img"
+                                    src={categoryColorImg}
+                                    alt=""
+                                    className="w-full h-full object-contain"
+                                />
+                            </div>
 
-                        <div className="flex items-center justify-center flex-wrap">
-                            <ColorPick
-                                colors={product.colors}
-                                onClick={selectCategoryColor}
-                            />
+                            <div className="flex items-center justify-center flex-wrap">
+                                <ColorPick
+                                    colors={product.colors}
+                                    onClick={selectCategoryColor}
+                                />
+                            </div>
                         </div>
-                    </div>:null}
+                    ) : null}
                     <div className="bold text-lg mb-7">
                         {__("client.similar_products", localizations)}
                     </div>

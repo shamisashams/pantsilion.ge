@@ -15,10 +15,9 @@ const Contact = ({ seo }) => {
         message: "",
     });
 
-
     const { pathname, errors, cities } = usePage().props;
 
-    console.log(cities)
+    console.log(cities);
 
     function handleChange(e) {
         const key = e.target.name;
@@ -42,19 +41,27 @@ const Contact = ({ seo }) => {
 
     const [chooseCity, setChooseCity] = useState(false);
 
-    const [selectedCity, setSelectedCity] = useState(cities.length > 0 ? cities[0].title : 'Choose city');
-    const [contacts, setContacts] = useState(cities.length > 0 ? cities[0].contacts : []);
+    const [selectedCity, setSelectedCity] = useState(
+        cities.length > 0 ? cities[0].title : "Choose city"
+    );
+    const [contacts, setContacts] = useState(
+        cities.length > 0 ? cities[0].contacts : []
+    );
 
-    function selectCity(city){
-        console.log(city)
-        setContacts(city.contacts)
-        setSelectedCity(city.title)
+    function selectCity(city) {
+        console.log(city);
+        setContacts(city.contacts);
+        setSelectedCity(city.title);
     }
 
     return (
         <Layout seo={seo}>
             <div className="py-44 relative">
-                <img className="absolute left-0 bottom-0 -z-10" src="/client/assets/images/other/map.png" alt="" />
+                <img
+                    className="absolute left-0 bottom-0 -z-10"
+                    src="/client/assets/images/other/map.png"
+                    alt=""
+                />
                 <div className="wrapper">
                     <div className="text-4xl bold mb-10">
                         {/* Contact us */}
@@ -63,37 +70,59 @@ const Contact = ({ seo }) => {
                     <div className="flex justify-between items-start flex-col lg:flex-row">
                         <div>
                             <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-12 xl:gap-20 mb-10">
-                                {contacts.map((item,index) => {
+                                {contacts.map((item, index) => {
                                     return (
                                         <div>
-                                            <div className="flex items-start mb-7">
-                                                <img className="mr-3" src="/client/assets/images/svg/pin.svg" alt="" />
+                                            <div className="flex items-start justify-start mb-7">
+                                                <img
+                                                    className="mr-3"
+                                                    src="/client/assets/images/svg/pin.svg"
+                                                    alt=""
+                                                />
                                                 <div>
-                                                    <div className="mb-2 bold">Address</div>
+                                                    <div className="mb-2 bold">
+                                                        Address
+                                                    </div>
                                                     <div>{item.address}</div>
                                                 </div>
                                             </div>
-                                            <div className="flex items-start mb-7">
-                                                <img className="mr-3" src="/client/assets/images/svg/phone.svg" alt="" />
+                                            <div className="flex items-start justify-start mb-7">
+                                                <img
+                                                    className="mr-3"
+                                                    src="/client/assets/images/svg/phone.svg"
+                                                    alt=""
+                                                />
                                                 <div>
-                                                    <div className="mb-2 bold">Phone number</div>
+                                                    <div className="mb-2 bold">
+                                                        Phone number
+                                                    </div>
                                                     <div>
-                                                        {renderHTML(item.phone.newLineToBr())}
+                                                        {renderHTML(
+                                                            item.phone.newLineToBr()
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="flex items-start mb-7">
-                                                <img className="mr-3" src="/client/assets/images/svg/clock.svg" alt="" />
+                                            <div className="flex items-start justify-start mb-7">
+                                                <img
+                                                    className="mr-3"
+                                                    src="/client/assets/images/svg/clock.svg"
+                                                    alt=""
+                                                />
                                                 <div>
-                                                    <div className="mb-2 bold">Working hours</div>
-                                                    <div>{item.working_hours}</div>
+                                                    <div className="mb-2 bold">
+                                                        Working hours
+                                                    </div>
+                                                    <div>
+                                                        {item.working_hours}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    )
+                                    );
                                 })}
 
-                               {/* <div>
+                                {/* <div>
                                     <div className="flex items-start mb-7">
                                         <img className="mr-3" src="/client/assets/images/svg/pin.svg" alt="" />
                                         <div>
@@ -160,20 +189,23 @@ const Contact = ({ seo }) => {
                                     />
                                 </div>
                                 <div
-                                    className={`absolute left-0 top-full w-full bg-white text-custom-dark scrollbar transition-all duration-300 z-10  ${chooseCity
-                                        ? "max-h-72  overflow-y-scroll"
-                                        : " max-h-0  overflow-y-hidden"
-                                        }`}
+                                    className={`absolute left-0 top-full w-full bg-white text-custom-dark scrollbar transition-all duration-300 z-10  ${
+                                        chooseCity
+                                            ? "max-h-72  overflow-y-scroll"
+                                            : " max-h-0  overflow-y-hidden"
+                                    }`}
                                 >
-
                                     {cities.map((item, index) => {
                                         return (
-                                            <button onClick={() => {
-                                                selectCity(item)
-                                            }} className="w-full p-3 transition-all hover:bg-zinc-100 block">
+                                            <button
+                                                onClick={() => {
+                                                    selectCity(item);
+                                                }}
+                                                className="w-full p-3 transition-all hover:bg-zinc-100 block"
+                                            >
                                                 {item.title}
                                             </button>
-                                        )
+                                        );
                                     })}
 
                                     {/*<button className="w-full p-3 transition-all hover:bg-zinc-100 block">
@@ -201,7 +233,10 @@ const Contact = ({ seo }) => {
                             </div>
                         </div>
                         <div className="lg:text-right text-sm lg:mt-0 mt-10">
-                            <form className="mx-auto lg:mr-0  lg:max-w-sm" onSubmit={handleSubmit}>
+                            <form
+                                className="mx-auto lg:mr-0  lg:max-w-sm"
+                                onSubmit={handleSubmit}
+                            >
                                 <div className="text-2xl bold mb-3">
                                     {/* Get in touch */}
                                     {__("client.form_getintouch", sharedData)}
@@ -211,15 +246,18 @@ const Contact = ({ seo }) => {
                             online. Comfort is our{" "} */}
 
                                     {renderHTML(
-                                        __("client.form_text", sharedData).replace(
-                                            /(?:\r\n|\r|\n)/g,
-                                            "<br>"
-                                        )
+                                        __(
+                                            "client.form_text",
+                                            sharedData
+                                        ).replace(/(?:\r\n|\r|\n)/g, "<br>")
                                     )}
                                 </p>
                                 <input
                                     type="text "
-                                    placeholder={__("client.form_name", sharedData)}
+                                    placeholder={__(
+                                        "client.form_name",
+                                        sharedData
+                                    )}
                                     className="w-full bg-zinc-100 placeholder:text-custom-dark mb-4 h-12 pl-5 "
                                     onChange={handleChange}
                                     name="name"
@@ -227,7 +265,10 @@ const Contact = ({ seo }) => {
                                 {errors.name && <div>{errors.name}</div>}
                                 <input
                                     type="text "
-                                    placeholder={__("client.form_email", sharedData)}
+                                    placeholder={__(
+                                        "client.form_email",
+                                        sharedData
+                                    )}
                                     className="w-full bg-zinc-100 placeholder:text-custom-dark mb-4 h-12 pl-5 "
                                     onChange={handleChange}
                                     name="email"
@@ -235,14 +276,20 @@ const Contact = ({ seo }) => {
                                 {errors.email && <div>{errors.email}</div>}
                                 <input
                                     type="text "
-                                    placeholder={__("client.form_phone", sharedData)}
+                                    placeholder={__(
+                                        "client.form_phone",
+                                        sharedData
+                                    )}
                                     className="w-full bg-zinc-100 placeholder:text-custom-dark mb-4 h-12 pl-5 "
                                     onChange={handleChange}
                                     name="phone"
                                 />
                                 {errors.phone && <div>{errors.phone}</div>}
                                 <textarea
-                                    placeholder={__("client.form_message", sharedData)}
+                                    placeholder={__(
+                                        "client.form_message",
+                                        sharedData
+                                    )}
                                     className="w-full bg-zinc-100 placeholder:text-custom-dark mb-6 h-20 pl-5 pt-3 "
                                     onChange={handleChange}
                                     name="message"
@@ -256,7 +303,9 @@ const Contact = ({ seo }) => {
                                 </div>
                             </form>
                             <div className="flex items-center lg:justify-end mt-10 lg:whitespace-nowrap flex-wrap">
-                                <div className="opacity-50 lg:text-lg  ">Follow us:</div>
+                                <div className="opacity-50 lg:text-lg  ">
+                                    Follow us:
+                                </div>
 
                                 {socialMedia.map((item, index) => {
                                     return (
@@ -273,7 +322,6 @@ const Contact = ({ seo }) => {
                 </div>
             </div>
         </Layout>
-
     );
 };
 
