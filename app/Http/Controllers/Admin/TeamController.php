@@ -80,6 +80,7 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         $request->validate([
             config('translatable.fallback_locale') . '.name' => 'required|string|max:255',
         ]);

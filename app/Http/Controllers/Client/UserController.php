@@ -151,4 +151,46 @@ class UserController extends Controller
             'og_description' => $page->meta_og_description
         ]);
     }
+
+    public function invoice($locale, $order_id){
+        //dd($order);
+        $page = Page::where('key', 'about')->firstOrFail();
+
+        $images = [];
+        foreach ($page->sections as $sections){
+            if($sections->file){
+                $images[] = asset($sections->file->getFileUrlAttribute());
+            } else {
+                $images[] = null;
+            }
+
+        }
+
+        $files = [];
+        if($page->images) $files = $page->files;
+
+
+        $order = auth()->user()->orders()->where('id',$order_id)->with(['items','collections','collections.items'])->firstOrFail();
+
+        //dd($order);
+
+        return Inertia::render('Invoice', [
+            "order" => $order,
+            "page" => $page, "seo" => [
+                "title"=>$page->meta_title,
+                "description"=>$page->meta_description,
+                "keywords"=>$page->meta_keyword,
+                "og_title"=>$page->meta_og_title,
+                "og_description"=>$page->meta_og_description,
+//            "image" => "imgg",
+//            "locale" => App::getLocale()
+            ], 'gallery_img' => $files,'images' => $images])->withViewData([
+            'meta_title' => $page->meta_title,
+            'meta_description' => $page->meta_description,
+            'meta_keyword' => $page->meta_keyword,
+            "image" => $page->file,
+            'og_title' => $page->meta_og_title,
+            'og_description' => $page->meta_og_description
+        ]);
+    }
 }
