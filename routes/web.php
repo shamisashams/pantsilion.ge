@@ -166,6 +166,7 @@ Route::prefix('{locale?}')
             Route::post('partner/bak-account',[\App\Http\Controllers\Client\PartnerController::class,'saveBankAccount'])->name('partner.save-bank-account');
             Route::post('partner/withdraw',[\App\Http\Controllers\Client\PartnerController::class,'withdrawCreate'])->name('partner.withdraw-create');
             Route::get('partner/{referral}/remove',[\App\Http\Controllers\Client\PartnerController::class,'referralRemove'])->name('partner.referral-remove');
+            Route::get('invoice/{order}',[\App\Http\Controllers\Client\UserController::class,'invoice'])->name('client.invoice');
         });
 
         Route::middleware(['auth_client'])->group(function (){

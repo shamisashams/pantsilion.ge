@@ -283,7 +283,7 @@ const OrderDetails = ({ seo }) => {
                                   <button className="bold mx-2 ">2</button>
                                   <button className="bold mx-2 ">3</button>*/}
 
-
+                                        <Link href={route('client.invoice',order.id)}>invoice</Link>
                                     </div>
                                 </div>{" "}
                             </div>
