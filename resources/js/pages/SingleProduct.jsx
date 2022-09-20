@@ -59,9 +59,9 @@ const SingleProduct = ({ seo }) => {
 
     const [categoryColorImg, setCategoryColorImg] = useState(
         product.colors.length > 0
-            ? product.colors[0].file
+            ? (product.colors[0].file
                 ? product.colors[0].file.file_full_url
-                : null
+                : null)
             : null
     );
 
