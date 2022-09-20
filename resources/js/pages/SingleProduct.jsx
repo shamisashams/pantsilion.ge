@@ -372,7 +372,7 @@ const SingleProduct = ({ seo }) => {
                 price = product_config.variants[selected].variant.price;
                 setOldPrice("");
             }
-            setProductPrice(price);
+            setProductPrice("₾" + price);
 
             setProductImages(product_config.variants[selected].images);
 
@@ -408,7 +408,7 @@ const SingleProduct = ({ seo }) => {
             setOldPrice("");
         }
 
-        setProductPrice(price);
+        setProductPrice("₾" + price);
 
         setProductImages(product_config.variants[selected].images);
 
