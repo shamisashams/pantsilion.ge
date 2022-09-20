@@ -714,7 +714,7 @@ const SingleProduct = ({ seo }) => {
                                     </p>
                                     <div
                                         id="color_pick"
-                                        className=" max-w-sm mt-5 flex flex-wrap "
+                                        className=" max-w-sm mt-5 flex flex-wrap justify-start "
                                     >
                                         {/*<select id="choose_color">
                                       <option value=""></option>
