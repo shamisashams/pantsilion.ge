@@ -548,6 +548,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                     ?>
                     <?php
                     $size_attr  = [];
+                    $attr_size_id = null;
                     ?>
                     @foreach($attributes as $item)
 
@@ -606,45 +607,82 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                                 <div class="form-group">
                                     <label class="form-label">{{$item->code}}</label>
 
-                                    @if($item->type == 'select')
-                                        <select class="form-control" name="attribute[{{$item->id}}]">
-                                            <option value=""></option>
-                                            @foreach($item->options as $option)
-                                                <?php
-                                                if (isset($prod_attr[$item->id])){
-                                                    if($prod_attr[$item->id] == $option->id){
-                                                        $selected = ' selected';
-                                                    } else $selected = '';
-                                                } else $selected = '';
-                                                ?>
-                                                <option value="{{$option->id}}"{{$selected}}>{{$option->code}} {{$option->label}} {{$option->value}}</option>
-                                            @endforeach
-                                        </select>
-                                    @else
-
+                                    @if($item->code == 'size')
                                         <?php
-                                        if (isset($prod_attr_bool[$item->id])){
-                                            if($prod_attr_bool[$item->id]){
-                                                $checked = ' checked';
-                                                $val = 1;
+                                        $attr_size_id = $item->id;
+                                        ?>
+                                        <div class="form-group">
+                                            <ul id="selected_products">
+                                                @foreach($item->options as $option)
+                                                    <?php
+                                                    if (isset($prod_attr[$item->id])){
+                                                        if($prod_attr[$item->id] == $option->id){
+                                                            $selected = true;
+                                                        } else $selected = false;
+                                                    } else $selected = false;
+                                                    ?>
+                                                    @if($selected)
+                                                        <li>
+                                                            <span>{{$option->value}}</span>
+                                                            <input type="hidden" name="attribute[{{$item->id}}]" value="{{$option->id}}">
+                                                            <a href="javascript:;" class="delete_product">delete</a>
+                                                        </li>
+                                                        @else
+                                                            <input type="hidden" name="attribute[{{$item->id}}]" value="">
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                            <input class="form-control" type="text" id="search_product" name="term" value="" placeholder="Add search products">
+                                            <ul id="product_list">
+
+                                            </ul>
+                                        </div>
+
+                                    @else
+                                        @if($item->type == 'select')
+                                            <select class="form-control" name="attribute[{{$item->id}}]">
+                                                <option value=""></option>
+                                                @foreach($item->options as $option)
+                                                    <?php
+                                                    if (isset($prod_attr[$item->id])){
+                                                        if($prod_attr[$item->id] == $option->id){
+                                                            $selected = ' selected';
+                                                        } else $selected = '';
+                                                    } else $selected = '';
+                                                    ?>
+                                                    <option value="{{$option->id}}"{{$selected}}>{{$option->code}} {{$option->label}} {{$option->value}}</option>
+                                                @endforeach
+                                            </select>
+                                        @else
+
+                                            <?php
+                                            if (isset($prod_attr_bool[$item->id])){
+                                                if($prod_attr_bool[$item->id]){
+                                                    $checked = ' checked';
+                                                    $val = 1;
+                                                } else {
+                                                    $checked = '';
+                                                    $val = 0;
+                                                }
                                             } else {
                                                 $checked = '';
                                                 $val = 0;
                                             }
-                                        } else {
-                                            $checked = '';
-                                            $val = 0;
-                                        }
-                                        ?>
+                                            ?>
 
-                                        <label class="ckbox">
-                                            <input type="hidden" name="attribute[{{$item->id}}]" value="{{$val}}">
-                                            <input class="bool_ckbox" type="checkbox"{{$checked}}>
-                                            <span></span>
-                                        </label>
+                                            <label class="ckbox">
+                                                <input type="hidden" name="attribute[{{$item->id}}]" value="{{$val}}">
+                                                <input class="bool_ckbox" type="checkbox"{{$checked}}>
+                                                <span></span>
+                                            </label>
 
+                                        @endif
                                     @endif
+
+
                                 </div>
+
+
                         @elseif(!$product->created_at && in_array($item->code,$arr))
                             <div class="form-group">
                                 <label class="form-label">{{$item->code}}</label>
@@ -690,6 +728,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                             </div>
                             @endif
                     @endforeach
+
 
 
 
@@ -1230,12 +1269,16 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
         $('#search_product').keyup(function (e){
             let val = $(this).val();
 
+            let attr_size_id = parseInt({{$attr_size_id}})
+
+            $('#selected_products').find('li').html(`<input type="hidden" name="attribute[${attr_size_id}]" value="">`);
+
             clearInterval(interval);
             interval = setTimeout(function () {
                 console.log(val.length);
                 if (val.length > 0) {
                     $.ajax({
-                        url: '{{route('product.search.ajax')}}',
+                        url: '{{route('size.search.ajax')}}',
                         type: 'post',
                         data: {
                             _token: '{{csrf_token()}}',
@@ -1256,18 +1299,22 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
         })
 
         $(document).on('click','[data-sel_product]',function (e){
+            $('#search_product').val('');
+            $('#product_list').html('');
             let id = $(this).data('sel_product');
             let title =  $(this).text();
+            let attr_size_id = parseInt({{$attr_size_id}})
             let inp = `<li>
                     <span>${title}</span>
-                        <input type="hidden" name="product_id[]" value="${id}">
+                        <input type="hidden" name="attribute[${attr_size_id}]" value="${id}">
 <a href="javascript:;" class="delete_product">delete</a>
                         </li>`;
-            $('#selected_products').append(inp)
+            $('#selected_products').html(inp)
         });
 
-        $('.delete_product').click(function (e){
-            $(this).parents('li').remove();
+        $(document).on('click','.delete_product',function (e){
+            let attr_size_id = parseInt({{$attr_size_id}})
+            $(this).parents('li').html(`<input type="hidden" name="attribute[${attr_size_id}]" value="">`);
         });
 
 

@@ -446,6 +446,24 @@ class ProductController extends Controller
             }
         }
 
+        if($saveData['term']){
+            $attribute = Attribute::query()->where('code','size')->first();
+            $option = $attribute->options()->create([
+                'value' => $saveData['term']
+            ]);
+            $data = [];
+
+            $data['product_id'] = $product->id;
+            $data['attribute_id'] = $attribute->id;
+            $data['type'] = $attribute->type;
+
+           $data['value'] = $option->id;
+
+            //dd($data);
+            $this->productAttributeValueRepository->create($data);
+
+        }
+
 
 
         $this->updateMinMaxPrice($product);
@@ -532,7 +550,7 @@ class ProductController extends Controller
             $product_v = $this->productRepository->saveFiles($product_v->id, $request);
         }
 
-        if ($request->has('base64_img')) {
+        if ($request->post('base64_img')) {
 
             $product_v = $this->productRepository->uploadCropped($request, $product_v->id);
         }
@@ -567,6 +585,24 @@ class ProductController extends Controller
 
             //dd($data);
             $this->productAttributeValueRepository->create($data);
+        }
+
+        if($saveData['term']){
+            $attribute = Attribute::query()->where('code','size')->first();
+            $option = $attribute->options()->create([
+                'value' => $saveData['term']
+            ]);
+            $data = [];
+
+            $data['product_id'] = $product_v->id;
+            $data['attribute_id'] = $attribute->id;
+            $data['type'] = $attribute->type;
+
+            $data['value'] = $option->id;
+
+            //dd($data);
+            $this->productAttributeValueRepository->create($data);
+
         }
 
 
@@ -692,5 +728,30 @@ class ProductController extends Controller
             return redirect(locale_route('product.edit', $product->id))->with('danger', __('admin.not_delete_message'));
         }
         return redirect(locale_route('product.edit', $product->id))->with('success', __('admin.delete_message'));
+    }
+
+    public function getSizes(Request $request){
+        $params = $request->all();
+        if(isset($params['term'])){
+            $query = AttributeOption::query()
+                ->select('attribute_options.*')
+            ->join('attributes','attributes.id','=','attribute_options.attribute_id')
+            ->where('attribute_options.value','like', $params['term'] . '%');
+
+        }
+
+
+        $data = $query->limit(10)->get();
+
+        $li = '';
+        foreach ($data as $item){
+            $li .= '<li>';
+            $li .= '<a href="javascript:void(0)" data-sel_product="'. $item->id .'">';
+            $li .= $item->value;
+            $li .= '</a>';
+            $li .= '</li>';
+        }
+
+        return $li;
     }
 }
