@@ -22,6 +22,7 @@
 {{--        <link href="{{ mix('/css/AppEng.css') }}" rel="stylesheet"/>--}}
 {{--    @endif--}}
     {{--    @dd($page["props"]["page"]["meta_title"])--}}
+    <link rel="icon" type="image/png" href="{{asset('/client/assets/images/logo/Group_174.png')}}" />
     @routes
     <!-- JQUERY JS -->
     <script src="{{asset('admin/assets/plugins/jquery/jquery.min.js')}}"></script>

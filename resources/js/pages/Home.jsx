@@ -67,10 +67,7 @@ const Home = ({ seo }) => {
                                     <Link href="/" className="">
                                         <MainButton>
                                             {/* Learn more */}
-                                            {__(
-                                                "client.button_learn_more",
-                                                sharedData
-                                            )}
+                                            {__("client.button_learn_more", sharedData)}
                                         </MainButton>
                                     </Link>
                                     <Link
@@ -82,10 +79,7 @@ const Home = ({ seo }) => {
                                         </div>
                                         <div className="bold">
                                             {/* Watch video */}
-                                            {__(
-                                                "client.button_watch_video",
-                                                sharedData
-                                            )}
+                                            {__("client.button_watch_video", sharedData)}
                                         </div>
                                     </Link>
                                 </div>
