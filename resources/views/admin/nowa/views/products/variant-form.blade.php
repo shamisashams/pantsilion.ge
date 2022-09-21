@@ -465,54 +465,74 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         'material',
                         'brand'
                     ];
+                    $attr_size_id = null;
                     ?>
                     @foreach($attributes as $item)
 
-                        @if(!in_array($item->code,$arr))
-                        <div class="form-group">
-                            <label class="form-label">{{$item->code}}</label>
 
-                            @if($item->type == 'select')
-                                <select class="form-control" name="attribute[{{$item->id}}]">
-                                    <option value=""></option>
-                                    @foreach($item->options as $option)
-                                        <?php
-                                            if (isset($prod_attr[$item->id])){
-                                                if($prod_attr[$item->id] == $option->id){
-                                                    $selected = ' selected';
+                        @if($item->code == 'size')
+                            <?php
+                            $attr_size_id = $item->id;
+                            ?>
+                            <div class="form-group">
+                                <label class="form-label">{{$item->code}}</label>
+                                <ul id="selected_products">
+
+                                </ul>
+                                <input class="form-control" type="text" id="search_product" name="term" value="" placeholder="Add search products">
+                                <ul id="product_list">
+
+                                </ul>
+                            </div>
+                        @else
+                            @if(!in_array($item->code,$arr))
+                                <div class="form-group">
+                                    <label class="form-label">{{$item->code}}</label>
+
+                                    @if($item->type == 'select')
+                                        <select class="form-control" name="attribute[{{$item->id}}]">
+                                            <option value=""></option>
+                                            @foreach($item->options as $option)
+                                                <?php
+                                                if (isset($prod_attr[$item->id])){
+                                                    if($prod_attr[$item->id] == $option->id){
+                                                        $selected = ' selected';
+                                                    } else $selected = '';
                                                 } else $selected = '';
-                                            } else $selected = '';
+                                                ?>
+
+
+                                                <option value="{{$option->id}}"{{$selected}}>{{$option->code}} {{$option->label}} {{$option->value}}</option>
+                                            @endforeach
+                                        </select>
+                                    @else
+
+                                        <?php
+                                        if (isset($prod_attr_bool[$item->id])){
+                                            if($prod_attr_bool[$item->id]){
+                                                $checked = ' checked';
+                                                $val = 1;
+                                            } else {
+                                                $checked = '';
+                                                $val = 0;
+                                            }
+                                        } else {
+                                            $checked = '';
+                                            $val = 0;
+                                        }
                                         ?>
 
+                                        <label class="ckbox">
+                                            <input type="hidden" name="attribute[{{$item->id}}]" value="{{$val}}">
+                                            <input class="bool_ckbox" type="checkbox"{{$checked}}>
+                                            <span></span>
+                                        </label>
 
-                                        <option value="{{$option->id}}"{{$selected}}>{{$option->code}} {{$option->label}} {{$option->value}}</option>
-                                    @endforeach
-                                </select>
-                            @else
+                                    @endif
+                                </div>
+                        @endif
 
-                                <?php
-                                if (isset($prod_attr_bool[$item->id])){
-                                    if($prod_attr_bool[$item->id]){
-                                        $checked = ' checked';
-                                        $val = 1;
-                                    } else {
-                                        $checked = '';
-                                        $val = 0;
-                                    }
-                                } else {
-                                    $checked = '';
-                                    $val = 0;
-                                }
-                                ?>
 
-                                <label class="ckbox">
-                                    <input type="hidden" name="attribute[{{$item->id}}]" value="{{$val}}">
-                                    <input class="bool_ckbox" type="checkbox"{{$checked}}>
-                                    <span></span>
-                                </label>
-
-                            @endif
-                        </div>
                         @endif
                     @endforeach
 
@@ -814,6 +834,61 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                 alert('cropped')
 
             });
+        });
+
+
+
+        let interval;
+
+        $('#search_product').keyup(function (e){
+            let val = $(this).val();
+
+            let attr_size_id = parseInt({{$attr_size_id}})
+
+            $('#selected_products').find('li').html(`<input type="hidden" name="attribute[${attr_size_id}]" value="">`);
+
+            clearInterval(interval);
+            interval = setTimeout(function () {
+                console.log(val.length);
+                if (val.length > 0) {
+                    $.ajax({
+                        url: '{{route('size.search.ajax')}}',
+                        type: 'post',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            term: val
+                        },
+                        beforeSend: function (){
+
+                        },
+                        success: function (data){
+                            console.log(data);
+                            $('#product_list').html(data);
+                        }
+                    });
+                } else {
+                    $('#product_list').html('');
+                }
+            }, 600);
+        })
+
+        $(document).on('click','[data-sel_product]',function (e){
+            $('#search_product').val('');
+            $('#product_list').html('');
+            let id = $(this).data('sel_product');
+            let title =  $(this).text();
+            let attr_size_id = parseInt({{$attr_size_id}})
+            let inp = `<li>
+                    <span>${title}</span>
+                        <input type="hidden" name="attribute[${attr_size_id}]" value="${id}">
+<a href="javascript:;" class="delete_product">delete</a>
+                        </li>`;
+            $('#selected_products').html(inp)
+        });
+
+        $(document).on('click','.delete_product',function (e){
+            let attr_size_id = parseInt({{$attr_size_id}})
+            $(this).parents('li').html(`<input type="hidden" name="attribute[${attr_size_id}]" value="">`);
         });
 
 

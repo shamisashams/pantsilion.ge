@@ -56,7 +56,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     $sale = true;
                 }
             }
-            $item['min_price'] = min($prices);
+            $item['min_price'] = !empty($prices) ? min($prices) : 0;
             $item['sale'] = $sale;
 
         }

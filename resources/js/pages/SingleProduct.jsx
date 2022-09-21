@@ -59,9 +59,9 @@ const SingleProduct = ({ seo }) => {
 
     const [categoryColorImg, setCategoryColorImg] = useState(
         product.colors.length > 0
-            ? product.colors[0].file
+            ? (product.colors[0].file
                 ? product.colors[0].file.file_full_url
-                : null
+                : null)
             : null
     );
 
@@ -226,7 +226,7 @@ const SingleProduct = ({ seo }) => {
         setProductId(0);
         setOldPrice("");
         setProductStocksOver(stocks ?? []);
-
+        setToCart(product);
         setProductSizes({});
 
         setProductColors([]);
@@ -329,6 +329,7 @@ const SingleProduct = ({ seo }) => {
         setProductStocksOver(stocks ?? []);
         setProductId(0);
         setOldPrice("");
+        setToCart(product);
         let colors_ = [];
         let selected_size = productSizes[id];
         console.log(selected_size);
@@ -372,9 +373,12 @@ const SingleProduct = ({ seo }) => {
                 price = product_config.variants[selected].variant.price;
                 setOldPrice("");
             }
-            setProductPrice(price);
+            setProductPrice("₾" + price);
 
-            setProductImages(product_config.variants[selected].images);
+            if(product_config.variants[selected].images.length > 0){
+                setProductImages(product_config.variants[selected].images);
+            }
+
 
             setToCart(product_config.variants[selected].variant);
             setProductStocksOver(
@@ -408,9 +412,12 @@ const SingleProduct = ({ seo }) => {
             setOldPrice("");
         }
 
-        setProductPrice(price);
+        setProductPrice("₾" + price);
 
-        setProductImages(product_config.variants[selected].images);
+        if(product_config.variants[selected].images.length > 0){
+            setProductImages(product_config.variants[selected].images);
+        }
+
 
         setToCart(product_config.variants[selected].variant);
 
@@ -475,7 +482,7 @@ const SingleProduct = ({ seo }) => {
                         <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
                         Back to carts
                     </Link>
-                    <div className="flex flex-col xl:flex-row mt-7 mb-20 justify-start">
+                    <div className="flex flex-col xl:flex-row mt-7 mb-20 justify-start items-start">
                         <div className="max-w-2xl xl:mr-20">
                             <SingleSlider images={productImages} />
                             {product.video ? (
@@ -691,18 +698,18 @@ const SingleProduct = ({ seo }) => {
                                     </div>
                                 </div>
                             ) : null}
-                            <p className="opacity-50 text-sm mb-2">
+                            {product.attributes.material ? <p className="opacity-50 text-sm mb-2">
                                 {__("client.product_material", localizations)}:
                                 <span className="pl-2">
                                     {product.attributes.material}
                                 </span>
-                            </p>
-                            <p className="opacity-50 text-sm ">
+                            </p>:null}
+                            {product.attributes.brand ? <p className="opacity-50 text-sm ">
                                 {__("client.product_brand", localizations)}:
                                 <span className="pl-2">
                                     {product.attributes.brand}
                                 </span>
-                            </p>
+                            </p>:null}
                             {category_last.color === 1 ? (
                                 <div className=" my-5 ">
                                     <p className="whitespace-nowrap opacity-50">

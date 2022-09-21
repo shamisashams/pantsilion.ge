@@ -73,6 +73,7 @@ Route::prefix('{locale?}')
                 Route::post('product/search',[\App\Http\Controllers\Admin\BlogController::class,'getProducts'])->name('product.search.ajax');
 
 
+                Route::post('size/search',[\App\Http\Controllers\Admin\ProductController::class,'getSizes'])->name('size.search.ajax');
 
                 Route::get('product/variant/{product}/create',[\App\Http\Controllers\Admin\ProductController::class, 'variantCreate'])->name('product.variant.create');
                 Route::post('product/variant/{product}/store',[\App\Http\Controllers\Admin\ProductController::class, 'variantStore'])->name('product.variant.store');
