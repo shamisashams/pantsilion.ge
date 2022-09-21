@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { colors } from "./Data";
 
-const ColorPick = ({ colors, onClick }) => {
+const ColorPick = ({ colors, onClick, initialColor }) => {
     const [chooseColor, setChooseColor] = useState("");
     //console.log(colors)
+
+    const initialize = () => {
+        setChooseColor(initialColor);
+    };
+
     const handleClick = (color, index) => {
         setChooseColor(index);
         //alert(index);

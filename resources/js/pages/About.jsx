@@ -8,15 +8,14 @@ import TeamSlider from "../components/TeamSlider";
 import Layout from "../Layouts/Layout";
 
 const About = ({ seo, images }) => {
-
     const renderHTML = (rawHTML) =>
         React.createElement("div", {
             dangerouslySetInnerHTML: { __html: rawHTML },
         });
     const sharedData = usePage().props.localizations;
 
-    const {gallery} = usePage().props;
-    console.log(gallery)
+    const { gallery } = usePage().props;
+    console.log(gallery);
 
     return (
         <Layout seo={seo}>
@@ -44,23 +43,26 @@ const About = ({ seo, images }) => {
                             {/* Comfort is our priority to satisfy our customers, and we provide all
                             the furniture that you can easily and quickly get in love with */}
                             {renderHTML(
-                                __("client.home_getdiscounts_text2", sharedData).replace(
-                                    /(?:\r\n|\r|\n)/g,
-                                    "<br>"
-                                )
+                                __(
+                                    "client.home_getdiscounts_text2",
+                                    sharedData
+                                ).replace(/(?:\r\n|\r|\n)/g, "<br>")
                             )}
                         </p>
-                        <div className="flex">
-                            <Link href={route('client.contact.index')}>
+                        <div className="flex justify-start">
+                            <Link href={route("client.contact.index")}>
                                 <MainButton reverse>
                                     {/* Contact */}
                                     {__("client.button_contact", sharedData)}
                                 </MainButton>
                             </Link>
-                            <Link href={route('partner.join')} className="ml-4">
+                            <Link href={route("partner.join")} className="ml-4">
                                 <MainButton>
                                     {/* Join our team */}
-                                    {__("client.button_joinourteam", sharedData)}
+                                    {__(
+                                        "client.button_joinourteam",
+                                        sharedData
+                                    )}
                                 </MainButton>
                             </Link>
                         </div>
@@ -82,7 +84,40 @@ const About = ({ seo, images }) => {
                             {__("client.about_gallery_text", sharedData)}
                         </p>
                     </div>
-                    <Gallery gallery={gallery.files} />
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-10 gap-3">
+                        {gallery.files.map((item, index) => {
+                            return (
+                                <Link
+                                    href={null}
+                                    key={index}
+                                    className={`w-full h-full group overflow-hidden ${
+                                        item.span ? "row-span-2" : ""
+                                    } `}
+                                >
+                                    <div className="w-full h-full relative">
+                                        <div className="w-full h-full relative after:w-full after:h-full after:top-0 after:left-0 after:bg-white after:opacity-0 group-hover:after:opacity-50 after:transition-all after:duration-700">
+                                            <img
+                                                className="w-full h-full object-cover  scale-110 group-hover:scale-100 transition-all duration-500"
+                                                src={
+                                                    item
+                                                        ? item.file_full_url
+                                                        : null
+                                                }
+                                                alt=""
+                                            />
+                                        </div>
+                                        {/*<div className="absolute left-0 w-full -bottom-full group-hover:bottom-0 bg-white p-3 transition-all duration-500 ">
+                <div className="flex justify-between mb-2">
+                  <div className="bold text-lg">{item.title}</div>
+                  <div className="bold text-xl">₾{item.price}</div>
+                </div>
+                <p className="text-sm lg:w-3/4">{renderHTML(item.description)}</p>
+              </div>*/}
+                                    </div>
+                                </Link>
+                            );
+                        })}
+                    </div>
                 </section>
                 <section>
                     <div className="text-center mb-10">
@@ -93,13 +128,12 @@ const About = ({ seo, images }) => {
                         <p className="opacity-50">
                             {/* New and trending products for best price */}
                             {__("client.about_team_text", sharedData)}
-                            </p>
+                        </p>
                     </div>
                     <TeamSlider />
                 </section>
             </div>
         </Layout>
-
     );
 };
 

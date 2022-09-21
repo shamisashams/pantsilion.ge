@@ -50,7 +50,7 @@ const Products = ({ seo }) => {
                 appliedFilters["subcategory"].push(item.id);
             } else appliedFilters["subcategory"] = [item.id];
 
-            console.log(appliedFilters)
+            console.log(appliedFilters);
 
             let params = [];
             for (let key in appliedFilters) {
@@ -68,7 +68,7 @@ const Products = ({ seo }) => {
             removeA(appliedFilters["subcategory"], item.toString());
         else delete appliedFilters["subcategory"];
 
-        console.log(appliedFilters)
+        console.log(appliedFilters);
         let params = [];
 
         for (let key in appliedFilters) {
@@ -91,14 +91,12 @@ const Products = ({ seo }) => {
 
     const { subcategories, products } = usePage().props;
 
-
-
     let subcats = {};
-    subcategories.map((item,index) => {
+    subcategories.map((item, index) => {
         subcats[item.id] = item.title;
     });
 
-    console.log(products)
+    console.log(products);
 
     return (
         <Layout seo={seo}>
@@ -124,8 +122,7 @@ const Products = ({ seo }) => {
                                     sale={item.sale}
                                     img={
                                         item.latest_image
-                                            ?
-                                              item.latest_image.file_full_url
+                                            ? item.latest_image.file_full_url
                                             : null
                                     }
                                     name={item.title}
@@ -139,7 +136,7 @@ const Products = ({ seo }) => {
                     </div>
                 </div>
                 <div
-                    className={`fixed top-0 left-0 h-screen 2xl:w-1/4 sm:w-96 w-80  bg-white z-40 md:pt-36 pt-32  pb-5 flex flex-col items-center justify-between transition-all duration-500 md:overflow-hidden overflow-y-scroll shadow-lg ${
+                    className={`fixed top-0 left-0 h-screen 2xl:w-1/4 sm:w-96 w-80  bg-white z-40 md:pt-36 pt-32  pb-5 flex flex-col items-center justify-between transition-all duration-500 md:overflow-hidden overflow-y-scroll shadow-lg  ${
                         showFilters ? "translate-x-0" : "-translate-x-full"
                     }`}
                 >
@@ -175,19 +172,20 @@ const Products = ({ seo }) => {
                                 appliedFilters={appliedFilters}
                             />*/}
 
-                            <div style={{width:'200px'}}>
+                            <div style={{ width: "200px" }}>
                                 <RangeSlider appliedFilters={appliedFilters} />
                             </div>
-
                         </div>
 
-                        <ul className={` pt-0 transition-all duration-500  `}>
+                        <ul
+                            className={`h-2/3 pt-0 transition-all duration-500 w-full scrollbar overflow-y-scroll `}
+                        >
                             {subcategories.map((item, index) => {
                                 return (
                                     <li key={index}>
                                         <button
                                             onClick={() => addToSelected(item)}
-                                            className={`lg:py-3 py-2 lg:text-base text-sm px-5 -ml-5 block w-fit rounded-full hover:bg-zinc-100 transition-all ${
+                                            className={`lg:py-3 py-2 lg:text-base text-sm px-5  block w-fit rounded-full hover:bg-zinc-100 transition-all ${
                                                 selectedItems.includes(
                                                     item.id.toString()
                                                 )
