@@ -29,7 +29,7 @@ const Footer = () => {
         {
             icon: "/client/assets/images/sm/4.png",
             name: "Linkdin",
-            link: info.linkdin,
+            link: info.linkedin,
         },
     ];
 
