@@ -108,7 +108,7 @@
                                             <td><a href="{{$item->parent_id === null ? route('product.edit',$item->id) : route('product.edit',$item->parent_id)}}">{{$item->parent_id === null ? 'configurable' : 'simple - parent id#: '. $item->parent->id}}</a> </td>
                                             <td>
                                                 <?php
-                                                /*$path = [];
+                                                $path = [];
                                                 $arr = [];
                                                 foreach ($item->categories as $key =>$cat){
 
@@ -125,27 +125,30 @@
                                                     }
                                                 }
 
-                                                $max = max(array_keys($arr) ?? 0);
+                                                if(!empty($arr)){
+                                                    $max = max(array_keys($arr));
 
-                                                $k = 0;
-                                                foreach ($arr[$max]['ancestors'] as $ancestor){
-                                                    $path[$k]['id'] = $ancestor->id;
-                                                    $path[$k]['slug'] = $ancestor->slug;
-                                                    $path[$k]['title'] = $ancestor->title;
-                                                    $path[$k]['colors'] = $ancestor->colors;
-                                                    $path[$k]['corner'] = $ancestor->corner;
-                                                    $path[$k]['size'] = $ancestor->size;
-                                                    $path[$k]['color'] = $ancestor->color;
-                                                    $k++;
+                                                    $k = 0;
+                                                    foreach ($arr[$max]['ancestors'] as $ancestor){
+                                                        $path[$k]['id'] = $ancestor->id;
+                                                        $path[$k]['slug'] = $ancestor->slug;
+                                                        $path[$k]['title'] = $ancestor->title;
+                                                        $path[$k]['colors'] = $ancestor->colors;
+                                                        $path[$k]['corner'] = $ancestor->corner;
+                                                        $path[$k]['size'] = $ancestor->size;
+                                                        $path[$k]['color'] = $ancestor->color;
+                                                        $k++;
+                                                    }
+
+                                                    $path[$k]['id'] = $arr[$max]['current']->id;
+                                                    $path[$k]['slug'] = $arr[$max]['current']->slug;
+                                                    $path[$k]['title'] = $arr[$max]['current']->title;
+                                                    $path[$k]['colors'] = $arr[$max]['current']->colors;
+                                                    $path[$k]['corner'] = $arr[$max]['current']->corner;
+                                                    $path[$k]['size'] = $arr[$max]['current']->size;
+                                                    $path[$k]['color'] = $arr[$max]['current']->color;
                                                 }
 
-                                                $path[$k]['id'] = $arr[$max]['current']->id;
-                                                $path[$k]['slug'] = $arr[$max]['current']->slug;
-                                                $path[$k]['title'] = $arr[$max]['current']->title;
-                                                $path[$k]['colors'] = $arr[$max]['current']->colors;
-                                                $path[$k]['corner'] = $arr[$max]['current']->corner;
-                                                $path[$k]['size'] = $arr[$max]['current']->size;
-                                                $path[$k]['color'] = $arr[$max]['current']->color;*/
 
 
                                                 ?>
@@ -154,11 +157,11 @@
                                                     <nav aria-label="breadcrumb">
                                                         <ol class="breadcrumb breadcrumb-style mg-b-0">
 
-                                                           {{-- @foreach($path as $_path)
+                                                            @foreach($path as $_path)
                                                                 <li class="breadcrumb-item">
                                                                     <a href="{{route('category.edit',$_path['id'])}}">{{$_path['title']}}</a>
                                                                 </li>
-                                                            @endforeach--}}
+                                                            @endforeach
                                                         </ol>
 
 

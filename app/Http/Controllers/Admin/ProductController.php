@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Attribute;
+use App\Models\AttributeOption;
 use App\Models\Category;
 use App\Models\CategoryColor;
 use App\Models\Product;
@@ -126,7 +127,7 @@ class ProductController extends Controller
             'url' => $url,
             'method' => $method,
             'categories' => $this->categories,
-            'attributes' => $this->attributeRepository->all(),
+            'attributes' => Attribute::with(['options'])->get(),
             'stocks' => Stock::with('translation')->get(),
             'collections' => ProductSet::all(),
             'promocodes' => PromoCode::query()->where('type','product')->get()
@@ -158,6 +159,11 @@ class ProductController extends Controller
 
         $attributes = isset($saveData['attribute']) ? $saveData['attribute'] : [];
         unset($saveData['attribute']);
+
+        $matras_new = isset($saveData['matras_new']) ? $saveData['matras_new'] : [];
+        unset($saveData['matras_new']);
+
+        //dd($matras_new);
 
         $product = $this->productRepository->create($saveData);
         $product->categories()->sync($saveData['categories']);
@@ -210,6 +216,31 @@ class ProductController extends Controller
         }
 
 
+        $n =  1;
+        if(!empty($matras_new)){
+            foreach ($matras_new['option_id'] as $key => $item){
+                if($item){
+                    $variant = $product->variants()->create([
+                        'title' => $product->title,
+                        'slug' => $product->slug .'_'. $n++,
+                        'price' => $matras_new['price'][$key] ?? 0,
+                        'special_price' => $matras_new['special_price'][$key],
+                    ]);
+                    $variant->categories()->sync($saveData['categories'] ?? []);
+
+                    $data['product_id'] = $variant->id;
+                    $data['attribute_id'] = AttributeOption::query()->where('id',$item)->first()->attribute_id;
+                    $data['type'] = 'select';
+                    $data['value'] = $item;
+                    $this->productAttributeValueRepository->create($data);
+                }
+
+            }
+        }
+
+
+        $this->updateMinMaxPrice($product);
+
 
         return redirect(locale_route('product.edit', $product->id))->with('success', __('admin.create_successfully'));
 
@@ -255,7 +286,7 @@ class ProductController extends Controller
             'url' => $url,
             'method' => $method,
             'categories' => $this->categories,
-            'attributes' => $this->attributeRepository->all(),
+            'attributes' => Attribute::with(['options'])->get(),
             'stocks' => Stock::with('translation')->get(),
             'collections' => ProductSet::all(),
             'promocodes' => PromoCode::query()->where('type','product')->get()
@@ -293,9 +324,12 @@ class ProductController extends Controller
         $attributes = isset($saveData['attribute']) ? $saveData['attribute'] : [];
         unset($saveData['attribute']);
 
-        $matras = $saveData['matras'];
+        $matras = isset($saveData['matras']) ? $saveData['matras'] : [];
 
         unset($saveData['matras']);
+
+        $matras_new = isset($saveData['matras_new']) ? $saveData['matras_new'] : [];
+        unset($saveData['matras_new']);
 
         //dd($matras,$request->matras_price,$request->matras_price);
 
@@ -385,6 +419,32 @@ class ProductController extends Controller
 
         ProductAttributeValue::where('product_id',$product->id)
             ->whereIn('attribute_id',$attr_del)->delete();
+
+        if(isset($saveData['del_var'])){
+            Product::query()->whereIn('id',$saveData['del_var'])->delete();
+        }
+
+        $n =  1;
+        if(!empty($matras_new)){
+            foreach ($matras_new['option_id'] as $key => $item){
+                if($item){
+                    $variant = $product->variants()->create([
+                        'title' => $product->title,
+                        'slug' => $product->slug .'_' . uniqid(),
+                        'price' => $matras_new['price'][$key] ?? 0,
+                        'special_price' => $matras_new['special_price'][$key],
+                    ]);
+                    $variant->categories()->sync($saveData['categories'] ?? []);
+
+                    $data['product_id'] = $variant->id;
+                    $data['attribute_id'] = AttributeOption::query()->where('id',$item)->first()->attribute_id;
+                    $data['type'] = 'select';
+                    $data['value'] = $item;
+                    $this->productAttributeValueRepository->create($data);
+                }
+
+            }
+        }
 
 
 

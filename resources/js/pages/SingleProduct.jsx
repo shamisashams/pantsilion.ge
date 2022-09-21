@@ -375,7 +375,10 @@ const SingleProduct = ({ seo }) => {
             }
             setProductPrice("₾" + price);
 
-            setProductImages(product_config.variants[selected].images);
+            if(product_config.variants[selected].images.length > 0){
+                setProductImages(product_config.variants[selected].images);
+            }
+
 
             setToCart(product_config.variants[selected].variant);
             setProductStocksOver(
@@ -411,7 +414,10 @@ const SingleProduct = ({ seo }) => {
 
         setProductPrice("₾" + price);
 
-        setProductImages(product_config.variants[selected].images);
+        if(product_config.variants[selected].images.length > 0){
+            setProductImages(product_config.variants[selected].images);
+        }
+
 
         setToCart(product_config.variants[selected].variant);
 

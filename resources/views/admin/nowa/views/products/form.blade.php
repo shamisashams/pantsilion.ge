@@ -546,8 +546,15 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         'brand'
                     ];
                     ?>
+                    <?php
+                    $size_attr  = [];
+                    ?>
                     @foreach($attributes as $item)
 
+                        <?php
+                        if ($item->code == 'size')
+                        $size_attr = $item;
+                        ?>
                         @if(($product->created_at and $product->parent_id == null) && in_array($item->code,$arr))
                             <div class="form-group">
                                 <label class="form-label">{{$item->code}}</label>
@@ -775,6 +782,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
     </div>
 
 
+    @if(!$product->created_at || $product->parent_id == null)
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <div class="card">
@@ -788,22 +796,22 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
 
                     <div id="variants">
 
+
+
                         @foreach($product->variants as $variant)
 
                             <?php
                             $prod_attr = \Illuminate\Support\Arr::pluck($variant->attribute_values,'integer_value','attribute_id');
-                            $size_attr  = [];
+
                             ?>
 
-                        <div class="row row-sm">
+                        <div class="row row-sm row_size">
                             <div class="col-lg">
                                 <select class="form-control" name="matras[{{$variant->id}}][option_id]">
-                                    <option value=""></option>
+
                                     @foreach($attributes as $item)
                                         @if($item->code == 'size')
-                                            <?php
-                                            $size_attr = $item;
-                                            ?>
+
                                             @foreach($item->options as $option)
                                                 <?php
                                                 if (isset($prod_attr[$item->id])){
@@ -826,9 +834,13 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                             <div class="col-lg mg-t-10 mg-lg-t-0">
                                 <input class="form-control" placeholder="Special Price" type="number" name="matras[{{$variant->id}}][special_price]" value="{{$variant->special_price}}">
                             </div>
+                            <div class="col-lg mg-t-10 mg-lg-t-0">
+                                <a data-id="{{$variant->id}}" class="btn delete_size" href="javascript:;">delete</a>
+                            </div>
                         </div>
                         @endforeach
                     </div>
+
 
 
 
@@ -837,7 +849,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
             </div>
         </div>
     </div>
-
+    @endif
     <!-- row closed -->
 
     <!-- /row -->
@@ -1259,6 +1271,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
         });
 
 
+        let size_attr = @json($size_attr);
 
         console.log(size_attr);
 
@@ -1269,23 +1282,34 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                 opt += `<option value="${el.id}">${el.value}</option>`;
             })
 
-            let row = `<div class="row row-sm">
+            let row = `<div class="row row-sm row_size">
                             <div class="col-lg">
-                                <select class="form-control" name="matras_opt_id[]">
+                                <select class="form-control" name="matras_new[option_id][]">
                                     <option value="">${opt}</option>
 
             </select>
         </div>
         <div class="col-lg mg-t-10 mg-lg-t-0">
-            <input class="form-control" placeholder="Price" type="number" name="matras_price[]" value="">
+            <input class="form-control" placeholder="Price" type="number" name="matras_new[price][]" value="">
                             </div>
                             <div class="col-lg mg-t-10 mg-lg-t-0">
-                                <input class="form-control" placeholder="Special Price" type="number" name="matras_s_price[]" value="">
+                                <input class="form-control" placeholder="Special Price" type="number" name="matras_new[special_price][]" value="">
+                            </div>
+<div class="col-lg mg-t-10 mg-lg-t-0">
+                                <a class="btn delete_size" href="javascript:;">delete</a>
                             </div>
                         </div>`;
 
 
             $('#variants').append(row);
+        });
+
+        $(document).on('click','.delete_size',function (e){
+           $(this).parents('.row_size').remove();
+           let id = $(this).data('id');
+           console.log(id);
+           if(id !== undefined)
+           $('#variants').append(`<input type="hidden" name="del_var[]" value="${id}">`);
         });
 
     </script>
