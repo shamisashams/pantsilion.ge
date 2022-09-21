@@ -446,7 +446,7 @@ class ProductController extends Controller
             }
         }
 
-        if($saveData['term']){
+        if(isset($saveData['term'])){
             $attribute = Attribute::query()->where('code','size')->first();
             $option = $attribute->options()->create([
                 'value' => $saveData['term']
