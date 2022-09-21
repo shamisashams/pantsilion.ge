@@ -475,6 +475,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                             $attr_size_id = $item->id;
                             ?>
                             <div class="form-group">
+                                <label class="form-label">{{$item->code}}</label>
                                 <ul id="selected_products">
 
                                 </ul>
