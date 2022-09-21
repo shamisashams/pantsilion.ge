@@ -8,9 +8,7 @@ import MainButton from "./MainButton";
 import { Inertia } from "@inertiajs/inertia";
 
 const Footer = () => {
-
-
-    const {info} = usePage().props;
+    const { info } = usePage().props;
 
     const socialMedia = [
         {
@@ -44,19 +42,19 @@ const Footer = () => {
     const navigations = [
         {
             text: __("client.navbar_home", sharedData),
-            link: route('client.home.index'),
+            link: route("client.home.index"),
         },
         {
             text: __("client.navbar_aboutus", sharedData),
-            link: route('client.about.index'),
+            link: route("client.about.index"),
         },
         {
             text: __("client.navbar_contact", sharedData),
-            link: route('client.contact.index'),
+            link: route("client.contact.index"),
         },
         {
             text: __("client.navbar_blog", sharedData),
-            link: route('client.blog.index'),
+            link: route("client.blog.index"),
         },
     ];
 
@@ -84,13 +82,21 @@ const Footer = () => {
     }
 
     return (
-        <footer className={pathname === route('client.contact.index') ? "hidden" : "py-10"}>
+        <footer
+            className={
+                pathname === route("client.contact.index") ? "hidden" : "py-10"
+            }
+        >
             <div className="wrapper flex justify-between items-start flex-col lg:flex-row">
                 <div>
-                    <div className="flex">
+                    <div className="flex justify-start">
                         {navigations.map((item, index) => {
                             return (
-                                <Link href={item.link} key={index} className="lg:mr-10 mr-5 bold">
+                                <Link
+                                    href={item.link}
+                                    key={index}
+                                    className="lg:mr-10 mr-5 bold"
+                                >
                                     {item.text}
                                 </Link>
                             );
@@ -101,7 +107,10 @@ const Footer = () => {
                     </a>
                 </div>
                 <div className="lg:text-right text-sm">
-                    <form className="mx-auto lg:mr-0  lg:max-w-sm" onSubmit={handleSubmit}>
+                    <form
+                        className="mx-auto lg:mr-0  lg:max-w-sm"
+                        onSubmit={handleSubmit}
+                    >
                         <div className="text-2xl bold mb-3">
                             {/* Get in touch */}
                             {__("client.form_getintouch", sharedData)}

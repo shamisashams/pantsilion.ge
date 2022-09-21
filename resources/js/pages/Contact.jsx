@@ -62,14 +62,14 @@ const Contact = ({ seo }) => {
                     src="/client/assets/images/other/map.png"
                     alt=""
                 />
-                <div className="wrapper">
+                <div className="wrapper text-sm">
                     <div className="text-4xl bold mb-10">
                         {/* Contact us */}
                         {__("client.contact_contact_us", sharedData)}
                     </div>
                     <div className="flex justify-between items-start flex-col lg:flex-row">
                         <div>
-                            <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-12 xl:gap-20 mb-10">
+                            <div className="max-w-3xl grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-12 xl:gap-20 mb-10">
                                 {contacts.map((item, index) => {
                                     return (
                                         <div>
