@@ -38,6 +38,12 @@ class SettingSeeder extends Seeder
                 'key' => 'instagram'
             ],
             [
+                'key' => 'tiktok'
+            ],
+            [
+                'key' => 'linkedin'
+            ],
+            [
                 'key' => 'partner_reward'
             ]
 
