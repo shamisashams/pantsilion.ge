@@ -526,7 +526,7 @@ const SingleProduct = ({ seo }) => {
                                 ) : null}
                                 {Object.keys(productStocksOver).length === 0 ? (
                                     <div className="inline-block">
-                                        {__('client.not_in_stock',localizations)})
+                                        {__('client.not_in_stock',localizations)}
                                     </div>
                                 ) : null}
                             </div>
