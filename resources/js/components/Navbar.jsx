@@ -151,7 +151,7 @@ const Navbar = () => {
                                                 : "  opacity-0"
                                         }`}
                                         type="text"
-                                        placeholder="Search here"
+                                        placeholder={__('client.nav_search', sharedData)}
                                         name="term"
                                         onChange={handleChange}
                                     />

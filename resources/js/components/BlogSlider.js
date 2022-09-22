@@ -50,7 +50,7 @@ const BlogSlider = ({blogs}) => {
             <SwiperSlide key={index}>
               <BlogBox
                 link={route('client.blog.show',item.slug)}
-                date={item.created_at}
+                date={translateDate(item.created_at)}
                 title={item.title}
                 img={item.latest_image ? item.latest_image.file_full_url :null}
                 paragraph={item.short_description}

@@ -122,10 +122,10 @@ const RegularOrders = ({ seo }) => {
                                     <table className=" orderHistoryTable text-sm whitespace-nowrap  ">
                                         <tr>
                                             <td className="opacity-50 ">
-                                                Order ID
+                                                {__('client.order_id', localizations)}
                                             </td>
                                             <td className="opacity-50 ">
-                                                Date
+                                                {__('client.order_date', localizations)}
                                             </td>
                                             <td className="opacity-50 ">
                                                 {__(
@@ -134,7 +134,7 @@ const RegularOrders = ({ seo }) => {
                                                 )}
                                             </td>
                                             <td className="opacity-50 ">
-                                                Details
+                                                {__('client.order_details', localizations)}
                                             </td>
                                         </tr>
 

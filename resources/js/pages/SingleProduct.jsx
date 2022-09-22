@@ -190,6 +190,7 @@ const SingleProduct = ({ seo }) => {
             category_last.size === 1 &&
             category_last.color === 0
         ) {
+
             let sizes = [];
             Object.keys(product_config.size).map((key2, index3) => {
                 product_config.size[key2].variants.map((item, index) => {
@@ -212,6 +213,7 @@ const SingleProduct = ({ seo }) => {
                     variants: item.variants,
                 };
             });
+            console.log(result)
             setProductSizes(result);
         }
     }
@@ -320,6 +322,11 @@ const SingleProduct = ({ seo }) => {
     window.onload = function (e) {
         initializeAttributes();
     };
+
+    window.onpopstate  = function() {
+
+        initializeAttributes();
+    }
 
     function selectSize(id) {
         setProductImages(product_images);
@@ -478,9 +485,9 @@ const SingleProduct = ({ seo }) => {
         <Layout seo={seo}>
             <>
                 <div className="wrapper  py-40">
-                    <Link className="bold text-center" href="/cart">
+                    <Link className="bold text-center" href={route('client.home.index')}>
                         <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
-                        Back to carts
+                        {__("client.product_back", localizations)}
                     </Link>
                     <div className="flex flex-col xl:flex-row mt-7 mb-20 justify-start items-start">
                         <div className="max-w-2xl xl:mr-20">
@@ -497,7 +504,7 @@ const SingleProduct = ({ seo }) => {
                         </div>
                         <div className="max-w-xl xl:mt-0 mt-20">
                             <div className="opacity-50">
-                                product code # {productCode}
+                                {__("client.product_code", localizations)} # {productCode}
                             </div>
                             <div className="bold text-4xl my-3">
                                 {product.title}
@@ -612,17 +619,14 @@ const SingleProduct = ({ seo }) => {
                                 </div>
                             ) : null}
                             <div className="bold mb-4">
-                                {__(
-                                    "client.product_specification",
-                                    localizations
-                                )}
+                                {__("client.product_specification", localizations)}
                             </div>
                             {category_last.size === 1 ? (
                                 <div className="">
                                     <p className="opacity-50 text-sm inline-block mr-2">
-                                        size:
+                                        {__("client.size", localizations)}:
                                         <span className="pl-2">
-                                            (length x height x width x depth)
+                                            {__("client.dimensions", localizations)}
                                         </span>
                                     </p>
                                     {/*<select id="choose_size">
@@ -710,10 +714,7 @@ const SingleProduct = ({ seo }) => {
                             {category_last.color === 1 ? (
                                 <div className=" my-5 ">
                                     <p className="whitespace-nowrap opacity-50">
-                                        {__(
-                                            "client.product_color",
-                                            localizations
-                                        )}
+                                        {__("client.product_color", localizations)}
                                         :
                                     </p>
                                     <div
@@ -922,10 +923,7 @@ const SingleProduct = ({ seo }) => {
                     {product.colors.length > 0 ? (
                         <div className="w-full my-10 mb-20">
                             <div className="bold text-lg mb-5">
-                                {__(
-                                    "client.furniture_customize",
-                                    localizations
-                                )}
+                                {__("client.furniture_customize", localizations)}
                             </div>
                             <div className="w-full h-96 mb-5">
                                 <img

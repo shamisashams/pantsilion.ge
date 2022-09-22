@@ -7,7 +7,7 @@ import { useState } from "react";
 
 const Category = ({ open }) => {
     const [subCategory, setSubCategory] = useState(false);
-    const { categories } = usePage().props;
+    const { categories, localizations } = usePage().props;
     //console.log(categories)
     return (
         <div
@@ -46,7 +46,7 @@ const Category = ({ open }) => {
                     })}
                 </ul>
                 <div className="flex items-center justify-start 2xl:mt-40 mt-20 pb-5">
-                    <div className="opacity-50 mr-3 text-lg">follow us:</div>
+                    <div className="opacity-50 mr-3 text-lg">{__("client.follow_us", localizations)}</div>
                     {socialMedia.map((item, index) => {
                         return (
                             <a href={item.link} key={index} className="mx-2">

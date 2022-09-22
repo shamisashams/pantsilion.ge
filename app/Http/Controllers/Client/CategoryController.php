@@ -258,6 +258,7 @@ class CategoryController extends Controller
 
         }
 
+        $subCategories = [];
         foreach (Category::where('parent_id','!=',null)->get()->toArray() as $item){
             $subCategories[] = $item;
         }

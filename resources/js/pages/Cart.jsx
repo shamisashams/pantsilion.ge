@@ -78,7 +78,7 @@ const Cart = ({seo}) => {
                                   <div className="shrink-0 md:w-96 w-80 flex items-center">
                                       <div className="w-32 h-32 mr-5 shrink-0">
                                           <img
-                                              src={item.product.latest_image ? '/' + item.product.latest_image.path + '/' + item.product.latest_image.title:null}
+                                              src={item.product.latest_image ?  item.product.latest_image.file_full_url :null}
                                               className="w-full h-full object-cover"
                                               alt=""
                                           />
@@ -90,12 +90,12 @@ const Cart = ({seo}) => {
                                               <br />
                                               Size: {item.product.attributes.size}
                                           </div>
-                                          <Link
+                                          {/*<Link
                                               href="/"
                                               className=" text-sm text-sky-500 hover:underline"
                                           >
                                               Edit
-                                          </Link>
+                                          </Link>*/}
                                       </div>
                                   </div>
 
@@ -123,7 +123,7 @@ const Cart = ({seo}) => {
                                   <div className="shrink-0 md:w-96 w-80 flex items-center">
                                       <div className="w-32 h-32 mr-5 shrink-0">
                                           <img
-                                              src={item.collection.latest_image ? '/' + item.collection.latest_image.path + '/' + item.collection.latest_image.title:null}
+                                              src={item.collection.latest_image ?  item.collection.latest_image.file_full_url :null}
                                               className="w-full h-full object-cover"
                                               alt=""
                                           />
@@ -134,12 +134,12 @@ const Cart = ({seo}) => {
                                               Color: {item.collection.attributes.label}
 
                                           </div>
-                                          <Link
+                                          {/*<Link
                                               href="/"
                                               className=" text-sm text-sky-500 hover:underline"
                                           >
-                                              furniture set
-                                          </Link>
+                                              {__('client.furniture_set', localizations)}
+                                          </Link>*/}
                                       </div>
                                   </div>
 
@@ -155,7 +155,7 @@ const Cart = ({seo}) => {
                           );
                       })}
 
-                      <Link className="bold" href="/products">
+                      <Link className="bold" href={route('client.home.index')}>
                           <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
                           {__('client.continue_shopping', localizations)}
                       </Link>
@@ -166,9 +166,9 @@ const Cart = ({seo}) => {
                   >
                       <div className="mb-10">
                           <div className="text-3xl bold mb-3">{__('client.summary', localizations)}</div>
-                          <div className="opacity-50 mb-3 ">({cart.count} items)</div>
+                          <div className="opacity-50 mb-3 ">({cart.count} {__('client.cart_items', localizations)})</div>
                           <div className="flex items-center justify-between border-b border-t border-zinc-200  py-3 mb-5">
-                              <div>Subtotal</div>
+                              <div>{__('client.subtotal', localizations)}</div>
                               <div>₾ {cart.total}</div>
                           </div>
                           <div className="text-sky-500 bold mb-3">{__('client.use_promocode', localizations)}</div>

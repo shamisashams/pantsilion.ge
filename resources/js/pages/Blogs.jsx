@@ -87,7 +87,7 @@ const Blogs = ({ seo }) => {
                                 key={index}
                                 largeImg
                                 link={route("client.blog.show", item.slug)}
-                                date={item.created_at}
+                                date={translateDate(item.created_at)}
                                 title={item.title}
                                 img={
                                     item.oldest_image
