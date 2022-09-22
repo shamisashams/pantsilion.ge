@@ -55,7 +55,7 @@ const SingleProduct = ({ seo }) => {
     const [productColors, setProductColors] = useState([]);
 
     const [productSizes, setProductSizes] = useState({});
-    const [selectedSize, setSelectedSize] = useState(" select size ");
+    const [selectedSize, setSelectedSize] = useState(__('client.select_size',localizations));
 
     const [categoryColorImg, setCategoryColorImg] = useState(
         product.colors.length > 0
@@ -224,7 +224,7 @@ const SingleProduct = ({ seo }) => {
         setProductImages(product_images);
         setProductVideo(product.video ? product.video.path : null);
         setProductPrice(`from ₾${product.min_price}`);
-        setSelectedSize(" select size ");
+        setSelectedSize(__('client.select_size',localizations));
         setProductId(0);
         setOldPrice("");
         setProductStocksOver(stocks ?? []);
@@ -877,7 +877,7 @@ const SingleProduct = ({ seo }) => {
                                                     <div>
                                                         <IoIosCheckmarkCircleOutline className="w-6 h-6 mb-1 text-green-500 inline-block mr-1" />
                                                         <div className="inline-block ">
-                                                            In stock
+                                                            {__('client.in_stock',localizations)}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -885,7 +885,7 @@ const SingleProduct = ({ seo }) => {
                                         }
                                     )
                                 ) : (
-                                    <div>out of stock</div>
+                                    <div>{__('client.not_in_stock',localizations)}</div>
                                 )}
                                 {/*<div className="flex w-full justify-between border-b pb-3 mb-3">
                                   <div>
