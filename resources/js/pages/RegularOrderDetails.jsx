@@ -116,10 +116,10 @@ const RegularOrderDetails = ({ seo }) => {
                         <div className=" mx-auto">
                             <div className="mb-12">
                                 <div className="text-3xl bold mb-4 ">
-                                    Order ID
+                                    {__('client.order_id',localizations)}
                                 </div>
                                 <div className="mb-4">
-                                    Data:{" "}
+                                    {__('client.order_date',localizations)}:{" "}
                                     <span className="opacity-50">
                                         {Moment(
                                             order.created_at
@@ -127,7 +127,7 @@ const RegularOrderDetails = ({ seo }) => {
                                     </span>
                                 </div>
                                 <div className="mb-4">
-                                    Total price:{" "}
+                                    {__('client.order_total',localizations)}:{" "}
                                     <span className="opacity-50">{order.grand_total} ₾</span>
                                 </div>
                                 {order.collections.length > 0 ?
