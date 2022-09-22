@@ -31,7 +31,7 @@ const Home = ({ seo }) => {
                 return;
             }
         } else {
-            alert("out of stock");
+            alert("out of stocks");
             return;
         }
 
