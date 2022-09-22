@@ -89,7 +89,7 @@ const Products = ({ seo }) => {
         Inertia.visit("?" + params.join("&"));
     };
 
-    const { subcategories, products } = usePage().props;
+    const { subcategories, products, localizations } = usePage().props;
 
     let subcats = {};
     subcategories.map((item, index) => {
@@ -200,13 +200,13 @@ const Products = ({ seo }) => {
                             })}
                         </ul>
                         <div className="flex items-center justify-start  mt-10 pb-5 whitespace-nowrap">
-                            <MainButton reverse>Search products</MainButton>
-                            <button
+                            <MainButton onclick={clearFilter} reverse>{__('client.clear_filter',localizations)}</MainButton>
+                            {/*<button
                                 onClick={clearFilter}
                                 className="underline ml-5"
                             >
                                 Clear filter
-                            </button>
+                            </button>*/}
                         </div>
                     </div>
                 </div>

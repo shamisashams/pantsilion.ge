@@ -535,10 +535,7 @@ const SingleProduct = ({ seo }) => {
                             </div>
                             {product.installment_price ? (
                                 <p>
-                                    {__(
-                                        "client.product_installment",
-                                        localizations
-                                    )}
+                                    {__("client.product_installment", localizations)}
                                     :{" "}
                                     <span className="bold text-custom-red pl-2">
                                         {product.installment_price} GEL
