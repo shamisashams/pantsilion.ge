@@ -67,7 +67,10 @@ const Home = ({ seo }) => {
                                     <Link href="/" className="">
                                         <MainButton>
                                             {/* Learn more */}
-                                            {__("client.button_learn_more", sharedData)}
+                                            {__(
+                                                "client.button_learn_more",
+                                                sharedData
+                                            )}
                                         </MainButton>
                                     </Link>
                                     <Link
@@ -79,7 +82,10 @@ const Home = ({ seo }) => {
                                         </div>
                                         <div className="bold">
                                             {/* Watch video */}
-                                            {__("client.button_watch_video", sharedData)}
+                                            {__(
+                                                "client.button_watch_video",
+                                                sharedData
+                                            )}
                                         </div>
                                     </Link>
                                 </div>
@@ -182,7 +188,7 @@ const Home = ({ seo }) => {
                 >
                     <div className="wrapper">
                         <div className="max-w-2xl">
-                            <div className="lg:text-6xl text-4xl max-w-3xl bold ">
+                            <div className="lg:text-4xl text-3xl max-w-3xl bold ">
                                 {/* Get discount for membership */}
                                 {__("client.home_getdiscounts", sharedData)}
                             </div>
@@ -199,7 +205,7 @@ const Home = ({ seo }) => {
                                 )}
                             </p>
                             <div className="w-52">
-                                <Link href={route('client.registration.index')}>
+                                <Link href={route("client.registration.index")}>
                                     <MainButton reverse>
                                         {/* Create account */}
                                         {__(
