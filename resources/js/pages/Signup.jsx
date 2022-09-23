@@ -115,7 +115,7 @@ const Signup = ({ seo }) => {
                             className="mb-3 border border-zinc-200 pl-4 border-solid w-full block bg-transparent h-12 placeholder:text-custom-dark"
                         />
                         {errors.agree && <div>{errors.agree}</div>}
-                        <div className="flex mb-8 mt-5">
+                        <div className="flex mb-8 mt-5 justify-start">
                             <input
                                 onChange={handleChange}
                                 type="checkbox"
