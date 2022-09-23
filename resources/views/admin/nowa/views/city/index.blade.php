@@ -40,7 +40,7 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('admin.id')</th>
-
+                                    <th>@lang('admin.is_shipping')</th>
                                     <th>@lang('admin.title')</th>
                                     <th>@lang('admin.actions')</th>
                                 </tr>
@@ -66,7 +66,7 @@
                                     @foreach($data as $slider)
                                         <tr>
                                             <td>{{$slider->id}}</td>
-
+                                            <td>{{$slider->is_shipping ? 'yes' : 'no'}}</td>
 
                                             <td>
                                                 <div class="panel panel-primary tabs-style-2">

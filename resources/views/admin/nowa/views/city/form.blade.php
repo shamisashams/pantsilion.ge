@@ -132,13 +132,13 @@
                         </small>
                         @enderror
                     </div>
-                    {{--<div class="form-group">
+                    <div class="form-group">
                         <label class="ckbox">
-                            <input type="checkbox" name="status"
-                                   value="true" {{$slider->status ? 'checked' : ''}}>
-                            <span>{{__('admin.status')}}</span>
+                            <input type="checkbox" name="is_shipping"
+                                   value="true" {{$model->is_shipping ? 'checked' : ''}}>
+                            <span>{{__('admin.is_shipping')}}</span>
                         </label>
-                    </div>--}}
+                    </div>
 
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>
