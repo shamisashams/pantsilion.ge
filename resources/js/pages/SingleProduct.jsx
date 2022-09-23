@@ -66,7 +66,7 @@ const SingleProduct = ({ seo }) => {
     );
 
     const [productPrice, setProductPrice] = useState(
-        `from ₾${product.min_price}`
+        `${__("client.from", localizations)} ₾${product.min_price}`
     );
     const [oldPrice, setOldPrice] = useState(``);
 
@@ -223,7 +223,7 @@ const SingleProduct = ({ seo }) => {
 
         setProductImages(product_images);
         setProductVideo(product.video ? product.video.path : null);
-        setProductPrice(`from ₾${product.min_price}`);
+        setProductPrice(`${__("client.from", localizations)} ₾${product.min_price}`);
         setSelectedSize(__('client.select_size',localizations));
         setProductId(0);
         setOldPrice("");
@@ -331,7 +331,7 @@ const SingleProduct = ({ seo }) => {
     function selectSize(id) {
         setProductImages(product_images);
         setProductVideo(product.video ? product.video.path : null);
-        setProductPrice(`from ₾${product.min_price}`);
+        setProductPrice(`${__("client.from", localizations)} ₾${product.min_price}`);
         setProductStocks(stocks[cities[0].id] ?? []);
         setProductStocksOver(stocks ?? []);
         setProductId(0);
@@ -340,7 +340,7 @@ const SingleProduct = ({ seo }) => {
         let colors_ = [];
         let selected_size = productSizes[id];
         console.log(selected_size);
-        setSelectedSize(selected_size.label + " cm");
+        setSelectedSize(selected_size.label);
         selected_size.variants.map((item, index) => {
             Object.keys(product_config.color).map((key3, index) => {
                 if (product_config.color[key3].variants.includes(item)) {

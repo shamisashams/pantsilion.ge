@@ -77,7 +77,7 @@
             console.warn(date_arr);
             let months = {
                 en: {January: "January",February: "February",March: "March",April: "April",May:"May",June:"June",July:"July",August:"August",September:"September",October:"October",November:"November",December:"December"},
-                ge: {January: "იანვარი",February: "თებერვალი",March: "მარტი",April: "აპრილი",May:"მაისი",June:"ივნისი",July:"ივლისი",August:"აგვისთო",September:"სექთემბერი",October:"ოქთომბერი",November:"ნოემბერი",December:"დექემბერი"}
+                ge: {January: "იანვარი",February: "თებერვალი",March: "მარტი",April: "აპრილი",May:"მაისი",June:"ივნისი",July:"ივლისი",August:"აგვისტო",September:"სექტემბერი",October:"ოქტომბერი",November:"ნოემბერი",December:"დექემბერი"}
             };
             let loc_month = months[locale][month];
 

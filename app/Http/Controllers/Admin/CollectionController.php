@@ -258,6 +258,11 @@ class CollectionController extends Controller
 
     public function addProducts($locale,ProductSet $productSet,Request $request){
 
-        $this->collectionRepository->model->products()->sync(isset($saveData['product_id']) ? $saveData['product_id']:[]);
+        $saveData = $request->input();
+        //dd($saveData);
+
+        $productSet->products()->sync(isset($saveData['product_id']) ? $saveData['product_id']:[]);
+
+        return redirect()->back();
     }
 }

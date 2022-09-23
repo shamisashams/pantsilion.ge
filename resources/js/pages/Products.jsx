@@ -107,7 +107,7 @@ const Products = ({ seo }) => {
                         className="bold text-lg "
                     >
                         <TbAdjustments className="w-6 h-6 inline-block mb-1" />
-                        Filter
+                        {__("client.filter", localizations)}
                     </button>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-y-20 gap-x-10 pt-10">
                         {products.data.map((item, index) => {
