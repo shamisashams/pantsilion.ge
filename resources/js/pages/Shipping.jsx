@@ -38,7 +38,7 @@ const Shipping = ({ seo }) => {
     }
 
     const [selectedCityL, setSelectedCityL] = useState(
-        selected ? selected : "Choose City"
+        selected ? selected : __('client.choose_city',localizations)
     );
 
     function selectCity(city) {
@@ -98,11 +98,10 @@ const Shipping = ({ seo }) => {
                         <div className="grid mb-16 py-5  mx-auto lg:grid-cols-2">
                             <div className="text-center max-w-lg lg:mr-10 mx-auto lg:mb-0 mb-10">
                                 <div className="md:text-4xl text-2xl bold">
-                                    Pick location where we should deliver items
+                                    {__('client.shipping_header',localizations)}
                                 </div>
                                 <p className="md:my-10 my-5">
-                                    Choose from a wide range of premium quality
-                                    wooden furniture online.{" "}
+                                    {__('client.shipping_text',localizations)}
                                 </p>
                                 {/*<form>*/}
                                 <div
@@ -178,7 +177,7 @@ const Shipping = ({ seo }) => {
                                     />
                                     <input
                                         type="text"
-                                        placeholder="Enter your address"
+                                        placeholder={__('client.shipping_address',localizations)}
                                         className="w-full h-16 text-center bg-white placeholder:text-custom-dark"
                                         name="address"
                                         onChange={handleChange}
@@ -195,7 +194,7 @@ const Shipping = ({ seo }) => {
                                     />
                                     <input
                                         type="text"
-                                        placeholder="Enter phone number"
+                                        placeholder={__('client.shipping_phone',localizations)}
                                         className="w-full h-16 text-center bg-white placeholder:text-custom-dark"
                                         name="phone"
                                         onChange={handleChange}
@@ -212,7 +211,7 @@ const Shipping = ({ seo }) => {
                                     />
                                     <input
                                         type="text"
-                                        placeholder="Leave a comment"
+                                        placeholder={__('client.shipping_comment',localizations)}
                                         className="w-full h-16 text-center bg-white placeholder:text-custom-dark"
                                         name="comment"
                                         onChange={handleChange}
@@ -231,9 +230,9 @@ const Shipping = ({ seo }) => {
                                 referrerPolicy="no-referrer-when-downgrade"
                             ></iframe>*/}
                         </div>
-                        <Link className="bold" href="/cart">
+                        <Link className="bold" href={route('client.cart.index')}>
                             <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
-                            Back to carts
+                            {__('client.back_to_cart',localizations)}
                         </Link>
                     </div>
                     <div
@@ -241,9 +240,9 @@ const Shipping = ({ seo }) => {
         after:left-full after:top-0 after:bg-white after:w-full after:xl:block after:hidden after:h-full after:min-w-lg "
                     >
                         <div className="mb-10">
-                            <div className="text-3xl bold mb-3">Summary</div>
+                            <div className="text-3xl bold mb-3">{__('client.summary',localizations)}</div>
                             <div className="opacity-50 mb-3 ">
-                                ({cart.count} items)
+                                ({cart.count} {__('client.cart_items',localizations)})
                             </div>
                             <div className="h-72 overflow-y-scroll pr-5 my-5 scrollbar">
                                 {cart.products.map((item, index) => {
@@ -343,13 +342,13 @@ const Shipping = ({ seo }) => {
                             </div>
 
                             <div className="flex items-center justify-between border-b border-t border-zinc-200  py-3 mb-5">
-                                <div>Subtotal</div>
+                                <div>{__('client.subtotal',localizations)}</div>
                                 <div className="bold text-lg">
                                     ₾ {cart.total}
                                 </div>
                             </div>
                             <div className="flex items-center justify-between  mb-5">
-                                <div>Shipping</div>
+                                <div>{__('client.shipping',localizations)}</div>
                                 <div className="bold text-lg">₾ {shipPrice}</div>
                             </div>
                             <div>

@@ -5,6 +5,7 @@ import { socialMedia } from "./NavData";
 //import Arrows from "../assets/images/svg/arrows.svg";
 
 const BlogBox = (props) => {
+    const {localizations} = usePage().props;
     return (
         <Link href={props.link} className="h-full ">
             <div className="bg-white p-5 text-sm h-full flex flex-col justify-between group">
@@ -34,7 +35,7 @@ const BlogBox = (props) => {
                     <p>{props.paragraph}</p>
                 </div>
                 <div className="my-5 ml-0 mr-auto">
-                    <div className="opacity-50 ">Share to:</div>
+                    <div className="opacity-50 ">{__('client.share_to',localizations)}</div>
                     {socialMedia.map((item, index) => {
                         return (
                             <a href={item.link} key={index}>

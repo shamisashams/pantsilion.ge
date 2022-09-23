@@ -56,18 +56,18 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                       </div>
                       <div className=" mb-16 max-w-lg mx-auto">
                           <div className="relative mb-3 w-full p-5  bg-white flex">
-                              <div className="shrink-0 w-24 inline-block mr-">Ship to:</div>
+                              <div className="shrink-0 w-24 inline-block mr-">{__('client.ship_to',localizations)}:</div>
                               <span className="opacity-50">
                 {city.title}, {shipping.address}
               </span>
                           </div>
                           <div className="relative mb-3 w-full py-5 pl-5  bg-white">
-                              <div className="shrink-0 w-24 inline-block mr-">Contact:</div>
+                              <div className="shrink-0 w-24 inline-block mr-">{__('client.contact',localizations)}:</div>
                               <span className="opacity-50">{shipping.phone}</span>
                           </div>
-                          <div className="bold text-lg mt-10 mb-5">Payment details</div>
+                          <div className="bold text-lg mt-10 mb-5">{__('client.payment_details',localizations)}</div>
                           <div className="flex justify-between mb-4">
-                              <div>Cards we accept</div>
+                              <div>{__('client.cards_accept',localizations)}</div>
                               <div>
                                   <img
                                       className="bg-white inline-block ml-2"
@@ -91,7 +91,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                   />
                               </div>
                           </div>
-                          <div className="relative mb-3">
+                          {/*<div className="relative mb-3">
                               <input
                                   type="text"
                                   placeholder="Card number"
@@ -123,9 +123,9 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                       <HiQuestionMarkCircle className="w-5 h-5 absolute top-1/2 -translate-y-1/2 right-3 bg-white" />
                                   </Link>
                               </div>
-                          </div>
+                          </div>*/}
                           <div className="bold text-lg mt-10 mb-5">
-                              Or make an installment
+                              {__('client.choose_payment_method',localizations)}
                           </div>
                           <div className="grid grid-cols-2 gap-3 mb-5">
                               <button
@@ -145,11 +145,11 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                   <img src="/client/assets/images/icons/6.png" alt="" />
                               </button>
                           </div>
-                          <MainButton onclick={makeOrder}> Make a payment now</MainButton>
+                          <MainButton onclick={makeOrder}> {__('client.make_payment_btn',localizations)}</MainButton>
                       </div>
                       <Link className="bold text-center" href={route('client.cart.index')}>
                           <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
-                          Back to carts
+                          {__('client.back_to_cart',localizations)}
                       </Link>
                   </div>
                   <div
@@ -157,8 +157,8 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
         after:left-full after:top-0 after:bg-white after:w-full after:xl:block after:hidden after:h-full after:min-w-lg "
                   >
                       <div className="mb-10">
-                          <div className="text-3xl bold mb-3">Summary</div>
-                          <div className="opacity-50 mb-3 ">({cart.count} items)</div>
+                          <div className="text-3xl bold mb-3">{__('client.summary',localizations)}</div>
+                          <div className="opacity-50 mb-3 ">({cart.count} {__('client.cart_items',localizations)})</div>
                           <div className="h-72 overflow-y-scroll pr-5 my-5 scrollbar">
                               {cart.products.map((item, index) => {
                                   return (
@@ -177,9 +177,9 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                               <div>
                                                   <div className="bold mb-1">{item.product.title} </div>
                                                   <div className="text-sm opacity-50 mb-1">
-                                                      Color: {item.product.attributes.color}
+                                                      {__('client.color',localizations)}: {item.product.attributes.color}
                                                       <br />
-                                                      Quantity: {item.quantity}
+                                                      {__('client.quantity',localizations)}: {item.quantity}
                                                   </div>
                                               </div>
                                           </div>
@@ -206,9 +206,9 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                                   <div className="bold mb-1">{item.collection.title} </div>
                                                   <div className=" mb-1">furniture set </div>
                                                   <div className="text-sm opacity-50 mb-1">
-                                                      Color: {item.collection.attributes.label}
+                                                      {__('client.color',localizations)}: {item.collection.attributes.label}
                                                       <br />
-                                                      Quantity: {item.quantity}
+                                                      {__('client.quantity',localizations)}: {item.quantity}
                                                   </div>
                                               </div>
                                           </div>
@@ -219,16 +219,16 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                           </div>
 
                           <div className="flex items-center justify-between border-b border-t border-zinc-200  py-3 mb-5">
-                              <div>Subtotal</div>
+                              <div>{__('client.subtotal',localizations)}</div>
                               <div className="bold text-lg">₾ {cart.total}</div>
                           </div>
                           <div className="flex items-center justify-between  mb-5">
-                              <div>Shipping</div>
+                              <div>{__('client.shipping',localizations)}</div>
                               <div className="bold text-lg">₾ {shipping.ship_price}</div>
                           </div>
                       </div>
                       <div className="flex items-center justify-between  mb-5">
-                          <div className="bold text-lg">Total</div>
+                          <div className="bold text-lg">{__('client.total',localizations)}</div>
                           <div className="bold text-xl">₾ {parseFloat(cart.total) + parseFloat(shipping.ship_price)}</div>
                       </div>
                       <div>{promocode ? 'discount %' + promocode.reward :null}</div>

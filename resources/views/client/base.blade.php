@@ -69,6 +69,22 @@
             return rows;
         };
 
+        function translateDate(date){
+            let date_arr = date.split('  ');
+
+            let locale = '{{app()->getLocale()}}';
+            let month = date_arr[1];
+            console.warn(date_arr);
+            let months = {
+                en: {January: "January",February: "February",March: "March",April: "April",May:"May",June:"June",July:"July",August:"August",September:"September",October:"October",November:"November",December:"December"},
+                ge: {January: "იანვარი",February: "თებერვალი",March: "მარტი",April: "აპრილი",May:"მაისი",June:"ივნისი",July:"ივლისი",August:"აგვისტო",September:"სექტემბერი",October:"ოქტომბერი",November:"ნოემბერი",December:"დექემბერი"}
+            };
+            let loc_month = months[locale][month];
+
+            date_arr[1] = loc_month;
+            return date_arr.join(' ');
+        }
+
     </script>
 </head>
 <body>

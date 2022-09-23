@@ -173,10 +173,7 @@ const Home = ({ seo }) => {
                             </div>
                             <p className="opacity-50">
                                 {/* New and trending products for best price */}
-                                {__(
-                                    "client.home_special_price_text",
-                                    sharedData
-                                )}
+                                {__("client.home_special_price_text", sharedData)}
                             </p>
                         </div>
                     </div>
@@ -198,20 +195,14 @@ const Home = ({ seo }) => {
                                 provide all the furniture that you can easily and quickly get in
                                 love with */}
                                 {renderHTML(
-                                    __(
-                                        "client.home_getdiscounts_text",
-                                        sharedData
-                                    ).replace(/(?:\r\n|\r|\n)/g, "<br>")
+                                    __("client.home_getdiscounts_text", sharedData).replace(/(?:\r\n|\r|\n)/g, "<br>")
                                 )}
                             </p>
                             <div className="w-52">
                                 <Link href={route("client.registration.index")}>
                                     <MainButton reverse>
                                         {/* Create account */}
-                                        {__(
-                                            "client.button_create_account",
-                                            sharedData
-                                        )}
+                                        {__("client.button_create_account", sharedData)}
                                     </MainButton>
                                 </Link>
                             </div>

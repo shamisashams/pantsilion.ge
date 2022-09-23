@@ -67,31 +67,31 @@ const RegularCabinet = ({seo}) => {
                   </div>
                   <div className="text-center md:pt-52 pb-32  mx-auto">
                       <div className="sm:w-96 pr-5 max-w-md mx-auto">
-                          <div className="text-3xl bold mb-7">Personal information</div>
+                          <div className="text-3xl bold mb-7">{__('client.personal_info',localizations)}</div>
 
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                              <label className="opacity-50">Name</label>
+                              <label className="opacity-50">{__('client.form_name',localizations)}</label>
                               <input type="text " value="Name" name="name" className="text-right " value={values.name} onChange={handleChange} />
                           </div>
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                              <label className="opacity-50">Surname</label>
+                              <label className="opacity-50">{__('client.form_surname',localizations)}</label>
                               <input type="text " value="Surname" name="surname" className="text-right " value={values.surname} onChange={handleChange} />
                           </div>
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                              <label className="opacity-50">ID</label>
+                              <label className="opacity-50">{__('client.form_id',localizations)}</label>
                               <input type="text " value="01012022011" name="id_number" className="text-right " value={values.id_number} onChange={handleChange} />
                           </div>
 
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                              <label className="opacity-50">Address</label>
+                              <label className="opacity-50">{__('client.form_address',localizations)}</label>
                               <input type="text " value="+99500000000" name="address" className="text-right " value={values.address} onChange={handleChange} />
                           </div>
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                              <label className="opacity-50">Phone</label>
+                              <label className="opacity-50">{__('client.form_phone',localizations)}</label>
                               <input type="text " value="+99500000000" name="phone" className="text-right " value={values.phone} onChange={handleChange} />
                           </div>
                           <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                              <label className="opacity-50">Email Address</label>
+                              <label className="opacity-50">{__('client.form_email',localizations)}</label>
                               <input type="text " value="+99500000000" name="email" className="text-right " value={values.email} onChange={handleChange} />
                           </div>
                           {/*<EditInput

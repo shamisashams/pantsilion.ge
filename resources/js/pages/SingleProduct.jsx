@@ -55,7 +55,7 @@ const SingleProduct = ({ seo }) => {
     const [productColors, setProductColors] = useState([]);
 
     const [productSizes, setProductSizes] = useState({});
-    const [selectedSize, setSelectedSize] = useState(" select size ");
+    const [selectedSize, setSelectedSize] = useState(__('client.select_size',localizations));
 
     const [categoryColorImg, setCategoryColorImg] = useState(
         product.colors.length > 0
@@ -66,7 +66,7 @@ const SingleProduct = ({ seo }) => {
     );
 
     const [productPrice, setProductPrice] = useState(
-        `from ₾${product.min_price}`
+        `${__("client.from", localizations)} ₾${product.min_price}`
     );
     const [oldPrice, setOldPrice] = useState(``);
 
@@ -190,6 +190,7 @@ const SingleProduct = ({ seo }) => {
             category_last.size === 1 &&
             category_last.color === 0
         ) {
+
             let sizes = [];
             Object.keys(product_config.size).map((key2, index3) => {
                 product_config.size[key2].variants.map((item, index) => {
@@ -212,6 +213,7 @@ const SingleProduct = ({ seo }) => {
                     variants: item.variants,
                 };
             });
+            console.log(result)
             setProductSizes(result);
         }
     }
@@ -221,8 +223,8 @@ const SingleProduct = ({ seo }) => {
 
         setProductImages(product_images);
         setProductVideo(product.video ? product.video.path : null);
-        setProductPrice(`from ₾${product.min_price}`);
-        setSelectedSize(" select size ");
+        setProductPrice(`${__("client.from", localizations)} ₾${product.min_price}`);
+        setSelectedSize(__('client.select_size',localizations));
         setProductId(0);
         setOldPrice("");
         setProductStocksOver(stocks ?? []);
@@ -321,10 +323,15 @@ const SingleProduct = ({ seo }) => {
         initializeAttributes();
     };
 
+    window.onpopstate  = function() {
+
+        initializeAttributes();
+    }
+
     function selectSize(id) {
         setProductImages(product_images);
         setProductVideo(product.video ? product.video.path : null);
-        setProductPrice(`from ₾${product.min_price}`);
+        setProductPrice(`${__("client.from", localizations)} ₾${product.min_price}`);
         setProductStocks(stocks[cities[0].id] ?? []);
         setProductStocksOver(stocks ?? []);
         setProductId(0);
@@ -333,7 +340,7 @@ const SingleProduct = ({ seo }) => {
         let colors_ = [];
         let selected_size = productSizes[id];
         console.log(selected_size);
-        setSelectedSize(selected_size.label + " cm");
+        setSelectedSize(selected_size.label);
         selected_size.variants.map((item, index) => {
             Object.keys(product_config.color).map((key3, index) => {
                 if (product_config.color[key3].variants.includes(item)) {
@@ -478,9 +485,9 @@ const SingleProduct = ({ seo }) => {
         <Layout seo={seo}>
             <>
                 <div className="wrapper  py-40">
-                    <Link className="bold text-center" href="/cart">
+                    <Link className="bold text-center" href={route('client.home.index')}>
                         <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
-                        Back to carts
+                        {__("client.product_back", localizations)}
                     </Link>
                     <div className="flex flex-col xl:flex-row mt-7 mb-20 justify-start items-start">
                         <div className="max-w-2xl xl:mr-20">
@@ -497,7 +504,7 @@ const SingleProduct = ({ seo }) => {
                         </div>
                         <div className="max-w-xl xl:mt-0 mt-20">
                             <div className="opacity-50">
-                                product code # {productCode}
+                                {__("client.product_code", localizations)} # {productCode}
                             </div>
                             <div className="bold text-4xl my-3">
                                 {product.title}
@@ -519,7 +526,7 @@ const SingleProduct = ({ seo }) => {
                                 ) : null}
                                 {Object.keys(productStocksOver).length === 0 ? (
                                     <div className="inline-block">
-                                        Out of stock
+                                        {__('client.not_in_stock',localizations)}
                                     </div>
                                 ) : null}
                             </div>
@@ -535,10 +542,7 @@ const SingleProduct = ({ seo }) => {
                             </div>
                             {product.installment_price ? (
                                 <p>
-                                    {__(
-                                        "client.product_installment",
-                                        localizations
-                                    )}
+                                    {__("client.product_installment", localizations)}
                                     :{" "}
                                     <span className="bold text-custom-red pl-2">
                                         {product.installment_price} GEL
@@ -615,17 +619,14 @@ const SingleProduct = ({ seo }) => {
                                 </div>
                             ) : null}
                             <div className="bold mb-4">
-                                {__(
-                                    "client.product_specification",
-                                    localizations
-                                )}
+                                {__("client.product_specification", localizations)}
                             </div>
                             {category_last.size === 1 ? (
                                 <div className="">
                                     <p className="opacity-50 text-sm inline-block mr-2">
-                                        size:
+                                        {__("client.size", localizations)}:
                                         <span className="pl-2">
-                                            (length x height x width x depth)
+                                            {__("client.dimensions", localizations)}
                                         </span>
                                     </p>
                                     {/*<select id="choose_size">
@@ -713,10 +714,7 @@ const SingleProduct = ({ seo }) => {
                             {category_last.color === 1 ? (
                                 <div className=" my-5 ">
                                     <p className="whitespace-nowrap opacity-50">
-                                        {__(
-                                            "client.product_color",
-                                            localizations
-                                        )}
+                                        {__("client.product_color", localizations)}
                                         :
                                     </p>
                                     <div
@@ -879,7 +877,7 @@ const SingleProduct = ({ seo }) => {
                                                     <div>
                                                         <IoIosCheckmarkCircleOutline className="w-6 h-6 mb-1 text-green-500 inline-block mr-1" />
                                                         <div className="inline-block ">
-                                                            In stock
+                                                            {__('client.in_stock',localizations)}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -887,7 +885,7 @@ const SingleProduct = ({ seo }) => {
                                         }
                                     )
                                 ) : (
-                                    <div>out of stock</div>
+                                    <div>{__('client.not_in_stock',localizations)}</div>
                                 )}
                                 {/*<div className="flex w-full justify-between border-b pb-3 mb-3">
                                   <div>
@@ -925,10 +923,7 @@ const SingleProduct = ({ seo }) => {
                     {product.colors.length > 0 ? (
                         <div className="w-full my-10 mb-20">
                             <div className="bold text-lg mb-5">
-                                {__(
-                                    "client.furniture_customize",
-                                    localizations
-                                )}
+                                {__("client.furniture_customize", localizations)}
                             </div>
                             <div className="w-full h-96 mb-5">
                                 <img

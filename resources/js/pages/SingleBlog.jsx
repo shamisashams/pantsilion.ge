@@ -11,7 +11,7 @@ import ProductBox from "../components/ProductBox";
 import Layout from "@/Layouts/Layout";
 
 const SingleBlog = ({seo}) => {
-    const {blog, related_blogs} = usePage().props;
+    const {blog, related_blogs, localizations} = usePage().props;
     console.log(blog);
 
     const renderHTML = (rawHTML) =>
@@ -24,11 +24,11 @@ const SingleBlog = ({seo}) => {
           <div className="wrapper py-40">
               <Link className="bold text-center" href={route('client.blog.index')}>
                   <BsArrowLeft className="inline-block mr-2 w-5 h-5" />
-                  Back to Blog
+                  {__('client.back_to_blog',localizations)}
               </Link>
               <div className="max-w-6xl">
                   <img className="my-5" src={blog.latest_image ? blog.latest_image.file_full_url :null} alt="" />
-                  <div className="opacity-50 tetx-sm">{blog.created_at}</div>
+                  <div className="opacity-50 tetx-sm">{translateDate(blog.created_at)}</div>
                   <div className="text-3xl bold mt-8 mb-5">
                       {blog.title}
                   </div>
@@ -136,7 +136,7 @@ const SingleBlog = ({seo}) => {
                   </p>*/}
               </div>
               <div className="mt-10">
-                  <div className="bold text-lg mb-7">Related posts</div>
+                  <div className="bold text-lg mb-7">{__('client.related_posts', localizations)}</div>
                   <BlogSlider blogs={related_blogs} />
               </div>
           </div>

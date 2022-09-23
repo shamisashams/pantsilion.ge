@@ -488,7 +488,23 @@
                     </div>
 
 
+                    <div class="main-content-label mg-b-5">
+                        @lang('admin.blog_products')
+                    </div>
+                    <div class="form-group">
+                        <form action="{{route('product.add-to-set',$model)}}" method="post">
+                            @csrf
+                            <ul id="selected_products">
 
+                            </ul>
+                            <button>add</button>
+                        </form>
+
+                        <input class="form-control" type="text" id="search_product" name="term" value="" placeholder="Add search products">
+                        <ul id="product_list">
+
+                        </ul>
+                    </div>
 
 
 
@@ -893,6 +909,53 @@
             });
         });
 
+
+        let interval;
+
+        $('#search_product').keyup(function (e){
+            let val = $(this).val();
+
+
+            clearInterval(interval);
+            interval = setTimeout(function () {
+                console.log(val.length);
+                if (val.length > 0) {
+                    $.ajax({
+                        url: '{{route('collection.product.search.ajax')}}',
+                        type: 'post',
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            term: val,
+                            color: $('input[name="color[]"]:checked').val()
+                        },
+                        beforeSend: function (){
+
+                        },
+                        success: function (data){
+                            console.log(data);
+                            $('#product_list').html(data);
+                        }
+                    });
+                } else {
+                    $('#product_list').html('');
+                }
+            }, 600);
+        })
+
+        $(document).on('click','[data-sel_product]',function (e){
+            let id = $(this).data('sel_product');
+            let title =  $(this).text();
+            let inp = `<li>
+                    <span>${title}</span>
+                        <input type="hidden" name="product_id[]" value="${id}">
+<a href="javascript:;" class="delete_product">delete</a>
+                        </li>`;
+            $('#selected_products').append(inp)
+        });
+
+        $(document).on('click','.delete_product',function (e){
+            $(this).parents('li').remove();
+        });
 
     </script>
 

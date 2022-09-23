@@ -116,10 +116,10 @@ const OrderDetails = ({ seo }) => {
                         <div className=" mx-auto">
                             <div className="mb-12">
                                 <div className="text-3xl bold mb-4 ">
-                                    Order ID
+                                    {__('client.order_id',localizations)}
                                 </div>
                                 <div className="mb-4">
-                                    Data:{" "}
+                                    {__('client.order_date',localizations)}:{" "}
                                     <span className="opacity-50">
                                         {Moment(
                                             order.created_at
@@ -148,25 +148,25 @@ const OrderDetails = ({ seo }) => {
                                     <table className=" orderHistoryTable details text-sm whitespace-nowrap  text-center ">
                                         <tr>
                                             <td className="opacity-50 ">
-                                                Product name
+                                                {__('client.order_product_name',localizations)}
                                             </td>
                                             <td className="opacity-50 ">
-                                                Quantity
+                                                {__('client.order_product_qty',localizations)}
                                             </td>
                                             <td className="opacity-50 ">
-                                                Price
+                                                {__('client.order_product_price',localizations)}
                                             </td>
                                             <td className="opacity-50 ">
-                                                Total
+                                                {__('client.order_product_total',localizations)}
                                             </td>
                                             <td className="opacity-50 ">
-                                                Color
+                                                {__('client.order_product_color',localizations)}
                                             </td>
                                             <td className="opacity-50 ">
-                                                Size
+                                                {__('client.order_product_size',localizations)}
                                             </td>
                                             <td className="opacity-50 ">
-                                                Material
+                                                {__('client.order_product_material',localizations)}
                                             </td>
                                         </tr>
 
@@ -283,7 +283,7 @@ const OrderDetails = ({ seo }) => {
                                   <button className="bold mx-2 ">2</button>
                                   <button className="bold mx-2 ">3</button>*/}
 
-                                        <Link href={route('client.invoice',order.id)}>invoice</Link>
+                                        <Link href={route('client.invoice',order.id)}>{__('client.order_invoice',localizations)}</Link>
                                     </div>
                                 </div>{" "}
                             </div>
