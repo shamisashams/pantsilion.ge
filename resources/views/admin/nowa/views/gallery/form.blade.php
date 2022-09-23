@@ -41,7 +41,7 @@
 
     <!-- /row -->
     <!-- row -->
-    <div class="row">
+    {{--<div class="row">
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -70,9 +70,66 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
     <!-- row closed -->
 
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h6 class="card-title mb-1">@lang('admin.gallery')</h6>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="ckbox">
+                            <input type="checkbox" name="status"
+                                   value="true" {{$gallery->status ? 'checked' : ''}}>
+                            <span>{{__('admin.status')}}</span>
+                        </label>
+                    </div>
+                    <div class="input-images"></div>
+                    @if ($errors->has('images'))
+                        <span class="help-block">
+                                            {{ $errors->first('images') }}
+                                        </span>
+                    @endif
+
+
+
+                    <div class="image-uploader">
+                        <div class="uploaded">
+
+                            @foreach($gallery->files as $item)
+
+                                <div class="uploaded-image">
+
+                                    <img src="{{asset($item->getFileUrlAttribute())}}" alt="" />
+
+                                    <div style="position: absolute;z-index: 10;background-color: #fff">
+                                        <input type="hidden" name="old_images[]"  value="{{$item->id}}">
+                                        <label class="ckbox"><input name="span[]" value="{{$item->id}}" type="checkbox" {{$item->span ? 'checked':''}}> <span>Span</span></label>
+
+                                        <button type="button" class="btn" data-rm_img="{{$item->id}}">remove</button>
+                                    </div>
+                                </div>
+
+
+
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        {!! Form::submit($gallery->created_at ? __('admin.update') : __('admin.create'),['class' => 'btn btn-primary']) !!}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- /row -->
 
     <!-- row -->
@@ -134,13 +191,17 @@
                 })
             })
             $('.input-images').imageUploader({
-                preloaded: imagedata,
+                //preloaded: imagedata,
                 imagesInputName: 'images',
                 preloadedInputName: 'old_images'
             });
         } else {
             $('.input-images').imageUploader();
         }
+
+        $('[data-rm_img]').click(function (e){
+            $(this).parents('.uploaded-image').remove();
+        })
     </script>
 
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
