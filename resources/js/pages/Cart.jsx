@@ -96,9 +96,13 @@ const Cart = ({seo}) => {
                                       <div>
                                           <div className="bold mb-1">{item.product.title} </div>
                                           <div className="text-sm opacity-50 mb-1">
-                                              Color: {item.product.attributes.color}
+                                              {item.product.attributes.map((attr,ind) => {
+
+                                                  return <div>{attr.attribute.name} : {attr.option}</div>
+                                              })}
+                                              {/*Color: {item.product.attributes.color}
                                               <br />
-                                              Size: {item.product.attributes.size}
+                                              Size: {item.product.attributes.size}*/}
                                           </div>
                                           {/*<Link
                                               href="/"

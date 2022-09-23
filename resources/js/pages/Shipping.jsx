@@ -275,14 +275,11 @@ const Shipping = ({ seo }) => {
                                                         {item.product.title}{" "}
                                                     </div>
                                                     <div className="text-sm opacity-50 mb-1">
-                                                        Color:{" "}
-                                                        {
-                                                            item.product
-                                                                .attributes
-                                                                .color
-                                                        }
-                                                        <br />
-                                                        Quantity:{" "}
+                                                        {item.product.attributes.map((attr,ind) => {
+
+                                                            return <div>{attr.attribute.name} : {attr.option}</div>
+                                                        })}
+                                                        {__('client.quantity',localizations)}:{" "}
                                                         {item.quantity}
                                                     </div>
                                                 </div>

@@ -186,8 +186,10 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                               <div>
                                                   <div className="bold mb-1">{item.product.title} </div>
                                                   <div className="text-sm opacity-50 mb-1">
-                                                      {__('client.color',localizations)}: {item.product.attributes.color}
-                                                      <br />
+                                                      {item.product.attributes.map((attr,ind) => {
+
+                                                          return <div>{attr.attribute.name} : {attr.option}</div>
+                                                      })}
                                                       {__('client.quantity',localizations)}: {item.quantity}
                                                   </div>
                                               </div>
