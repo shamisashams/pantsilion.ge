@@ -52,9 +52,65 @@ const SingleProduct = ({ seo }) => {
 
     const [productId, setProductId] = useState(0);
 
-    const [productColors, setProductColors] = useState([]);
 
-    const [productSizes, setProductSizes] = useState({});
+    let initialColors = [];
+    if (
+        category_last.corner === 0 &&
+        category_last.size === 0 &&
+        category_last.color === 1
+    ) {
+        initialColors = [];
+        Object.keys(product_config.color).map((key2, index3) => {
+            product_config.color[key2].variants.map((key4, index3) => {
+                initialColors.push({
+                    id: key4,
+                    label: product_config.color[key2].label,
+                    color: product_config.color[key2].color,
+                });
+            });
+        });
+
+
+    }
+
+    const [productColors, setProductColors] = useState(initialColors);
+
+
+
+    let initialSizes = {};
+    if (
+        category_last.corner === 0 &&
+        category_last.size === 1 &&
+        category_last.color === 0
+    ) {
+
+        let sizes = [];
+        Object.keys(product_config.size).map((key2, index3) => {
+            product_config.size[key2].variants.map((item, index) => {
+                sizes.push({
+                    id: item,
+                    label: product_config.size[key2].value,
+                    variants: [],
+                });
+            });
+            //product_config.size[key2].variants = id;
+            //product_config.size[key2].variants.remove(item);
+
+            //delete product_config.size[key2];
+        });
+        initialSizes = {};
+
+        sizes.map((item, index) => {
+            initialSizes[item.id] = {
+                label: item.label,
+                variants: item.variants,
+            };
+        });
+
+    }
+
+    const [productSizes, setProductSizes] = useState(initialSizes);
+
     const [selectedSize, setSelectedSize] = useState(__('client.select_size',localizations));
 
     const [categoryColorImg, setCategoryColorImg] = useState(
@@ -214,7 +270,9 @@ const SingleProduct = ({ seo }) => {
                 };
             });
             console.log(result)
+            //alert(44);
             setProductSizes(result);
+            console.warn(productSizes)
         }
     }
 
@@ -323,10 +381,11 @@ const SingleProduct = ({ seo }) => {
         initializeAttributes();
     };
 
-    window.onpopstate  = function() {
+   /* window.onpopstate  = function() {
+
 
         initializeAttributes();
-    }
+    }*/
 
     function selectSize(id) {
         setProductImages(product_images);
