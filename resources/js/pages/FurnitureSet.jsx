@@ -137,6 +137,15 @@ const FurnitureSet = ({seo}) => {
                           {renderHTML(collection.description)}
                           <div className="my-8">
                               {collection.products.map((item, index) => {
+                                  let image =  null;
+
+                                  if(item.latest_image){
+                                      image = item.latest_image.file_full_url;
+                                  } else {
+                                      if(item.parent.latest_image){
+                                          image = item.parent.latest_image.file_full_url
+                                      }
+                                  }
                                   return (
                                       <div
                                           key={index}
@@ -147,7 +156,7 @@ const FurnitureSet = ({seo}) => {
                                           <div className=" flex items-center">
                                               <div className="w-20 h-20 mr-3 shrink-0">
                                                   <img
-                                                      src={item.latest_image ? item.latest_image.file_full_url :null}
+                                                      src={image}
                                                       className="w-full h-full object-cover"
                                                       alt=""
                                                   />

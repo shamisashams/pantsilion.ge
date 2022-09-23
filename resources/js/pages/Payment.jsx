@@ -161,6 +161,15 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                           <div className="opacity-50 mb-3 ">({cart.count} {__('client.cart_items',localizations)})</div>
                           <div className="h-72 overflow-y-scroll pr-5 my-5 scrollbar">
                               {cart.products.map((item, index) => {
+                                  let image =  null;
+
+                                  if(item.product.latest_image){
+                                      image = item.product.latest_image.file_full_url;
+                                  } else {
+                                      if(item.product.parent.latest_image){
+                                          image = item.product.parent.latest_image.file_full_url
+                                      }
+                                  }
                                   return (
                                       <div
                                           key={index}
@@ -169,7 +178,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                           <div className=" flex items-start">
                                               <div className="w-20 h-20 mr-3 shrink-0">
                                                   <img
-                                                      src={item.product.latest_image ?  item.product.latest_image.file_full_url :null}
+                                                      src={image}
                                                       className="w-full h-full object-cover"
                                                       alt=""
                                                   />

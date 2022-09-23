@@ -68,6 +68,16 @@ const Cart = ({seo}) => {
                           </Link>
                       </div>
                       {cart.products.map((item, index) => {
+                          let image =  null;
+
+                          if(item.product.latest_image){
+                              image = item.product.latest_image.file_full_url;
+                          } else {
+                              if(item.product.parent.latest_image){
+                                  image = item.product.parent.latest_image.file_full_url
+                              }
+                          }
+
                           return (
                               <div
                                   key={index}
@@ -78,7 +88,7 @@ const Cart = ({seo}) => {
                                   <div className="shrink-0 md:w-96 w-80 flex items-center">
                                       <div className="w-32 h-32 mr-5 shrink-0">
                                           <img
-                                              src={item.product.latest_image ?  item.product.latest_image.file_full_url :null}
+                                              src={image}
                                               className="w-full h-full object-cover"
                                               alt=""
                                           />
