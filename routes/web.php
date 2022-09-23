@@ -141,6 +141,8 @@ Route::prefix('{locale?}')
                 Route::put('collection/coordinates/update',[\App\Http\Controllers\Admin\CollectionController::class,'coordinatesUpdate'])->name('collection.update.coordinates');
                 Route::get('collection/product/{product}/remove',[\App\Http\Controllers\Admin\CollectionController::class,'removeProduct'])->name('collection.destroy.product');
 
+                Route::post('collection/product/search',[\App\Http\Controllers\Admin\CollectionController::class,'getProducts'])->name('collection.product.search.ajax');
+                Route::post('collection/{product_set}/product/add',[\App\Http\Controllers\Admin\CollectionController::class,'addProducts'])->name('product.add-to-set');
             });
         });
 

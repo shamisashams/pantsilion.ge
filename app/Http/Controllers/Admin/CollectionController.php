@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SliderRequest;
 use App\Models\Attribute;
 use App\Models\City;
+use App\Models\Product;
 use App\Models\ProductProductSet;
 use App\Models\ProductSet;
 use App\Models\Slider;
@@ -15,6 +16,7 @@ use App\Repositories\Eloquent\CollectionRepository;
 use App\Repositories\Eloquent\StockRepository;
 use App\Repositories\SliderRepositoryInterface;
 use App\Rules\ColorMatchCollection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
@@ -183,6 +185,8 @@ class CollectionController extends Controller
 
 
 
+
+
         return redirect(locale_route('collection.index', $productSet->id))->with('success', __('admin.update_successfully'));
     }
 
@@ -217,5 +221,43 @@ class CollectionController extends Controller
 
     public function uploadCropped(Request $request, $locale, ProductSet $productSet){
         $this->collectionRepository->uploadCropped($request, $productSet->id);
+    }
+
+
+    public function getProducts(Request $request){
+        $params = $request->all();
+        if(isset($params['term'])){
+            $query = Product::where(function ($tQ) use ($params){
+                $tQ->whereTranslationLike('title', '%'.$params['term'].'%')
+                    ->orWhereTranslationLike('description', '%'.$params['term'].'%');
+            });
+
+        }
+        $query->whereHas('attribute_values',function (Builder $aq) use ($params){
+            $aq->where('integer_value',$params['color']);
+        });
+        $query->where('parent_id','!=',null);
+
+        $data = $query->limit(10)->get();
+
+        $li = '';
+        foreach ($data as $item){
+            $li .= '<li>';
+            $li .= '<a href="javascript:void(0)" data-sel_product="'. $item->id .'">';
+            $li .= $item->title;
+            $li .= ' | ';
+            $li .= $item->attribute_values()->first()->attribute->code;
+            $li .= ' : ';
+            $li .= $item->attribute_values()->first()->attribute->options()->where('id',$params['color'])->first()->label;
+            $li .= '</a>';
+            $li .= '</li>';
+        }
+
+        return $li;
+    }
+
+    public function addProducts($locale,ProductSet $productSet,Request $request){
+
+        $this->collectionRepository->model->products()->sync(isset($saveData['product_id']) ? $saveData['product_id']:[]);
     }
 }
