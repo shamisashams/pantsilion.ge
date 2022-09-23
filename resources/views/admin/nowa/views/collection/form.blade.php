@@ -487,17 +487,15 @@
                         <h6 class="card-title mb-1">@lang('admin.products_collection')</h6>
                     </div>
 
+                    @if($model->created_at)
 
-                    <div class="main-content-label mg-b-5">
-                        @lang('admin.blog_products')
-                    </div>
                     <div class="form-group">
                         <form action="{{route('product.add-to-set',$model)}}" method="post">
                             @csrf
                             <ul id="selected_products">
 
                             </ul>
-                            <button>add</button>
+                            <button class="btn btn-secondary">add</button>
                         </form>
 
                         <input class="form-control" type="text" id="search_product" name="term" value="" placeholder="Add search products">
@@ -506,7 +504,7 @@
                         </ul>
                     </div>
 
-
+                    @endif
 
 
                     <table class="table">
