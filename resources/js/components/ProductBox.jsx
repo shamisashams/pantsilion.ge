@@ -9,6 +9,8 @@ const ProductBox = (props) => {
   const [favorite, setFavorite] = useState(false);
   const [addToCart, setAddToCart] = useState(false);
 
+  const {localizations} = usePage().props;
+
   function addToWishlist(id){
       Inertia.post(route('client.favorite.add'), {id:id});
   }
@@ -71,7 +73,7 @@ const ProductBox = (props) => {
             ₾{props.oldPrice}
           </span>{" "}
           <span className={props.oldPrice ? "text-custom-red" : ""}>
-            ₾{props.price}
+            {__("client.from", localizations)} ₾{props.price}
           </span>
         </div>
       </div>
