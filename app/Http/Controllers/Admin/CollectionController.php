@@ -230,6 +230,8 @@ class CollectionController extends Controller
             $query = Product::where(function ($tQ) use ($params){
                 $tQ->whereTranslationLike('title', '%'.$params['term'].'%')
                     ->orWhereTranslationLike('description', '%'.$params['term'].'%');
+                $tQ->orWhere('slug','like','%'.$params['term'].'%');
+                $tQ->orWhere('id','like','%'.$params['term'].'%');
             });
 
         }
@@ -244,11 +246,11 @@ class CollectionController extends Controller
         foreach ($data as $item){
             $li .= '<li>';
             $li .= '<a href="javascript:void(0)" data-sel_product="'. $item->id .'">';
-            $li .= $item->title;
+            $li .= '#'.$item->id .' <b>title</b>:'.$item->title .' <b>slug:</b> '.$item->slug.' <b>code:</b> '. $item->code;
             $li .= ' | ';
-            $li .= $item->attribute_values()->first()->attribute->code;
+            $li .= $item->attribute_values()->where('integer_value',$params['color'])->first()->attribute->code;
             $li .= ' : ';
-            $li .= $item->attribute_values()->first()->attribute->options()->where('id',$params['color'])->first()->label;
+            $li .= $item->attribute_values()->where('integer_value',$params['color'])->first()->attribute->options()->where('id',$params['color'])->first()->label;
             $li .= '</a>';
             $li .= '</li>';
         }
