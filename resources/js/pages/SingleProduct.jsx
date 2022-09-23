@@ -79,9 +79,11 @@ const SingleProduct = ({ seo }) => {
 
     let initialSizes = {};
     if (
-        category_last.corner === 0 &&
+        (category_last.corner === 0 &&
         category_last.size === 1 &&
-        category_last.color === 0
+        category_last.color === 0) || (category_last.corner === 0 &&
+            category_last.size === 1 &&
+            category_last.color === 1)
     ) {
 
         let sizes = [];
