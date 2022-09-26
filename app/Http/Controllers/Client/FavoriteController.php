@@ -50,12 +50,64 @@ class FavoriteController extends Controller
 
         }
 
+
+        $wishlist = auth()->user()->wishlist()->with(['product.attribute_values','product.latestImage','collection.latestImage','collection.colors.attribute.translation'])->get();
+
+
+
+        foreach ($wishlist as $_item){
+            if($_item->product){
+                $result = [];
+
+                foreach ($_item->product->attribute_values as $key => $item){
+                    $options = $item->attribute->options;
+                    $value = '';
+                    foreach ($options as $option){
+                        if($item->attribute->type == 'select'){
+                            if($item->integer_value == $option->id) {
+                                $result[$key]['attribute']['code'] = $item->attribute->code;
+                                $result[$key]['attribute']['name'] = $item->attribute->name;
+                                if($item->attribute->code == 'size'){
+
+                                    $result[$key]['option'] = $option->value;
+                                }
+                                elseif ($item->attribute->code == 'color'){
+                                    $result[$key]['option'] = $option->color;
+                                }
+                                else {
+                                    $result[$key]['option'] = $option->label;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+                $_item->product['attributes'] = $result;
+            }
+
+            if ($_item->collection){
+                $arr = [
+                    'attribute' => [
+                        'code' => $_item->collection->colors[0]->attribute->code,
+                        'name' => $_item->collection->colors[0]->attribute->name,
+                    ],
+                    'option' => $_item->collection->colors[0]->color,
+                ];
+
+                $_item->collection['attributes'] = [$arr];
+            }
+        }
+
+
+            //dd($wishlist);
         //dd($products);
         return Inertia::render('Favorites',[
             'products' => $products,
             'images' => $images,
             'page' => $page,
-            'wishlist' => auth()->user()->wishlist()->with(['product','product.latestImage','collection','collection.latestImage'])->get(),
+            'wishlist' => $wishlist,
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,

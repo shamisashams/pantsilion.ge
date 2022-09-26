@@ -77,19 +77,23 @@ const Favorites = ({seo}) => {
                               <div>
                                   <div className="bold mb-1">{item.product.title} </div>
                                   <div className="text-sm opacity-50 mb-1">
-                                      Color: {item.color}
+                                      {item.product.attributes.map((attr,ind) => {
+
+                                          return <div>{attr.attribute.name} : {attr.option}</div>
+                                      })}
+                                      {/*Color: {item.color}
                                       <br />
-                                      Size: {item.size}
+                                      Size: {item.size}*/}
                                   </div>
-                                  <Link href="/" className=" text-sm text-sky-500 hover:underline">
+                                  {/*<Link href="/" className=" text-sm text-sky-500 hover:underline">
                                       Edit
-                                  </Link>
+                                  </Link>*/}
                               </div>
                           </div>
 
                           <Quantity item={item.product} />
                           <div className="w-28 text-lg bold whitespace-nowrap mx-4">
-                              ₾ {item.product.price}
+                              ₾ {item.product.min_price}
                           </div>
 
                           <button onClick={() => {
@@ -132,9 +136,13 @@ const Favorites = ({seo}) => {
                               <div>
                                   <div className="bold mb-1">{item.collection.title} </div>
                                   <div className="text-sm opacity-50 mb-1">
-                                      Color: {item.color}
+                                      {item.collection.attributes.map((attr,ind) => {
+
+                                          return <div>{attr.attribute.name} : {attr.option}</div>
+                                      })}
+                                      {/*Color: {item.color}
                                       <br />
-                                      Size: {item.size}
+                                      Size: {item.size}*/}
                                   </div>
                                   <Link href="/" className=" text-sm text-sky-500 hover:underline">
                                       furniture set
