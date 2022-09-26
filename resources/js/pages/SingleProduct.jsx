@@ -48,7 +48,11 @@ const SingleProduct = ({ seo }) => {
         product.video ? product.video.path : null
     );
 
-    const [toCart, setToCart] = useState(product);
+    let cartProduct = product;
+    if (product_config.variant_count == 1){
+        cartProduct = product_config.last_variant;
+    }
+    const [toCart, setToCart] = useState(cartProduct);
 
     const [productId, setProductId] = useState(0);
 
@@ -149,7 +153,13 @@ const SingleProduct = ({ seo }) => {
 
     const [productSizes, setProductSizes] = useState(initialSizes);
 
-    const [selectedSize, setSelectedSize] = useState(__('client.select_size',localizations));
+
+    let selectedSizeInitial = __('client.select_size',localizations);
+    if (product_config.variant_count == 1){
+        selectedSizeInitial = product_config.last_variant.attributes.size.value;
+    }
+
+    const [selectedSize, setSelectedSize] = useState(selectedSizeInitial);
 
     const [categoryColorImg, setCategoryColorImg] = useState(
         product.colors.length > 0
@@ -159,10 +169,38 @@ const SingleProduct = ({ seo }) => {
             : null
     );
 
+    let initialPrice = `${__("client.from", localizations)} ₾${product.min_price}`;
+    if (product_config.variant_count == 1){
+
+        if (product_config.last_variant.special_price) {
+            initialPrice = product_config.last_variant.special_price;
+
+        } else {
+            initialPrice = product_config.last_variant.price;
+
+        }
+
+        initialPrice = '₾' + initialPrice;
+    }
+
     const [productPrice, setProductPrice] = useState(
-        `${__("client.from", localizations)} ₾${product.min_price}`
+        initialPrice
     );
-    const [oldPrice, setOldPrice] = useState(``);
+
+    let initialOldPrice = ``;
+    if (product_config.variant_count == 1){
+
+        if (product_config.last_variant.special_price) {
+            initialOldPrice = product_config.last_variant.price;
+
+        } else {
+            initialOldPrice = ``;
+
+        }
+
+        initialOldPrice = '₾' + initialOldPrice;
+    }
+    const [oldPrice, setOldPrice] = useState(initialOldPrice);
 
     const [productCode, setProductCode] = useState(product.code);
 
