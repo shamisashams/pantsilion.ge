@@ -264,7 +264,7 @@ class CartController extends Controller
         ]);
         if($promocode = auth()->user()->promocode()->where('promocode',$request->post('promocode'))->first()){
 
-            //dd($promocode->promocodeM->products);
+            //dd($promocode->promocodeM);
             session(['promocode' => $promocode->promocodeM]);
             return back()->with('msg','promocode');
         }
