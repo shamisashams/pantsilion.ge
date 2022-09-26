@@ -163,9 +163,13 @@ const FurnitureSet = ({seo}) => {
                                               </div>
                                               <div>
                                                   <div className="bold mb-1">{item.title} </div>
-                                                  <div className="text-sm opacity-50 mb-1">
+                                                  {item.attributes.map((attr,ind) => {
+
+                                                      return <div className="text-sm opacity-50 mb-1">{attr.attribute.name} : {attr.option}</div>
+                                                  })}
+                                                  {/*<div className="text-sm opacity-50 mb-1">
                                                       size: {item.attributes.size}
-                                                  </div>
+                                                  </div>*/}
                                               </div>
                                           </div>
                                           <div className="text-lg ml-4">₾{item.price}</div>
