@@ -77,6 +77,11 @@ const SingleProduct = ({ seo }) => {
 
     }
 
+    if (product_config.variant_count == 1){
+        initialColors = [];
+        initialColors.push({id:product_config.last_variant.id,color:product_config.last_variant.attributes.color.color,label:product_config.last_variant.attributes.color.label});
+    }
+
     const [productColors, setProductColors] = useState(initialColors);
 
 
