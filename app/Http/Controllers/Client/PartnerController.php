@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CredentialChanged;
+use App\Mail\PartnerJoined;
 use App\Models\Certificate;
 use App\Models\Page;
 use App\Models\User;
 use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use App\Repositories\Eloquent\GalleryRepository;
+use function PHPUnit\Framework\at;
 
 class PartnerController extends Controller
 {
@@ -71,10 +76,23 @@ class PartnerController extends Controller
 
         $attributes['affiliate_id'] = (string) Str::uuid();
 
+        //$password =  Str::random(8);
+
+        $attributes['status'] = 'pending';
+        //$attributes['password'] = Hash::make($password);
         //dd($attributes);
         $model = $this->userRepository->create(Arr::except($attributes,['cv']));
+
+        $username = $attributes['name'] . '_' . uniqid();
+        $this->userRepository->model->partner()->create(['username' => $username]);
         //dd($model);
         $this->userRepository->uploadCv($model, $request);
+
+        /*$data = [
+            'username' => $username,
+            'password' => $password
+        ];*/
+        //Mail::to($model)->send(new PartnerJoined($data));
 
         return redirect()->back()->with('success','added');
     }
