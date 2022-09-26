@@ -304,7 +304,7 @@ class ProductController extends Controller
             'product_images' => $productImages,
             'product_attributes' => $result,
             'product_config' => $config,
-            'cities' => City::with('translation')->get(),
+            'cities' => City::with('translation')->has('stocks')->get(),
             'stocks' => $stocks,
             "seo" => [
                 "title"=>$product->meta_title,

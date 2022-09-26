@@ -67,4 +67,8 @@ class City extends Model
     public function contacts(){
         return $this->hasMany(Contact::class);
     }
+
+    public function stocks(){
+        return $this->hasMany(Stock::class);
+    }
 }
