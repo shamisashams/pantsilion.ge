@@ -138,6 +138,11 @@ class Category extends Model
         return $this->belongsToMany(Product::class,'product_categories');
     }
 
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductSet::class,'collection_categories');
+    }
+
 
     /**
      * @return MorphMany

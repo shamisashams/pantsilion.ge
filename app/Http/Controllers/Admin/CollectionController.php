@@ -11,6 +11,8 @@ use App\Models\ProductProductSet;
 use App\Models\ProductSet;
 use App\Models\Slider;
 use App\Models\Stock;
+use App\Repositories\CategoryRepositoryInterface;
+use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\CityRepository;
 use App\Repositories\Eloquent\CollectionRepository;
 use App\Repositories\Eloquent\StockRepository;
@@ -25,14 +27,18 @@ class CollectionController extends Controller
 {
 
     private $collectionRepository;
+    private $categoryRepository;
+    private $categories;
 
 
     public function __construct(
-        CollectionRepository $collectionRepository
+        CollectionRepository $collectionRepository,
+        CategoryRepository $categoryRepository
     )
     {
         $this->collectionRepository = $collectionRepository;
-
+        $this->categoryRepository = $categoryRepository;
+        $this->categories = $this->categoryRepository->getCategoryTree();
     }
 
     /**
@@ -142,6 +148,7 @@ class CollectionController extends Controller
         ]);*/
 
         return view('admin.nowa.views.collection.form', [
+            'categories' => $this->categories,
             'model' => $productSet,
             'url' => $url,
             'method' => $method,
@@ -184,7 +191,7 @@ class CollectionController extends Controller
             $this->collectionRepository->model->colors()->sync($request->post('color') ?? []);
 
 
-
+        $this->collectionRepository->model->categories()->sync($saveData['categories'] ?? []);
 
 
         return redirect(locale_route('collection.index', $productSet->id))->with('success', __('admin.update_successfully'));
