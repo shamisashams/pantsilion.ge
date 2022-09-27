@@ -6,6 +6,7 @@ use App\Cart\Facade\Cart;
 use App\Http\Controllers\Controller;
 use App\Mail\PromocodeProduct;
 use App\Models\Category;
+use App\Models\MailTemplate;
 use App\Models\Page;
 use App\Models\Product;
 use App\Promocode\Promocode;
@@ -286,6 +287,7 @@ class FavoriteController extends Controller
 
     public function addToWishlist(Request $request){
         $product = Product::query()->where('id',$request->post('id'))->first();
+
         if($product->promocode){
             if($product->promocode->status){
                 $promo_gen = new Promocode();
@@ -294,6 +296,7 @@ class FavoriteController extends Controller
                     $request->user()->promocode()->create(['promocode_id' => $product->promocode->id, 'promocode' => $gen]);
 
                     $data['product'] = $product;
+                    $data['text'] = MailTemplate::query()->first()->promocode_products;
                     $data['code'] = $gen;
                     Mail::to($request->user())->send(new PromocodeProduct($data));
                 }
@@ -312,7 +315,7 @@ class FavoriteController extends Controller
     }
 
     public function removeFromWishlist(Request $request){
-        $request->user()->wishlist()->where('product_id', $request->get('id'))->delete();
+        $request->user()->wishlist()->where('product_id', $request->get('id'))->orWhere('product_set_id', $request->get('id'))->delete();
         return redirect()->back();
     }
 
