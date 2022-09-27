@@ -287,16 +287,18 @@ class FavoriteController extends Controller
     public function addToWishlist(Request $request){
         $product = Product::query()->where('id',$request->post('id'))->first();
         if($product->promocode){
-            //dd($product->promocode);
-            $promo_gen = new Promocode();
-            if($request->user()->promocode()->where('promocode_id',$product->promocode->id)->count() === 0){
-                $gen = $promo_gen->generateCode();
-                $request->user()->promocode()->create(['promocode_id' => $product->promocode->id, 'promocode' => $gen]);
+            if($product->promocode->status){
+                $promo_gen = new Promocode();
+                if($request->user()->promocode()->where('promocode_id',$product->promocode->id)->count() === 0){
+                    $gen = $promo_gen->generateCode();
+                    $request->user()->promocode()->create(['promocode_id' => $product->promocode->id, 'promocode' => $gen]);
 
-                $data['product'] = $product;
-                $data['code'] = $gen;
-                Mail::to($request->user())->send(new PromocodeProduct($data));
+                    $data['product'] = $product;
+                    $data['code'] = $gen;
+                    Mail::to($request->user())->send(new PromocodeProduct($data));
+                }
             }
+
 
         }
         $request->user()->wishlist()->updateOrCreate(['product_id' => $request->post('id')]);
