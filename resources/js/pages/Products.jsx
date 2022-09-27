@@ -200,7 +200,9 @@ const Products = ({ seo }) => {
                             })}
                         </ul>
                         <div className="flex items-center justify-start  mt-10 pb-5 whitespace-nowrap">
-                            <MainButton onclick={clearFilter} reverse>{__('client.clear_filter',localizations)}</MainButton>
+                            <MainButton onclick={clearFilter} reverse>
+                                {__("client.clear_filter", localizations)}
+                            </MainButton>
                             {/*<button
                                 onClick={clearFilter}
                                 className="underline ml-5"
