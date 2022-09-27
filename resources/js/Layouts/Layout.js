@@ -12,6 +12,8 @@ import setSeoData from "./SetSeoData";
 import Aos from "aos";
 import { usePage } from "@inertiajs/inertia-react";
 
+import { toast } from "react-toastify";
+
 export default function Layout({ children, seo = null }) {
     if (seo) {
         setSeoData(seo);
@@ -31,15 +33,15 @@ export default function Layout({ children, seo = null }) {
 
     return (
         //<>
-            <ScrollToTop>
-                {/*<Router>*/}
-                {/*<Fragment>*/}
-                <Navbar />
-                {children}
-                <Footer />
-                {/*</Fragment>*/}
-                {/*</Router>*/}
-            </ScrollToTop>
+        <ScrollToTop>
+            {/*<Router>*/}
+            {/*<Fragment>*/}
+            <Navbar />
+            {children}
+            <Footer />
+            {/*</Fragment>*/}
+            {/*</Router>*/}
+        </ScrollToTop>
 
         //</>
     );

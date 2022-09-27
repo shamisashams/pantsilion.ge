@@ -6,8 +6,11 @@ import MainButton from "../components/MainButton";
 //import Google from '../assets/images/icons/google.png'
 import Layout from "../Layouts/Layout";
 import { Inertia } from "@inertiajs/inertia";
+import { IoCloseOutline } from "react-icons/io5";
 
 const Signup = ({ seo }) => {
+    const [success, setSuccess] = useState(false);
+
     const { errors, localizations } = usePage().props;
     const [values, setValues] = useState({
         name: "",
@@ -166,6 +169,30 @@ const Signup = ({ seo }) => {
                                 alt=""
                             />
                         </a>
+                    </div>
+                </div>
+                <div
+                    className={`fixed left-0 top-0 w-screen h-screen bg-custom-dark/[0.7] flex items-center justify-center z-50 ${
+                        success ? "opacity-100 visible" : "opacity-0 invisible"
+                    }`}
+                >
+                    <div className="wrapper h-fit max-w-lg mx-auto text-center p-10  bg-white">
+                        <Link
+                            onClick={() => setSuccess(false)}
+                            href={route("client.login.index")}
+                            className="absolute top-3 right-4 "
+                        >
+                            <IoCloseOutline className=" w-6 h-6" />
+                        </Link>
+                        <img
+                            className="mx-auto"
+                            src="/client/assets/images/icons/goal.png"
+                            alt=""
+                        />
+                        <div className="text-4xl my-5 bold">Success</div>
+                        <p className="mb-5">
+                            You have successfully created a new account
+                        </p>
                     </div>
                 </div>
             </div>
