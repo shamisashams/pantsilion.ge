@@ -78,6 +78,7 @@ class CollectionController extends Controller
         ]);*/
 
         return view('admin.nowa.views.collection.form', [
+            'categories' => $this->categories,
             'model' => $slider,
             'url' => $url,
             'method' => $method,
@@ -121,6 +122,7 @@ class CollectionController extends Controller
         $this->collectionRepository->model->colors()->sync($request->post('color') ?? []);
 
         $this->collectionRepository->saveVideo($request);
+        $this->collectionRepository->model->categories()->sync($saveData['categories'] ?? []);
 
         return redirect(locale_route('collection.index', $slider->id))->with('success', __('admin.create_successfully'));
 
