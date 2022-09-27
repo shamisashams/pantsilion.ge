@@ -84,7 +84,7 @@ class ProductController extends Controller
         $product = Product::query()->where(['status' => true, 'slug' => $slug])->whereHas('categories', function (Builder $query) {
             $query->where('status', 1);
 
-        })->with(['latestImage','video','colors.file'])->firstOrFail();
+        })->with(['latestImage','video','attribute_values','colors.file'])->firstOrFail();
 
         $productImages = $product->files()->orderBy('id','desc')->get();
 
@@ -117,7 +117,8 @@ class ProductController extends Controller
 
         $config = [];
         $prices = [];
-        foreach ($product->variants()->with(['video','stocks','stocks.translation'])->get() as $variant){
+        $v_c = 0;
+        foreach ($product->variants()->with(['video','attribute_values','latestImage','files','stocks','stocks.translation'])->get() as $variant){
             $product_attributes = $variant->attribute_values;
 
             $result = [];
@@ -151,7 +152,9 @@ class ProductController extends Controller
             $config['variants'][$variant->id]['prices'] = $variant->price;
             $config['variants'][$variant->id]['images'] = $variant->files;
             $config['variants'][$variant->id]['variant'] = $variant;
-
+            $config['variant_count'] = ++$v_c;
+            $config['last_variant'] =  $variant;
+            $config['last_variant']['attributes'] =  $result;
             $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
 
 
@@ -167,6 +170,8 @@ class ProductController extends Controller
 
 
         }
+
+
 
         //dd($config);
 
@@ -304,7 +309,7 @@ class ProductController extends Controller
             'product_images' => $productImages,
             'product_attributes' => $result,
             'product_config' => $config,
-            'cities' => City::with('translation')->get(),
+            'cities' => City::with('translation')->has('stocks')->get(),
             'stocks' => $stocks,
             "seo" => [
                 "title"=>$product->meta_title,

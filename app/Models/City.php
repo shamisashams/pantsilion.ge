@@ -22,7 +22,8 @@ class City extends Model
 
     protected $fillable = [
         'status',
-        'ship_price'
+        'ship_price',
+        'is_shipping'
     ];
 
 
@@ -65,5 +66,9 @@ class City extends Model
 
     public function contacts(){
         return $this->hasMany(Contact::class);
+    }
+
+    public function stocks(){
+        return $this->hasMany(Stock::class);
     }
 }

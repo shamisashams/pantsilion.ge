@@ -145,6 +145,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
 
+
         //dd($request->all());
         $saveData = Arr::except($request->except('_token'), []);
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
@@ -173,7 +174,7 @@ class ProductController extends Controller
             $product = $this->productRepository->saveFiles($product->id, $request);
         }
 
-        if ($request->has('base64_img')) {
+        if ($request->post('base64_img')) {
 
             $product = $this->productRepository->uploadCropped($request, $product->id);
         }
@@ -384,10 +385,9 @@ class ProductController extends Controller
                 $product_atribute = ProductAttributeValue::where('product_id',$product->id)
                     ->where('attribute_id',$key)->first();
                 if ($product_atribute){
+
                     $data['integer_value'] = $item;
-                    ProductAttributeValue::where('product_id',$product_atribute->product_id)
-                        ->where('attribute_id',$product_atribute->attribute_id)
-                        ->update($data);
+                    $product_atribute->update($data);
                 } else {
                     $attr[$key] = $item;
                 }

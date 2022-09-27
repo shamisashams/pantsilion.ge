@@ -246,6 +246,15 @@ const Shipping = ({ seo }) => {
                             </div>
                             <div className="h-72 overflow-y-scroll pr-5 my-5 scrollbar">
                                 {cart.products.map((item, index) => {
+                                    let image =  null;
+
+                                    if(item.product.latest_image){
+                                        image = item.product.latest_image.file_full_url;
+                                    } else {
+                                        if(item.product.parent.latest_image){
+                                            image = item.product.parent.latest_image.file_full_url
+                                        }
+                                    }
                                     return (
                                         <div
                                             key={index}
@@ -255,12 +264,7 @@ const Shipping = ({ seo }) => {
                                                 <div className="w-20 h-20 mr-3 shrink-0">
                                                     <img
                                                         src={
-                                                            item.product
-                                                                .latest_image
-                                                                ?
-                                                                  item.product
-                                                                      .latest_image.file_full_url
-                                                                : null
+                                                            image
                                                         }
                                                         className="w-full h-full object-cover"
                                                         alt=""
@@ -271,14 +275,11 @@ const Shipping = ({ seo }) => {
                                                         {item.product.title}{" "}
                                                     </div>
                                                     <div className="text-sm opacity-50 mb-1">
-                                                        Color:{" "}
-                                                        {
-                                                            item.product
-                                                                .attributes
-                                                                .color
-                                                        }
-                                                        <br />
-                                                        Quantity:{" "}
+                                                        {item.product.attributes.map((attr,ind) => {
+
+                                                            return <div>{attr.attribute.name} : {attr.option}</div>
+                                                        })}
+                                                        {__('client.quantity',localizations)}:{" "}
                                                         {item.quantity}
                                                     </div>
                                                 </div>

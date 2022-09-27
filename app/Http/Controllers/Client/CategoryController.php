@@ -44,6 +44,10 @@ class CategoryController extends Controller
             ->paginate(16);*/
         $subCategories =$category->descendants->toTree();
 
+        $collections = $category->collections()->with(['translation'])->get();
+
+
+
         //dd($subCategories);
         $products = $this->productRepository->getAll($category->id);
 
@@ -102,6 +106,7 @@ class CategoryController extends Controller
             'products' => $products,
             'category' => $category,
             'subcategories' => $subCategories,
+            'collections' => $collections,
             'images' => $images,
             'filter' => $this->getAttributes($category),
             "seo" => [
@@ -269,6 +274,7 @@ class CategoryController extends Controller
             'images' => $images,
             'filter' => $this->getAttributes(),
             'subcategories' => $subCategories,
+            'collections' => [],
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,
@@ -350,6 +356,7 @@ class CategoryController extends Controller
             'images' => $images,
             'filter' => $this->getAttributes(),
             'subcategories' => $subCategories,
+            'collections' => [],
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,

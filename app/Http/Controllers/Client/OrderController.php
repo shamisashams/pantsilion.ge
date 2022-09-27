@@ -262,6 +262,7 @@ class OrderController extends Controller
         $grand_t = $data['grand_total'];
 
         $delete_promocode = false;
+        $product_promocode = false;
         if($promocode = session('promocode')){
 
 
@@ -272,6 +273,7 @@ class OrderController extends Controller
                     if(in_array($item['product']->parent->id,$promocode_products)){
                         $item['product']['discount'] = $item['product']->parent->promocode->reward;
                         $delete_promocode = true;
+                        $product_promocode = true;
                     }
                 }
             }
@@ -373,14 +375,14 @@ class OrderController extends Controller
 
                 $_promocode = \App\Models\PromoCode::query()->where('type','cart')->first();
                 //dd($promocode);
-                if ($_promocode){
+                if ($_promocode && $product_promocode){
                     $promo_gen = new Promocode();
                     $gen = $promo_gen->generateCode();
 
                     $request->user()->promocode()->create(['promocode_id' => $_promocode->id, 'promocode' => $gen]);
                     $data['product'] = null;
                     $data['code'] = $gen;
-                    //Mail::to($request->user())->send(new PromocodeProduct($data));
+                    Mail::to($request->user())->send(new PromocodeProduct($data));
                 }
 
                 $partner_reward = Setting::query()->where('key','partner_reward')->first();
@@ -390,7 +392,8 @@ class OrderController extends Controller
                 }
 
                 //Cart::destroy();
-                if($promo_code = session('promocode') && $delete_promocode){
+                if(($promo_code = session('promocode')) && $delete_promocode){
+                    //dd($promo_code->userPromocode->promocode, $request->user()->promocode()->where('promocode',$promo_code->userPromocode->promocode)->first());
                     $request->user()->promocode()->where('promocode',$promo_code->userPromocode->promocode)->delete();
                 }
 

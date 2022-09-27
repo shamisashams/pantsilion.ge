@@ -48,7 +48,7 @@
 
                     <div class="form-group">
                         <label class="form-label">@lang('admin.username')</label>
-                        <input class="form-control" type="text" name="username" value="{{$partner->partner ? $partner->partner->username : ''}}">
+                        <input class="form-control" type="text" readonly name="username" value="{{$partner->partner ? $partner->partner->username : ''}}">
                         @error('username')
                         <small class="text-danger">
                             <div class="error">
@@ -58,7 +58,8 @@
                         @enderror
                     </div>
 
-                    <div class="form-group">
+
+                    {{--<div class="form-group">
                         <label class="form-label">@lang('admin.password')</label>
                         <input class="form-control" type="text" name="password">
                         @error('password')
@@ -68,6 +69,23 @@
                             </div>
                         </small>
                         @enderror
+                    </div>--}}
+
+                    <?php
+                    $statuses = [
+                      'approved' => __('admin.approved'),
+                      'pending' => __('admin.pending'),
+                        'rejected' => __('admin.rejected'),
+                    ];
+                    ?>
+
+                    <div class="form-group">
+                        <label class="form-label">@lang('admin.status')</label>
+                        <select class="form-control" name="status">
+                            @foreach($statuses as $key => $status)
+                            <option value="{{$key}}" {{$key == $partner->status ? 'selected' : ''}}>{{$status}}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="form-group mb-0 mt-3 justify-content-end">

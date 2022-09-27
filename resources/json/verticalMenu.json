@@ -170,6 +170,13 @@
             "slug": "promocode"
         },
         {
+            "url": "mail-template.index",
+            "name": "mail-template",
+            "i18n": "mail",
+            "icon": "mail",
+            "slug": "mail"
+        },
+        {
             "url": "password.index",
             "name": "პაროლის შეცვლა",
             "i18n": "change password",

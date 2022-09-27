@@ -82,13 +82,13 @@
 
 
 
-                    {{--<div class="form-group">
+                    <div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="status"
                                    value="true" {{$model->status ? 'checked' : ''}}>
                             <span>{{__('admin.status')}}</span>
                         </label>
-                    </div>--}}
+                    </div>
 
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>

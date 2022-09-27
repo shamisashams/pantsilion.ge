@@ -37,10 +37,13 @@ class AboutUsController extends Controller
 
         $gallery = Gallery::with('files')->where('status',1)->first();
 
+
         if(!$gallery){
             $gallery = [];
+        } else {
+            $gallery = $gallery->files;
         }
-
+        //dd($gallery);
         //dd($files);
 
         return Inertia::render('About', [

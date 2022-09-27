@@ -1,6 +1,37 @@
 <?php
 
+$ids = $model->categories->pluck("id")->toArray();
 
+
+
+//dd($stock_ids);
+
+
+$traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
+
+    $html = '<ul style="margin: initial !important;padding: initial !important;">';
+    foreach ($categories as $category) {
+        if(in_array($category->id,$ids)) $checked = 'checked';
+        else $checked = '';
+        $html .= '<li style="margin-bottom: 5px"><label class="ckbox">
+                        <input type="checkbox" name="categories[]" data-checkboxes="mygroup" class="custom-control-input" '. $checked .' id="'.$category->id.'" value="'.$category->id.'">
+                        <span style="margin-left: 5px">'.$category->title.'</span>
+
+                        </label></li>';
+
+
+        if(count($category->children)){
+            $html .= '<li class="child" style="padding-left: 20px;margin-bottom: 5px">';
+            $html .= $traverse($category->children, $prefix.'-');
+            $html .= '</li>';
+        }
+
+    }
+
+    $html .= '</ul>';
+
+    return $html;
+};
 
 ?>
 @extends('admin.nowa.views.layouts.app')
@@ -186,6 +217,20 @@
             <div class="card">
                 <div class="card-body">
 
+                    <div>
+                        <h6 class="card-title mb-1">@lang('admin.collection_categories')</h6>
+                    </div>
+                    <div class="mb-4">
+
+
+                        <?=$traverse($categories);?>
+
+                        @if($errors->has('categories'))
+                            <small class="error text-danger">{{ $errors->first('categories') }}</small>
+                        @endif
+
+
+                    </div>
 
                     <div class="form-group">
                         {!! Form::label('slug',__('admin.slug'),['class' => 'form-label']) !!}

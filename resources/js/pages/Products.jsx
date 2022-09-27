@@ -89,7 +89,7 @@ const Products = ({ seo }) => {
         Inertia.visit("?" + params.join("&"));
     };
 
-    const { subcategories, products, localizations } = usePage().props;
+    const { subcategories, products, localizations, collections } = usePage().props;
 
     let subcats = {};
     subcategories.map((item, index) => {
@@ -195,6 +195,19 @@ const Products = ({ seo }) => {
                                         >
                                             {item.title}
                                         </button>
+                                    </li>
+                                );
+                            })}
+                            {collections.map((item, index) => {
+                                return (
+                                    <li key={index}>
+                                        <Link
+                                            /*onClick={() => addToSelected(item)}*/
+                                            className={`lg:py-3 py-2 lg:text-base text-sm px-5  block w-fit rounded-full hover:bg-zinc-100 transition-all `}
+                                            href={route('client.collection.show',item.slug)}
+                                        >
+                                            {item.title}
+                                        </Link>
                                     </li>
                                 );
                             })}

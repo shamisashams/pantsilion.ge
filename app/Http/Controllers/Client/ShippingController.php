@@ -54,7 +54,7 @@ class ShippingController extends Controller
             'images' => $images,
             'page' => $page,
             'cart' => Cart::getCart(),
-            'cities' => City::with('translation')->get(),
+            'cities' => City::with('translation')->where('is_shipping',1)->get(),
             'promocode' => session('promocode'),
             'shipping' => session('shipping'),
             "seo" => [

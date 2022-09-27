@@ -12,9 +12,13 @@ if($product->parent_id === null){
 $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled) {
 
     $html = '<ul style="margin: initial !important;padding: initial !important;">';
-    foreach ($categories as $category) {
+    foreach ($categories as $key => $category) {
         if(in_array($category->id,$ids)) $checked = 'checked';
-        else $checked = '';
+
+        elseif(in_array($category->id,old('categories') ?? [])){
+
+            $checked = 'checked';
+        } else $checked = '';
         $html .= '<li style="margin-bottom: 5px"><label class="ckbox">
                         <input '.$disabled.' type="checkbox" name="categories[]" data-checkboxes="mygroup" class="custom-control-input" '. $checked .' id="'.$category->id.'" value="'.$category->id.'">
                         <span style="margin-left: 5px">'.$category->title.'</span>
@@ -271,7 +275,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                     @if($product->created_at and $product->parent_id !== null)
                     <div class="form-group">
                         {!! Form::label('price',__('admin.price'),['class' => 'form-label']) !!}
-                        {!! Form::number('price',$product->price,['class' => 'form-control','step' => '0.01','min' => '0']) !!}
+                        {!! Form::number('price',$product->price ?? old('price'),['class' => 'form-control','step' => '0.01','min' => '0']) !!}
 
                         @error('price')
                         <small class="text-danger">
@@ -378,7 +382,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         <select name="promocode_id" class="form-control">
                             <option value=""></option>
                             @foreach($promocodes as $promocode)
-                                <option value="{{$promocode->id}}" {{$product->promocode_id == $promocode->id ? 'selected':''}}>{{$promocode->reward}}</option>
+                                <option value="{{$promocode->id}}" {{$product->promocode_id == $promocode->id ? 'selected':(old('promocode_id') == $promocode->id ? 'selected' : '')}}>{{$promocode->reward}}</option>
                             @endforeach
                         </select>
 
@@ -402,7 +406,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         <div class="form-group">
                             <label class="ckbox">
                                 <input type="checkbox" name="stock_id[]"
-                                       value="{{$stock->id}}" {{in_array($stock->id,$stock_ids) ? 'checked' : ''}}>
+                                       value="{{$stock->id}}" {{in_array($stock->id,$stock_ids) ? 'checked' : (in_array($stock->id,(old('stock_id')??[])) ? 'checked':'')}}>
                                 <span>{{$stock->title}}</span>
                             </label>
                         </div>
@@ -419,7 +423,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                     <div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="status"
-                                   value="true" {{$product->status ? 'checked' : ''}}>
+                                   value="true" {{$product->status ? 'checked' : (old('status') ? 'checked' : '')}}>
                             <span>{{__('admin.status')}}</span>
                         </label>
                     </div>
@@ -427,7 +431,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                     <div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="popular"
-                                   value="true" {{$product->popular ? 'checked' : ''}}>
+                                   value="true" {{$product->popular ? 'checked' : (old('popular') ? 'checked' : '')}}>
                             <span>{{__('admin.popular')}}</span>
                         </label>
                     </div>
@@ -435,7 +439,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                     <div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="new"
-                                   value="true" {{$product->new ? 'checked' : ''}}>
+                                   value="true" {{$product->new ? 'checked' : (old('new') ? 'checked' : '')}}>
                             <span>{{__('admin.new_product')}}</span>
                         </label>
                     </div>
@@ -475,7 +479,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                     <div class="form-group">
                         <label class="ckbox">
                             <input type="checkbox" name="special_price_tag"
-                                   value="true" {{$product->special_price_tag ? 'checked' : ''}}>
+                                   value="true" {{$product->special_price_tag ? 'checked' : (old('special_price_tag') ? 'checked' : '')}}>
                             <span>{{__('admin.special_price_tag')}}</span>
                         </label>
                     </div>

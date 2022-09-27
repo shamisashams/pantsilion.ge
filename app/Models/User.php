@@ -31,7 +31,8 @@ class User extends Authenticatable
         'phone',
         'affiliate_id',
         'referred_by',
-        'address'
+        'address',
+        'status'
     ];
 
     /**

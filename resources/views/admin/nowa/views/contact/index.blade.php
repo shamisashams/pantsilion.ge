@@ -40,7 +40,7 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('admin.id')</th>
-
+                                        <th>@lang('admin.city')</th>
                                     <th>@lang('admin.address')</th>
                                     <th>@lang('admin.actions')</th>
                                 </tr>
@@ -67,7 +67,7 @@
                                         <tr>
                                             <td>{{$slider->id}}</td>
 
-
+                                            <td>{{$slider->city->title}}</td>
                                             <td>
                                                 <div class="panel panel-primary tabs-style-2">
                                                     <div class=" tab-menu-heading">

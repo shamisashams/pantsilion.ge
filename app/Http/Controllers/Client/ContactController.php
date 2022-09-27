@@ -7,6 +7,7 @@ use App\Mail\ContactEmail;
 use App\Models\City;
 use App\Models\Page;
 use App\Models\Setting;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
@@ -29,7 +30,7 @@ class ContactController extends Controller
 
 
         return Inertia::render('Contact', [
-            "cities" => City::with(['translation','contacts','contacts.translation'])->get(),
+            "cities" => City::query()->has('contacts')->with(['translation','contacts.translation'])->get(),
             "page" => $page,
             "seo" => [
             "title"=>$page->meta_title,

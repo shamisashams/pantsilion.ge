@@ -53,7 +53,8 @@ class File extends Model
         'path',
         'format',
         'type',
-        'main'
+        'main',
+        'span'
     ];
 
     protected $appends = [

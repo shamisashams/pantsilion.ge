@@ -80,20 +80,25 @@ class CollectionController extends Controller
 
             $result = [];
 
-            foreach ($product_attributes as $_item){
+            foreach ($product_attributes as $key => $_item){
                 $options = $_item->attribute->options;
                 $value = '';
                 foreach ($options as $option){
                     if($_item->attribute->type == 'select'){
                         if($_item->integer_value == $option->id) {
+                            $result[$key]['attribute']['code'] = $_item->attribute->code;
+                            $result[$key]['attribute']['name'] = $_item->attribute->name;
                             if($_item->attribute->code == 'size'){
-                                $result[$_item->attribute->code] = $option->value;
+
+
+                                $result[$key]['option'] = $option->value;
                             }
+
                             elseif($_item->attribute->code == 'color'){
-                                $result[$_item->attribute->code] = $option->color;
+                                $result[$key]['option'] = $option->color;
                             }
                             else {
-                                $result[$_item->attribute->code] = $option->label;
+                                $result[$key]['option'] = $option->label;
                             }
                         }
 

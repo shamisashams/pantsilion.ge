@@ -25,4 +25,8 @@ class AttributeOption extends Model
         'code'
     ];
 
+    public function attribute(){
+        return $this->belongsTo(Attribute::class);
+    }
+
 }

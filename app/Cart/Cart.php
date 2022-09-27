@@ -235,26 +235,28 @@ class Cart
         //dd($cart);
         if ($cart !== null) {
             foreach ($cart as $_item) {
-                $product = Product::with(['translation','latestImage','attribute_values'])->where(['id' => $_item->product_id])->first();
+                $product = Product::with(['translation','latestImage','attribute_values','parent.latestImage'])->where(['id' => $_item->product_id])->first();
                 $product_attributes = $product->attribute_values;
 
                 $result = [];
 
-                foreach ($product_attributes as $item){
+                foreach ($product_attributes as $key => $item){
                     $options = $item->attribute->options;
                     $value = '';
                     foreach ($options as $option){
                         if($item->attribute->type == 'select'){
                             if($item->integer_value == $option->id) {
-
+                                $result[$key]['attribute']['code'] = $item->attribute->code;
+                                $result[$key]['attribute']['name'] = $item->attribute->name;
                                 if($item->attribute->code == 'size'){
-                                    $result[$item->attribute->code] = $option->value;
+
+                                    $result[$key]['option'] = $option->value;
                                 }
                                 elseif ($item->attribute->code == 'color'){
-                                    $result[$item->attribute->code] = $option->color;
+                                    $result[$key]['option'] = $option->color;
                                 }
                                 else {
-                                    $result[$item->attribute->code] = $option->label;
+                                    $result[$key]['option'] = $option->label;
                                 }
                             }
 

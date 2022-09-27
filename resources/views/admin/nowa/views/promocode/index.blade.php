@@ -40,7 +40,7 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('admin.id')</th>
-
+                                    <th>@lang('admin.status')</th>
                                     <th>@lang('admin.reward')</th>
                                     <th>@lang('admin.type')</th>
                                     <th>@lang('admin.actions')</th>
@@ -54,7 +54,13 @@
                                                value="{{Request::get('id')}}"
                                                class="validate {{$errors->has('id') ? '' : 'valid'}}">
                                     </th>
-
+                                    <th>
+                                        <select class="form-control" name="status" onchange="this.form.submit()">
+                                            <option value="" {{Request::get('status') === '' ? 'selected' :''}}>@lang('admin.any')</option>
+                                            <option value="1" {{Request::get('status') === '1' ? 'selected' :''}}>@lang('admin.active')</option>
+                                            <option value="0" {{Request::get('status') === '0' ? 'selected' :''}}>@lang('admin.not_active')</option>
+                                        </select>
+                                    </th>
                                     <th>
                                         <input class="form-control" type="text" name="reward" onchange="this.form.submit()"
                                                value="{{Request::get('reward')}}"
@@ -80,7 +86,14 @@
                                     @foreach($data as $slider)
                                         <tr>
                                             <td>{{$slider->id}}</td>
+                                            <td>
 
+                                                @if($slider->status)
+                                                    <span class="green-text">@lang('admin.active')</span>
+                                                @else
+                                                    <span class="red-text">@lang('admin.not_active')</span>
+                                                @endif
+                                            </td>
                                             <td>{{$slider->reward}}</td>
                                             <td>{{$slider->type}}</td>
 

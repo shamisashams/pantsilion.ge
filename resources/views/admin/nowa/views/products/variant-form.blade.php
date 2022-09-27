@@ -323,7 +323,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         <select name="promocode_id" class="form-control">
                             <option value=""></option>
                             @foreach($promocodes as $promocode)
-                                <option value="{{$promocode->id}}" {{$product->promocode_id == $promocode->id ? 'selected':''}}>{{$promocode->reward}}</option>
+                                <option value="{{$promocode->id}}" {{$product->promocode_id == $promocode->id ? 'selected':(old('promocode_id') == $promocode->id ? 'selected' : '')}}>{{$promocode->reward}}</option>
                             @endforeach
                         </select>
 
@@ -354,11 +354,14 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                             @lang('admin.product_stock')
                         </div>
                     </div>
+                    <?php
+                    //$old = old('stock_id')??[];
+                    ?>
                     @foreach($stocks as $stock)
                         <div class="form-group">
                             <label class="ckbox">
                                 <input type="checkbox" name="stock_id[]"
-                                       value="{{$stock->id}}" {{in_array($stock->id,$stock_ids) ? 'checked' : ''}}>
+                                       value="{{$stock->id}}" {{in_array($stock->id,$stock_ids) ? 'checked' : (in_array($stock->id,(old('stock_id')??[])) ? 'checked':'')}}>
                                 <span>{{$stock->title}}</span>
                             </label>
                         </div>

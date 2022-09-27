@@ -130,7 +130,7 @@ class CityController extends Controller
     {
         //dd($request->all());
         $saveData = Arr::except($request->except('_token'), []);
-        //$saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
+        $saveData['is_shipping'] = isset($saveData['is_shipping']) && (bool)$saveData['is_shipping'];
 
         $this->cityRepository->update($city->id, $saveData);
 

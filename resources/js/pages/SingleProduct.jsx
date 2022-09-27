@@ -20,13 +20,7 @@ import Layout from "../Layouts/Layout";
 import { Inertia } from "@inertiajs/inertia";
 
 const SingleProduct = ({ seo }) => {
-    const [side, setSide] = useState(0);
-    const [chooseCity, setChooseCity] = useState(false);
-    const [chooseSize, setChooseSize] = useState(false);
-    const [favorite, setFavorite] = useState(false);
-
     const {
-        category_last,
         product,
         product_images,
         similar_products,
@@ -35,6 +29,36 @@ const SingleProduct = ({ seo }) => {
         stocks,
         localizations,
     } = usePage().props;
+
+    let category_last = usePage().props.category_last;
+
+    if (product_config.color) {
+        category_last.color = 1;
+    } else category_last.color = 0;
+    if (product_config.size) {
+        category_last.size = 1;
+    } else category_last.size = 0;
+    if (product_config.corner) {
+        category_last.corner = 1;
+    } else category_last.corner = 0;
+
+    let initialCorner = 0;
+    if (
+        product_config.variant_count == 1 &&
+        product_config.last_variant.attributes.corner
+    ) {
+        if (product_config.last_variant.attributes.corner.code == "left") {
+            initialCorner = 1;
+        }
+        if (product_config.last_variant.attributes.corner.code == "right") {
+            initialCorner = 2;
+        }
+    }
+
+    const [side, setSide] = useState(initialCorner);
+    const [chooseCity, setChooseCity] = useState(false);
+    const [chooseSize, setChooseSize] = useState(false);
+    const [favorite, setFavorite] = useState(false);
 
     const [productImages, setProductImages] = useState(product_images);
 
@@ -48,16 +72,129 @@ const SingleProduct = ({ seo }) => {
         product.video ? product.video.path : null
     );
 
-    const [toCart, setToCart] = useState(product);
+    let cartProduct = product;
+    if (product_config.variant_count == 1) {
+        cartProduct = product_config.last_variant;
+    }
+    const [toCart, setToCart] = useState(cartProduct);
 
     const [productId, setProductId] = useState(0);
 
-    const [productColors, setProductColors] = useState([]);
+    let initialColors = [];
+    if (
+        category_last.corner === 0 &&
+        category_last.size === 0 &&
+        category_last.color === 1
+    ) {
+        initialColors = [];
+        if (product_config.color) {
+            Object.keys(product_config.color).map((key2, index3) => {
+                product_config.color[key2].variants.map((key4, index3) => {
+                    initialColors.push({
+                        id: key4,
+                        label: product_config.color[key2].label,
+                        color: product_config.color[key2].color,
+                    });
+                });
+            });
+        }
+    }
 
-    const [productSizes, setProductSizes] = useState({});
-    const [selectedSize, setSelectedSize] = useState(
-        __("client.select_size", localizations)
-    );
+    if (product_config.variant_count == 1) {
+        initialColors = [];
+        if (product_config.last_variant.attributes.color) {
+            initialColors.push({
+                id: product_config.last_variant.id,
+                color: product_config.last_variant.attributes.color.color,
+                label: product_config.last_variant.attributes.color.label,
+            });
+        }
+    }
+
+    const [productColors, setProductColors] = useState(initialColors);
+
+    let initialSizes = {};
+
+    if (
+        category_last.corner === 0 &&
+        category_last.size === 1 &&
+        category_last.color === 1
+    ) {
+        let sizes = [];
+
+        if (product_config.size) {
+            Object.keys(product_config.size).map((key2, index3) => {
+                //product_config.size[key2].variants = id;
+                //product_config.size[key2].variants.remove(item);
+                sizes.push({
+                    id: key2,
+                    label: product_config.size[key2].value,
+                    variants: product_config.size[key2].variants,
+                });
+                //delete product_config.size[key2];
+            });
+        }
+
+        initialSizes = {};
+
+        sizes.map((item, index) => {
+            if (initialSizes.hasOwnProperty(item.id)) {
+                console.log(item.id);
+
+                initialSizes[item.id].variants = result[
+                    item.id
+                ].variants.concat(item.variants);
+            } else
+                initialSizes[item.id] = {
+                    label: item.label,
+                    variants: item.variants,
+                };
+        });
+    }
+
+    if (
+        category_last.corner === 0 &&
+        category_last.size === 1 &&
+        category_last.color === 0
+    ) {
+        let sizes = [];
+
+        if (product_config.size) {
+            Object.keys(product_config.size).map((key2, index3) => {
+                product_config.size[key2].variants.map((item, index) => {
+                    sizes.push({
+                        id: item,
+                        label: product_config.size[key2].value,
+                        variants: [],
+                    });
+                });
+                //product_config.size[key2].variants = id;
+                //product_config.size[key2].variants.remove(item);
+
+                //delete product_config.size[key2];
+            });
+        }
+
+        initialSizes = {};
+
+        sizes.map((item, index) => {
+            initialSizes[item.id] = {
+                label: item.label,
+                variants: item.variants,
+            };
+        });
+    }
+
+    const [productSizes, setProductSizes] = useState(initialSizes);
+
+    let selectedSizeInitial = __("client.select_size", localizations);
+    if (product_config.variant_count == 1) {
+        if (product_config.last_variant.attributes.size)
+            selectedSizeInitial =
+                product_config.last_variant.attributes.size.value;
+    }
+
+    const [selectedSize, setSelectedSize] = useState(selectedSizeInitial);
 
     const [categoryColorImg, setCategoryColorImg] = useState(
         product.colors.length > 0
@@ -67,10 +204,32 @@ const SingleProduct = ({ seo }) => {
             : null
     );
 
-    const [productPrice, setProductPrice] = useState(
-        `${__("client.from", localizations)} ₾${product.min_price}`
-    );
-    const [oldPrice, setOldPrice] = useState(``);
+    let initialPrice = `${__("client.from", localizations)} ₾${
+        product.min_price
+    }`;
+    if (product_config.variant_count == 1) {
+        if (product_config.last_variant.special_price) {
+            initialPrice = product_config.last_variant.special_price;
+        } else {
+            initialPrice = product_config.last_variant.price;
+        }
+
+        initialPrice = "₾" + initialPrice;
+    }
+
+    const [productPrice, setProductPrice] = useState(initialPrice);
+
+    let initialOldPrice = ``;
+    if (product_config.variant_count == 1) {
+        if (product_config.last_variant.special_price) {
+            initialOldPrice = product_config.last_variant.price;
+        } else {
+            initialOldPrice = ``;
+        }
+
+        initialOldPrice = "₾" + initialOldPrice;
+    }
+    const [oldPrice, setOldPrice] = useState(initialOldPrice);
 
     const [productCode, setProductCode] = useState(product.code);
 
@@ -216,7 +375,9 @@ const SingleProduct = ({ seo }) => {
                 };
             });
             console.log(result);
+            //alert(44);
             setProductSizes(result);
+            console.warn(productSizes);
         }
     }
 
@@ -327,9 +488,11 @@ const SingleProduct = ({ seo }) => {
         initializeAttributes();
     };
 
-    window.onpopstate = function () {
+    /* window.onpopstate  = function() {
+
+
         initializeAttributes();
-    };
+    }*/
 
     function selectSize(id) {
         setProductImages(product_images);
@@ -565,13 +728,15 @@ const SingleProduct = ({ seo }) => {
                             <p className="my-5">
                                 {renderHTML(product.description)}
                             </p>
-                            {category_last.corner === 1 ? (
+                            {category_last.corner === 1 &&
+                            product_config.last_variant.attributes.corner ? (
                                 <div className="bold mb-4">
                                     {__("client.product_corner", localizations)}
                                     :
                                 </div>
                             ) : null}
-                            {category_last.corner === 1 ? (
+                            {category_last.corner === 1 &&
+                            product_config.last_variant.attributes.corner ? (
                                 <div className="flex text-sm mb-5 justify-start">
                                     {left ? (
                                         <div
@@ -637,7 +802,8 @@ const SingleProduct = ({ seo }) => {
                                     localizations
                                 )}
                             </div>
-                            {category_last.size === 1 ? (
+                            {category_last.size === 1 &&
+                            product_config.last_variant.attributes.size ? (
                                 <div className="">
                                     <p className="opacity-50 text-sm inline-block mr-2">
                                         {__("client.size", localizations)}:
@@ -738,7 +904,8 @@ const SingleProduct = ({ seo }) => {
                                     </span>
                                 </p>
                             ) : null}
-                            {category_last.color === 1 ? (
+                            {category_last.color === 1 &&
+                            product_config.last_variant.attributes.color ? (
                                 <div className=" my-5 ">
                                     <p className="whitespace-nowrap opacity-50">
                                         {__(

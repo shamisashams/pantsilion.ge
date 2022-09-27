@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class PartnerController extends Controller
 {
@@ -147,24 +148,26 @@ class PartnerController extends Controller
     public function update(Request $request, string $locale, $user_id)
     {
 
-        $request->validate([
+        $user = User::where('id',$user_id)->firstOrFail();
+
+        /*$request->validate([
             'username' => 'required|unique:partners,username,'.$user_id . ',user_id',
             'password' => 'nullable',
-        ]);
+        ]);*/
 
+        $this->userRepository->model = $user;
 
         $notify = false;
         //dd($request->all());
         $saveData = Arr::except($request->except('_token','_method'), []);
 
         $data = [];
-        if($saveData['password']){
+        if($saveData['status'] == 'approved' && $user->status != 'approved'){
             $notify = true;
-            $data['username'] = $saveData['username'];
-            $data['password'] = $saveData['password'];
-            $saveData['password'] = Hash::make($saveData['password']);
-        } else {
-            unset($saveData['password']);
+            $data['username'] = $user->name . '_' . uniqid();;
+            $data['password'] = Str::random(8);
+            $saveData['password'] = Hash::make($data['password']);
+            $this->userRepository->model->partner()->updateOrCreate(['user_id' => $user_id],['username' => $data['username']]);
         }
 
 
@@ -173,7 +176,7 @@ class PartnerController extends Controller
 
         $user = $this->userRepository->saveFiles($user_id, $request);
 
-         $this->userRepository->model->partner()->updateOrCreate(['user_id' => $user_id],['username' => $request->post('username')]);
+
 
         //dd($user);
         if ($notify){

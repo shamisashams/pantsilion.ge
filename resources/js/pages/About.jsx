@@ -84,8 +84,8 @@ const About = ({ seo, images }) => {
                             {__("client.about_gallery_text", sharedData)}
                         </p>
                     </div>
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-10 gap-3">
-                        {gallery.files.map((item, index) => {
+                    {gallery.length > 0  ? <div className="grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-10 gap-3">
+                        {gallery.map((item, index) => {
                             return (
                                 <Link
                                     href={null}
@@ -117,7 +117,7 @@ const About = ({ seo, images }) => {
                                 </Link>
                             );
                         })}
-                    </div>
+                    </div>:null}
                 </section>
                 <section>
                     <div className="text-center mb-10">
