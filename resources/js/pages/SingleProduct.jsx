@@ -22,7 +22,6 @@ import { Inertia } from "@inertiajs/inertia";
 const SingleProduct = ({ seo }) => {
 
     const {
-        category_last,
         product,
         product_images,
         similar_products,
@@ -31,6 +30,18 @@ const SingleProduct = ({ seo }) => {
         stocks,
         localizations,
     } = usePage().props;
+
+    let category_last = usePage().props.category_last;
+
+    if(product_config.color){
+        category_last.color = 1;
+    } else category_last.color = 0;
+    if(product_config.size){
+        category_last.size = 1;
+    }else category_last.size = 0;
+    if(product_config.corner){
+        category_last.corner = 1;
+    } else category_last.corner = 0;
 
     let initialCorner = 0;
     if (product_config.variant_count == 1 && product_config.last_variant.attributes.corner) {
