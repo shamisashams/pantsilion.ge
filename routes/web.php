@@ -134,6 +134,8 @@ Route::prefix('{locale?}')
                 Route::resource('promocode', \App\Http\Controllers\Admin\PromocodeController::class)->parameters(['promocode' => 'promo_code']);
                 Route::get('promocode/{promo_code}/destroy', [\App\Http\Controllers\Admin\PromocodeController::class, 'destroy'])->name('promocode.destroy');
 
+                Route::get('mail-templates',[\App\Http\Controllers\Admin\MailTemplateController::class,'index'])->name('mail-template.index');
+                Route::put('mail-templates/update',[\App\Http\Controllers\Admin\MailTemplateController::class,'update'])->name('mail-template.update');
 
                 Route::resource('collection', \App\Http\Controllers\Admin\CollectionController::class)->parameters(['collection' => 'product_set']);
                 Route::get('collection/{product_set}/destroy', [\App\Http\Controllers\Admin\CollectionController::class, 'destroy'])->name('collection.destroy');

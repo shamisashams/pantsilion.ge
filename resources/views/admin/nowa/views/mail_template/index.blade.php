@@ -27,72 +27,109 @@
     <!-- breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
-            <span class="main-content-title mg-b-0 mg-b-lg-1">{{$model->created_at ? __('admin.promocode-update') : __('admin.promocode-create')}}</span>
+            <span class="main-content-title mg-b-0 mg-b-lg-1">{{ __('admin.mail_templates')}}</span>
         </div>
         <div class="justify-content-center mt-2">
             @include('admin.nowa.views.layouts.components.breadcrump')
         </div>
     </div>
     <!-- /breadcrumb -->
-    <input name="old-images[]" id="old_images" hidden disabled value="{{$model->files}}">
+
     <!-- row -->
     {!! Form::model($model,['url' => $url, 'method' => $method,'files' => true]) !!}
     <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h6 class="card-title mb-1">@lang('admin.editpage')</h6>
+                    </div>
 
+                    <div class="mb-4">
+
+
+                        <div class="panel panel-primary tabs-style-2">
+                            <div class=" tab-menu-heading">
+                                <div class="tabs-menu1">
+                                    <!-- Tabs -->
+                                    <ul class="nav panel-tabs main-nav-line">
+                                        @foreach(config('translatable.locales') as $locale)
+                                            <?php
+                                            $active = '';
+                                            if($loop->first) $active = 'active';
+                                            ?>
+
+                                            <li><a href="#lang-{{$locale}}" class="nav-link {{$active}}" data-bs-toggle="tab">{{$locale}}</a></li>
+                                        @endforeach
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel-body tabs-menu-body main-content-body-right border">
+                                <div class="tab-content">
+
+                                    @foreach(config('translatable.locales') as $locale)
+
+                                        <?php
+                                        $active = '';
+                                        if($loop->first) $active = 'active';
+                                        ?>
+                                        <div class="tab-pane {{$active}}" id="lang-{{$locale}}">
+                                            <div class="main-content-label mg-b-5">
+                                                @lang('admin.mail_text')
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="description">@lang('admin.promocode_cart')</label>
+                                                <textarea class="form-control" id="promocode_cart-{{$locale}}"
+                                                          name="{{$locale}}[promocode_cart]'">{!! $model->translate($locale)->promocode_cart ?? '' !!}</textarea>
+                                                @error($locale.'.promocode_cart')
+                                                <small class="text-danger">
+                                                    <div class="error">
+                                                        {{$message}}
+                                                    </div>
+                                                </small>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="description">@lang('admin.promocode_product')</label>
+                                                <textarea class="form-control" id="promocode_product-{{$locale}}"
+                                                          name="{{$locale}}[promocode_products]'">{!! $model->translate($locale)->promocode_products ?? '' !!}</textarea>
+                                                @error($locale.'.promocode_products')
+                                                <small class="text-danger">
+                                                    <div class="error">
+                                                        {{$message}}
+                                                    </div>
+                                                </small>
+                                                @enderror
+                                            </div>
+
+
+                                        </div>
+
+                                    @endforeach
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
         <div class="col-lg-6 col-md-12">
             <div class="card">
                 <div class="card-body">
 
 
-                    <div class="form-group">
-                        <label class="form-label">@lang('admin.reward')</label>
-                        <input type="number" class="form-control" name="reward" value="{{$model->reward}}">
-                        @error('reward')
-                        <small class="text-danger">
-                            <div class="error">
-                                {{$message}}
-                            </div>
-                        </small>
-                        @enderror
-                    </div>
 
-                    <?php
-                    $types = [
-                      'product' => 'Product',
-                      'cart' => 'Cart'
-                    ];
-                    ?>
-
-                    <div class="form-group">
-                        <label class="form-label">@lang('admin.type')</label>
-                        <select class="form-control" name="type">
-                            @foreach($types as $key => $type)
-                                <option value="{{$key}}" {{$model->type == $key ? 'selected':''}}>{{$type}}</option>
-                            @endforeach
-                        </select>
-                        @error('reward')
-                        <small class="text-danger">
-                            <div class="error">
-                                {{$message}}
-                            </div>
-                        </small>
-                        @enderror
-                    </div>
-
-
-
-
-                    <div class="form-group">
-                        <label class="ckbox">
-                            <input type="checkbox" name="status"
-                                   value="true" {{$model->status ? 'checked' : ''}}>
-                            <span>{{__('admin.status')}}</span>
-                        </label>
-                    </div>
 
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>
-                            {!! Form::submit($model->created_at ? __('admin.update') : __('admin.create'),['class' => 'btn btn-primary']) !!}
+                            {!! Form::submit(__('admin.update'),['class' => 'btn btn-primary']) !!}
                         </div>
                     </div>
 
@@ -102,52 +139,17 @@
     </div>
 
     <!-- /row -->
-
-    <div class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div>
-                        <h6 class="card-title mb-1">@lang('admin.products')</h6>
-                    </div>
-                    <table class="table">
-                        <tr>
-                            <th>id</th>
-                            <th>title</th>
-                        </tr>
-                        @foreach($model->products as $product)
-                        <tr>
-                            <td>
-                                {{$product->id}}
-                            </td>
-                            <td>
-                                <a href="{{route('product.edit',$product->id)}}" >{{$product->title}}</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- row -->
-    {{--<div class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div>
-                        <h6 class="card-title mb-1">@lang('admin.images')</h6>
-                    </div>
-                    <div class="input-images"></div>
-                    @if ($errors->has('images'))
-                        <span class="help-block">
-                                            {{ $errors->first('images') }}
-                                        </span>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>--}}
+
+
+
+
+
+
+
+
+
+
     <!-- row closed -->
 
     <!-- /row -->
@@ -223,10 +225,15 @@
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <script>
         @foreach(config('translatable.locales') as $locale)
-        CKEDITOR.replace('description-{{$locale}}', {
+        CKEDITOR.replace('promocode_cart-{{$locale}}', {
             filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
             filebrowserUploadMethod: 'form'
         });
+        CKEDITOR.replace('promocode_product-{{$locale}}', {
+            filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
+            filebrowserUploadMethod: 'form'
+        });
+
         @endforeach
     </script>
 

@@ -25,7 +25,8 @@ class PromoCode extends Model
         'promo_code',
         'reward',
         'quantity',
-        'type'
+        'type',
+        'status'
     ];
 
 

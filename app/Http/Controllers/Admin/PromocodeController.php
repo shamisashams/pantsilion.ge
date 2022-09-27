@@ -149,11 +149,11 @@ class PromocodeController extends Controller
         $saveData = Arr::except($request->except('_token'), []);
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
 
-        if($saveData['type'] == 'cart'){
+        /*if($saveData['type'] == 'cart'){
             if(PromoCode::where('type','cart')->count() > 0){
                 return redirect()->back()->with('danger','you can create only one promocode of type cart');
             }
-        }
+        }*/
 
         $this->promoCodeRepository->update($promoCode->id, $saveData);
 
