@@ -20,10 +20,6 @@ import Layout from "../Layouts/Layout";
 import { Inertia } from "@inertiajs/inertia";
 
 const SingleProduct = ({ seo }) => {
-    const [side, setSide] = useState(0);
-    const [chooseCity, setChooseCity] = useState(false);
-    const [chooseSize, setChooseSize] = useState(false);
-    const [favorite, setFavorite] = useState(false);
 
     const {
         category_last,
@@ -35,6 +31,25 @@ const SingleProduct = ({ seo }) => {
         stocks,
         localizations,
     } = usePage().props;
+
+    let initialCorner = 0;
+    if (product_config.variant_count == 1 && product_config.last_variant.attributes.corner) {
+
+            if (product_config.last_variant.attributes.corner.code == 'left') {
+                initialCorner = 1;
+            }
+            if (product_config.last_variant.attributes.corner.code == 'right') {
+                initialCorner = 2;
+            }
+
+    }
+
+    const [side, setSide] = useState(initialCorner);
+    const [chooseCity, setChooseCity] = useState(false);
+    const [chooseSize, setChooseSize] = useState(false);
+    const [favorite, setFavorite] = useState(false);
+
+
 
     const [productImages, setProductImages] = useState(product_images);
 
@@ -706,13 +721,13 @@ const SingleProduct = ({ seo }) => {
                             <p className="my-5">
                                 {renderHTML(product.description)}
                             </p>
-                            {category_last.corner === 1 ? (
+                            {category_last.corner === 1 && product_config.last_variant.attributes.corner ? (
                                 <div className="bold mb-4">
                                     {__("client.product_corner", localizations)}
                                     :
                                 </div>
                             ) : null}
-                            {category_last.corner === 1 ? (
+                            {category_last.corner === 1 && product_config.last_variant.attributes.corner ? (
                                 <div className="flex text-sm mb-5 justify-start">
                                     {left ? (
                                         <div
@@ -775,7 +790,7 @@ const SingleProduct = ({ seo }) => {
                             <div className="bold mb-4">
                                 {__("client.product_specification", localizations)}
                             </div>
-                            {category_last.size === 1 ? (
+                            {category_last.size === 1 && product_config.last_variant.attributes.size ? (
                                 <div className="">
                                     <p className="opacity-50 text-sm inline-block mr-2">
                                         {__("client.size", localizations)}:
@@ -865,7 +880,7 @@ const SingleProduct = ({ seo }) => {
                                     {product.attributes.brand}
                                 </span>
                             </p>:null}
-                            {category_last.color === 1 ? (
+                            {category_last.color === 1  && product_config.last_variant.attributes.color ? (
                                 <div className=" my-5 ">
                                     <p className="whitespace-nowrap opacity-50">
                                         {__("client.product_color", localizations)}
