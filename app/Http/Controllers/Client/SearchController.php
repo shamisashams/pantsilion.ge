@@ -107,6 +107,7 @@ class SearchController extends Controller
             'images' => $images,
             'filter' => $this->getAttributes(),
             'subcategories' => $subCategories,
+            'collections' => [],
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,
