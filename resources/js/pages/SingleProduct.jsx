@@ -64,22 +64,28 @@ const SingleProduct = ({ seo }) => {
         category_last.color === 1
     ) {
         initialColors = [];
-        Object.keys(product_config.color).map((key2, index3) => {
-            product_config.color[key2].variants.map((key4, index3) => {
-                initialColors.push({
-                    id: key4,
-                    label: product_config.color[key2].label,
-                    color: product_config.color[key2].color,
+        if(product_config.color){
+            Object.keys(product_config.color).map((key2, index3) => {
+                product_config.color[key2].variants.map((key4, index3) => {
+                    initialColors.push({
+                        id: key4,
+                        label: product_config.color[key2].label,
+                        color: product_config.color[key2].color,
+                    });
                 });
             });
-        });
+        }
+
 
 
     }
 
     if (product_config.variant_count == 1){
         initialColors = [];
-        initialColors.push({id:product_config.last_variant.id,color:product_config.last_variant.attributes.color.color,label:product_config.last_variant.attributes.color.label});
+        if(product_config.last_variant.attributes.color){
+            initialColors.push({id:product_config.last_variant.id,color:product_config.last_variant.attributes.color.color,label:product_config.last_variant.attributes.color.label});
+        }
+
     }
 
     const [productColors, setProductColors] = useState(initialColors);
@@ -95,16 +101,19 @@ const SingleProduct = ({ seo }) => {
     ) {
         let sizes = [];
 
-        Object.keys(product_config.size).map((key2, index3) => {
-            //product_config.size[key2].variants = id;
-            //product_config.size[key2].variants.remove(item);
-            sizes.push({
-                id: key2,
-                label: product_config.size[key2].value,
-                variants: product_config.size[key2].variants,
+        if(product_config.size){
+            Object.keys(product_config.size).map((key2, index3) => {
+                //product_config.size[key2].variants = id;
+                //product_config.size[key2].variants.remove(item);
+                sizes.push({
+                    id: key2,
+                    label: product_config.size[key2].value,
+                    variants: product_config.size[key2].variants,
+                });
+                //delete product_config.size[key2];
             });
-            //delete product_config.size[key2];
-        });
+        }
+
 
          initialSizes = {};
 
@@ -132,19 +141,23 @@ const SingleProduct = ({ seo }) => {
     ) {
 
         let sizes = [];
-        Object.keys(product_config.size).map((key2, index3) => {
-            product_config.size[key2].variants.map((item, index) => {
-                sizes.push({
-                    id: item,
-                    label: product_config.size[key2].value,
-                    variants: [],
-                });
-            });
-            //product_config.size[key2].variants = id;
-            //product_config.size[key2].variants.remove(item);
 
-            //delete product_config.size[key2];
-        });
+        if(product_config.size){
+            Object.keys(product_config.size).map((key2, index3) => {
+                product_config.size[key2].variants.map((item, index) => {
+                    sizes.push({
+                        id: item,
+                        label: product_config.size[key2].value,
+                        variants: [],
+                    });
+                });
+                //product_config.size[key2].variants = id;
+                //product_config.size[key2].variants.remove(item);
+
+                //delete product_config.size[key2];
+            });
+        }
+
         initialSizes = {};
 
         sizes.map((item, index) => {
@@ -161,6 +174,7 @@ const SingleProduct = ({ seo }) => {
 
     let selectedSizeInitial = __('client.select_size',localizations);
     if (product_config.variant_count == 1){
+        if(product_config.last_variant.attributes.size)
         selectedSizeInitial = product_config.last_variant.attributes.size.value;
     }
 
