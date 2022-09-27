@@ -216,7 +216,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$category) {
                     }
                     ?>
 
-                    {{--<div class="form-group">
+                    <div class="form-group">
                         <label class="form-label">@lang('admin.fiter_attributes')</label>
                         <select class="form-control" name="filter">
                             <option value="">--none--</option>
@@ -224,7 +224,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$category) {
                                 <option value="{{$k}}" {{$k == $sel_a ? 'selected':''}}>{{$attr}}</option>
                             @endforeach
                         </select>
-                    </div>--}}
+                    </div>
 
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>
