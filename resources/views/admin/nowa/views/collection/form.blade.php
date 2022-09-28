@@ -736,7 +736,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
     </script>
 
     <script>
-        $('[name="categories[]"]').click(function (e){
+        /*$('[name="categories[]"]').click(function (e){
             let $this = $(this);
 
 
@@ -764,7 +764,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                 }
 
 
-        });
+        });*/
 
         $('.bool_ckbox').click(function (e){
             if($(this).is(':checked')){
