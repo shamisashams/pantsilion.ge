@@ -266,11 +266,11 @@ class CartController extends Controller
 
             //dd($promocode->promocodeM);
             session(['promocode' => $promocode->promocodeM]);
-            return back()->with('msg','promocode');
+            return back()->with('success',__('client.promocode_ok'));
         }
 
         session()->forget('promocode');
-        return back()->with('msg','bad promocode');
+        return back()->with('error',__('client.wrong_promocode'));
     }
 
 

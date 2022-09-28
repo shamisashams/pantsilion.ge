@@ -136,7 +136,7 @@ class AuthController extends Controller
 
         User::query()->create($attributes);
 
-        return redirect()->back()->with('success','registered');
+        return redirect()->back()->with('success',__('client.successful_registration'));
     }
 
     public function partnerLoginView(){
@@ -188,10 +188,10 @@ class AuthController extends Controller
                 Auth::loginUsingId($partner->user_id);
                 return redirect()->back();
             } else {
-                return back()->withErrors(['username' => 'wrong']);
+                return back()->withErrors(['username' => __('client.wrong_credentials')]);
             }
         } else {
-            return back()->withErrors(['username' => 'wrong']);
+            return back()->withErrors(['username' => __('client.wrong_credentials')]);
         }
     }
 

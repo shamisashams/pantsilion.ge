@@ -68,7 +68,7 @@ class UserController extends Controller
         ]);
 
         auth()->user()->update($data);
-        return redirect()->back();
+        return redirect()->back()->with('success',__('client.success_saved'));
     }
 
 

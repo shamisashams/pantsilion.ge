@@ -94,7 +94,7 @@ class PartnerController extends Controller
         ];*/
         //Mail::to($model)->send(new PartnerJoined($data));
 
-        return redirect()->back()->with('success','added');
+        return redirect()->back()->with('success',__('client.success_partner_register'));
     }
 
     public function cabinet(){
@@ -181,7 +181,7 @@ class PartnerController extends Controller
 
         auth()->user()->bankAccount()->updateOrCreate(['user_id' => auth()->id()],$data);
 
-        return redirect()->back();
+        return redirect()->back()->with('success',__('client.success_save'));
     }
 
     public function withdraw(){
@@ -380,11 +380,11 @@ class PartnerController extends Controller
 
         $this->userRepository->uploadId($request);
 
-        return redirect()->back();
+        return redirect()->back()->with('success',__('client.success_save'));
     }
 
     public function referralRemove(Request $request){
         User::query()->where('referred_by',auth()->user()->affiliate_id)->where('id',$request->get('id'))->update(['referred_by' => null]);
-        return redirect()->back();
+        return redirect()->back()->with('success',__('client.success_referral_remove'));
     }
 }

@@ -30,10 +30,12 @@ const PartnerJoin = ({seo}) => {
                       <p className=" mb-10">
                           {__('client.partner_join_text', localizations)}
                       </p>
+                      {errors.name && <div>{errors.name}</div>}
                       <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                           <label className="opacity-50">{__('client.form_name', localizations)}</label>
                           <input type="text " onChange={e => setData('name', e.target.value)} value={data.name} className="text-right " />
                       </div>
+                      {errors.surname && <div>{errors.surname}</div>}
                       <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                           <label className="opacity-50">{__('client.form_surname', localizations)}</label>
                           <input type="text " onChange={e => setData('surname', e.target.value)} value={data.surname} className="text-right " />
@@ -47,6 +49,7 @@ const PartnerJoin = ({seo}) => {
                               className="text-right "
                           />
                       </div>
+                      {errors.phone && <div>{errors.phone}</div>}
                       <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                           <label className="opacity-50">{__('client.form_phone', localizations)}</label>
                           <input
