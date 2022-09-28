@@ -61,6 +61,8 @@ class UserController extends Controller
     public function saveSettings(Request $request){
 
         $data = $request->validate([
+            'name' => 'required',
+            'surname' => 'required',
             'address' => 'required',
             'phone' => 'required',
             'email' => 'required|email|unique:users,email,' . auth()->id(),

@@ -71,7 +71,7 @@ const RegularCabinet = ({ seo }) => {
                             <div className="text-3xl bold mb-7">
                                 {__("client.personal_info", localizations)}
                             </div>
-
+                            {errors.name && <div>{errors.name}</div>}
                             <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                                 <label className="opacity-50">
                                     {__("client.form_name", localizations)}
@@ -84,6 +84,7 @@ const RegularCabinet = ({ seo }) => {
                                     onChange={handleChange}
                                 />
                             </div>
+                            {errors.surname && <div>{errors.surname}</div>}
                             <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                                 <label className="opacity-50">
                                     {__("client.form_surname", localizations)}
@@ -96,6 +97,7 @@ const RegularCabinet = ({ seo }) => {
                                     onChange={handleChange}
                                 />
                             </div>
+                            {errors.id_number && <div>{errors.id_number}</div>}
                             <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                                 <label className="opacity-50">
                                     {__("client.form_id", localizations)}
@@ -108,7 +110,7 @@ const RegularCabinet = ({ seo }) => {
                                     onChange={handleChange}
                                 />
                             </div>
-
+                            {errors.address && <div>{errors.address}</div>}
                             <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                                 <label className="opacity-50">
                                     {__("client.form_address", localizations)}
@@ -121,6 +123,7 @@ const RegularCabinet = ({ seo }) => {
                                     onChange={handleChange}
                                 />
                             </div>
+                            {errors.phone && <div>{errors.phone}</div>}
                             <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                                 <label className="opacity-50">
                                     {__("client.form_phone", localizations)}
@@ -133,6 +136,7 @@ const RegularCabinet = ({ seo }) => {
                                     onChange={handleChange}
                                 />
                             </div>
+                            {errors.email && <div>{errors.email}</div>}
                             <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
                                 <label className="opacity-50">
                                     {__("client.form_email", localizations)}
