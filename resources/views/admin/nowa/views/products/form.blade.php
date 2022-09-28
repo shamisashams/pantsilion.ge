@@ -632,7 +632,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                                                             <a href="javascript:;" class="delete_product">delete</a>
                                                         </li>
                                                         @else
-                                                            <input type="hidden" name="attribute[{{$item->id}}]" value="">
+                                                            {{--<input type="hidden" name="attribute[{{$item->id}}]" value="">--}}
                                                     @endif
                                                 @endforeach
                                             </ul>
