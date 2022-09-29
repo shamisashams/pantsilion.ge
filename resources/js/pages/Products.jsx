@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { productSlider } from "../components/Data";
 import ProductBox from "../components/ProductBox";
 import { TbAdjustments } from "react-icons/tb";
@@ -89,14 +89,32 @@ const Products = ({ seo }) => {
         Inertia.visit("?" + params.join("&"));
     };
 
-    const { subcategories, products, localizations, collections } = usePage().props;
+    const { subcategories, products, localizations, collections } =
+        usePage().props;
 
     let subcats = {};
     subcategories.map((item, index) => {
         subcats[item.id] = item.title;
     });
 
-    console.log(products);
+    // handle click outside of the box
+
+    const wrapperRef = useRef(null);
+
+    useOutsideAlerter(wrapperRef);
+    function useOutsideAlerter(ref) {
+        useEffect(() => {
+            function handleClickOutside(event) {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    setShowFilters(false);
+                }
+            }
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref]);
+    }
 
     return (
         <Layout seo={seo}>
@@ -136,6 +154,7 @@ const Products = ({ seo }) => {
                     </div>
                 </div>
                 <div
+                    ref={wrapperRef}
                     className={`fixed top-0 left-0 h-screen 2xl:w-1/4 sm:w-96 w-80  bg-white z-40 md:pt-36 pt-32  pb-5 flex flex-col items-center justify-between transition-all duration-500 md:overflow-hidden overflow-y-scroll shadow-lg  ${
                         showFilters ? "translate-x-0" : "-translate-x-full"
                     }`}
@@ -204,7 +223,10 @@ const Products = ({ seo }) => {
                                         <Link
                                             /*onClick={() => addToSelected(item)}*/
                                             className={`lg:py-3 py-2 lg:text-base text-sm px-5  block w-fit rounded-full hover:bg-zinc-100 transition-all `}
-                                            href={route('client.collection.show',item.slug)}
+                                            href={route(
+                                                "client.collection.show",
+                                                item.slug
+                                            )}
                                         >
                                             {item.title}
                                         </Link>

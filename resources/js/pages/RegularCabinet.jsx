@@ -72,79 +72,79 @@ const RegularCabinet = ({ seo }) => {
                                 {__("client.personal_info", localizations)}
                             </div>
                             {errors.name && <div>{errors.name}</div>}
-                            <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                                <label className="opacity-50">
+                            <div className="relative flex justify-between items-center w-full bg-white h-12 mb-4 text-sm">
+                                <label className="opacity-50 absolute left-3 top-1/2 -translate-y-1/2">
                                     {__("client.form_name", localizations)}
                                 </label>
                                 <input
                                     type="text "
                                     name="name"
-                                    className="text-right "
+                                    className="text-right w-full h-full relative z-20  px-4 w-full h-full relative z-20"
                                     value={values.name}
                                     onChange={handleChange}
                                 />
                             </div>
                             {errors.surname && <div>{errors.surname}</div>}
-                            <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                                <label className="opacity-50">
+                            <div className="relative flex justify-between items-center w-full bg-white h-12 mb-4 text-sm">
+                                <label className="opacity-50  absolute left-3 top-1/2 -translate-y-1/2">
                                     {__("client.form_surname", localizations)}
                                 </label>
                                 <input
                                     type="text "
                                     name="surname"
-                                    className="text-right "
+                                    className="text-right w-full h-full relative z-20  px-4"
                                     value={values.surname}
                                     onChange={handleChange}
                                 />
                             </div>
                             {errors.id_number && <div>{errors.id_number}</div>}
-                            <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                                <label className="opacity-50">
+                            <div className="relative flex justify-between items-center w-full bg-white h-12 mb-4 text-sm">
+                                <label className="opacity-50  absolute left-3 top-1/2 -translate-y-1/2">
                                     {__("client.form_id", localizations)}
                                 </label>
                                 <input
                                     type="text "
                                     name="id_number"
-                                    className="text-right "
+                                    className="text-right w-full h-full relative z-20  px-4"
                                     value={values.id_number}
                                     onChange={handleChange}
                                 />
                             </div>
                             {errors.address && <div>{errors.address}</div>}
-                            <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                                <label className="opacity-50">
+                            <div className="relative flex justify-between items-center w-full bg-white h-12 mb-4 text-sm">
+                                <label className="opacity-50  absolute left-3 top-1/2 -translate-y-1/2">
                                     {__("client.form_address", localizations)}
                                 </label>
                                 <input
                                     type="text "
                                     name="address"
-                                    className="text-right "
+                                    className="text-right w-full h-full relative z-20  px-4"
                                     value={values.address}
                                     onChange={handleChange}
                                 />
                             </div>
                             {errors.phone && <div>{errors.phone}</div>}
-                            <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                                <label className="opacity-50">
+                            <div className="relative flex justify-between items-center w-full bg-white h-12 mb-4 text-sm">
+                                <label className="opacity-50  absolute left-3 top-1/2 -translate-y-1/2">
                                     {__("client.form_phone", localizations)}
                                 </label>
                                 <input
                                     type="text "
                                     name="phone"
-                                    className="text-right "
+                                    className="text-right w-full h-full relative z-20  px-4"
                                     value={values.phone}
                                     onChange={handleChange}
                                 />
                             </div>
                             {errors.email && <div>{errors.email}</div>}
-                            <div className="flex justify-between items-center w-full bg-white h-12 px-4 mb-4 text-sm">
-                                <label className="opacity-50">
+                            <div className="relative flex justify-between items-center w-full bg-white h-12 mb-4 text-sm">
+                                <label className="opacity-50  absolute left-3 top-1/2 -translate-y-1/2">
                                     {__("client.form_email", localizations)}
                                 </label>
                                 <input
                                     type="text "
                                     name="email"
-                                    className="text-right "
+                                    className="text-right w-full h-full relative z-20  px-4"
                                     value={values.email}
                                     onChange={handleChange}
                                 />
