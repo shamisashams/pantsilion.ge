@@ -223,27 +223,27 @@ const FurnitureSet = ({ seo }) => {
                                     />
                                 </div>
                             </div>
-                            <div className="text-xl">
+                            {!collection.special_price ? <div className="text-xl">
                                 {__("client.set_price", localizations)}:{" "}
                                 <span className="bold text-3xl pl-2">
                                     {" "}
                                     ₾{collection.price}
                                 </span>
-                            </div>
-                            <div className="text-xl mt-3">
-                                Price for full set:{" "}
+                            </div>:null}
+                            {collection.special_price ?<div className="text-xl mt-3">
+                                {__("client.set_old_price", localizations)}:{" "}
                                 <span className="bold text-2xl pl-2 opacity-50 line-through">
                                     {" "}
-                                    ₾ 4123.99
+                                    ₾ {collection.price}
                                 </span>
-                            </div>
-                            <div className="text-xl mt-3">
-                                New price:{" "}
+                            </div>:null}
+                            {collection.special_price ? <div className="text-xl mt-3">
+                                {__("client.set_new_price", localizations)}:{" "}
                                 <span className="bold text-3xl pl-2 text-red-400">
                                     {" "}
-                                    ₾ 4123.99
+                                    ₾ {collection.special_price}
                                 </span>
-                            </div>
+                            </div>:null}
                             <div className="w-44 my-5">
                                 <div className="flex justify-between mb-2">
                                     <button

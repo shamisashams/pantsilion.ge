@@ -83,8 +83,30 @@ class HandleInertiaRequests extends Middleware
             'affiliate_link' => auth()->user() ? url('/registration') . '?ref=' .auth()->user()->affiliate_id : null,
             'cart_count' => Cart::count(),
             'wishlist_count' => Wishlist::query()->where('user_id',auth()->id())->count(),
-            'flash' => session()->get('msg')
+            'flash' => $this->getFlash()
         ]);
+    }
+
+    private function getFlash(){
+        $arr = [
+          'error' => null,
+          'warning' => null,
+          'success' => null,
+          'danger' => null
+        ];
+        if(session('error')){
+            $arr['error'] = session('error');
+        }
+        if(session('warning')){
+            $arr['warning'] = session('warning');
+        }
+        if(session('success')){
+            $arr['success'] = session('success');
+        }
+        if(session('danger')){
+            $arr['danger'] = session('danger');
+        }
+        return $arr;
     }
 
     private function buildTree($data){

@@ -501,7 +501,10 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                                     if($prod_attr[$item->id] == $option->id){
                                                         $selected = ' selected';
                                                     } else $selected = '';
-                                                } else $selected = '';
+                                                }elseif(old('attribute.'.$item->id) == $option->id){
+                                                    $selected = ' selected';
+                                                }
+                                                else $selected = '';
                                                 ?>
 
 

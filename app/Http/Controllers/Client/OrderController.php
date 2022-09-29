@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\PromocodeProduct;
 use App\Models\Category;
 use App\Models\City;
+use App\Models\MailTemplate;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Page;
@@ -382,6 +383,7 @@ class OrderController extends Controller
 
                         $request->user()->promocode()->create(['promocode_id' => $_promocode->id, 'promocode' => $gen]);
                         $data['product'] = null;
+                        $data['text'] = MailTemplate::query()->first()->promocode_cart;
                         $data['code'] = $gen;
                         Mail::to($request->user())->send(new PromocodeProduct($data));
                     }

@@ -510,19 +510,22 @@ const SingleProduct = ({ seo }) => {
         console.log(selected_size);
         setSelectedSize(selected_size.label);
         selected_size.variants.map((item, index) => {
-            Object.keys(product_config.color).map((key3, index) => {
-                if (product_config.color[key3].variants.includes(item)) {
-                    //id2.push(item);
-                    //product_config.color[key3].variants.remove(item);
-                    colors_.push({
-                        id: item,
-                        id2: key3,
-                        label: product_config.color[key3].label,
-                        color: product_config.color[key3].color,
-                    });
-                    //delete product_config.color[key3];
-                }
-            });
+            if(product_config.color){
+                Object.keys(product_config.color).map((key3, index) => {
+                    if (product_config.color[key3].variants.includes(item)) {
+                        //id2.push(item);
+                        //product_config.color[key3].variants.remove(item);
+                        colors_.push({
+                            id: item,
+                            id2: key3,
+                            label: product_config.color[key3].label,
+                            color: product_config.color[key3].color,
+                        });
+                        //delete product_config.color[key3];
+                    }
+                });
+            }
+
         });
         setProductColors(colors_);
 
@@ -567,6 +570,49 @@ const SingleProduct = ({ seo }) => {
                     : null
             );
             setProductCode(product_config.variants[selected].variant.code);
+        }
+
+        if(
+            category_last.corner === 1 &&
+            category_last.size === 1 &&
+            category_last.color === 0
+        ){
+
+
+            let price;
+
+
+            setProductId(product_config.variants[product_config.size[id].variants[0]].variant.id);
+
+            if (product_config.variants[product_config.size[id].variants[0]].variant.special_price) {
+                price = product_config.variants[product_config.size[id].variants[0]].variant.special_price;
+                setOldPrice(
+                    "₾" + product_config.variants[product_config.size[id].variants[0]].variant.price
+                );
+            } else {
+                price = product_config.variants[product_config.size[id].variants[0]].variant.price;
+                setOldPrice("");
+            }
+            setProductPrice("₾" + price);
+
+            if (product_config.variants[product_config.size[id].variants[0]].images.length > 0) {
+                setProductImages(product_config.variants[product_config.size[id].variants[0]].images);
+            }
+
+            setToCart(product_config.variants[product_config.size[id].variants[0]].variant);
+            setProductStocksOver(
+                product_config.variants[product_config.size[id].variants[0]].stocks ?? {}
+            );
+            setProductStocks(
+                product_config.variants[product_config.size[id].variants[0]].stocks[cityId] ?? {}
+            );
+            setProductVideo(
+                product_config.variants[product_config.size[id].variants[0]].variant.video
+                    ? product_config.variants[product_config.size[id].variants[0]].variant.video.path
+                    : null
+            );
+            setProductCode(product_config.variants[product_config.size[id].variants[0]].variant.code);
+
         }
     }
 

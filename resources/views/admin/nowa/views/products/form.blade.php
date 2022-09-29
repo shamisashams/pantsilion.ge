@@ -566,6 +566,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
 
                                 @if($item->type == 'select')
                                     <select class="form-control" name="attribute[{{$item->id}}]">
+
                                         <option value=""></option>
                                         @foreach($item->options as $option)
                                             <?php
@@ -632,7 +633,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                                                             <a href="javascript:;" class="delete_product">delete</a>
                                                         </li>
                                                         @else
-                                                            <input type="hidden" name="attribute[{{$item->id}}]" value="">
+                                                            {{--<input type="hidden" name="attribute[{{$item->id}}]" value="">--}}
                                                     @endif
                                                 @endforeach
                                             </ul>
@@ -700,7 +701,10 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                                                 if($prod_attr[$item->id] == $option->id){
                                                     $selected = ' selected';
                                                 } else $selected = '';
-                                            } else $selected = '';
+                                            } elseif(old('attribute.'.$item->id) == $option->id){
+                                                $selected = ' selected';
+                                            }
+                                            else $selected = '';
                                             ?>
                                             <option value="{{$option->id}}"{{$selected}}>{{$option->code}} {{$option->label}} {{$option->value}}</option>
                                         @endforeach

@@ -11,7 +11,7 @@ import { Inertia } from '@inertiajs/inertia'
 
 const Cart = ({seo}) => {
 
-    const {cart, flash, promocode, localizations} = usePage().props;
+    const {cart, promocode, localizations} = usePage().props;
     console.log(cart);
 
     function removeItem(id){
@@ -192,7 +192,7 @@ const Cart = ({seo}) => {
                                  onChange={handleChange}
                           />
                           <button onClick={handleSubmit} className="bg-zinc-100 bold py-2 px-10">{__('client.apply_code', localizations)}</button>
-                          <div>{flash ? flash :null}</div>
+                          {/*<div>{flash ? flash :null}</div>*/}
                           <div>{promocode ? 'discount %' + promocode.reward :null}</div>
                       </div>
                       <Link href={route('client.shipping.index')}>

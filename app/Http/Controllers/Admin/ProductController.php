@@ -387,7 +387,10 @@ class ProductController extends Controller
                 if ($product_atribute){
 
                     $data['integer_value'] = $item;
-                    $product_atribute->update($data);
+                    ProductAttributeValue::where('product_id',$product_atribute->product_id)
+                        ->where('attribute_id',$product_atribute->attribute_id)
+                        ->update($data);
+                    //$product_atribute->update($data);
                 } else {
                     $attr[$key] = $item;
                 }
