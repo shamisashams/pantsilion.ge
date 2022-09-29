@@ -240,7 +240,7 @@ class CollectionController extends Controller
                 $tQ->whereTranslationLike('title', '%'.$params['term'].'%')
                     ->orWhereTranslationLike('description', '%'.$params['term'].'%');
                 $tQ->orWhere('slug','like','%'.$params['term'].'%');
-                $tQ->orWhere('id','like','%'.$params['term'].'%');
+                $tQ->orWhere('products.id','like','%'.$params['term'].'%');
             });
 
         }
