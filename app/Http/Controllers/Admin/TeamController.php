@@ -159,10 +159,10 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy(string $locale, Stock $stock)
+    public function destroy(string $locale, Team $team)
     {
-        if (!$this->teamRepository->delete($stock->id)) {
-            return redirect(locale_route('team.index', $stock->id))->with('danger', __('admin.not_delete_message'));
+        if (!$this->teamRepository->delete($team->id)) {
+            return redirect(locale_route('team.index', $team->id))->with('danger', __('admin.not_delete_message'));
         }
         return redirect(locale_route('team.index'))->with('success', __('admin.delete_message'));
     }
