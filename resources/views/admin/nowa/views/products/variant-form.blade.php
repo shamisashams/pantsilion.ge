@@ -79,7 +79,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
     <!-- row -->
     {!! Form::model($product,['url' => $url, 'method' => $method,'files' => true]) !!}
 
-    <input id="inp_crop_img" type="hidden" name="base64_img">
+
 
     @if($product->parent_id === null)
         @foreach($ids as $id)
@@ -596,7 +596,16 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                         </span>
                     @endif
 
+                    <div class="image-uploader">
+                        <div class="uploaded">
+                            <div id="img_list">
+                                @if(old('base64_img'))
+                                    <span class="img_itm"><input type="hidden" name="base64_img" value="{{old('base64_img')}}"><img height="200" src="{{old('base64_img')}}"><a class="delete_img" href="javascript:;">delete</a><span>
 
+                                @endif
+                            </div>
+                        </div>
+                    </div>
 
                     {{--<div class="image-uploader">
                         <div class="uploaded">
@@ -834,14 +843,18 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                 formData.append('base64_img', imageResult);
                 formData.append('_token', '{{csrf_token()}}');
 
-                document.getElementById('inp_crop_img').value = imageResult;
+                //document.getElementById('inp_crop_img').value = imageResult;
                 // Sends a POST request to upload_cropped.php
-
+                croppie.destroy();
+                $('#img_list').html('<span class="img_itm"><input type="hidden" name="base64_img" value="' + imageResult + '"><img height="200" src="' + imageResult + '"><a class="delete_img" href="javascript:;">delete</a><span>');
                 alert('cropped')
 
             });
         });
 
+        $(document).on('click','.delete_img',function (e){
+            $(this).parents('.img_itm').remove();
+        });
 
 
         let interval;
