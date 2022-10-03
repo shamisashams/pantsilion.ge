@@ -186,17 +186,14 @@ const FurnitureSet = ({ seo }) => {
                                                     {item.attributes.map(
                                                         (attr, ind) => {
                                                             return (
-                                                                <div className="text-sm opacity-50 mb-1">
-                                                                    {
-                                                                        attr
-                                                                            .attribute
-                                                                            .name
-                                                                    }{" "}
-                                                                    :{" "}
-                                                                    {
-                                                                        attr.option
-                                                                    }
-                                                                </div>
+
+                                                            attr.attribute.code === 'color' ? <div className="text-sm opacity-50 mb-1">{attr.attribute.name} : <div
+                                                                style={{
+                                                                    background:attr.option,
+                                                                    display: 'inline-block',
+                                                                }}
+                                                                className="rounded-full w-5 h-5"
+                                                            ></div></div> :<div className="text-sm opacity-50 mb-1">{attr.attribute.name} : {attr.option}</div>
                                                             );
                                                         }
                                                     )}
