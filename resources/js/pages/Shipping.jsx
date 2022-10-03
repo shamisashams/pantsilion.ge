@@ -281,6 +281,12 @@ const Shipping = ({ seo }) => {
                                                         })}
                                                         {__('client.quantity',localizations)}:{" "}
                                                         {item.quantity}
+                                                        {/* <div
+                                                            style={{
+                                                                background:'#0000FF',
+                                                            }}
+                                                            className="rounded-full w-5 h-5"
+                                                        ></div> */}
                                                     </div>
                                                 </div>
                                             </div>
