@@ -64,7 +64,7 @@ const Home = ({ seo }) => {
                                     {/* from ₾299 */}₾{collection.price}
                                 </div>
                                 <div className="flex items-center justify-start mt-10">
-                                    <Link href="/" className="">
+                                    <Link href={route('client.collection.show',collection.slug)} className="">
                                         <MainButton>
                                             {/* Learn more */}
                                             {__(
