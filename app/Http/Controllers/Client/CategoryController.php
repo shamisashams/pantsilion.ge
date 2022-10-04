@@ -47,10 +47,36 @@ class CategoryController extends Controller
 
         if(\request()->has('subcategory')){
             $subcats = explode(',',request('subcategory'));
-            $collections = ProductSet::with(['translation','latestImage'])->join('collection_categories','collection_categories.product_set_id','=','product_sets.id')
-                ->whereIn('collection_categories.category_id',$subcats)->get();
-        } else
-        $collections = $category->collections()->with(['translation','latestImage'])->get();
+            $query = ProductSet::with(['translation','latestImage'])->join('collection_categories','collection_categories.product_set_id','=','product_sets.id')
+                ->whereIn('collection_categories.category_id',$subcats);
+
+            if($priceFilter = request('price')){
+                $priceRange = explode(',', $priceFilter);
+
+                //dd($priceRange);
+                $query->where(function ($pQ) use ($priceRange){
+                    $pQ->where('product_sets.price', '>=', $priceRange[0])
+                        ->where('product_sets.price', '<=', end($priceRange));
+                });
+
+            }
+
+            $collections = $query->get();
+        } else {
+            if($priceFilter = request('price')){
+                $priceRange = explode(',', $priceFilter);
+
+                $query = $category->collections()->with(['translation','latestImage']);
+                //dd($priceRange);
+                $query->where(function ($pQ) use ($priceRange){
+                    $pQ->where('product_sets.price', '>=', $priceRange[0])
+                        ->where('product_sets.price', '<=', end($priceRange));
+                });
+
+            }
+            $collections = $query->get();
+        }
+
 
 
 
@@ -153,7 +179,16 @@ class CategoryController extends Controller
             $result['attributes'][$key]['options'] = $_options;
             $key++;
         }
-        $result['price']['max'] = $this->productRepository->getMaxprice($category);
+        if($category !== null){
+            $collectionMaxPrice = ProductSet::query()->leftJoin('collection_categories','collection_categories.product_set_id','=','product_sets.id')
+                ->where('collection_categories.category_id',$category->id)->max('price');
+        } else {
+            $collectionMaxPrice = ProductSet::query()
+                ->max('price');
+        }
+
+        //dd($collectionMaxPrice);
+        $result['price']['max'] = $collectionMaxPrice > $this->productRepository->getMaxprice($category) ? $collectionMaxPrice : $this->productRepository->getMaxprice($category);
         $result['price']['min'] = $this->productRepository->getMinprice($category);
         //dd($result);
         return $result;
