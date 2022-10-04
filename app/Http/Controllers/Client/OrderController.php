@@ -315,7 +315,7 @@ class OrderController extends Controller
                         $data['promocode_discount'] = $item['product']->discount;
                     }
                     $insert[] = $data;
-                    $product_images[$item['product']->id] = $item['product']->latestImage->file_full_url;
+                    $product_images[$item['product']->id] = $item['product']->latestImage ? $item['product']->latestImage->file_full_url : '';
                 }
                 //dd($insert);
                 OrderItem::insert($insert);
