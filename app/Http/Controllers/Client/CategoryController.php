@@ -63,10 +63,11 @@ class CategoryController extends Controller
 
             $collections = $query->get();
         } else {
+            $query = $category->collections()->with(['translation','latestImage']);
             if($priceFilter = request('price')){
                 $priceRange = explode(',', $priceFilter);
 
-                $query = $category->collections()->with(['translation','latestImage']);
+
                 //dd($priceRange);
                 $query->where(function ($pQ) use ($priceRange){
                     $pQ->where('product_sets.price', '>=', $priceRange[0])
