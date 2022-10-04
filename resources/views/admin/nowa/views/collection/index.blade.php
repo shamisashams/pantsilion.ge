@@ -77,7 +77,7 @@
 
                                             <td>{{$item->product_count}}</td>
                                             <td>
-                                                <span style="background-color: {{$item->colors[0]->color}};width: 25px;height: 25px;display: block"></span>
+                                                <span style="background-color: {{count($item->colors) > 0 ? $item->colors[0]->color: null}};width: 25px;height: 25px;display: block"></span>
                                             </td>
 
 
