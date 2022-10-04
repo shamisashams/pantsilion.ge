@@ -301,6 +301,7 @@ class OrderController extends Controller
 
                 $data = [];
                 $insert = [];
+                $product_images = [];
                 foreach ($cart['products'] as $item){
 
                     $data['order_id'] = $order->id;
@@ -314,6 +315,7 @@ class OrderController extends Controller
                         $data['promocode_discount'] = $item['product']->discount;
                     }
                     $insert[] = $data;
+                    $product_images[$item['product']->id] = $item['product']->latestImage->file_full_url;
                 }
                 //dd($insert);
                 OrderItem::insert($insert);
@@ -412,7 +414,19 @@ class OrderController extends Controller
                 elseif($order->payment_method == 1 && $order->payment_type == 'space_bank'){
                     $space = new SpacePay('pantsilion.ge','2f6ea5f1-78f6-4d50-a666-b7e9a0b46791');
 
-                    $data = $space->createQr($order->grand_total,$order->id);
+                    $space_products = [];
+
+                    //dd($order->items);
+                    foreach ($order->items as $key => $item){
+                        $space_products[$key]['title'] = $item->name;
+                        $space_products[$key]['model'] = '';
+                        $space_products[$key]['quantity'] = $item->qty_ordered;
+                        $space_products[$key]['amount'] = $item->price;
+                        $space_products[$key]['cashbackAmount'] = 0;
+                        $space_products[$key]['image'] = $product_images[$item->product_id];
+                    }
+
+                    $data = $space->createQr($order->grand_total,$order->id,$order->phone,$order->grand_total,0,1,'',$space_products);
 
                     $response = json_decode($data,true);
 

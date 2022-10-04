@@ -87,6 +87,8 @@ class SpacePay
 
         $url = $this->apiUrl.$this->createQr;
 
+        //dd(json_encode($json));
+
         $response = $this->http_client->request('POST', $url, [
             'headers' => [
                 'Content-Type' => 'application/json',
