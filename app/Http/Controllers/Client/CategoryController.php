@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
+use App\Models\ProductSet;
 use App\Repositories\Eloquent\AttributeRepository;
 use App\Repositories\Eloquent\ProductRepository;
 use Illuminate\Contracts\Foundation\Application;
@@ -44,6 +45,11 @@ class CategoryController extends Controller
             ->paginate(16);*/
         $subCategories =$category->descendants->toTree();
 
+        if(\request()->has('subcategory')){
+            $subcats = explode(',',request('subcategory'));
+            $collections = ProductSet::with(['translation','latestImage'])->join('collection_categories','collection_categories.product_set_id','=','product_sets.id')
+                ->whereIn('collection_categories.category_id',$subcats)->get();
+        } else
         $collections = $category->collections()->with(['translation','latestImage'])->get();
 
 
