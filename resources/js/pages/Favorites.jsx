@@ -79,7 +79,15 @@ const Favorites = ({seo}) => {
                                   <div className="text-sm opacity-50 mb-1">
                                       {item.product.attributes.map((attr,ind) => {
 
-                                          return <div>{attr.attribute.name} : {attr.option}</div>
+                                          return (
+                                              attr.attribute.code === 'color' ? <div>{attr.attribute.name} : <div
+                                                  style={{
+                                                      background:attr.option,
+                                                      display: 'inline-block'
+                                                  }}
+                                                  className="rounded-full w-5 h-5"
+                                              ></div></div> :<div>{attr.attribute.name} : {attr.option}</div>
+                                          )
                                       })}
                                       {/*Color: {item.color}
                                       <br />
@@ -138,7 +146,15 @@ const Favorites = ({seo}) => {
                                   <div className="text-sm opacity-50 mb-1">
                                       {item.collection.attributes.map((attr,ind) => {
 
-                                          return <div>{attr.attribute.name} : {attr.option}</div>
+                                          return (
+                                              attr.attribute.code === 'color' ? <div>{attr.attribute.name} : <div
+                                                  style={{
+                                                      background:attr.option,
+                                                      display: 'inline-block'
+                                                  }}
+                                                  className="rounded-full w-5 h-5"
+                                              ></div></div> :<div>{attr.attribute.name} : {attr.option}</div>
+                                          )
                                       })}
                                       {/*Color: {item.color}
                                       <br />

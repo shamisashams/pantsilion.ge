@@ -44,7 +44,7 @@ class CategoryController extends Controller
             ->paginate(16);*/
         $subCategories =$category->descendants->toTree();
 
-        $collections = $category->collections()->with(['translation'])->get();
+        $collections = $category->collections()->with(['translation','latestImage'])->get();
 
 
 
