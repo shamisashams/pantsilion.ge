@@ -318,13 +318,10 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                 @endforeach
                             @endif
 
-                        @error('color.*')
-                        <small class="text-danger">
-                            <div class="error">
-                                {{$message}}
-                            </div>
-                        </small>
-                        @enderror
+                        @if($errors->has('color'))
+                            <small class="error text-danger">{{ $errors->first('color') }}</small>
+                        @endif
+
                     </div>
 
 
