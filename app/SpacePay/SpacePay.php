@@ -3,6 +3,7 @@
 namespace App\SpacePay;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Storage;
 
 class SpacePay
 {
@@ -87,6 +88,7 @@ class SpacePay
 
         $url = $this->apiUrl.$this->createQr;
 
+        Storage::put('data.txt',print_r($json,true));
         //dd(json_encode($json));
 
         $response = $this->http_client->request('POST', $url, [
