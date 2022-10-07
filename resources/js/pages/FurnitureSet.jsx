@@ -155,11 +155,14 @@ const FurnitureSet = ({ seo }) => {
                                     if (item.latest_image) {
                                         image = item.latest_image.file_full_url;
                                     } else {
-                                        if (item.parent.latest_image) {
-                                            image =
-                                                item.parent.latest_image
-                                                    .file_full_url;
+                                        if(item.parent){
+                                            if (item.parent.latest_image) {
+                                                image =
+                                                    item.parent.latest_image
+                                                        .file_full_url;
+                                            }
                                         }
+
                                     }
                                     return (
                                         <div
