@@ -739,7 +739,12 @@ class ProductController extends Controller
             $query = AttributeOption::query()
                 ->select('attribute_options.*')
             ->join('attributes','attributes.id','=','attribute_options.attribute_id')
-            ->where('attribute_options.value','like', $params['term'] . '%');
+                ->where('attributes.code','size')
+                ->where(function ($q)use ($params){
+                    $q->where('attribute_options.value','like', $params['term'] . '%');
+                        $q->orWhereTranslationLike('label', '%'.$params['term'].'%');
+                });
+
 
         }
 
@@ -750,7 +755,7 @@ class ProductController extends Controller
         foreach ($data as $item){
             $li .= '<li>';
             $li .= '<a href="javascript:void(0)" data-sel_product="'. $item->id .'">';
-            $li .= $item->value;
+            $li .= $item->label . ' ' . $item->value;
             $li .= '</a>';
             $li .= '</li>';
         }

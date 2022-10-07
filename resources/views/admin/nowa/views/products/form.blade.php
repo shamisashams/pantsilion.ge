@@ -873,7 +873,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                                                     } else $selected = '';
                                                 } else $selected = '';
                                                 ?>
-                                                <option value="{{$option->id}}" {{$selected}}>{{$option->value}}</option>
+                                                <option value="{{$option->id}}" {{$selected}}>{{$option->label}}  {{$option->value}}</option>
 
                                             @endforeach
                                             @break
@@ -1346,7 +1346,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
 
             let opt = '';
             size_attr.options.forEach(function (el,i){
-                opt += `<option value="${el.id}">${el.value}</option>`;
+                opt += `<option value="${el.id}">${el.label ?? ''} ${el.value}</option>`;
             })
 
             let row = `<div class="row row-sm row_size">
