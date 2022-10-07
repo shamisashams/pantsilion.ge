@@ -111,7 +111,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             $query->where('products.new', 1);
         }
 
-        $query->where('products.parent_id',null);
+
 
         if(isset($params['term'])){
             $query->where(function ($tQ) use ($params){
@@ -120,7 +120,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             });
 
         }
-
+        $query->where('products.parent_id',null);
 
         # sort direction
         $orderDirection = 'asc';
@@ -199,7 +199,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             });
         }
 
-        $query->where('products.parent_id',null);
+        //$query->where('products.parent_id',null);
         $query->groupBy('products.id');
 
         return $query->with('latestImage')->paginate('16')->withQueryString();
