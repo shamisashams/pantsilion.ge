@@ -72,7 +72,7 @@ class CollectionController extends Controller
         $set_products = [];
 
         foreach ($collection->products as $item){
-            if($item)$set_products[$item->parent->id] = $item->parent;
+            if($item->parent)$set_products[$item->parent->id] = $item->parent;
 
 
 
