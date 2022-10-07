@@ -888,6 +888,24 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                                 <input class="form-control" placeholder="Special Price" type="number" name="matras[{{$variant->id}}][special_price]" value="{{$variant->special_price}}">
                             </div>
                             <div class="col-lg mg-t-10 mg-lg-t-0">
+                            @foreach($stocks as $stock)
+                                <?php
+                                    $stock_ids_ = $variant->stocks->pluck("id")->toArray();
+                                ?>
+
+
+                                <span style="display: inline-block">
+                                    <label class="ckbox">
+                                        <input type="checkbox" name="variant_stock_id[]"
+                                               value="{{$stock->id}}" {{in_array($stock->id,$stock_ids_) ? 'checked' : (in_array($stock->id,(old('stock_id')??[])) ? 'checked':'')}}>
+                                        <span>{{$stock->title}}</span>
+                                    </label>
+                                </span>
+
+
+                            @endforeach
+                            </div>
+                            <div class="col-lg mg-t-10 mg-lg-t-0">
                                 <a data-id="{{$variant->id}}" class="btn delete_size" href="javascript:;">delete</a>
                             </div>
                         </div>
@@ -1340,6 +1358,8 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
 
         let size_attr = @json($size_attr);
 
+        let stocks = @json($stocks);
+
         console.log(size_attr);
 
         $('#add_size').click(function (e){
@@ -1348,6 +1368,17 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
             size_attr.options.forEach(function (el,i){
                 opt += `<option value="${el.id}">${el.label ?? ''} ${el.value}</option>`;
             })
+
+            let st = ``;
+            stocks.forEach(function (el,i){
+                st += `<span style="display: inline-block">
+                                    <label class="ckbox">
+                                        <input type="checkbox" name="new_variant_stock_id[]"
+                                               value="${el.id}">
+                                        <span>${el.title}</span>
+                                    </label>
+                                </span>`;
+            });
 
             let row = `<div class="row row-sm row_size">
                             <div class="col-lg">
@@ -1362,6 +1393,9 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                             <div class="col-lg mg-t-10 mg-lg-t-0">
                                 <input class="form-control" placeholder="Special Price" type="number" name="matras_new[special_price][]" value="">
                             </div>
+<div class="col-lg mg-t-10 mg-lg-t-0">
+                ${st}
+</div>
 <div class="col-lg mg-t-10 mg-lg-t-0">
                                 <a class="btn delete_size" href="javascript:;">delete</a>
                             </div>
