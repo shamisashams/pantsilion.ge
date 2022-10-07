@@ -811,7 +811,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
            //}
         });
 
-        $('.edit_coordinates').blur(function (e){
+        $('.edit_coordinates').change(function (e){
             //e.preventDefault();
             let $this = $(this);
             let val = $this.val();
