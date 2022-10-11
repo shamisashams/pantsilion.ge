@@ -84,7 +84,7 @@ class ProductController extends Controller
         $product = Product::query()->where(['status' => true, 'slug' => $slug])->whereHas('categories', function (Builder $query) {
             $query->where('status', 1);
 
-        })->with(['latestImage','video','attribute_values','colors.file'])->firstOrFail();
+        })->with(['latestImage','video','attribute_values.attribute.translation','attribute_values.attribute.options.translation','colors.file'])->firstOrFail();
 
         $productImages = $product->files()->orderBy('id','desc')->get();
 
@@ -256,7 +256,7 @@ class ProductController extends Controller
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
             ->inRandomOrder()
             ->groupBy('products.id')
-            ->with('latestImage','variants')->get();
+            ->with('latestImage','variants','attribute_values.attribute.translation','attribute_values.attribute.options.translation')->get();
 
         foreach ($similar_products as $_product){
             $product_attributes = $_product->attribute_values;
