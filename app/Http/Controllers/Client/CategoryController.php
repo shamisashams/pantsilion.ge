@@ -162,7 +162,7 @@ class CategoryController extends Controller
     }
 
     private function getAttributes($category = null):array{
-        $attrs = $this->attributeRepository->model->with('options')->orderBy('position')->get();
+        $attrs = $this->attributeRepository->model->with('options.translation')->orderBy('position')->get();
         $result['attributes'] = [];
         $key = 0;
         foreach ($attrs as $item){
