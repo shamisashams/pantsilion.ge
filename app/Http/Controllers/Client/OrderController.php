@@ -39,7 +39,8 @@ class OrderController extends Controller
 
 
 
-    public function __construct(ProductRepository $productRepository){
+    public function __construct(ProductRepository $productRepository)
+    {
         $this->productRepository = $productRepository;
     }
 
@@ -51,33 +52,32 @@ class OrderController extends Controller
     public function index(string $locale, Request $request)
     {
         $page = Page::where('key', 'products')->firstOrFail();
-        $products = Product::with(['files'])->whereHas('categories',function (Builder $query){
+        $products = Product::with(['files'])->whereHas('categories', function (Builder $query) {
             $query->where('status', 1);
         })->paginate(16);
 
         $images = [];
-        foreach ($page->sections as $sections){
-            if($sections->file){
+        foreach ($page->sections as $sections) {
+            if ($sections->file) {
                 $images[] = asset($sections->file->getFileUrlAttribute());
             } else {
                 $images[] = null;
             }
-
         }
 
         //dd($products);
-        return Inertia::render('OrderForm/OrderForm',[
+        return Inertia::render('OrderForm/OrderForm', [
             'products' => $products,
             'images' => $images,
             'page' => $page,
             "seo" => [
-                "title"=>$page->meta_title,
-                "description"=>$page->meta_description,
-                "keywords"=>$page->meta_keyword,
-                "og_title"=>$page->meta_og_title,
-                "og_description"=>$page->meta_og_description,
-//            "image" => "imgg",
-//            "locale" => App::getLocale()
+                "title" => $page->meta_title,
+                "description" => $page->meta_description,
+                "keywords" => $page->meta_keyword,
+                "og_title" => $page->meta_og_title,
+                "og_description" => $page->meta_og_description,
+                //            "image" => "imgg",
+                //            "locale" => App::getLocale()
             ]
         ])->withViewData([
             'meta_title' => $page->meta_title,
@@ -101,27 +101,24 @@ class OrderController extends Controller
 
         $product = Product::where(['status' => true, 'slug' => $slug])->whereHas('categories', function (Builder $query) {
             $query->where('status', 1);
-
         })->with(['latestImage'])->firstOrFail();
 
-        $productImages = $product->files()->orderBy('id','desc')->get();
+        $productImages = $product->files()->orderBy('id', 'desc')->get();
 
         $product_attributes = $product->attribute_values;
 
         $result = [];
 
-        foreach ($product_attributes as $item){
+        foreach ($product_attributes as $item) {
             $options = $item->attribute->options;
             $value = '';
-            foreach ($options as $option){
-                if($item->attribute->type == 'select'){
-                    if($item->integer_value == $option->id) {
+            foreach ($options as $option) {
+                if ($item->attribute->type == 'select') {
+                    if ($item->integer_value == $option->id) {
                         $result[$item->attribute->code] = $option->label;
                     }
-
                 }
             }
-
         }
 
 
@@ -131,12 +128,12 @@ class OrderController extends Controller
 
         $path = [];
         $arr = [];
-        foreach ($categories as $key =>$item){
+        foreach ($categories as $key => $item) {
 
 
             $ancestors = $item->ancestors;
-            if(count($ancestors)){
-                foreach ($ancestors as $ancestor){
+            if (count($ancestors)) {
+                foreach ($ancestors as $ancestor) {
                     $arr[count($ancestors)]['ancestors'][] = $ancestor;
                     $arr[count($ancestors)]['current'] = $item;
                 }
@@ -166,13 +163,12 @@ class OrderController extends Controller
             } else {
 
             }*/
-
         }
 
         $max = max(array_keys($arr));
 
         $k = 0;
-        foreach ($arr[$max]['ancestors'] as $ancestor){
+        foreach ($arr[$max]['ancestors'] as $ancestor) {
             $path[$k]['id'] = $ancestor->id;
             $path[$k]['slug'] = $ancestor->slug;
             $path[$k]['title'] = $ancestor->title;
@@ -186,7 +182,7 @@ class OrderController extends Controller
 
 
         $similar_products = Product::where(['status' => 1, 'product_categories.category_id' => $path[0]['id']])
-            ->where('products.id','!=',$product->id)
+            ->where('products.id', '!=', $product->id)
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
             ->inRandomOrder()
             ->with('latestImage')->get();
@@ -199,20 +195,20 @@ class OrderController extends Controller
         /*return view('client.pages.product.show', [
             'product' => $product
         ]);*/
-        return Inertia::render('ProductDetails/ProductDetails',[
+        return Inertia::render('ProductDetails/ProductDetails', [
             'product' => $product,
             'category_path' => $path,
             'similar_products' => $similar_products,
             'product_images' => $productImages,
             'product_attributes' => $result,
             "seo" => [
-                "title"=>$product->meta_title,
-                "description"=>$product->meta_description,
-                "keywords"=>$product->meta_keyword,
-                "og_title"=>$product->meta_og_title,
-                "og_description"=>$product->meta_og_description,
-//            "image" => "imgg",
-//            "locale" => App::getLocale()
+                "title" => $product->meta_title,
+                "description" => $product->meta_description,
+                "keywords" => $product->meta_keyword,
+                "og_title" => $product->meta_og_title,
+                "og_description" => $product->meta_og_description,
+                //            "image" => "imgg",
+                //            "locale" => App::getLocale()
             ]
         ])->withViewData([
             'meta_title' => $product->meta_title,
@@ -224,7 +220,8 @@ class OrderController extends Controller
         ]);
     }
 
-    public function order(Request $request){
+    public function order(Request $request)
+    {
         //dd($request->all());
         /*$request->validate([
             'first_name' => 'required',
@@ -237,13 +234,13 @@ class OrderController extends Controller
             'payment_type' => 'required_if:payment_method,1'
         ]);*/
 
-        if (!session('shipping')){
+        if (!session('shipping')) {
             return redirect()->back();
         }
 
 
         $data = $request->all();
-        $cart = Arr::pull($data,'cart');
+        $cart = Arr::pull($data, 'cart');
         $cart = Cart::getCart();
         $data['locale'] = app()->getLocale();
         $data['grand_total'] = $cart['total'];
@@ -253,7 +250,7 @@ class OrderController extends Controller
         $data['first_name'] = $user->name;
         $data['last_name'] = $user->surname;
         $data['email'] = $user->email;
-        $data['city'] = City::query()->where('id',session('shipping.city_id'))->first()->title;
+        $data['city'] = City::query()->where('id', session('shipping.city_id'))->first()->title;
         $data['address'] = session('shipping.address');
         $data['info'] = session('shipping.comment');
         $data['payment_method'] = 1;
@@ -264,14 +261,14 @@ class OrderController extends Controller
 
         $delete_promocode = false;
         $product_promocode = false;
-        if($promocode = session('promocode')){
+        if ($promocode = session('promocode')) {
 
 
-            if($promocode->type == 'product'){
+            if ($promocode->type == 'product') {
                 $promocode_products = $promocode->products()->select('id')->get()->pluck('id')->toArray();
-                foreach ($cart['products'] as $item){
+                foreach ($cart['products'] as $item) {
 
-                    if(in_array($item['product']->parent->id,$promocode_products)){
+                    if (in_array($item['product']->parent->id, $promocode_products)) {
                         $item['product']['discount'] = $item['product']->parent->promocode->reward;
                         $delete_promocode = true;
                         $product_promocode = true;
@@ -279,11 +276,10 @@ class OrderController extends Controller
                 }
             }
 
-            if($promocode->type == 'cart'){
+            if ($promocode->type == 'cart') {
                 $data['discount'] = $promocode->reward;
                 $delete_promocode = true;
             }
-
         }
 
 
@@ -292,7 +288,7 @@ class OrderController extends Controller
         //dd($cart);
 
 
-        if($cart['count'] > 0){
+        if ($cart['count'] > 0) {
 
 
             try {
@@ -302,16 +298,16 @@ class OrderController extends Controller
                 $data = [];
                 $insert = [];
                 $product_images = [];
-                foreach ($cart['products'] as $item){
+                foreach ($cart['products'] as $item) {
 
                     $data['order_id'] = $order->id;
                     $data['product_id'] = $item['product']['id'];
                     $data['name'] = $item['product']['title'];
                     $data['qty_ordered'] = $item['quantity'];
-                    $data['price'] = $item['product']->special_price ? $item['product']->special_price : $item['product']['price'] ;
+                    $data['price'] = $item['product']->special_price ? $item['product']->special_price : $item['product']['price'];
                     $data['total'] = $item['product']['price'] * $item['quantity'];
                     $data['attributes'] = json_encode($item['product']['attributes']);
-                    if ($item['product']->discount){
+                    if ($item['product']->discount) {
                         $data['promocode_discount'] = $item['product']->discount;
                     }
                     $insert[] = $data;
@@ -321,38 +317,34 @@ class OrderController extends Controller
                 OrderItem::insert($insert);
 
                 $total = 0;
-                foreach ($cart['collections'] as $item){
+                foreach ($cart['collections'] as $item) {
                     $collection = $order->collections()->create([
                         'product_set_id' => $item['collection']->id,
                         'title' => $item['collection']->title,
                         'total_price' => $item['collection']->special_price ? $item['collection']->special_price : $item['collection']->price
                     ]);
-                    foreach ($item['collection']->products as $_item){
+                    foreach ($item['collection']->products as $_item) {
 
                         $product_attributes = $_item->attribute_values;
 
                         $result = [];
 
-                        foreach ($product_attributes as $_item_){
+                        foreach ($product_attributes as $_item_) {
                             $options = $_item_->attribute->options;
                             $value = '';
-                            foreach ($options as $option){
-                                if($_item_->attribute->type == 'select'){
-                                    if($_item_->integer_value == $option->id) {
-                                        if($_item_->attribute->code == 'size'){
+                            foreach ($options as $option) {
+                                if ($_item_->attribute->type == 'select') {
+                                    if ($_item_->integer_value == $option->id) {
+                                        if ($_item_->attribute->code == 'size') {
                                             $result[$_item_->attribute->code] = $option->value;
-                                        }
-                                        elseif ($_item_->attribute->code == 'color'){
+                                        } elseif ($_item_->attribute->code == 'color') {
                                             $result[$_item_->attribute->code] = $option->color;
-                                        }
-                                        else {
+                                        } else {
                                             $result[$_item_->attribute->code] = $option->label;
                                         }
                                     }
-
                                 }
                             }
-
                         }
 
 
@@ -363,7 +355,6 @@ class OrderController extends Controller
                             'attributes' => json_encode($result)
                         ]);
                     }
-
                 }
 
 
@@ -376,10 +367,10 @@ class OrderController extends Controller
 
                 DataBase::commit();
 
-                $_promocode = \App\Models\PromoCode::query()->where('type','cart')->first();
+                $_promocode = \App\Models\PromoCode::query()->where('type', 'cart')->first();
                 //dd($promocode);
-                if ($_promocode && $product_promocode){
-                    if($_promocode->status){
+                if ($_promocode && $product_promocode) {
+                    if ($_promocode->status) {
                         $promo_gen = new Promocode();
                         $gen = $promo_gen->generateCode();
 
@@ -389,35 +380,33 @@ class OrderController extends Controller
                         $data['code'] = $gen;
                         Mail::to($request->user())->send(new PromocodeProduct($data));
                     }
-
                 }
 
-                $partner_reward = Setting::query()->where('key','partner_reward')->first();
+                $partner_reward = Setting::query()->where('key', 'partner_reward')->first();
 
-                if($user->referrer && $partner_reward->integer_value){
-                    $user->referrer()->update(['balance' => \Illuminate\Support\Facades\DB::raw('balance + '. ($grand_t * $partner_reward->integer_value) / 100)]);
+                if ($user->referrer && $partner_reward->integer_value) {
+                    $user->referrer()->update(['balance' => \Illuminate\Support\Facades\DB::raw('balance + ' . ($grand_t * $partner_reward->integer_value) / 100)]);
                 }
 
                 //Cart::destroy();
-                if(($promo_code = session('promocode')) && $delete_promocode){
+                if (($promo_code = session('promocode')) && $delete_promocode) {
                     //dd($promo_code->userPromocode->promocode, $request->user()->promocode()->where('promocode',$promo_code->userPromocode->promocode)->first());
-                    $request->user()->promocode()->where('promocode',$promo_code->userPromocode->promocode)->delete();
+                    $request->user()->promocode()->where('promocode', $promo_code->userPromocode->promocode)->delete();
                 }
 
                 session()->forget('promocode');
 
-                if($order->payment_method == 1 && $order->payment_type == 'bog'){
-                    return app(BogPaymentController::class)->make_order($order->id,$order->grand_total);
-                } elseif($order->payment_method == 1 && $order->payment_type == 'tbc'){
-                    return redirect(locale_route('order.failure',$order->id));
-                }
-                elseif($order->payment_method == 1 && $order->payment_type == 'space_bank'){
-                    $space = new SpacePay('pantsilion.ge','2f6ea5f1-78f6-4d50-a666-b7e9a0b46791');
+                if ($order->payment_method == 1 && $order->payment_type == 'bog') {
+                    return app(BogPaymentController::class)->make_order($order->id, $order->grand_total);
+                } elseif ($order->payment_method == 1 && $order->payment_type == 'tbc') {
+                    return redirect(locale_route('order.failure', $order->id));
+                } elseif ($order->payment_method == 1 && $order->payment_type == 'space_bank') {
+                    $space = new SpacePay('pantsilion.ge', '2f6ea5f1-78f6-4d50-a666-b7e9a0b46791');
 
                     $space_products = [];
 
                     //dd($order->items);
-                    foreach ($order->items as $key => $item){
+                    foreach ($order->items as $key => $item) {
                         $space_products[$key]['title'] = $item->name;
                         $space_products[$key]['model'] = '';
                         $space_products[$key]['quantity'] = $item->qty_ordered;
@@ -426,50 +415,48 @@ class OrderController extends Controller
                         $space_products[$key]['image'] = $product_images[$item->product_id];
                     }
 
-                    $data = $space->createQr($order->grand_total,$order->id,$order->phone,$order->grand_total,0,1,'',$space_products);
+                    $data = $space->createQr($order->grand_total, $order->id, $order->phone, $order->grand_total, 0, 1, '', $space_products);
 
-                    $response = json_decode($data,true);
+                    $response = json_decode($data, true);
 
-                    if($response['status']['code'] == 1){
-
+                    dd($response);
+                    if ($response['status']['code'] == 1) {
                         return Inertia::location($response['data']['redirectUrl']);
                     } else {
 
                         dd($response['status']['message']);
                     }
+                } else {
+                    return redirect(locale_route('order.success', $order->id));
                 }
-                 else {
-                    return redirect(locale_route('order.success',$order->id));
-                }
-
-            } catch (QueryException $exception){
+            } catch (QueryException $exception) {
                 dd($exception->getMessage());
                 DataBase::rollBack();
             }
-
-
         }
 
 
         return redirect()->route('client.home.index');
     }
 
-    public function bogResponse(Request $request){
+    public function bogResponse(Request $request)
+    {
         //dump($request->order_id);
-        $order = Order::query()->where('id',$request->get('order_id'))->first();
+        $order = Order::query()->where('id', $request->get('order_id'))->first();
 
         //dd($order);
-        if($order->status == 'success') return redirect(locale_route('order.success',$order->id));
-        else if($order->status == 'error') return redirect(route('order.failure'));
+        if ($order->status == 'success') return redirect(locale_route('order.success', $order->id));
+        else if ($order->status == 'error') return redirect(route('order.failure'));
         else {
             sleep(3);
-            return redirect('https://pantsilion.ge/' . app()->getLocale() . '/payments/bog/status?order_id='.$order->id);
+            return redirect('https://pantsilion.ge/' . app()->getLocale() . '/payments/bog/status?order_id=' . $order->id);
         }
     }
 
-    public function statusSuccess($order_id){
-        $order = Order::query()->where('id',$order_id)->with('items')->first();
-        return Inertia::render('Success',['order' => $order])->withViewData([
+    public function statusSuccess($order_id)
+    {
+        $order = Order::query()->where('id', $order_id)->with('items')->first();
+        return Inertia::render('Success', ['order' => $order])->withViewData([
             'meta_title' => 'success',
             'meta_description' => 'success',
             'meta_keyword' => 'success',
@@ -479,8 +466,9 @@ class OrderController extends Controller
         ]);
     }
 
-    public function statusFail($order_id){
-        return Inertia::render('Success/Failure',[])->withViewData([
+    public function statusFail($order_id)
+    {
+        return Inertia::render('Success/Failure', [])->withViewData([
             'meta_title' => 'success',
             'meta_description' => 'success',
             'meta_keyword' => 'success',
@@ -489,5 +477,4 @@ class OrderController extends Controller
             'og_description' => 'success',
         ]);
     }
-
 }
