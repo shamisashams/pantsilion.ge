@@ -47,7 +47,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
-        $this->settings();
+        //$this->settings();
         $locales = config("translatable.locales");
         $currentRoute = url()->current();
 
@@ -57,7 +57,7 @@ class HandleInertiaRequests extends Middleware
 
         $result = $this->buildTree($categories);
 
-        $info = Setting::with(['translation'])->get();
+        $info = Setting::with(['translations'])->get();
 
         //dd($info);
         $_result = [];
