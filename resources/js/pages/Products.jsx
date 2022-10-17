@@ -97,6 +97,8 @@ const Products = ({ seo }) => {
     const { subcategories, products, localizations, collections } =
         usePage().props;
 
+    //console.log(collections);
+
     let subcats = {};
     subcategories.map((item, index) => {
         subcats[item.id] = item.title;

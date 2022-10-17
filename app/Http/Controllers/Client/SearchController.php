@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
+use App\Models\ProductSet;
 use App\Models\Translations\ProductTranslation;
 use App\Repositories\Eloquent\AttributeRepository;
 use App\Repositories\Eloquent\ProductRepository;
@@ -44,6 +45,38 @@ class SearchController extends Controller
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')->with(['latestImage'])
             ->orderby('updated_at','desc')
             ->paginate(16);*/
+
+        if(\request('subcategory')){
+            $subcats = explode(',',request('subcategory'));
+            $query = ProductSet::with(['translation','latestImage'])->join('collection_categories','collection_categories.product_set_id','=','product_sets.id')
+                ->whereIn('collection_categories.category_id',$subcats);
+        } else {
+            $query = ProductSet::with(['translation','latestImage']);
+        }
+
+        if($term = \request('term')){
+            $query->where(function ($tQ) use ($term){
+                $tQ->whereTranslationLike('title', '%'.$term.'%')
+                    ->orWhereTranslationLike('description', '%'.$term.'%');
+            });
+
+        }
+
+
+        if($priceFilter = request('price')){
+            $priceRange = explode(',', $priceFilter);
+
+            //dd($priceRange);
+            $query->where(function ($pQ) use ($priceRange){
+                $pQ->where('product_sets.price', '>=', $priceRange[0])
+                    ->where('product_sets.price', '<=', end($priceRange));
+            });
+
+        }
+
+        $collections = $query->get();
+
+        //dd($collections);
 
         $products = $this->productRepository->getAll();
 
@@ -107,7 +140,7 @@ class SearchController extends Controller
             'images' => $images,
             'filter' => $this->getAttributes(),
             'subcategories' => $subCategories,
-            'collections' => [],
+            'collections' => $collections,
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,
