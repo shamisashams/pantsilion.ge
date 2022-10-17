@@ -168,50 +168,99 @@
                                             @endif
                                     </tr>
 
-                                    <?php
-                                    $i = 1;
-                                    ?>
-                                    @foreach($attribute->options as $item)
-                                        <tr>
-                                            <input type="hidden" name="options[{{$item->id}}][isNew]" value="false">
-                                            <input type="hidden" name="options[{{$item->id}}][isDelete]" value="false">
-                                            @foreach(config('translatable.locales') as $locale)
+                                    @if($attribute->code !== 'size')
+                                        <?php
+                                        $i = 1;
+                                        ?>
+                                        @foreach($attribute->options as $item)
+                                            <tr>
+                                                <input type="hidden" name="options[{{$item->id}}][isNew]" value="false">
+                                                <input type="hidden" name="options[{{$item->id}}][isDelete]" value="false">
+                                                @foreach(config('translatable.locales') as $locale)
 
 
+                                                    <td>
+                                                        <input class="form-control" type="text" name="options[{{$item->id}}][{{$locale}}][label]" value="{{$item->translate($locale) ? $item->translate($locale)->label : null}}">
+                                                    </td>
+
+                                                @endforeach
+                                                @if($attribute->code == 'corner')
                                                 <td>
-                                                    <input class="form-control" type="text" name="options[{{$item->id}}][{{$locale}}][label]" value="{{$item->translate($locale) ? $item->translate($locale)->label : null}}">
+                                                    <input class="form-control" name="options[{{$item->id}}][code]" readonly value="{{$item->code}}">
                                                 </td>
+                                                @endif
+                                                @if($attribute->code == 'size')
+                                                    <td>
+                                                        <input class="form-control" name="options[{{$item->id}}][value]" value="{{$item->value}}">
+                                                    </td>
+                                                @endif
+                                                @if($attribute->code == 'color')
+                                                <td>
+                                                    <input class="form-control" name="options[{{$item->id}}][color]" value="{{$item->color}}" data-jscolor="{}">
+                                                </td>
+                                                @endif
 
+                                                @if($attribute->code !== 'corner')
+                                                <td>
+                                                    <a href="javascript:void(0);" class="del-option"><i class="fa fa-trash-alt"></i></a>
+                                                </td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+
+                                    @else
+                                        <?php
+                                        $options = $attribute->options()->orderBy('id','desc')->paginate(25);
+                                        ?>
+
+                                            @foreach($options as $item)
+                                                <tr>
+                                                    <input type="hidden" name="options[{{$item->id}}][isNew]" value="false">
+                                                    <input type="hidden" name="options[{{$item->id}}][isDelete]" value="false">
+                                                    @foreach(config('translatable.locales') as $locale)
+
+
+                                                        <td>
+                                                            <input class="form-control" type="text" name="options[{{$item->id}}][{{$locale}}][label]" value="{{$item->translate($locale) ? $item->translate($locale)->label : null}}">
+                                                        </td>
+
+                                                    @endforeach
+                                                    @if($attribute->code == 'corner')
+                                                        <td>
+                                                            <input class="form-control" name="options[{{$item->id}}][code]" readonly value="{{$item->code}}">
+                                                        </td>
+                                                    @endif
+                                                    @if($attribute->code == 'size')
+                                                        <td>
+                                                            <input class="form-control" name="options[{{$item->id}}][value]" value="{{$item->value}}">
+                                                        </td>
+                                                    @endif
+                                                    @if($attribute->code == 'color')
+                                                        <td>
+                                                            <input class="form-control" name="options[{{$item->id}}][color]" value="{{$item->color}}" data-jscolor="{}">
+                                                        </td>
+                                                    @endif
+
+                                                    @if($attribute->code !== 'corner')
+                                                        <td>
+                                                            <a href="javascript:void(0);" class="del-option"><i class="fa fa-trash-alt"></i></a>
+                                                        </td>
+                                                    @endif
+                                                </tr>
                                             @endforeach
-                                            @if($attribute->code == 'corner')
-                                            <td>
-                                                <input class="form-control" name="options[{{$item->id}}][code]" readonly value="{{$item->code}}">
-                                            </td>
-                                            @endif
-                                            @if($attribute->code == 'size')
-                                                <td>
-                                                    <input class="form-control" name="options[{{$item->id}}][value]" value="{{$item->value}}">
-                                                </td>
-                                            @endif
-                                            @if($attribute->code == 'color')
-                                            <td>
-                                                <input class="form-control" name="options[{{$item->id}}][color]" value="{{$item->color}}" data-jscolor="{}">
-                                            </td>
-                                            @endif
 
-                                            @if($attribute->code !== 'corner')
-                                            <td>
-                                                <a href="javascript:void(0);" class="del-option"><i class="fa fa-trash-alt"></i></a>
-                                            </td>
-                                            @endif
-                                        </tr>
-                                    @endforeach
-
+                                    @endif
 
                                 </table>
 
 
                             </div>
+                            @if($attribute->code === 'size')
+                                <div class="form-group">
+                                    {{ $options->appends(request()->input())->links('admin.vendor.pagination.material') }}
+                                </div>
+
+                            @endif
                             <button type="button" id="add_option_btn">add option</button>
                         </div>
 

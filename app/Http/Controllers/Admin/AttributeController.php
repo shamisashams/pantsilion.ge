@@ -156,7 +156,7 @@ class AttributeController extends Controller
         $this->attributeRepository->update($attribute->id,$saveData);
 
 
-        return redirect(locale_route('attribute.index', $attribute->id))->with('success', __('admin.update_successfully'));
+        return redirect(route('attribute.index', $attribute->id))->with('success', __('admin.update_successfully'));
     }
 
 
