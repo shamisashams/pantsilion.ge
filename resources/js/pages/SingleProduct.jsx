@@ -892,14 +892,15 @@ const SingleProduct = ({ seo }) => {
                                         onClick={() => {
                                             setChooseSize(!chooseSize);
                                         }}
-                                        className="relative inline-block align-middle cursor-default"
+                                        className="relative inline-block align-middle cursor-default "
+                                        style={{ minWidth: "200px" }}
                                     >
-                                        <div className="bg-zinc-200 rounded py-1 px-2">
-                                            {selectedSize}
+                                        <div className="bg-zinc-200 rounded py-1 px-2 w-full flex justify-between items-center">
+                                            <span>{selectedSize}</span>
                                             <FiChevronDown className="inline-block bg-white rounded-full  pt-px ml-1" />
                                         </div>
                                         <div
-                                            className={`absolute left-0 top-full w-full bg-white scrollbar transition-all duration-300 z-10  ${
+                                            className={`absolute left-0 top-full w-full bg-white scrollbar transition-all duration-300 z-10 text-center ${
                                                 chooseSize
                                                     ? "max-h-72  overflow-y-scroll"
                                                     : " max-h-0  overflow-y-hidden"
@@ -914,7 +915,7 @@ const SingleProduct = ({ seo }) => {
                                                                     item
                                                                 );
                                                             }}
-                                                            className="w-full p-1 transition-all hover:bg-zinc-100 block"
+                                                            className="w-full p-1 transition-all hover:bg-zinc-100 block whitespace-nowrap"
                                                         >
                                                             {
                                                                 productSizes[
@@ -999,9 +1000,11 @@ const SingleProduct = ({ seo }) => {
                                     </div>
                                 </div>
                             ) : null}
-                            <div className="flex flex-wrap -ml-5 mb-7">
-                                <Quantity item={product} />
-                                <div className="max-w-md ">
+                            <div className="flex justify-start flex-wrap -ml-5 mb-7">
+                                <div className="mb-4">
+                                    <Quantity item={product} />
+                                </div>
+                                <div className="max-w-md mb-4">
                                     <MainButton
                                         onclick={() => {
                                             let qty = document.getElementById(
@@ -1028,7 +1031,7 @@ const SingleProduct = ({ seo }) => {
                                     value={productId}
                                 />
                                 <button
-                                    className={`mx-4 whitespace-nowrap bold  border border-custom-dark  py-2 px-3 rounded transition-all duration-500 bg-transparent text-custom-dark hover:bg-custom-dark hover:text-white`}
+                                    className={`mx-4 mb-4 whitespace-nowrap bold  border border-solid border-custom-dark  py-2 px-3 rounded transition-all duration-500 bg-transparent text-custom-dark hover:bg-custom-dark hover:text-white`}
                                     onClick={() => {
                                         let qty = document.getElementById(
                                             "qty_" + product.id
@@ -1052,7 +1055,7 @@ const SingleProduct = ({ seo }) => {
                                         setFavorite(!favorite);
                                         addToWishlist(product.id);
                                     }}
-                                    className="shrink-0 hover:bg-zinc-200 rounded-full flex items-center justify-center w-12 h-12 transition-all duration-500 "
+                                    className="mb-4 shrink-0 hover:bg-zinc-200 rounded-full flex items-center justify-center w-12 h-12 transition-all duration-500 "
                                 >
                                     <FiHeart
                                         className={

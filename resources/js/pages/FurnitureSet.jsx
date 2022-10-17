@@ -241,7 +241,7 @@ const FurnitureSet = ({ seo }) => {
                                     );
                                 })}
                             </div>
-                            <div className="flex my-5 ">
+                            <div className="flex my-5 justify-start ">
                                 <p className="whitespace-nowrap">
                                     {__("client.set_colors", localizations)}:
                                 </p>

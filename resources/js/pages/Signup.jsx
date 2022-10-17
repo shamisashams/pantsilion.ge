@@ -48,15 +48,24 @@ const Signup = ({ seo }) => {
                         {__("client.signup_header", localizations)}
                     </div>
                     <form onSubmit={handleSubmit}>
-                        {errors.name && <div>{errors.name}</div>}
+                        {errors.name && (
+                            <div className="text-left text-xs text-red-500">
+                                {errors.name}
+                            </div>
+                        )}
                         <input
                             onChange={handleChange}
                             name="name"
                             type="text"
                             placeholder={__("client.form_name", localizations)}
                             className="mb-3 border border-zinc-200 pl-4 border-solid w-full block bg-transparent h-12 placeholder:text-custom-dark"
+                            style={{ borderColor: errors.name ? "red" : "" }}
                         />
-                        {errors.surname && <div>{errors.surname}</div>}
+                        {errors.surname && (
+                            <div className="text-left text-xs text-red-500">
+                                {errors.surname}
+                            </div>
+                        )}
                         <input
                             onChange={handleChange}
                             name="surname"
@@ -66,8 +75,13 @@ const Signup = ({ seo }) => {
                                 localizations
                             )}
                             className="mb-3 border border-zinc-200 pl-4 border-solid w-full block bg-transparent h-12 placeholder:text-custom-dark"
+                            style={{ borderColor: errors.surname ? "red" : "" }}
                         />
-                        {errors.id && <div>{errors.id}</div>}
+                        {errors.id && (
+                            <div className="text-left text-xs text-red-500">
+                                {errors.id}
+                            </div>
+                        )}
                         <input
                             onChange={handleChange}
                             name="id"
@@ -77,16 +91,26 @@ const Signup = ({ seo }) => {
                                 localizations
                             )}
                             className="mb-3 border border-zinc-200 pl-4 border-solid w-full block bg-transparent h-12 placeholder:text-custom-dark"
+                            style={{ borderColor: errors.id ? "red" : "" }}
                         />
-                        {errors.email && <div>{errors.email}</div>}
+                        {errors.email && (
+                            <div className="text-left text-xs text-red-500">
+                                {errors.email}
+                            </div>
+                        )}
                         <input
                             onChange={handleChange}
                             name="email"
                             type="text"
                             placeholder={__("client.form_email", localizations)}
                             className="mb-3 border border-zinc-200 pl-4 border-solid w-full block bg-transparent h-12 placeholder:text-custom-dark"
+                            style={{ borderColor: errors.email ? "red" : "" }}
                         />
-                        {errors.password && <div>{errors.password}</div>}
+                        {errors.password && (
+                            <div className="text-left text-xs text-red-500">
+                                {errors.password}
+                            </div>
+                        )}
                         <input
                             onChange={handleChange}
                             name="password"
@@ -96,9 +120,14 @@ const Signup = ({ seo }) => {
                                 localizations
                             )}
                             className="mb-3 border border-zinc-200 pl-4 border-solid w-full block bg-transparent h-12 placeholder:text-custom-dark"
+                            style={{
+                                borderColor: errors.password ? "red" : "",
+                            }}
                         />
                         {errors.password_repeat && (
-                            <div>{errors.password_repeat}</div>
+                            <div className="text-left text-xs text-red-500">
+                                {errors.password_repeat}
+                            </div>
                         )}
                         <input
                             onChange={handleChange}
@@ -109,6 +138,11 @@ const Signup = ({ seo }) => {
                                 localizations
                             )}
                             className="mb-3 border border-zinc-200 pl-4 border-solid w-full block bg-transparent h-12 placeholder:text-custom-dark"
+                            style={{
+                                borderColor: errors.password_repeat
+                                    ? "red"
+                                    : "",
+                            }}
                         />
                         <input
                             onChange={handleChange}
@@ -117,7 +151,11 @@ const Signup = ({ seo }) => {
                             placeholder={__("client.form_phone", localizations)}
                             className="mb-3 border border-zinc-200 pl-4 border-solid w-full block bg-transparent h-12 placeholder:text-custom-dark"
                         />
-                        {errors.agree && <div>{errors.agree}</div>}
+                        {errors.agree && (
+                            <div className="text-left text-xs text-red-500">
+                                {errors.agree}
+                            </div>
+                        )}
                         <div className="flex mb-8 mt-5 justify-start">
                             <input
                                 onChange={handleChange}
