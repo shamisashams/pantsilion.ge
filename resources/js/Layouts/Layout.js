@@ -35,10 +35,11 @@ export default function Layout({ children, seo = null }) {
     // } else if (currentLocale == "ru") {
     //     import("./AppRus.css");
     // }
-    //console.log(flash);
+    console.log(flash);
 
     if(flash.success){
         toast.success(flash.success);
+        //alert(flash.success);
         flash.success = null;
     }
     if(flash.error){

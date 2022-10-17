@@ -84,7 +84,7 @@ class PartnerController extends Controller
         $model = $this->userRepository->create(Arr::except($attributes,['cv']));
 
         $username = $attributes['name'] . '_' . uniqid();
-        $this->userRepository->model->partner()->create(['username' => $username]);
+        //$this->userRepository->model->partner()->create(['username' => $username]);
         //dd($model);
         $this->userRepository->uploadCv($model, $request);
 
@@ -94,7 +94,7 @@ class PartnerController extends Controller
         ];*/
         //Mail::to($model)->send(new PartnerJoined($data));
 
-        return redirect()->back()->with('success',__('client.success_partner_register'));
+        return redirect()->route('partner.login')->with('success',__('client.success_partner_register'));
     }
 
     public function cabinet(){
