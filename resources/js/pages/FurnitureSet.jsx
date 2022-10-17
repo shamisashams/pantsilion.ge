@@ -10,6 +10,7 @@ import ProductSlider from "../components/ProductSlider";
 import Layout from "../Layouts/Layout";
 import { usePage } from "@inertiajs/inertia-react";
 import { Inertia } from "@inertiajs/inertia";
+import { Link } from "react-scroll";
 
 const FurnitureSet = ({ seo }) => {
     const [favorite, setFavorite] = useState(false);
@@ -155,60 +156,88 @@ const FurnitureSet = ({ seo }) => {
                                     if (item.latest_image) {
                                         image = item.latest_image.file_full_url;
                                     } else {
-                                        if(item.parent){
+                                        if (item.parent) {
                                             if (item.parent.latest_image) {
                                                 image =
                                                     item.parent.latest_image
                                                         .file_full_url;
                                             }
                                         }
-
                                     }
                                     return (
-                                        <div
-                                            key={index}
-                                            className={`flex items-center justify-between mb-2 pb-2 ${
-                                                index + 1 ===
-                                                collection.products.length
-                                                    ? ""
-                                                    : "border-b"
-                                            } border-zinc-200`}
+                                        <Link
+                                            href={route("client.category.new")}
                                         >
-                                            <div className=" flex items-center">
-                                                <div className="w-20 h-20 mr-3 shrink-0">
-                                                    <img
-                                                        src={image}
-                                                        className="w-full h-full object-cover"
-                                                        alt=""
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <div className="bold mb-1">
-                                                        {item.title}{" "}
+                                            {" "}
+                                            <div
+                                                key={index}
+                                                className={`flex items-center justify-between mb-2 pb-2 ${
+                                                    index + 1 ===
+                                                    collection.products.length
+                                                        ? ""
+                                                        : "border-b"
+                                                } border-zinc-200`}
+                                            >
+                                                <div className=" flex items-center">
+                                                    <div className="w-20 h-20 mr-3 shrink-0">
+                                                        <img
+                                                            src={image}
+                                                            className="w-full h-full object-cover"
+                                                            alt=""
+                                                        />
                                                     </div>
-                                                    {item.attributes.map(
-                                                        (attr, ind) => {
-                                                            return (
-
-                                                            attr.attribute.code === 'color' ? <div className="text-sm opacity-50 mb-1">{attr.attribute.name} : <div
-                                                                style={{
-                                                                    background:attr.option,
-                                                                    display: 'inline-block',
-                                                                }}
-                                                                className="rounded-full w-5 h-5"
-                                                            ></div></div> :<div className="text-sm opacity-50 mb-1">{attr.attribute.name} : {attr.option}</div>
-                                                            );
-                                                        }
-                                                    )}
-                                                    {/*<div className="text-sm opacity-50 mb-1">
+                                                    <div>
+                                                        <div className="bold mb-1">
+                                                            {item.title}{" "}
+                                                        </div>
+                                                        {item.attributes.map(
+                                                            (attr, ind) => {
+                                                                return attr
+                                                                    .attribute
+                                                                    .code ===
+                                                                    "color" ? (
+                                                                    <div className="text-sm opacity-50 mb-1">
+                                                                        {
+                                                                            attr
+                                                                                .attribute
+                                                                                .name
+                                                                        }{" "}
+                                                                        :{" "}
+                                                                        <div
+                                                                            style={{
+                                                                                background:
+                                                                                    attr.option,
+                                                                                display:
+                                                                                    "inline-block",
+                                                                            }}
+                                                                            className="rounded-full w-5 h-5"
+                                                                        ></div>
+                                                                    </div>
+                                                                ) : (
+                                                                    <div className="text-sm opacity-50 mb-1">
+                                                                        {
+                                                                            attr
+                                                                                .attribute
+                                                                                .name
+                                                                        }{" "}
+                                                                        :{" "}
+                                                                        {
+                                                                            attr.option
+                                                                        }
+                                                                    </div>
+                                                                );
+                                                            }
+                                                        )}
+                                                        {/*<div className="text-sm opacity-50 mb-1">
                                                       size: {item.attributes.size}
                                                   </div>*/}
+                                                    </div>
+                                                </div>
+                                                <div className="text-lg ml-4">
+                                                    ₾{item.price}
                                                 </div>
                                             </div>
-                                            <div className="text-lg ml-4">
-                                                ₾{item.price}
-                                            </div>
-                                        </div>
+                                        </Link>
                                     );
                                 })}
                             </div>
@@ -223,27 +252,33 @@ const FurnitureSet = ({ seo }) => {
                                     />
                                 </div>
                             </div>
-                            {!collection.special_price ? <div className="text-xl">
-                                {__("client.set_price", localizations)}:{" "}
-                                <span className="bold text-3xl pl-2">
-                                    {" "}
-                                    ₾{collection.price}
-                                </span>
-                            </div>:null}
-                            {collection.special_price ?<div className="text-xl mt-3">
-                                {__("client.set_old_price", localizations)}:{" "}
-                                <span className="bold text-2xl pl-2 opacity-50 line-through">
-                                    {" "}
-                                    ₾ {collection.price}
-                                </span>
-                            </div>:null}
-                            {collection.special_price ? <div className="text-xl mt-3">
-                                {__("client.set_new_price", localizations)}:{" "}
-                                <span className="bold text-3xl pl-2 text-red-400">
-                                    {" "}
-                                    ₾ {collection.special_price}
-                                </span>
-                            </div>:null}
+                            {!collection.special_price ? (
+                                <div className="text-xl">
+                                    {__("client.set_price", localizations)}:{" "}
+                                    <span className="bold text-3xl pl-2">
+                                        {" "}
+                                        ₾{collection.price}
+                                    </span>
+                                </div>
+                            ) : null}
+                            {collection.special_price ? (
+                                <div className="text-xl mt-3">
+                                    {__("client.set_old_price", localizations)}:{" "}
+                                    <span className="bold text-2xl pl-2 opacity-50 line-through">
+                                        {" "}
+                                        ₾ {collection.price}
+                                    </span>
+                                </div>
+                            ) : null}
+                            {collection.special_price ? (
+                                <div className="text-xl mt-3">
+                                    {__("client.set_new_price", localizations)}:{" "}
+                                    <span className="bold text-3xl pl-2 text-red-400">
+                                        {" "}
+                                        ₾ {collection.special_price}
+                                    </span>
+                                </div>
+                            ) : null}
                             <div className="w-44 my-5">
                                 <div className="flex justify-between mb-2">
                                     <button

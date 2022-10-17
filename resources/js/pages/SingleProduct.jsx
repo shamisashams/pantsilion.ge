@@ -510,7 +510,7 @@ const SingleProduct = ({ seo }) => {
         console.log(selected_size);
         setSelectedSize(selected_size.label);
         selected_size.variants.map((item, index) => {
-            if(product_config.color){
+            if (product_config.color) {
                 Object.keys(product_config.color).map((key3, index) => {
                     if (product_config.color[key3].variants.includes(item)) {
                         //id2.push(item);
@@ -525,7 +525,6 @@ const SingleProduct = ({ seo }) => {
                     }
                 });
             }
-
         });
         setProductColors(colors_);
 
@@ -572,47 +571,73 @@ const SingleProduct = ({ seo }) => {
             setProductCode(product_config.variants[selected].variant.code);
         }
 
-        if(
+        if (
             category_last.corner === 1 &&
             category_last.size === 1 &&
             category_last.color === 0
-        ){
-
-
+        ) {
             let price;
 
+            setProductId(
+                product_config.variants[product_config.size[id].variants[0]]
+                    .variant.id
+            );
 
-            setProductId(product_config.variants[product_config.size[id].variants[0]].variant.id);
-
-            if (product_config.variants[product_config.size[id].variants[0]].variant.special_price) {
-                price = product_config.variants[product_config.size[id].variants[0]].variant.special_price;
+            if (
+                product_config.variants[product_config.size[id].variants[0]]
+                    .variant.special_price
+            ) {
+                price =
+                    product_config.variants[product_config.size[id].variants[0]]
+                        .variant.special_price;
                 setOldPrice(
-                    "₾" + product_config.variants[product_config.size[id].variants[0]].variant.price
+                    "₾" +
+                        product_config.variants[
+                            product_config.size[id].variants[0]
+                        ].variant.price
                 );
             } else {
-                price = product_config.variants[product_config.size[id].variants[0]].variant.price;
+                price =
+                    product_config.variants[product_config.size[id].variants[0]]
+                        .variant.price;
                 setOldPrice("");
             }
             setProductPrice("₾" + price);
 
-            if (product_config.variants[product_config.size[id].variants[0]].images.length > 0) {
-                setProductImages(product_config.variants[product_config.size[id].variants[0]].images);
+            if (
+                product_config.variants[product_config.size[id].variants[0]]
+                    .images.length > 0
+            ) {
+                setProductImages(
+                    product_config.variants[product_config.size[id].variants[0]]
+                        .images
+                );
             }
 
-            setToCart(product_config.variants[product_config.size[id].variants[0]].variant);
+            setToCart(
+                product_config.variants[product_config.size[id].variants[0]]
+                    .variant
+            );
             setProductStocksOver(
-                product_config.variants[product_config.size[id].variants[0]].stocks ?? {}
+                product_config.variants[product_config.size[id].variants[0]]
+                    .stocks ?? {}
             );
             setProductStocks(
-                product_config.variants[product_config.size[id].variants[0]].stocks[cityId] ?? {}
+                product_config.variants[product_config.size[id].variants[0]]
+                    .stocks[cityId] ?? {}
             );
             setProductVideo(
-                product_config.variants[product_config.size[id].variants[0]].variant.video
-                    ? product_config.variants[product_config.size[id].variants[0]].variant.video.path
+                product_config.variants[product_config.size[id].variants[0]]
+                    .variant.video
+                    ? product_config.variants[
+                          product_config.size[id].variants[0]
+                      ].variant.video.path
                     : null
             );
-            setProductCode(product_config.variants[product_config.size[id].variants[0]].variant.code);
-
+            setProductCode(
+                product_config.variants[product_config.size[id].variants[0]]
+                    .variant.code
+            );
         }
     }
 
@@ -705,7 +730,7 @@ const SingleProduct = ({ seo }) => {
                         {__("client.product_back", localizations)}
                     </Link>
                     <div className="flex flex-col xl:flex-row mt-7 mb-20 justify-start items-start">
-                        <div className="max-w-2xl xl:mr-20">
+                        <div className="w-full max-w-2xl xl:mr-20">
                             <SingleSlider images={productImages} />
                             {product.video ? (
                                 <div className="w-full sm:h-96 h-60 mt-20">
