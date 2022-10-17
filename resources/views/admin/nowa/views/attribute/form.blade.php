@@ -210,7 +210,7 @@
 
                                     @else
                                         <?php
-                                        $options = $attribute->options()->orderBy('id','desc')->paginate(25);
+                                        $options = $attribute->options()->orderBy('id','desc')->paginate(15);
                                         ?>
 
                                             @foreach($options as $item)
