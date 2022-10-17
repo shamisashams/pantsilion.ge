@@ -164,6 +164,9 @@ class ProductController extends Controller
         $matras_new = isset($saveData['matras_new']) ? $saveData['matras_new'] : [];
         unset($saveData['matras_new']);
 
+        $new_variant_stock_id = isset($saveData['new_variant_stock_id']) ? $saveData['new_variant_stock_id'] : [];
+        unset($saveData['new_variant_stock_id']);
+
         //dd($matras_new);
 
         $product = $this->productRepository->create($saveData);
@@ -228,6 +231,8 @@ class ProductController extends Controller
                         'special_price' => $matras_new['special_price'][$key],
                     ]);
                     $variant->categories()->sync($saveData['categories'] ?? []);
+
+                    $variant->stocks()->sync($new_variant_stock_id);
 
                     $data['product_id'] = $variant->id;
                     $data['attribute_id'] = AttributeOption::query()->where('id',$item)->first()->attribute_id;
@@ -332,6 +337,11 @@ class ProductController extends Controller
         $matras_new = isset($saveData['matras_new']) ? $saveData['matras_new'] : [];
         unset($saveData['matras_new']);
 
+        $variant_stock_id = isset($saveData['variant_stock_id']) ? $saveData['variant_stock_id'] : [];
+        unset($saveData['variant_stock_id']);
+
+        $new_variant_stock_id = isset($saveData['new_variant_stock_id']) ? $saveData['new_variant_stock_id'] : [];
+        unset($saveData['new_variant_stock_id']);
         //dd($matras,$request->matras_price,$request->matras_price);
 
         foreach ($matras as $var_id => $matras_variant){
@@ -344,7 +354,12 @@ class ProductController extends Controller
                     ->where('attribute_id',$product_atribute->attribute_id)
                     ->update($data);
             }
-            Product::where('id',$var_id)->update(['price' => $matras_variant['price'], 'special_price' => $matras_variant['special_price']]);
+            $var_prod = Product::where('id',$var_id)->first();
+            if ($var_prod){
+                $var_prod->update(['price' => $matras_variant['price'], 'special_price' => $matras_variant['special_price']]);
+                $var_prod->stocks()->sync($variant_stock_id);
+            }
+
         }
 
 
@@ -438,6 +453,7 @@ class ProductController extends Controller
                         'special_price' => $matras_new['special_price'][$key],
                     ]);
                     $variant->categories()->sync($saveData['categories'] ?? []);
+                    $variant->stocks()->sync($new_variant_stock_id);
 
                     $data['product_id'] = $variant->id;
                     $data['attribute_id'] = AttributeOption::query()->where('id',$item)->first()->attribute_id;
@@ -739,7 +755,12 @@ class ProductController extends Controller
             $query = AttributeOption::query()
                 ->select('attribute_options.*')
             ->join('attributes','attributes.id','=','attribute_options.attribute_id')
-            ->where('attribute_options.value','like', $params['term'] . '%');
+                ->where('attributes.code','size')
+                ->where(function ($q)use ($params){
+                    $q->where('attribute_options.value','like', $params['term'] . '%');
+                        $q->orWhereTranslationLike('label', '%'.$params['term'].'%');
+                });
+
 
         }
 
@@ -750,7 +771,7 @@ class ProductController extends Controller
         foreach ($data as $item){
             $li .= '<li>';
             $li .= '<a href="javascript:void(0)" data-sel_product="'. $item->id .'">';
-            $li .= $item->value;
+            $li .= $item->label . ' ' . $item->value;
             $li .= '</a>';
             $li .= '</li>';
         }

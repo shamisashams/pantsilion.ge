@@ -69,10 +69,11 @@ class CollectionController extends Controller
 
         $collection = ProductSet::query()->where('slug',$slug)->with(['video','translation','files','products.translation','products.attribute_values.attribute.options.translation','products.latestImage','products.stocks','products.parent.translation','products.parent.latestImage','colors'])->firstOrFail();
 
+        //dd($collection);
         $set_products = [];
 
         foreach ($collection->products as $item){
-            $set_products[$item->parent->id] = $item->parent;
+            if($item->parent)$set_products[$item->parent->id] = $item->parent;
 
 
 

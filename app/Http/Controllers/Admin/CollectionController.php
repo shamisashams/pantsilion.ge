@@ -99,6 +99,7 @@ class CollectionController extends Controller
         $request->validate([
             config('translatable.fallback_locale') . '.title' => 'required|string|max:255',
             'slug' => ['required', 'alpha_dash', Rule::unique('product_sets', 'slug')],
+            'color' => 'required'
         ]);
         $saveData = Arr::except($request->except('_token'), []);
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
@@ -217,8 +218,11 @@ class CollectionController extends Controller
 
     public function coordinatesUpdate(Request $request){
 
+        $val = $request->post('val');
+
+        if(!$val) $val = 'auto auto auto auto';
         //dd($request->all());
-        ProductProductSet::query()->where('id',$request->post('id'))->update(['coordinates' => $request->post('val')]);
+        ProductProductSet::query()->where('id',$request->post('id'))->update(['coordinates' => $val]);
         return ['msg' => 'success','status' => 'ok'];
 
     }
@@ -240,7 +244,7 @@ class CollectionController extends Controller
                 $tQ->whereTranslationLike('title', '%'.$params['term'].'%')
                     ->orWhereTranslationLike('description', '%'.$params['term'].'%');
                 $tQ->orWhere('slug','like','%'.$params['term'].'%');
-                $tQ->orWhere('id','like','%'.$params['term'].'%');
+                $tQ->orWhere('products.id','like','%'.$params['term'].'%');
             });
 
         }

@@ -45,7 +45,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
             ->whereHas('categories',function ($query){
             $query->where('status',1);
-        })->with(['latestImage','variants'])->inRandomOrder()->get();
+        })->with(['latestImage','translation','variants.translation','variants.attribute_values.attribute.options.translation','attribute_values.attribute.options.translation'])->inRandomOrder()->get();
 
         $prices = [];
         $sale = false;
@@ -111,7 +111,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             $query->where('products.new', 1);
         }
 
-        $query->where('products.parent_id',null);
+
 
         if(isset($params['term'])){
             $query->where(function ($tQ) use ($params){
@@ -120,7 +120,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             });
 
         }
-
+        $query->where('products.parent_id',null);
 
         # sort direction
         $orderDirection = 'asc';
@@ -199,10 +199,10 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             });
         }
 
-        $query->where('products.parent_id',null);
+        //$query->where('products.parent_id',null);
         $query->groupBy('products.id');
 
-        return $query->with('latestImage')->paginate('16')->withQueryString();
+        return $query->with(['latestImage','attribute_values.attribute.options.translation'])->paginate('16')->withQueryString();
     }
 
 

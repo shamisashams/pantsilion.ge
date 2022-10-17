@@ -16,6 +16,11 @@ const Products = ({ seo }) => {
     let appliedFilters = {};
     let urlParams = new URLSearchParams(window.location.search);
 
+    const renderHTML = (rawHTML) =>
+        React.createElement("div", {
+            dangerouslySetInnerHTML: { __html: rawHTML },
+        });
+
     urlParams.forEach((value, index) => {
         appliedFilters[index] = value.split(",");
     });
@@ -150,6 +155,32 @@ const Products = ({ seo }) => {
                                 />
                             );
                         })}
+
+                        {collections.map((item, index) => {
+                            return (
+                                <ProductBox
+                                    key={index}
+                                    link={route(
+                                        "client.collection.show",
+                                        item.slug
+                                    )}
+                                    new={item.new}
+                                    sale={item.sale}
+                                    img={
+                                        item.latest_image
+                                            ? item.latest_image.file_full_url
+                                            : null
+                                    }
+                                    name={item.title}
+                                    price={item.price}
+                                    oldPrice={item.special_price}
+                                    paragraph={renderHTML(item.description)}
+                                    id={item.id}
+                                    collection={item}
+                                    set
+                                />
+                            );
+                        })}
                     </div>
                 </div>
                 <div
@@ -216,22 +247,7 @@ const Products = ({ seo }) => {
                                     </li>
                                 );
                             })}
-                            {collections.map((item, index) => {
-                                return (
-                                    <li key={index}>
-                                        <Link
-                                            /*onClick={() => addToSelected(item)}*/
-                                            className={`lg:py-3 py-2 lg:text-base text-sm px-5  block w-fit rounded-full hover:bg-zinc-100 transition-all `}
-                                            href={route(
-                                                "client.collection.show",
-                                                item.slug
-                                            )}
-                                        >
-                                            {item.title}
-                                        </Link>
-                                    </li>
-                                );
-                            })}
+
                         </ul>
                         <div className="flex items-center justify-start  mt-10 pb-5 whitespace-nowrap">
                             <MainButton onclick={clearFilter} reverse>

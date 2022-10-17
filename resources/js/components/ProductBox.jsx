@@ -19,6 +19,20 @@ const ProductBox = (props) => {
       Inertia.post(route('add-to-cart'), {id:id,qty:1});
   }
 
+    function addToCartSet(collection) {
+        console.log(collection);
+
+            Inertia.post(route("add-to-cart-collection"), {
+                collection: collection.id,
+                color: collection.colors[0].id,
+            });
+
+    }
+
+    function addToWishlistCollection(id) {
+        Inertia.post(route("client.favorite.add-set"), { id: id });
+    }
+
   return (
     <div className="group md:max-w-sm inline-block">
       <div className="w-full h-80 mb-4 overflow-hidden  relative">
@@ -37,7 +51,12 @@ const ProductBox = (props) => {
           <button
             onClick={() => {
                 setFavorite(!favorite)
-                addToWishlist(props.id)
+                if (props.set){
+                    addToWishlistCollection(props.id)
+                } else {
+                    addToWishlist(props.id)
+                }
+
             }}
             className="bg-white rounded-lg flex items-center justify-center w-12 h-12 transition-all duration-500 translate-y-5 group-hover:translate-y-0 "
           >
@@ -47,7 +66,12 @@ const ProductBox = (props) => {
               <button
                   onClick={() => {
                       setAddToCart(!addToCart)
-                      addToCartF(props.id)
+                      if(props.set){
+                          addToCartSet(props.collection)
+                      } else {
+                          addToCartF(props.id)
+                      }
+
                   }}
                   className="bg-white rounded-lg flex items-center justify-center w-12 h-12 mx-2 transition-all duration-500 translate-y-16 group-hover:translate-y-0"
               >
@@ -73,7 +97,7 @@ const ProductBox = (props) => {
             ₾{props.oldPrice}
           </span>{" "}
           <span className={props.oldPrice ? "text-custom-red" : ""}>
-            {__("client.from", localizations)} ₾{props.price}
+            {!props.set ? __("client.from", localizations) + '₾' + props.price : '₾' + props.price}
           </span>
         </div>
       </div>

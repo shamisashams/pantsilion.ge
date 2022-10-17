@@ -83,7 +83,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
     <input name="old-images[]" id="old_images" hidden disabled value="{{$product->files}}">
     <!-- row -->
     {!! Form::model($product,['url' => $url, 'method' => $method,'files' => true]) !!}
-    <input id="inp_crop_img" type="hidden" name="base64_img">
+
 
     @if($product->parent_id !== null)
         @foreach($ids as $id)
@@ -765,7 +765,6 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         <div>
                             <h6 class="card-title mb-1">@lang('admin.product_image_crop_upload')</h6>
                         </div>
-
                         <div>
                             <p>Select a image file to crop</p>
                             <input type="file" id="inputFile" accept="image/png, image/jpeg">
@@ -773,7 +772,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         <div id="actions" style="display: none;">
                             <button id="cropBtn" type="button">Crop @if($product->created_at)& Upload @endif</button>
                         </div>
-                        <div id="croppieMount"></div>
+                        <div id="croppieMount" class="p-relative"></div>
                     </div>
                 </div>
             </div>
@@ -791,6 +790,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         <h6 class="card-title mb-1">@lang('admin.prouctimages')</h6>
                     </div>
                     {{--<div class="input-images"></div>--}}
+
                     @if ($errors->has('images'))
                         <span class="help-block">
                                             {{ $errors->first('images') }}
@@ -801,7 +801,12 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
 
                     <div class="image-uploader">
                         <div class="uploaded">
+                            <div id="img_list">
+                                @if(old('base64_img'))
+                                    <span class="img_itm"><input type="hidden" name="base64_img" value="{{old('base64_img')}}"><img height="200" src="{{old('base64_img')}}"><a class="delete_img" href="javascript:;">delete</a><span>
 
+                                @endif
+                            </div>
                             @foreach($product->files as $item)
 
                                     <div class="uploaded-image">
@@ -867,7 +872,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                                                     } else $selected = '';
                                                 } else $selected = '';
                                                 ?>
-                                                <option value="{{$option->id}}" {{$selected}}>{{$option->value}}</option>
+                                                <option value="{{$option->id}}" {{$selected}}>{{$option->label}}  {{$option->value}}</option>
 
                                             @endforeach
                                             @break
@@ -880,6 +885,24 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                             </div>
                             <div class="col-lg mg-t-10 mg-lg-t-0">
                                 <input class="form-control" placeholder="Special Price" type="number" name="matras[{{$variant->id}}][special_price]" value="{{$variant->special_price}}">
+                            </div>
+                            <div class="col-lg mg-t-10 mg-lg-t-0">
+                            @foreach($stocks as $stock)
+                                <?php
+                                    $stock_ids_ = $variant->stocks->pluck("id")->toArray();
+                                ?>
+
+
+                                <span style="display: inline-block">
+                                    <label class="ckbox">
+                                        <input type="checkbox" name="variant_stock_id[]"
+                                               value="{{$stock->id}}" {{in_array($stock->id,$stock_ids_) ? 'checked' : (in_array($stock->id,(old('stock_id')??[])) ? 'checked':'')}}>
+                                        <span>{{$stock->title}}</span>
+                                    </label>
+                                </span>
+
+
+                            @endforeach
                             </div>
                             <div class="col-lg mg-t-10 mg-lg-t-0">
                                 <a data-id="{{$variant->id}}" class="btn delete_size" href="javascript:;">delete</a>
@@ -1219,16 +1242,17 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
             reader.onloadend = function(event) {
                 // Get the data ulr of the file
                 const data = event.target.result;
+                let width = screen.width;
 
                 croppie = new Croppie(croppieMount, {
                     url: data,
                     viewport: {
-                        width: 800,
+                        width: width * 0.8,
                         height: 500,
 
                     },
                     boundary: {
-                        width: 1000,
+                        width: width * 0.8,
                         height: 700
                     },
                     mouseWheelZoom: false,
@@ -1257,7 +1281,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                 formData.append('base64_img', imageResult);
                 formData.append('_token', '{{csrf_token()}}');
 
-                document.getElementById('inp_crop_img').value = imageResult;
+                //document.getElementById('inp_crop_img').value = imageResult;
                 // Sends a POST request to upload_cropped.php
                 @if($product->created_at)
                 fetch('{{route('product.crop-upload',$product)}}', {
@@ -1267,9 +1291,15 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                     location.reload()
                 });
                 @else
+                    croppie.destroy();
+                    $('#img_list').html('<span class="img_itm"><input type="hidden" name="base64_img" value="' + imageResult + '"><img height="200" src="' + imageResult + '"><a class="delete_img" href="javascript:;">delete</a><span>');
                 alert('cropped')
                 @endif
             });
+        });
+
+        $(document).on('click','.delete_img',function (e){
+           $(this).parents('.img_itm').remove();
         });
 
         let interval;
@@ -1328,14 +1358,27 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
 
         let size_attr = @json($size_attr);
 
+        let stocks = @json($stocks);
+
         console.log(size_attr);
 
         $('#add_size').click(function (e){
 
             let opt = '';
             size_attr.options.forEach(function (el,i){
-                opt += `<option value="${el.id}">${el.value}</option>`;
+                opt += `<option value="${el.id}">${el.label ?? ''} ${el.value}</option>`;
             })
+
+            let st = ``;
+            stocks.forEach(function (el,i){
+                st += `<span style="display: inline-block">
+                                    <label class="ckbox">
+                                        <input type="checkbox" name="new_variant_stock_id[]"
+                                               value="${el.id}">
+                                        <span>${el.title}</span>
+                                    </label>
+                                </span>`;
+            });
 
             let row = `<div class="row row-sm row_size">
                             <div class="col-lg">
@@ -1350,6 +1393,9 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                             <div class="col-lg mg-t-10 mg-lg-t-0">
                                 <input class="form-control" placeholder="Special Price" type="number" name="matras_new[special_price][]" value="">
                             </div>
+<div class="col-lg mg-t-10 mg-lg-t-0">
+                ${st}
+</div>
 <div class="col-lg mg-t-10 mg-lg-t-0">
                                 <a class="btn delete_size" href="javascript:;">delete</a>
                             </div>

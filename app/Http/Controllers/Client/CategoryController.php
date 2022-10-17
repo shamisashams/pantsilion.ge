@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
+use App\Models\ProductSet;
 use App\Repositories\Eloquent\AttributeRepository;
 use App\Repositories\Eloquent\ProductRepository;
 use Illuminate\Contracts\Foundation\Application;
@@ -44,7 +45,39 @@ class CategoryController extends Controller
             ->paginate(16);*/
         $subCategories =$category->descendants->toTree();
 
-        $collections = $category->collections()->with(['translation'])->get();
+        if(\request()->has('subcategory')){
+            $subcats = explode(',',request('subcategory'));
+            $query = ProductSet::with(['translation','latestImage'])->join('collection_categories','collection_categories.product_set_id','=','product_sets.id')
+                ->whereIn('collection_categories.category_id',$subcats);
+
+            if($priceFilter = request('price')){
+                $priceRange = explode(',', $priceFilter);
+
+                //dd($priceRange);
+                $query->where(function ($pQ) use ($priceRange){
+                    $pQ->where('product_sets.price', '>=', $priceRange[0])
+                        ->where('product_sets.price', '<=', end($priceRange));
+                });
+
+            }
+
+            $collections = $query->get();
+        } else {
+            $query = $category->collections()->with(['translation','latestImage']);
+            if($priceFilter = request('price')){
+                $priceRange = explode(',', $priceFilter);
+
+
+                //dd($priceRange);
+                $query->where(function ($pQ) use ($priceRange){
+                    $pQ->where('product_sets.price', '>=', $priceRange[0])
+                        ->where('product_sets.price', '<=', end($priceRange));
+                });
+
+            }
+            $collections = $query->get();
+        }
+
 
 
 
@@ -129,7 +162,7 @@ class CategoryController extends Controller
     }
 
     private function getAttributes($category = null):array{
-        $attrs = $this->attributeRepository->model->with('options')->orderBy('position')->get();
+        $attrs = $this->attributeRepository->model->with('options.translation')->orderBy('position')->get();
         $result['attributes'] = [];
         $key = 0;
         foreach ($attrs as $item){
@@ -147,7 +180,16 @@ class CategoryController extends Controller
             $result['attributes'][$key]['options'] = $_options;
             $key++;
         }
-        $result['price']['max'] = $this->productRepository->getMaxprice($category);
+        if($category !== null){
+            $collectionMaxPrice = ProductSet::query()->leftJoin('collection_categories','collection_categories.product_set_id','=','product_sets.id')
+                ->where('collection_categories.category_id',$category->id)->max('price');
+        } else {
+            $collectionMaxPrice = ProductSet::query()
+                ->max('price');
+        }
+
+        //dd($collectionMaxPrice);
+        $result['price']['max'] = $collectionMaxPrice > $this->productRepository->getMaxprice($category) ? $collectionMaxPrice : $this->productRepository->getMaxprice($category);
         $result['price']['min'] = $this->productRepository->getMinprice($category);
         //dd($result);
         return $result;

@@ -84,7 +84,7 @@ class HomeController extends Controller
         ],
             'products' => $products,
             'images' => $images,
-            'collections' => ProductSet::with(['translation','latestImage'])->where('status',1)->get(),
+            'collections' => ProductSet::with(['translation','latestImage'])->where('status',1)->limit(6)->inRandomOrder()->get(),
             'collection' => ProductSet::with(['translation','latestImage','products','products.stocks'])->where('status',1)->inRandomOrder()->first(),
             'blogs' => Blog::with(['translation','latestImage'])->limit(4)->inRandomOrder()->get()
         ])->withViewData([

@@ -318,13 +318,10 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                 @endforeach
                             @endif
 
-                        @error('color.*')
-                        <small class="text-danger">
-                            <div class="error">
-                                {{$message}}
-                            </div>
-                        </small>
-                        @enderror
+                        @if($errors->has('color'))
+                            <small class="error text-danger">{{ $errors->first('color') }}</small>
+                        @endif
+
                     </div>
 
 
@@ -621,16 +618,16 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                 //dd($coordinates);
                                 ?>
                                 <td>
-                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{$coordinates[0]}}">
+                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{isset($coordinates[0]) ? $coordinates[0] :''}}">
                                 </td>
                                 <td>
-                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{$coordinates[1]}}">
+                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{isset($coordinates[1]) ? $coordinates[1] :''}}">
                                 </td>
                                 <td>
-                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{$coordinates[2]}}">
+                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{isset($coordinates[2]) ? $coordinates[2] : ''}}">
                                 </td>
                                 <td>
-                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{$coordinates[3]}}">
+                                    <input data-id="{{$product->pivot->id}}" class="form-control edit_coordinates" type="text" value="{{isset($coordinates[3]) ? $coordinates[3] : ''}}">
                                 </td>
                                 <td>
                                     <a href="{{locale_route('product.edit',$product->id)}}"
@@ -783,22 +780,22 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
             switch (index) {
                 case 0:
-                    if($(this).val() !== 'auto'){
+                    if($(this).val() !== ''){
                         $('.edit_coordinates').eq(2).val('auto');
                     }
                     break;
                 case 1:
-                    if($(this).val() !== 'auto'){
+                    if($(this).val() !== ''){
                         $('.edit_coordinates').eq(3).val('auto');
                     }
                     break;
                 case 2:
-                    if($(this).val() !== 'auto'){
+                    if($(this).val() !== ''){
                         $('.edit_coordinates').eq(0).val('auto');
                     }
                     break;
                 case 3:
-                    if($(this).val() !== 'auto'){
+                    if($(this).val() !== ''){
                         $('.edit_coordinates').eq(1).val('auto');
                     }
                     break;
@@ -806,6 +803,12 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
             if($(this).val() == ''){
                 $(this).val('auto')
             }
+        });
+
+        $('.edit_coordinates').focus(function (e){
+           //if($(this).val() == 'auto'){
+               $(this).val('');
+           //}
         });
 
         $('.edit_coordinates').change(function (e){
@@ -820,7 +823,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
             let val_arr = [];
             let value = '';
             inputs.each(function (index,item){
-                val_arr.push($(item).val());
+                val_arr.push($(item).val() === '' ? 'auto' : $(item).val());
             });
             value = val_arr.join(' ');
 

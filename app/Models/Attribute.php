@@ -47,6 +47,6 @@ class Attribute extends Model
 
     public function options(): HasMany
     {
-        return $this->hasMany(AttributeOption::class)->orderBy('value')->OrderByTranslation('label');
+        return $this->hasMany(AttributeOption::class);
     }
 }
