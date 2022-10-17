@@ -35,7 +35,7 @@ const Gallery = ({gallery}) => {
                   <div className="bold text-lg">{item.title}</div>
                   <div className="bold text-xl">₾{item.price}</div>
                 </div>
-                <p className="text-sm lg:w-3/4">{renderHTML(item.description)}</p>
+                <p className="text-sm lg:w-3/4">{renderHTML(item.shorted_description)}</p>
               </div>
             </div>
           </Link>
