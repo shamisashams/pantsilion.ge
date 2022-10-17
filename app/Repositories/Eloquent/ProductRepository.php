@@ -45,7 +45,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
             ->whereHas('categories',function ($query){
             $query->where('status',1);
-        })->with(['latestImage','variants.attribute_values.attribute.options.translation','attribute_values.attribute.options.translation'])->inRandomOrder()->get();
+        })->with(['latestImage','translation','variants.translation','variants.attribute_values.attribute.options.translation','attribute_values.attribute.options.translation'])->inRandomOrder()->get();
 
         $prices = [];
         $sale = false;
