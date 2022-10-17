@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
@@ -91,6 +92,10 @@ class Product extends Model implements Searchable
         'installment_price',
         'min_price',
         'max_price'
+    ];
+
+    protected $appends = [
+        'shorted_description'
     ];
 
     /** @var string */
@@ -237,6 +242,10 @@ class Product extends Model implements Searchable
 
     public function blogs(){
         return $this->belongsToMany(Blog::class,'blog_products');
+    }
+
+    public function getShortedDescriptionAttribute($value){
+        return Str::substr($this->description,0,255). '....';
     }
 
 }
