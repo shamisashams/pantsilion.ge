@@ -55,13 +55,13 @@ class SpacePay
         int $Type = 1,
         string $returnUrl = '',
         array $Products = []
-    ){
+    ) {
 
         $json = [];
 
         $productData = [];
 
-        foreach ($Products as $item){
+        foreach ($Products as $item) {
             $product = [
                 'Title' => $item['title'],
                 'Model' => $item['model'],
@@ -86,9 +86,9 @@ class SpacePay
 
 
 
-        $url = $this->apiUrl.$this->createQr;
+        $url = $this->apiUrl . $this->createQr;
 
-        Storage::put('data.txt',print_r($json,true));
+        Storage::put('data.txt', print_r($json, true));
         //dd(json_encode($json));
 
         $response = $this->http_client->request('POST', $url, [
@@ -102,24 +102,25 @@ class SpacePay
         return $response->getBody()->getContents();
     }
 
-    public function checkStatus($orderId){
-        $url = $this->apiUrl.$this->checkStatus;
+    public function checkStatus($orderId)
+    {
+        $url = $this->apiUrl . $this->checkStatus;
 
         $response = $this->http_client->request('GET', $url, [
 
-                'query' => [
-                    'MerchantName' => $this->merchant,
-                    'OrderId' => $orderId,
-                    'Secret' => $this->secret
-                ]
+            'query' => [
+                'MerchantName' => $this->merchant,
+                'OrderId' => $orderId,
+                'Secret' => $this->secret
+            ]
 
         ]);
 
+        dd($response->getBody()->getContents());
         return $response->getBody()->getContents();
     }
 
-    public function installmentCancel(){
-
+    public function installmentCancel()
+    {
     }
-
 }

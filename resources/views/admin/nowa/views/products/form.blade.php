@@ -765,7 +765,6 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         <div>
                             <h6 class="card-title mb-1">@lang('admin.product_image_crop_upload')</h6>
                         </div>
-
                         <div>
                             <p>Select a image file to crop</p>
                             <input type="file" id="inputFile" accept="image/png, image/jpeg">
@@ -773,7 +772,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                         <div id="actions" style="display: none;">
                             <button id="cropBtn" type="button">Crop @if($product->created_at)& Upload @endif</button>
                         </div>
-                        <div id="croppieMount"></div>
+                        <div id="croppieMount" class="p-relative"></div>
                     </div>
                 </div>
             </div>
@@ -1243,16 +1242,17 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
             reader.onloadend = function(event) {
                 // Get the data ulr of the file
                 const data = event.target.result;
+                let width = screen.width;
 
                 croppie = new Croppie(croppieMount, {
                     url: data,
                     viewport: {
-                        width: 800,
+                        width: width * 0.8,
                         height: 500,
 
                     },
                     boundary: {
-                        width: 1000,
+                        width: width * 0.8,
                         height: 700
                     },
                     mouseWheelZoom: false,
