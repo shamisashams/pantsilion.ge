@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class ProductSet extends Model
 {
@@ -33,6 +34,7 @@ class ProductSet extends Model
 
     protected $appends = [
       'product_count',
+        'shorted_description'
     ];
 
 
@@ -109,5 +111,9 @@ class ProductSet extends Model
 
     public function categories(){
         return $this->belongsToMany(Category::class, 'collection_categories');
+    }
+
+    public function getShortedDescriptionAttribute($value){
+        return Str::substr($this->description,0,255). '....';
     }
 }

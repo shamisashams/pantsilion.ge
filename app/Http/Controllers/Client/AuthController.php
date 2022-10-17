@@ -136,7 +136,7 @@ class AuthController extends Controller
 
         User::query()->create($attributes);
 
-        return redirect()->back()->with('success',__('client.successful_registration'));
+        return redirect()->route('client.login')->with('success',__('client.successful_registration'));
     }
 
     public function partnerLoginView(){

@@ -96,6 +96,8 @@ const Products = ({ seo }) => {
     const { subcategories, products, localizations, collections } =
         usePage().props;
 
+    //console.log(collections);
+
     let subcats = {};
     subcategories.map((item, index) => {
         subcats[item.id] = item.title;
@@ -174,7 +176,7 @@ const Products = ({ seo }) => {
                                     name={item.title}
                                     price={item.price}
                                     oldPrice={item.special_price}
-                                    paragraph={renderHTML(item.description)}
+                                    paragraph={renderHTML(item.shorted_description)}
                                     id={item.id}
                                     collection={item}
                                     set
