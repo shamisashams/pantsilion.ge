@@ -19,7 +19,7 @@ const Payment = ({ seo }) => {
 
     const [bank, setBank] = useState(null);
 
-    function makeOrder() {
+    function makeOrder(bank) {
         if (bank == null) {
             alert("select bank");
             return;
@@ -29,6 +29,41 @@ const Payment = ({ seo }) => {
 
     function selectBank(bank) {
         setBank(bank);
+
+
+        if (bank == 'bog_installment'){
+            let csrf = document.querySelectorAll('meta[name="csrf-token"]');
+            console.log(csrf);
+            BOG.Calculator.open({
+                amount: cart.total,
+                onClose: () => {
+                    // Modal close callback
+                },
+                onRequest: (selected, successCb, closeCb) => {
+                    const {
+                        amount, month, discount_code, order_id
+                    } = selected;
+                    console.log(selected);
+                    selected.payment_type = 'bog_installment'
+                    /*fetch(route('bogInstallment'), {
+                        headers: {
+                            'X-CSRF-TOKEN': csrf[0].content,
+                            'Content-Type': 'application/json'
+                        },
+                        method: 'POST',
+                        body: JSON.stringify(selected)
+                    }).then(response => response.json())
+                        .then(data => successCb(data.orderId))
+                        .catch(err => closeCb());*/
+                    Inertia.post(route('bogInstallment'),selected);
+                },
+                onComplete: ({redirectUrl}) => {
+                    return false;
+                }
+            })
+        } else {
+            makeOrder(bank);
+        }
     }
     return (
         <Layout seo={seo}>
@@ -152,12 +187,12 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                               </div>
                           </div>*/}
                             <div className="bold text-lg mt-10 mb-5">
-                                {__("client.make_payment_btn", localizations)}
+                                {__("client.make_installment_btn", localizations)}
                             </div>
                             <div className="grid grid-cols-2 gap-3 mb-5">
                                 <button
                                     onClick={() => {
-                                        selectBank("bog");
+                                        selectBank("bog_installment");
                                     }}
                                     className="bg-white flex justify-center items-center py-2"
                                 >
