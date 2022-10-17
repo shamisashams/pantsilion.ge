@@ -3,7 +3,6 @@ import { productSlider } from "../components/Data";
 import ProductBox from "../components/ProductBox";
 import { TbAdjustments } from "react-icons/tb";
 import { useState } from "react";
-import { navigations, subCategoryList } from "../components/NavData";
 //import { Link } from "react-router-dom";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import MainButton from "../components/MainButton";
