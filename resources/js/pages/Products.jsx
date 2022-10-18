@@ -174,8 +174,8 @@ const Products = ({ seo }) => {
                                             : null
                                     }
                                     name={item.title}
-                                    price={item.price}
-                                    oldPrice={item.special_price}
+                                    price={item.special_price ? item.special_price : item.price}
+                                    oldPrice={item.special_price ? item.price : null}
                                     paragraph={renderHTML(item.shorted_description)}
                                     id={item.id}
                                     collection={item}
