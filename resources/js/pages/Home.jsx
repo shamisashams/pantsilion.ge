@@ -113,8 +113,8 @@ const Home = ({ seo }) => {
                                 right = right ? parseInt(right[0]) : null;
                                 console.log('aaaaa',left,right);
                                 let direction;
-                                if(left > 65) direction = true;
-                                if(right < 35) direction = true;
+                                if(left >= 65) direction = true;
+                                if(right <= 35) direction = true;
 
                                 return (
                                     <PlusBox
