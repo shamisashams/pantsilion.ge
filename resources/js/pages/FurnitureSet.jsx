@@ -99,8 +99,8 @@ const FurnitureSet = ({ seo }) => {
                         right = right ? parseInt(right[0]) : null;
                         console.log('aaaaa',left,right);
                         let direction;
-                        if(left > 70) direction = true;
-                        if(right < 30) direction = true;
+                        if(left >= 65) direction = true;
+                        if(right <= 35) direction = true;
                         return (
                             <PlusBox
                                 top={c[0]}
