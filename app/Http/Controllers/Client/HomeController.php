@@ -36,7 +36,7 @@ class HomeController extends Controller
 //        dd(App::getLocale());
         $_products = app(ProductRepository::class)->getHomePageProducts();
 
-        $special_products = Product::with(['latestImage'])->where('special_price_tag',1)->limit(50)->inRandomOrder()->get();
+        $special_products = Product::with(['latestImage','translation'])->where('special_price_tag',1)->limit(50)->inRandomOrder()->get();
 
         $products = [];
         $products['new'] = [];
