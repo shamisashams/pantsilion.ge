@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Page;
+use App\Models\Product;
 use App\Models\ProductSet;
 use App\Models\Slider;
 use Illuminate\Support\Facades\App;
@@ -34,6 +35,8 @@ class HomeController extends Controller
 //        dd($page->file);
 //        dd(App::getLocale());
         $_products = app(ProductRepository::class)->getHomePageProducts();
+
+        $special_products = Product::with(['latestImage'])->where('special_price_tag',1)->limit(50)->inRandomOrder()->get();
 
         $products = [];
         $products['new'] = [];
@@ -70,6 +73,7 @@ class HomeController extends Controller
             if($product->popular) $products['popular'][] = $product;
         }
 
+        $products['special_price_tag'] = $special_products;
         //dd($products);
 
         return Inertia::render('Home', ["sliders" => $sliders->get(), "page" => $page, "seo" => [

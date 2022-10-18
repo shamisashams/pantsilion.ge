@@ -39,8 +39,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 ->orWhere('new_collection',1)
                 ->orWhere('bunker',1)
                 ->orWhere('day_product',1)
-                ->orWhere('day_price',1)
-                ->orWhere('special_price_tag',1);
+                ->orWhere('day_price',1);
+                //->orWhere('special_price_tag',1);
         })->where('parent_id',null)
 
             ->whereHas('categories',function ($query){
