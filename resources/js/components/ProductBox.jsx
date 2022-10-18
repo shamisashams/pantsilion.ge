@@ -97,7 +97,7 @@ const ProductBox = (props) => {
             ₾{props.oldPrice}
           </span>{" "}
           <span className={props.oldPrice ? "text-custom-red" : ""}>
-            {!props.set ? __("client.from", localizations) + '₾' + props.price : '₾' + props.price}
+            {props.set || props.single ? '₾' + props.price :  __("client.from", localizations) + '₾' + props.price }
           </span>
         </div>
       </div>

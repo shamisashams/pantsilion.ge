@@ -135,27 +135,53 @@ const Products = ({ seo }) => {
                     </button>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-y-20 gap-x-10 pt-10">
                         {products.data.map((item, index) => {
-                            return (
-                                <ProductBox
-                                    key={index}
-                                    link={route(
-                                        "client.product.show",
-                                        item.slug
-                                    )}
-                                    new={item.new}
-                                    sale={item.sale}
-                                    img={
-                                        item.latest_image
-                                            ? item.latest_image.file_full_url
-                                            : null
-                                    }
-                                    name={item.title}
-                                    price={item.min_price}
-                                    oldPrice={item.special_price}
-                                    paragraph={item.short_description}
-                                    id={item.id}
-                                />
-                            );
+                            if(item.variant_count === 1){
+                                return (
+                                    <ProductBox
+                                        key={index}
+                                        link={route(
+                                            "client.product.show",
+                                            item.slug
+                                        )}
+                                        new={item.new}
+                                        sale={item.sale}
+                                        img={
+                                            item.latest_image
+                                                ? item.latest_image.file_full_url
+                                                : null
+                                        }
+                                        name={item.title}
+                                        price={item.last_variant.price}
+                                        oldPrice={item.last_variant.special_price}
+                                        paragraph={item.short_description}
+                                        id={item.id}
+                                        single
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <ProductBox
+                                        key={index}
+                                        link={route(
+                                            "client.product.show",
+                                            item.slug
+                                        )}
+                                        new={item.new}
+                                        sale={item.sale}
+                                        img={
+                                            item.latest_image
+                                                ? item.latest_image.file_full_url
+                                                : null
+                                        }
+                                        name={item.title}
+                                        price={item.min_price}
+                                        oldPrice={item.special_price}
+                                        paragraph={item.short_description}
+                                        id={item.id}
+                                    />
+                                );
+                            }
+
                         })}
 
                         {collections.map((item, index) => {

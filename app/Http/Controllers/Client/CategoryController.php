@@ -107,14 +107,18 @@ class CategoryController extends Controller
             $sale = false;
             $prices = [];
             $product['attributes'] = $_result;
+            $v_c = 0;
             foreach ($product->variants as $variant){
                 $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
                 if($variant->special_price){
                     $sale = true;
                 }
+                $product['last_variant'] = $variant;
+                $product['variant_count'] = ++$v_c;
             }
             $product['min_price'] = !empty($prices) ? min($prices) : 0;
             $product['sale'] = $sale;
+
 
         }
 
