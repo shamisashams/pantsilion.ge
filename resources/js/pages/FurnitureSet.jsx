@@ -91,7 +91,16 @@ const FurnitureSet = ({ seo }) => {
                         let c = item.pivot.coordinates
                             ? item.pivot.coordinates.split(" ")
                             : new Array(4).fill("auto");
-                        console.log(c);
+
+                        let left = c[3].match(/\d+/);
+                        let right = c[1].match(/\d+/);
+
+                        left = left ? parseInt(left[0]) : null;
+                        right = right ? parseInt(right[0]) : null;
+                        console.log('aaaaa',left,right);
+                        let direction;
+                        if(left > 70) direction = true;
+                        if(right < 30) direction = true;
                         return (
                             <PlusBox
                                 top={c[0]}
@@ -107,6 +116,7 @@ const FurnitureSet = ({ seo }) => {
                                 addToWishlist={() => {
                                     addToWishlist(item.id);
                                 }}
+                                floatLeft={direction}
                             />
                         );
                     })}
