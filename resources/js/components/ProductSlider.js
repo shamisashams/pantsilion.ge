@@ -49,21 +49,41 @@ const ProductSlider = ({products}) => {
         }}
       >
         {products.map((item, index) => {
-          return (
-            <SwiperSlide key={index}>
-              <ProductBox
-                link={route('client.product.show',item.slug)}
-                new={item.new}
-                sale={item.sale}
-                img={item.latest_image ? item.latest_image.file_full_url:null}
-                name={item.title}
-                price={item.min_price}
-                oldPrice={item.oldPrice}
-                paragraph={item.short_description}
-                id={item.id}
-              />
-            </SwiperSlide>
-          );
+            if(item.variant_count === 1){
+                return (
+                    <SwiperSlide key={index}>
+                        <ProductBox
+                            link={route('client.product.show',item.slug)}
+                            new={item.new}
+                            sale={item.sale}
+                            img={item.latest_image ? item.latest_image.file_full_url:null}
+                            name={item.title}
+                            price={item.last_variant.price}
+                            oldPrice={item.last_variant.special_price}
+                            paragraph={item.short_description}
+                            id={item.id}
+                            single
+                        />
+                    </SwiperSlide>
+                );
+            } else {
+                return (
+                    <SwiperSlide key={index}>
+                        <ProductBox
+                            link={route('client.product.show',item.slug)}
+                            new={item.new}
+                            sale={item.sale}
+                            img={item.latest_image ? item.latest_image.file_full_url:null}
+                            name={item.title}
+                            price={item.min_price}
+                            oldPrice={item.oldPrice}
+                            paragraph={item.short_description}
+                            id={item.id}
+                        />
+                    </SwiperSlide>
+                );
+            }
+
         })}
       </Swiper>
       <div className="wrapper flex items-center justify-between pt-10 ">
