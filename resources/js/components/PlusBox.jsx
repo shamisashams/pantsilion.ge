@@ -56,7 +56,7 @@ const PlusBox = (props) => {
                     <p className="opacity-50 text-sm mb-3">{props.para}</p>
                     <div className="bold whitespace-nowrap mb-3">
                         Price:
-                        {props.sale && (
+                        {props.oldPrice && (
                             <span className="text-sm line-through opacity-50 pr-2">
                                 ₾{props.oldPrice}
                             </span>
