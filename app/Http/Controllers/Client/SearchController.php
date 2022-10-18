@@ -103,12 +103,14 @@ class SearchController extends Controller
             $product['attributes'] = $_result;
 
             $sale = false;
-
+            $v_c = 0;
             foreach ($product->variants as $variant){
 
                 if($variant->special_price){
                     $sale = true;
                 }
+                $product['last_variant'] = $variant;
+                $product['variant_count'] = ++$v_c;
             }
 
             $product['sale'] = $sale;
