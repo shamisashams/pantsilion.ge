@@ -39,7 +39,7 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('admin.id')</th>
-                                    <th>@lang('admin.product_count')</th>
+                                    <th>@lang('admin.slug')</th>
                                     <th>@lang('admin.color')</th>
                                     <th>@lang('admin.status')</th>
                                     <th>@lang('admin.title')</th>
@@ -55,7 +55,11 @@
                                                class="validate {{$errors->has('id') ? '' : 'valid'}}">
                                     </th>
 
-                                    <th></th>
+                                    <th>
+                                        <input class="form-control" type="text" name="slug" onchange="this.form.submit()"
+                                               value="{{Request::get('slug')}}"
+                                               class="validate {{$errors->has('slug') ? '' : 'valid'}}">
+                                    </th>
                                     <th></th>
                                     <th>
                                         <select class="form-control" name="status" onchange="this.form.submit()">
@@ -75,7 +79,7 @@
                                         <tr>
                                             <th scope="row">{{$item->id}}</th>
 
-                                            <td>{{$item->product_count}}</td>
+                                            <td>{{$item->slug}}</td>
                                             <td>
                                                 <span style="background-color: {{count($item->colors) > 0 ? $item->colors[0]->color: null}};width: 25px;height: 25px;display: block"></span>
                                             </td>

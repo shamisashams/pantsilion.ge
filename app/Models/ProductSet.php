@@ -33,7 +33,6 @@ class ProductSet extends Model
     ];
 
     protected $appends = [
-      'product_count',
         'shorted_description'
     ];
 
@@ -104,9 +103,9 @@ class ProductSet extends Model
         return asset($value);
     }
 
-    public function getProductCountAttribute(){
+    /*public function getProductCountAttribute(){
         return $this->products()->count();
-    }
+    }*/
 
 
     public function categories(){
