@@ -113,6 +113,8 @@ class CollectionController extends Controller
 
         $set_products = array_values($set_products);
 
+       // dd($set_products);
+
         //dd($set_products);
         return Inertia::render('FurnitureSet',[
             'product' => null,

@@ -177,10 +177,12 @@ const FurnitureSet = ({ seo }) => {
                                     }
                                     return (
                                         <Link
-                                            href={route("client.category.new")}
+                                            href={route("client.product.show",item.parent.slug)}
                                         >
                                             {" "}
-                                            <div
+                                            <div onClick={() => {
+                                                Inertia.visit(route("client.product.show",item.parent.slug));
+                                            }}
                                                 key={index}
                                                 className={`flex items-center justify-between mb-2 pb-2 ${
                                                     index + 1 ===
