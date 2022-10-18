@@ -124,7 +124,8 @@ const Home = ({ seo }) => {
                                         left={c[3]}
                                         title={item.title}
                                         para={item.short_description}
-                                        price={item.price}
+                                        price={item.special_price ? item.special_price : item.price}
+                                        oldPrice={item.special_price ? item.price : null}
                                         addToCart={() => {
                                             addToCartItem(item);
                                         }}
