@@ -73,7 +73,7 @@ const Home = ({ seo }) => {
                                             )}
                                         </MainButton>
                                     </Link>
-                                    <Link
+                                    {collection.video ? <Link
                                         href="/"
                                         className="flex items-center md:ml-10 ml-5"
                                     >
@@ -87,7 +87,7 @@ const Home = ({ seo }) => {
                                                 sharedData
                                             )}
                                         </div>
-                                    </Link>
+                                    </Link>:null}
                                 </div>
                             </div>
                         </div>

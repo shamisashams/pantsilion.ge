@@ -30,8 +30,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'facebook' => [
-        'client_id' => '435281924804350',
-        'client_secret' => '36660df29fab684e74352e54de4c83bb',
+        'client_id' => '544513060814044',
+        'client_secret' => '7295d5ba48a10dcf40e55af27a5d9a90',
         'redirect' => 'https://pantsilion.ge/ge/auth/facebook/callback',
     ],
     'google' => [
