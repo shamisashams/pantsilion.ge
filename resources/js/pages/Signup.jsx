@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-//import { Link } from "react-router-dom"
 import { Link, usePage } from "@inertiajs/inertia-react";
 import MainButton from "../components/MainButton";
-//import Fb from '../assets/images/icons/facebook.png'
-//import Google from '../assets/images/icons/google.png'
 import Layout from "../Layouts/Layout";
 import { Inertia } from "@inertiajs/inertia";
 import { IoCloseOutline } from "react-icons/io5";
@@ -156,7 +153,7 @@ const Signup = ({ seo }) => {
                                 {errors.agree}
                             </div>
                         )}
-                        <div className="flex mb-8 mt-5 justify-start">
+                        <div className="text-sm flex mb-8 mt-5 justify-start">
                             <input
                                 onChange={handleChange}
                                 type="checkbox"
@@ -167,7 +164,13 @@ const Signup = ({ seo }) => {
                                 htmlFor="checkbox"
                                 className="inline-block ml-2 mb-px"
                             >
-                                {__("client.signup_accept_term", localizations)}
+                                {__("client.signup_accept_term", localizations)}{" "}
+                                <Link
+                                    className="text-sky-500 underline"
+                                    href={route("client.termsConditions")}
+                                >
+                                    terms and conditions.
+                                </Link>
                             </label>
                         </div>
                         <MainButton type>Sign up</MainButton>

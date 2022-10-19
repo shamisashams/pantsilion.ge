@@ -1,8 +1,5 @@
-import React from "react";
-//import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { Link, usePage } from "@inertiajs/inertia-react";
-//import bg1 from "../assets/images/bg/1.png";
-//import bg2 from "../assets/images/bg/2.png";
 import { BiPlay } from "react-icons/bi";
 import Gallery from "../components/Gallery";
 import ProductSlider from "../components/ProductSlider";
@@ -11,8 +8,11 @@ import BlogSlider from "../components/BlogSlider";
 import PlusBox from "../components/PlusBox";
 import Layout from "../Layouts/Layout";
 import { Inertia } from "@inertiajs/inertia";
+import { IoCloseSharp } from "react-icons/io5";
 
 const Home = ({ seo }) => {
+    const [videoPopup, setVideoPopup] = useState(false);
+
     const renderHTML = (rawHTML) =>
         React.createElement("div", {
             dangerouslySetInnerHTML: { __html: rawHTML },
@@ -64,7 +64,13 @@ const Home = ({ seo }) => {
                                     {/* from ₾299 */}₾{collection.price}
                                 </div>
                                 <div className="flex items-center justify-start mt-10">
-                                    <Link href={route('client.collection.show',collection.slug)} className="">
+                                    <Link
+                                        href={route(
+                                            "client.collection.show",
+                                            collection.slug
+                                        )}
+                                        className=""
+                                    >
                                         <MainButton>
                                             {/* Learn more */}
                                             {__(
@@ -73,21 +79,23 @@ const Home = ({ seo }) => {
                                             )}
                                         </MainButton>
                                     </Link>
-                                    {collection.video ? <Link
-                                        href="/"
-                                        className="flex items-center md:ml-10 ml-5"
-                                    >
-                                        <div className="flex items-center justify-center bg-custom-red text-white w-8 h-8 rounded-full mr-2">
-                                            <BiPlay />
-                                        </div>
-                                        <div className="bold">
-                                            {/* Watch video */}
-                                            {__(
-                                                "client.button_watch_video",
-                                                sharedData
-                                            )}
-                                        </div>
-                                    </Link>:null}
+                                    {collection.video ? (
+                                        <button
+                                            onClick={() => setVideoPopup(true)}
+                                            className="flex items-center md:ml-10 ml-5"
+                                        >
+                                            <div className="flex items-center justify-center bg-custom-red text-white w-8 h-8 rounded-full mr-2">
+                                                <BiPlay />
+                                            </div>
+                                            <div className="bold">
+                                                {/* Watch video */}
+                                                {__(
+                                                    "client.button_watch_video",
+                                                    sharedData
+                                                )}
+                                            </div>
+                                        </button>
+                                    ) : null}
                                 </div>
                             </div>
                         </div>
@@ -111,10 +119,10 @@ const Home = ({ seo }) => {
 
                                 left = left ? parseInt(left[0]) : null;
                                 right = right ? parseInt(right[0]) : null;
-                                console.log('aaaaa',left,right);
+                                console.log("aaaaa", left, right);
                                 let direction;
-                                if(left >= 65) direction = true;
-                                if(right <= 35) direction = true;
+                                if (left >= 65) direction = true;
+                                if (right <= 35) direction = true;
 
                                 return (
                                     <PlusBox
@@ -124,8 +132,16 @@ const Home = ({ seo }) => {
                                         left={c[3]}
                                         title={item.title}
                                         para={item.short_description}
-                                        price={item.special_price ? item.special_price : item.price}
-                                        oldPrice={item.special_price ? item.price : null}
+                                        price={
+                                            item.special_price
+                                                ? item.special_price
+                                                : item.price
+                                        }
+                                        oldPrice={
+                                            item.special_price
+                                                ? item.price
+                                                : null
+                                        }
                                         addToCart={() => {
                                             addToCartItem(item);
                                         }}
@@ -186,7 +202,10 @@ const Home = ({ seo }) => {
                             </div>
                             <p className="opacity-50">
                                 {/* New and trending products for best price */}
-                                {__("client.home_special_price_text", sharedData)}
+                                {__(
+                                    "client.home_special_price_text",
+                                    sharedData
+                                )}
                             </p>
                         </div>
                     </div>
@@ -208,14 +227,20 @@ const Home = ({ seo }) => {
                                 provide all the furniture that you can easily and quickly get in
                                 love with */}
                                 {renderHTML(
-                                    __("client.home_getdiscounts_text", sharedData).replace(/(?:\r\n|\r|\n)/g, "<br>")
+                                    __(
+                                        "client.home_getdiscounts_text",
+                                        sharedData
+                                    ).replace(/(?:\r\n|\r|\n)/g, "<br>")
                                 )}
                             </p>
                             <div className="w-52">
                                 <Link href={route("client.registration.index")}>
                                     <MainButton reverse>
                                         {/* Create account */}
-                                        {__("client.button_create_account", sharedData)}
+                                        {__(
+                                            "client.button_create_account",
+                                            sharedData
+                                        )}
                                     </MainButton>
                                 </Link>
                             </div>
@@ -235,6 +260,33 @@ const Home = ({ seo }) => {
                     </div>
                     <BlogSlider blogs={blogs} />
                 </section>
+
+                {/* video popup */}
+
+                <div
+                    className={`w-screen h-screen fixed left-0 top-0 bg-black/[0.8] flex items-center justify-center z-50 transition-all duration-500
+                ${videoPopup ? "opacity-100 visible" : "invisible opacity-0"}
+                `}
+                >
+                    <div className="container w-4/5 h-4/5 relative">
+                        <button
+                            onClick={() => setVideoPopup(false)}
+                            className="absolute -top-7 -right-7 text-white"
+                        >
+                            <IoCloseSharp className="w-7 h-7" />
+                        </button>
+                        <iframe
+                            className="mx-auto"
+                            width="100%"
+                            height="100%"
+                            src="https://www.youtube.com/embed/K9cRaNd5WA8"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                </div>
             </div>
         </Layout>
     );

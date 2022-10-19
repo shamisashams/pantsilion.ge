@@ -79,7 +79,7 @@ const Navbar = () => {
             >
                 <div className="wrapper">
                     <div className="flex items-center justify-between md:py-3 pt-1">
-                        <Link href="/">
+                        <Link href={route("client.home.index")}>
                             <img
                                 src="/client/assets/images/logo/1.png"
                                 alt=""
@@ -151,7 +151,10 @@ const Navbar = () => {
                                                 : "  opacity-0"
                                         }`}
                                         type="text"
-                                        placeholder={__('client.nav_search', sharedData)}
+                                        placeholder={__(
+                                            "client.nav_search",
+                                            sharedData
+                                        )}
                                         name="term"
                                         onChange={handleChange}
                                     />
@@ -235,7 +238,10 @@ const Navbar = () => {
                                         href={route("partner.join")}
                                         className="whitespace-nowrap block"
                                     >
-                                        {__("client.nav_partner_join", sharedData)}{" "}
+                                        {__(
+                                            "client.nav_partner_join",
+                                            sharedData
+                                        )}{" "}
                                     </Link>
                                 </div>
                             </div>

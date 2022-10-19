@@ -153,12 +153,14 @@ Route::prefix('{locale?}')
 
         Route::get('login', [\App\Http\Controllers\Client\AuthController::class, 'loginView'])->name('client.login.index')->middleware('guest_client');
         Route::post('login', [\App\Http\Controllers\Client\AuthController::class, 'login'])->name('client.login');
+        Route::get('recoverPassword', [\App\Http\Controllers\Client\AuthController::class, 'recoverPassword'])->name('client.recoverPassword');
+        Route::get('termsConditions', [\App\Http\Controllers\Client\AuthController::class, 'termsConditions'])->name('client.termsConditions');
         Route::get('registration', [\App\Http\Controllers\Client\AuthController::class, 'registrationView'])->name('client.registration.index');
         Route::post('registration', [\App\Http\Controllers\Client\AuthController::class, 'createAccount'])->name('client.register');
 
         Route::get('logout', [\App\Http\Controllers\Client\AuthController::class, 'logout'])->name('logout');
 
-
+   
         Route::get('partner-signin', [\App\Http\Controllers\Client\AuthController::class, 'partnerLoginView'])->name('partner.login.index')->middleware('guest_p');
         Route::post('partner-signin', [\App\Http\Controllers\Client\AuthController::class, 'partnerLogin'])->name('partner.login');
 
