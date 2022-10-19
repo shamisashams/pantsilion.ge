@@ -58,8 +58,8 @@ const ProductSlider = ({products}) => {
                             sale={item.sale}
                             img={item.latest_image ? item.latest_image.file_full_url:null}
                             name={item.title}
-                            price={item.last_variant.price}
-                            oldPrice={item.last_variant.special_price}
+                            price={item.last_variant.special_price ? item.last_variant.special_price : item.last_variant.price}
+                            oldPrice={item.last_variant.special_price ? item.last_variant.price : null}
                             paragraph={item.short_description}
                             id={item.id}
                             single
