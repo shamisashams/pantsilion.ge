@@ -24,6 +24,11 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\SpacePay\SpacePay;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 Route::post('ckeditor/image_upload', [CKEditorController::class, 'upload'])->withoutMiddleware('web')->name('upload');
 
@@ -151,9 +156,74 @@ Route::prefix('{locale?}')
         });
 
 
+
         Route::get('login', [\App\Http\Controllers\Client\AuthController::class, 'loginView'])->name('client.login.index')->middleware('guest_client');
         Route::post('login', [\App\Http\Controllers\Client\AuthController::class, 'login'])->name('client.login');
         Route::get('recoverPassword', [\App\Http\Controllers\Client\AuthController::class, 'recoverPassword'])->name('client.recoverPassword');
+
+        Route::post('/forgot-password', function (Request $request) {
+            $request->validate(['email' => 'required|email']);
+            //dd($request->all());
+
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
+
+            return $status === Password::RESET_LINK_SENT
+                ? back()->with(['status' => __($status)])
+                : back()->withErrors(['email' => __($status)]);
+        })->middleware('guest')->name('password.email');
+
+        Route::get('/reset-password/{token}', function ($locale,$token) {
+            //dd(\request()->all());
+            return \Inertia\Inertia::render('RecoverPasswordReset',[
+                'email' => \request('email'),
+                'token' => $token,
+                "seo" => [
+                    "title"=>'',
+                    "description"=>'',
+                    "keywords"=>'',
+                    "og_title"=>'',
+                    "og_description"=>'',
+//
+                ]
+            ])->withViewData([
+                'meta_title' => '',
+                'meta_description' => '',
+                'meta_keyword' => '',
+                "image" => '',
+                'og_title' => '',
+                'og_description' => ''
+            ]);
+        })->middleware('guest')->name('password.reset');
+
+
+        Route::post('/reset-password', function (Request $request) {
+            //dd($request->all());
+            $request->validate([
+                'token' => 'required',
+                'email' => 'required|email',
+                'password' => 'required|min:8|confirmed',
+            ]);
+
+            $status = Password::reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function ($user, $password) {
+                    $user->forceFill([
+                        'password' => Hash::make($password)
+                    ])->setRememberToken(Str::random(60));
+
+                    $user->save();
+
+                    event(new PasswordReset($user));
+                }
+            );
+
+            return $status === Password::PASSWORD_RESET
+                ? redirect()->route('client.login')->with('success', __($status))
+                : back()->withErrors(['error' => [__($status)]]);
+        })->middleware('guest')->name('password.update');
+
         Route::get('termsConditions', [\App\Http\Controllers\Client\AuthController::class, 'termsConditions'])->name('client.termsConditions');
         Route::get('registration', [\App\Http\Controllers\Client\AuthController::class, 'registrationView'])->name('client.registration.index');
         Route::post('registration', [\App\Http\Controllers\Client\AuthController::class, 'createAccount'])->name('client.register');

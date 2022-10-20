@@ -6,22 +6,24 @@ import Layout from "../Layouts/Layout";
 import axios from "axios";
 
 
-const RecoverPassword = ({ seo }) => {
-    const { errors, localizations } = usePage().props;
+const RecoverPasswordReset = ({ seo }) => {
+    const { errors, localizations, email, token } = usePage().props;
     const [linkSent, setLinkSent] = useState(false);
 
     function handleClick(e) {
 
         e.preventDefault();
-        let email = document.getElementById('input_email').value;
+
+        let password_confirmation = document.getElementById('password_confirmation').value;
+        let password = document.getElementById('password').value;
         console.log(email);
         axios
-            .post(route("password.email"), { email: email })
+            .post(route("password.update"), { email: email, password: password, password_confirmation: password_confirmation, token: token })
             .then(function (response) {
                 console.log(response);
                 setLinkSent(true);
             }).catch((error) => {
-                alert(error.response.data.errors.email)
+                alert(error.response.data.errors.password)
             console.log(error.response.data);
             console.log(error.response.status);
             console.log(error.response.headers);
@@ -38,15 +40,23 @@ const RecoverPassword = ({ seo }) => {
                         Recover password
                     </div>
                     <p className="my-5">
-                        Enter email address you have registered an account
+                        Enter new password
                     </p>
 
                     <form>
                         <input
-                            id="input_email"
-                            type="text"
-                            name="email"
-                            placeholder={__("client.form_email", localizations)}
+                            id="password"
+                            type="password"
+                            name="password"
+                            placeholder={__("client.form_password", localizations)}
+                            className="mb-6 border border-zinc-200 pl-4 border-solid w-full block bg-transparent h-12 placeholder:text-custom-dark"
+                        />
+
+                        <input
+                            id="password_confirmation"
+                            type="password"
+                            name="password_confirmation"
+                            placeholder={__("client.form_repeat_password", localizations)}
                             className="mb-6 border border-zinc-200 pl-4 border-solid w-full block bg-transparent h-12 placeholder:text-custom-dark"
                         />
 
@@ -54,7 +64,7 @@ const RecoverPassword = ({ seo }) => {
                             handleClick(e)
                             //setLinkSent(true)
                         }}>
-                            Send recovery link
+                            Change
                         </MainButton>
                     </form>
                     <div
@@ -70,7 +80,7 @@ const RecoverPassword = ({ seo }) => {
                             alt=""
                         />
                         <p className="my-6">
-                            We have sent password recovery link to your email
+                            you have successfully updated password
                         </p>
                         <Link
                             href={route("client.login.index")}
@@ -85,4 +95,4 @@ const RecoverPassword = ({ seo }) => {
     );
 };
 
-export default RecoverPassword;
+export default RecoverPasswordReset;
