@@ -256,6 +256,7 @@ class ProductController extends Controller
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
             ->inRandomOrder()
             ->groupBy('products.id')
+            ->limit(15)
             ->with('latestImage','translation','variants','attribute_values.attribute.translation','attribute_values.attribute.options.translation')->get();
 
         foreach ($similar_products as $_product){
