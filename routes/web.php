@@ -160,7 +160,7 @@ Route::prefix('{locale?}')
 
         Route::get('logout', [\App\Http\Controllers\Client\AuthController::class, 'logout'])->name('logout');
 
-   
+
         Route::get('partner-signin', [\App\Http\Controllers\Client\AuthController::class, 'partnerLoginView'])->name('partner.login.index')->middleware('guest_p');
         Route::post('partner-signin', [\App\Http\Controllers\Client\AuthController::class, 'partnerLogin'])->name('partner.login');
 
@@ -294,7 +294,7 @@ Route::prefix('{locale?}')
 
             Auth::login($user);
 
-            return redirect(route('profile'));
+            return redirect(route('client.cabinet'));
         })->name('fb-callback');
 
         Route::get('/auth/google/redirect', function () {
@@ -321,7 +321,7 @@ Route::prefix('{locale?}')
 
             Auth::login($user);
 
-            return redirect(route('profile'));
+            return redirect(route('client.cabinet'));
         })->name('google-callback');
         //--------------------------------------------------------------------------
     });
