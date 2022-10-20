@@ -35,8 +35,8 @@ return [
         'redirect' => 'https://pantsilion.ge/ge/auth/facebook/callback',
     ],
     'google' => [
-        'client_id' => '194477847906-5oba7obd2csbm6bn3a6u2jb22usln98o.apps.googleusercontent.com',
-        'client_secret' => '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',
+        'client_id' => '498949893097-oc31kggtup2u0g8cuojf6bh5l77f4ffs.apps.googleusercontent.com',
+        'client_secret' => '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',
         'redirect' => 'https://pantsilion.ge/ge/auth/google/callback',
     ],
 
