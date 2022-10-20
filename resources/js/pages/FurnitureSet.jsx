@@ -145,11 +145,22 @@ const FurnitureSet = ({ seo }) => {
                     <div className="flex py-10 flex-col xl:flex-row mt-7 mb-20">
                         <div className="max-w-2xl xl:mr-20">
                             <SingleSlider images={collection.files} />
-                            {collection.video ? (
+                            {/*{collection.video ? (
                                 <div className="w-full sm:h-96 h-60 mt-20">
                                     {renderHTML(collection.video.path)}
                                 </div>
-                            ) : null}
+                            ) : null}*/}
+                            <div className="w-full sm:h-96 h-60 mt-20">
+                            {collection.video ? <iframe
+                                width="100%"
+                                height="100%"
+                                src={`https://www.youtube.com/embed/${collection.video.path}`}
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>:null}
+                            </div>
                         </div>
                         <div className="max-w-xl xl:mt-0 mt-20">
                             <div className="opacity-50">

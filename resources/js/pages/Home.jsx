@@ -9,9 +9,12 @@ import PlusBox from "../components/PlusBox";
 import Layout from "../Layouts/Layout";
 import { Inertia } from "@inertiajs/inertia";
 import { IoCloseSharp } from "react-icons/io5";
+import Iframe from 'react-iframe'
 
 const Home = ({ seo }) => {
     const [videoPopup, setVideoPopup] = useState(false);
+
+    const [video, setVideo] = useState(null);
 
     const renderHTML = (rawHTML) =>
         React.createElement("div", {
@@ -79,9 +82,16 @@ const Home = ({ seo }) => {
                                             )}
                                         </MainButton>
                                     </Link>
-                                    {collection.video ? (
-                                        <button
-                                            onClick={() => setVideoPopup(true)}
+
+                                    {collection.video ? <button
+                                            onClick={() => {
+                                                //alert(collection.video.path);
+                                                setVideoPopup(true)
+                                                setVideo(collection.video.path)
+                                                //document.querySelector('iframe').className  = 'cmx-auto';
+                                                //console.log(document.querySelector('iframe'));
+
+                                            }}
                                             className="flex items-center md:ml-10 ml-5"
                                         >
                                             <div className="flex items-center justify-center bg-custom-red text-white w-8 h-8 rounded-full mr-2">
@@ -94,8 +104,8 @@ const Home = ({ seo }) => {
                                                     sharedData
                                                 )}
                                             </div>
-                                        </button>
-                                    ) : null}
+                                        </button>:null}
+
                                 </div>
                             </div>
                         </div>
@@ -268,7 +278,7 @@ const Home = ({ seo }) => {
                 ${videoPopup ? "opacity-100 visible" : "invisible opacity-0"}
                 `}
                 >
-                    <div className="container w-4/5 h-4/5 relative">
+                    <div className="container w-4/5 h-4/5 relative" style={{height:"500px"}}>
                         <button
                             onClick={() => setVideoPopup(false)}
                             className="absolute -top-7 -right-7 text-white"
@@ -279,12 +289,20 @@ const Home = ({ seo }) => {
                             className="mx-auto"
                             width="100%"
                             height="100%"
-                            src="https://www.youtube.com/embed/K9cRaNd5WA8"
+                            src={`https://www.youtube.com/embed/${video}`}
                             title="YouTube video player"
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen
                         ></iframe>
+                        {/*{renderHTML(video)}*/}
+                        {/*<Iframe url="https://www.youtube.com/embed/LSt-Nj8_rGQ"
+                                position="absolute"
+                                width="100%"
+                                id="myId"
+                                className="myClassname"
+                                height="100%"
+                                styles={{height: "100%"}}/>*/}
                     </div>
                 </div>
             </div>
