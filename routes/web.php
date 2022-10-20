@@ -178,6 +178,8 @@ Route::prefix('{locale?}')
             Route::get('invoice/{order}', [\App\Http\Controllers\Client\UserController::class, 'invoice'])->name('client.invoice');
         });
 
+        Route::post('shipping-submit', [\App\Http\Controllers\Client\ShippingController::class, 'submitShipping'])->name('shipping-submit');
+
         Route::middleware(['auth_client'])->group(function () {
             Route::get('client/cabinet', [\App\Http\Controllers\Client\UserController::class, 'index'])->name('client.cabinet');
             Route::get('client/orders', [\App\Http\Controllers\Client\UserController::class, 'orders'])->name('client.orders');
@@ -187,7 +189,7 @@ Route::prefix('{locale?}')
             Route::post('favorites-set', [\App\Http\Controllers\Client\FavoriteController::class, 'addToWishlistCollection'])->name('client.favorite.add-set');
             Route::get('favorites/remove', [\App\Http\Controllers\Client\FavoriteController::class, 'removeFromWishlist'])->name('client.favorite.remove');
             Route::post('apply-promocode', [\App\Http\Controllers\Client\CartController::class, 'applyPromocode'])->name('apply-promocode');
-            Route::post('shipping-submit', [\App\Http\Controllers\Client\ShippingController::class, 'submitShipping'])->name('shipping-submit');
+
             Route::post('checkout', [\App\Http\Controllers\Client\OrderController::class, 'order'])->name('client.checkout.order');
             Route::post('settings', [\App\Http\Controllers\Client\UserController::class, 'saveSettings'])->name('client.save-settings');
             Route::get('invoice/{order}', [\App\Http\Controllers\Client\UserController::class, 'invoice'])->name('client.invoice');
@@ -205,7 +207,7 @@ Route::prefix('{locale?}')
 
         Route::get('payment', [\App\Http\Controllers\Client\PaymentController::class, 'index'])->name('client.payment.index');
 
-        Route::any('bog/installment',[\App\Http\Controllers\Client\OrderController::class,'order'])->name('bogInstallment');
+        Route::any('bog/installment',[\App\Http\Controllers\Client\OrderController::class,'order'])->middleware('auth_client')->name('bogInstallment');
 
         Route::middleware(['active'])->group(function () {
 
