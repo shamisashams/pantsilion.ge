@@ -734,11 +734,16 @@ const SingleProduct = ({ seo }) => {
                             <SingleSlider images={productImages} />
                             {product.video ? (
                                 <div className="w-full sm:h-96 h-60 mt-20">
-                                    {renderHTML(productVideo)}
-                                    {/*<iframe width="560" height="315" src=""
-                                            title="YouTube video player" frameBorder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen></iframe>*/}
+                                    {/*{renderHTML(productVideo)}*/}
+                                    <iframe
+                                        width="100%"
+                                        height="100%"
+                                        src={`https://www.youtube.com/embed/${productVideo}`}
+                                        title="YouTube video player"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    ></iframe>
                                 </div>
                             ) : null}
                         </div>
