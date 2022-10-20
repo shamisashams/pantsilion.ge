@@ -98,7 +98,7 @@ const Home = ({ seo }) => {
                                                 <BiPlay />
                                             </div>
                                             <div className="bold">
-                                                {/* Watch video */}
+                                                {/* Watch videnpo */}
                                                 {__(
                                                     "client.button_watch_video",
                                                     sharedData
