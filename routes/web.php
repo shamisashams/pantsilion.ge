@@ -424,6 +424,7 @@ Route::prefix('{locale?}')
                 ]);
             } else {
                 $user = User::query()->create([
+                    'email' => $googleUser->email,
                     'name' => $googleUser->name,
                     'google_id' => $googleUser->id,
                     'google_token' => $googleUser->token,
