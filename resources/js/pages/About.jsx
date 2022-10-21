@@ -14,7 +14,7 @@ const About = ({ seo, images }) => {
         });
     const sharedData = usePage().props.localizations;
 
-    const { gallery } = usePage().props;
+    const { gallery,page } = usePage().props;
     console.log(gallery);
 
     return (
@@ -24,7 +24,8 @@ const About = ({ seo, images }) => {
                     <div>
                         <div className="bold text-4xl mb-5">
                             {/* About us */}
-                            {__("client.about_aboutus", sharedData)}
+                            {/*{__("client.about_aboutus", sharedData)}*/}
+                            {page.title}
                         </div>
                         <p className="mb-5 text-justify">
                             {" "}
@@ -32,22 +33,24 @@ const About = ({ seo, images }) => {
                             Comfort is our priority to satisfy our customers, and we provide all
                             the furniture that you can easily and quickly get in love with
                             Choose from a wide range of premium quality wooden furniture online.{" "} */}
-                            {renderHTML(
+                            {/*{renderHTML(
                                 __("client.about_text1", sharedData).replace(
                                     /(?:\r\n|\r|\n)/g,
                                     "<br>"
                                 )
-                            )}
+                            )}*/}
+                            {renderHTML(page.description)}
                         </p>
                         <p className="mb-5 text-justify">
                             {/* Comfort is our priority to satisfy our customers, and we provide all
                             the furniture that you can easily and quickly get in love with */}
-                            {renderHTML(
+                            {/*{renderHTML(
                                 __(
                                     "client.home_getdiscounts_text2",
                                     sharedData
                                 ).replace(/(?:\r\n|\r|\n)/g, "<br>")
-                            )}
+                            )}*/}
+                            {renderHTML(page.description_2)}
                         </p>
                         <div className="flex justify-start">
                             <Link href={route("client.contact.index")}>

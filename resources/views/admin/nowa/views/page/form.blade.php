@@ -90,7 +90,7 @@
                                                 </small>
                                                 @enderror
                                             </div>
-                                            <div class="form-group">
+                                            {{--<div class="form-group">
                                                 {!! Form::label($locale.'[title_2]',__('admin.title_2'),['class' => 'form-label']) !!}
                                                 {!! Form::text($locale.'[title_2]',$page->translate($locale)->title_2 ?? '',['class' => 'form-control']) !!}
 
@@ -101,9 +101,9 @@
                                                     </div>
                                                 </small>
                                                 @enderror
-                                            </div>
+                                            </div>--}}
                                             <div class="form-group">
-                                                <label class="form-label" for="description">@lang('admin.description')</label>
+                                                <label class="form-label" for="description">@lang('admin.content')</label>
                                                 <textarea class="form-control" id="description-{{$locale}}"
                                                           name="{{$locale}}[description]'">
                                                 {!! $page->translate($locale)->description ?? '' !!}
@@ -117,7 +117,7 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <label class="form-label" for="description_2">@lang('admin.description_2')</label>
+                                                <label class="form-label" for="description_2">@lang('admin.content_2')</label>
                                                 <textarea class="form-control" id="description_2-{{$locale}}"
                                                           name="{{$locale}}[description_2]'">
                                                 {!! $page->translate($locale)->description_2 ?? '' !!}
@@ -255,7 +255,7 @@
 
     @if($page->key == 'about')
 
-        <div class="row">
+        {{--<div class="row">
             <div class="col-lg-12 col-md-12">
                 <div class="card">
                     <div class="card-body">
@@ -278,7 +278,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--}}
 
     @endif
 
@@ -360,6 +360,11 @@
     <script>
         @foreach(config('translatable.locales') as $locale)
         CKEDITOR.replace('description-{{$locale}}', {
+            filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
+            filebrowserUploadMethod: 'form'
+        });
+
+        CKEDITOR.replace('description_2-{{$locale}}', {
             filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
             filebrowserUploadMethod: 'form'
         });

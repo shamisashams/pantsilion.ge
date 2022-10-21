@@ -19,6 +19,7 @@ use App\Models\ProductSet;
 use App\Models\Setting;
 use App\Promocode\Promocode;
 use App\SpacePay\SpacePay;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -368,6 +369,9 @@ class OrderController extends Controller
 
 
                 DataBase::commit();
+
+
+                Pdf::loadView(compact('order'));
 
                 $_promocode = \App\Models\PromoCode::query()->where('type', 'cart')->first();
                 //dd($promocode);
