@@ -371,7 +371,7 @@ class OrderController extends Controller
                 DataBase::commit();
 
 
-                Pdf::loadView(compact('order'));
+                //Pdf::loadView(compact('order'));
 
                 $_promocode = \App\Models\PromoCode::query()->where('type', 'cart')->first();
                 //dd($promocode);
