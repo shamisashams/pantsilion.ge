@@ -359,7 +359,7 @@ Route::prefix('{locale?}')
                         'avatar' => $facebookUser->avatar
                     ]);
                 } else {
-                    User::query()->create([
+                    $user = User::query()->create([
                         'email' => $email,
                         'name' => $facebookUser->name,
                         'facebook_id' => $facebookUser->id,
@@ -383,7 +383,7 @@ Route::prefix('{locale?}')
                     ]);
                 } else {
                     $email = uniqid();
-                    User::query()->create([
+                    $user = User::query()->create([
                         'email' => $email,
                         'name' => $facebookUser->name,
                         'facebook_id' => $facebookUser->id,
@@ -423,7 +423,7 @@ Route::prefix('{locale?}')
                     'avatar' => $googleUser->avatar,
                 ]);
             } else {
-                $user->create([
+                $user = User::query()->create([
                     'name' => $googleUser->name,
                     'google_id' => $googleUser->id,
                     'google_token' => $googleUser->token,
