@@ -359,7 +359,7 @@ Route::prefix('{locale?}')
                         'avatar' => $facebookUser->avatar
                     ]);
                 } else {
-                    $user->create([
+                    User::query()->create([
                         'email' => $email,
                         'name' => $facebookUser->name,
                         'facebook_id' => $facebookUser->id,
@@ -383,7 +383,7 @@ Route::prefix('{locale?}')
                     ]);
                 } else {
                     $email = uniqid();
-                    $user->create([
+                    User::query()->create([
                         'email' => $email,
                         'name' => $facebookUser->name,
                         'facebook_id' => $facebookUser->id,
