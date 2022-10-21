@@ -97,6 +97,14 @@ const Signin = ({ seo }) => {
                             {__("client.login_signup", localizations)}
                         </Link>
                     </p>
+
+                    <Link
+                        href={route("client.recoverPassword")}
+                        className="text-sky-600 underline"
+                    >
+                        {" "}
+                        {__("client.recover_password", localizations)}
+                    </Link>
                 </div>
             </div>
         </Layout>

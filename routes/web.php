@@ -169,9 +169,8 @@ Route::prefix('{locale?}')
                 $request->only('email')
             );
 
-            return $status === Password::RESET_LINK_SENT
-                ? back()->with(['status' => __($status)])
-                : back()->withErrors(['email' => __($status)]);
+            return  $status;
+
         })->middleware('guest')->name('password.email');
 
         Route::get('/reset-password/{token}', function ($locale,$token) {
@@ -219,9 +218,8 @@ Route::prefix('{locale?}')
                 }
             );
 
-            return $status === Password::PASSWORD_RESET
-                ? redirect()->route('client.login')->with('success', __($status))
-                : back()->withErrors(['error' => [__($status)]]);
+            return $status;
+
         })->middleware('guest')->name('password.update');
 
         Route::get('termsConditions', [\App\Http\Controllers\Client\AuthController::class, 'termsConditions'])->name('client.termsConditions');

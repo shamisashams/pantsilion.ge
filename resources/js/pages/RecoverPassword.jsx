@@ -19,7 +19,12 @@ const RecoverPassword = ({ seo }) => {
             .post(route("password.email"), { email: email })
             .then(function (response) {
                 console.log(response);
-                setLinkSent(true);
+                if(response.data == 'passwords.sent'){
+                    setLinkSent(true);
+                } else {
+                    alert('error');
+                }
+
             }).catch((error) => {
                 alert(error.response.data.errors.email)
             console.log(error.response.data);
@@ -35,10 +40,10 @@ const RecoverPassword = ({ seo }) => {
             <div className="bg-zinc-100 py-60">
                 <div className="wrapper max-w-md text-center relative p-5">
                     <div className="sm:text-4xl text-3xl bold ">
-                        Recover password
+                        {__("client.recover_password_h", localizations)}
                     </div>
                     <p className="my-5">
-                        Enter email address you have registered an account
+                        {__("client.recover_password_t", localizations)}
                     </p>
 
                     <form>
@@ -54,7 +59,7 @@ const RecoverPassword = ({ seo }) => {
                             handleClick(e)
                             //setLinkSent(true)
                         }}>
-                            Send recovery link
+                            {__("client.send_recover_link", localizations)}
                         </MainButton>
                     </form>
                     <div
@@ -70,13 +75,13 @@ const RecoverPassword = ({ seo }) => {
                             alt=""
                         />
                         <p className="my-6">
-                            We have sent password recovery link to your email
+                            {__("client.send_recover_link_success", localizations)}
                         </p>
                         <Link
                             href={route("client.login.index")}
                             className="text-sky-500 underline"
                         >
-                            Sign in
+                            {__("client.sign_in_btn", localizations)}
                         </Link>
                     </div>
                 </div>

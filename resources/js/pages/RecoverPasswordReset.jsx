@@ -21,7 +21,12 @@ const RecoverPasswordReset = ({ seo }) => {
             .post(route("password.update"), { email: email, password: password, password_confirmation: password_confirmation, token: token })
             .then(function (response) {
                 console.log(response);
-                setLinkSent(true);
+                if(response.data === 'passwords.reset'){
+                    setLinkSent(true);
+                } else {
+                    alert('error');
+                }
+
             }).catch((error) => {
                 alert(error.response.data.errors.password)
             console.log(error.response.data);
@@ -37,10 +42,10 @@ const RecoverPasswordReset = ({ seo }) => {
             <div className="bg-zinc-100 py-60">
                 <div className="wrapper max-w-md text-center relative p-5">
                     <div className="sm:text-4xl text-3xl bold ">
-                        Recover password
+                        {__("client.recover_password_h", localizations)}
                     </div>
                     <p className="my-5">
-                        Enter new password
+                        {__("client.recover_password_reset_t", localizations)}
                     </p>
 
                     <form>
@@ -64,7 +69,7 @@ const RecoverPasswordReset = ({ seo }) => {
                             handleClick(e)
                             //setLinkSent(true)
                         }}>
-                            Change
+                            {__("client.reset_password_save_btn", localizations)}
                         </MainButton>
                     </form>
                     <div
@@ -80,13 +85,13 @@ const RecoverPasswordReset = ({ seo }) => {
                             alt=""
                         />
                         <p className="my-6">
-                            you have successfully updated password
+                            {__("client.reset_password_success", localizations)}
                         </p>
                         <Link
                             href={route("client.login.index")}
                             className="text-sky-500 underline"
                         >
-                            Sign in
+                            {__("client.sign_in_btn", localizations)}
                         </Link>
                     </div>
                 </div>
