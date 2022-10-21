@@ -343,20 +343,37 @@ Route::prefix('{locale?}')
             //dd('jdfhgjdhjf urkl');
             $facebookUser = Socialite::driver('facebook')->stateless()->user();
 
-            dd($facebookUser);
-            $email = uniqid();
-            if ($facebookUser->email !== null) $email = $facebookUser->email;
-            $user = User::updateOrCreate([
-                'facebook_id' => $facebookUser->id,
+            //dd($facebookUser);
 
-            ], [
-                'email' => $email,
-                'name' => $facebookUser->name,
-                'facebook_id' => $facebookUser->id,
-                'facebook_token' => $facebookUser->token,
-                'facebook_refresh_token' => $facebookUser->refreshToken,
-                'avatar' => $facebookUser->avatar,
-            ]);
+            if ($facebookUser->email !== null) {
+                $email = $facebookUser->email;
+
+                $user = User::updateOrCreate([
+                    //'facebook_id' => $facebookUser->id,
+                    'email' => $email
+                ], [
+                    'email' => $email,
+                    'name' => $facebookUser->name,
+                    'facebook_id' => $facebookUser->id,
+                    'facebook_token' => $facebookUser->token,
+                    'facebook_refresh_token' => $facebookUser->refreshToken,
+                    'avatar' => $facebookUser->avatar,
+                ]);
+            } else {
+                $email = uniqid();
+
+                $user = User::updateOrCreate([
+                    'facebook_id' => $facebookUser->id,
+                ], [
+                    'email' => $email,
+                    'name' => $facebookUser->name,
+                    'facebook_id' => $facebookUser->id,
+                    'facebook_token' => $facebookUser->token,
+                    'facebook_refresh_token' => $facebookUser->refreshToken,
+                    'avatar' => $facebookUser->avatar,
+                ]);
+            }
+
 
 
 
