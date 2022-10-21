@@ -352,7 +352,7 @@ Route::prefix('{locale?}')
 
                 if($user){
                     $user->update([
-                        'name' => $facebookUser->name,
+                        //'name' => $facebookUser->name,
                         'facebook_id' => $facebookUser->id,
                         'facebook_token' => $facebookUser->token,
                         'facebook_refresh_token' => $facebookUser->refreshToken,
@@ -376,7 +376,7 @@ Route::prefix('{locale?}')
 
                 if($user){
                     $user->update([
-                        'name' => $facebookUser->name,
+                        //'name' => $facebookUser->name,
                         'facebook_token' => $facebookUser->token,
                         'facebook_refresh_token' => $facebookUser->refreshToken,
                         'avatar' => $facebookUser->avatar
@@ -416,7 +416,7 @@ Route::prefix('{locale?}')
 
             if($user){
                 $user->update([
-                    'name' => $googleUser->name,
+                    //'name' => $googleUser->name,
                     'google_id' => $googleUser->id,
                     'google_token' => $googleUser->token,
                     'google_refresh_token' => $googleUser->refreshToken,
