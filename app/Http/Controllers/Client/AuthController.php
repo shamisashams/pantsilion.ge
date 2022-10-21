@@ -148,7 +148,7 @@ class AuthController extends Controller
         ]);
     }
     public function termsConditions(){
-        $page = Page::where('key', 'about')->firstOrFail();
+        $page = Page::where('key', 'terms')->firstOrFail();
 
         $images = [];
         foreach ($page->sections as $sections){

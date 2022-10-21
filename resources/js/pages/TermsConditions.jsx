@@ -5,7 +5,7 @@ import MainButton from "../components/MainButton";
 import Layout from "../Layouts/Layout";
 
 const RecoverPassword = ({ seo }) => {
-    const { localizations } = usePage().props;
+    const { localizations, page } = usePage().props;
 
     const renderHTML = (rawHTML) =>
         React.createElement("p", {
@@ -17,10 +17,12 @@ const RecoverPassword = ({ seo }) => {
             <div className="bg-zinc-100 py-40">
                 <div className="wrapper max-w-2xl text-center">
                     <div className="bold text-2xl lg:text-4xl mb-10">
-                        {__("client.terms_h", localizations)}
+                        {/*{__("client.terms_h", localizations)}*/}
+                        {page.title}
                     </div>
                     <div className="text-justify mb-10">
-                        {renderHTML(__("client.terms_t", localizations).newLineToBr())}
+                        {/*{renderHTML(__("client.terms_t", localizations).newLineToBr())}*/}
+                        {renderHTML(page.description)}
                         {/*<p className="mb-6">
                             What Is a Terms and Conditions Agreement? <br /> A
                             terms and conditions agreement outlines the website
