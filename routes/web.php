@@ -348,30 +348,51 @@ Route::prefix('{locale?}')
             if ($facebookUser->email !== null) {
                 $email = $facebookUser->email;
 
-                $user = User::updateOrCreate([
-                    //'facebook_id' => $facebookUser->id,
-                    'email' => $email
-                ], [
-                    'email' => $email,
-                    'name' => $facebookUser->name,
-                    'facebook_id' => $facebookUser->id,
-                    'facebook_token' => $facebookUser->token,
-                    'facebook_refresh_token' => $facebookUser->refreshToken,
-                    'avatar' => $facebookUser->avatar,
-                ]);
-            } else {
-                $email = uniqid();
+                $user = User::query()->where('email', $email)->first();
 
-                $user = User::updateOrCreate([
-                    'facebook_id' => $facebookUser->id,
-                ], [
-                    'email' => $email,
-                    'name' => $facebookUser->name,
-                    'facebook_id' => $facebookUser->id,
-                    'facebook_token' => $facebookUser->token,
-                    'facebook_refresh_token' => $facebookUser->refreshToken,
-                    'avatar' => $facebookUser->avatar,
-                ]);
+                if($user){
+                    $user->update([
+                        'name' => $facebookUser->name,
+                        'facebook_id' => $facebookUser->id,
+                        'facebook_token' => $facebookUser->token,
+                        'facebook_refresh_token' => $facebookUser->refreshToken,
+                        'avatar' => $facebookUser->avatar
+                    ]);
+                } else {
+                    $user->create([
+                        'email' => $email,
+                        'name' => $facebookUser->name,
+                        'facebook_id' => $facebookUser->id,
+                        'facebook_token' => $facebookUser->token,
+                        'facebook_refresh_token' => $facebookUser->refreshToken,
+                        'avatar' => $facebookUser->avatar,
+                        'affiliate_id' => (string) Str::uuid()
+                    ]);
+                }
+            } else {
+
+
+                $user = User::query()->where('facebook_id', $facebookUser->id)->first();
+
+                if($user){
+                    $user->update([
+                        'name' => $facebookUser->name,
+                        'facebook_token' => $facebookUser->token,
+                        'facebook_refresh_token' => $facebookUser->refreshToken,
+                        'avatar' => $facebookUser->avatar
+                    ]);
+                } else {
+                    $email = uniqid();
+                    $user->create([
+                        'email' => $email,
+                        'name' => $facebookUser->name,
+                        'facebook_id' => $facebookUser->id,
+                        'facebook_token' => $facebookUser->token,
+                        'facebook_refresh_token' => $facebookUser->refreshToken,
+                        'avatar' => $facebookUser->avatar,
+                        'affiliate_id' => (string) Str::uuid()
+                    ]);
+                }
             }
 
 
@@ -391,17 +412,29 @@ Route::prefix('{locale?}')
         Route::get('/auth/google/callback', function () {
             $googleUser = Socialite::driver('google')->user();
 
+            $user = User::query()->where('email', $googleUser->email)->first();
+
+            if($user){
+                $user->update([
+                    'name' => $googleUser->name,
+                    'google_id' => $googleUser->id,
+                    'google_token' => $googleUser->token,
+                    'google_refresh_token' => $googleUser->refreshToken,
+                    'avatar' => $googleUser->avatar,
+                ]);
+            } else {
+                $user->create([
+                    'name' => $googleUser->name,
+                    'google_id' => $googleUser->id,
+                    'google_token' => $googleUser->token,
+                    'google_refresh_token' => $googleUser->refreshToken,
+                    'avatar' => $googleUser->avatar,
+                    'affiliate_id' => (string) Str::uuid()
+                ]);
+            }
+
             //dd($googleUser);
-            $user = User::updateOrCreate([
-                //'facebook_id' => $facebookUser->id,
-                'email' => $googleUser->email,
-            ], [
-                'name' => $googleUser->name,
-                'google_id' => $googleUser->id,
-                'google_token' => $googleUser->token,
-                'google_refresh_token' => $googleUser->refreshToken,
-                'avatar' => $googleUser->avatar,
-            ]);
+
 
 
             //dd($user);
