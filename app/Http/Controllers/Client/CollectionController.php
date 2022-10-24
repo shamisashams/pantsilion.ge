@@ -113,6 +113,7 @@ class CollectionController extends Controller
             $item['attributes'] = $result;
         }
 
+        dd($collection);
         $set_products = array_values($set_products);
 
        // dd($set_products);
