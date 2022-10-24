@@ -94,20 +94,23 @@ class CollectionController extends Controller
 
 
                                 $result[$n]['option'] = $option->value;
+                                $n++;
                             }
 
                             elseif($_item->attribute->code == 'color'){
                                 $result[$n]['option'] = $option->color;
+                                $n++;
                             }
                             else {
                                 $result[$n]['option'] = $option->label;
+                                $n++;
                             }
                         }
 
                     }
                 }
 
-                $n++;
+
             }
 
             $item['attributes'] = $result;
