@@ -1263,7 +1263,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                 croppie.bind();
 
                 // Unhide the `actions` div element
-                actions.style.display = '';
+                actions.style.display = 'block';
             }
         })
 
