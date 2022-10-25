@@ -61,4 +61,10 @@
             <h4 class="tx-bold">{{$order->grand_total}}₾</h4>
         </td>
     </tr>
+    <tr>
+        <td class="tx-right tx-uppercase tx-bold tx-inverse">Sipping</td>
+        <td class="tx-right" colspan="2">
+            <h4 class="tx-bold">{{$order->ship_price}}₾</h4>
+        </td>
+    </tr>
 </table>
