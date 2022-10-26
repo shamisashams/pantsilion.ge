@@ -99,7 +99,8 @@ class CollectionController extends Controller
         $request->validate([
             config('translatable.fallback_locale') . '.title' => 'required|string|max:255',
             'slug' => ['required', 'alpha_dash', Rule::unique('product_sets', 'slug')],
-            'color' => 'required'
+            'color' => 'required',
+            'code' => 'required'
         ]);
         $saveData = Arr::except($request->except('_token'), []);
         $saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];

@@ -395,6 +395,7 @@ const SingleProduct = ({ seo }) => {
         setProductStocksOver(stocks ?? []);
         setToCart(product);
         setProductSizes({});
+        setProductCode(product.code);
 
         setProductColors([]);
         let colors = [];
@@ -505,6 +506,7 @@ const SingleProduct = ({ seo }) => {
         setProductId(0);
         setOldPrice("");
         setToCart(product);
+        setProductCode(product.code);
         let colors_ = [];
         let selected_size = productSizes[id];
         console.log(selected_size);
@@ -568,7 +570,10 @@ const SingleProduct = ({ seo }) => {
                     ? product_config.variants[selected].variant.video.path
                     : null
             );
-            setProductCode(product_config.variants[selected].variant.code);
+            if(product_config.variants[selected].variant.code){
+                setProductCode(product_config.variants[selected].variant.code);
+            }
+
         }
 
         if (
@@ -634,10 +639,14 @@ const SingleProduct = ({ seo }) => {
                       ].variant.video.path
                     : null
             );
-            setProductCode(
-                product_config.variants[product_config.size[id].variants[0]]
-                    .variant.code
-            );
+
+            if (product_config.variants[product_config.size[id].variants[0]].variant.code){
+                setProductCode(
+                    product_config.variants[product_config.size[id].variants[0]]
+                        .variant.code
+                );
+            }
+
         }
     }
 
@@ -678,7 +687,10 @@ const SingleProduct = ({ seo }) => {
                 ? product_config.variants[selected].variant.video.path
                 : null
         );
-        setProductCode(product_config.variants[selected].variant.code);
+        if(product_config.variants[selected].variant.code){
+            setProductCode(product_config.variants[selected].variant.code);
+        }
+
     }
 
     function selectCategoryColor(color) {

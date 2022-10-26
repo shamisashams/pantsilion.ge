@@ -314,7 +314,7 @@ class OrderController extends Controller
                     }
                     $insert[] = $data;
                     $product_images[$item['product']->id] = $item['product']->latestImage ? $item['product']->latestImage->file_full_url : '';
-                    $product_models[$item['product']->id] = $item['product']->code;
+                    $product_models[$item['product']->id] = $item['product']->code ? $item['product']->code : $item['product']->parent->code;
                 }
                 //dd($insert);
                 OrderItem::insert($insert);
