@@ -250,7 +250,7 @@ class ProductController extends Controller
         //dd($path);
 
 
-        $similar_products = Product::with(['latestImage','translation','variants','attribute_values.attribute.translation','attribute_values.attribute.options.translation'])->where(['status' => 1, 'product_categories.category_id' => $path[0]['id']])
+        $similar_products = Product::with(['translation','latestImage','variants.translation','attribute_values.attribute.translation','attribute_values.attribute.options.translation'])->where(['status' => 1, 'product_categories.category_id' => $path[0]['id']])
             ->where('products.id','!=',$product->id)
             ->where('parent_id',null)
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
