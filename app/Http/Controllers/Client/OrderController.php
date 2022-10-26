@@ -324,8 +324,12 @@ class OrderController extends Controller
                     $collection = $order->collections()->create([
                         'product_set_id' => $item['collection']->id,
                         'title' => $item['collection']->title,
-                        'total_price' => $item['collection']->special_price ? $item['collection']->special_price : $item['collection']->price
+                        'price' => $price = $item['collection']->special_price ? $item['collection']->special_price : $item['collection']->price,
+                        'qty' => $item['quantity'],
+                        'total_price' => $price * $item['quantity']
                     ]);
+                    $collection_codes[$item['collection']->id] = $item['collection']->code;
+                    $collection_images[$item['collection']->id] = $item['collection']->latestImage ? $item['collection']->latestImage->file_full_url : '';
                     foreach ($item['collection']->products as $_item) {
 
                         $product_attributes = $_item->attribute_values;
@@ -426,7 +430,15 @@ class OrderController extends Controller
                         $bog_products[$key]['product_image_url'] = $product_images[$item->product_id];
                         $bog_products[$key]['item_site_detail_url'] = route('client.product.show',$item->product_id);
                     }
-                    //dd($order->payment_type);
+                    foreach ($order->collections as $key => $item){
+                        $bog_products[$key]['item_description'] = $item->title;
+                        $bog_products[$key]['item_vendor_code'] = $collection_codes[$item->product_set_id];
+                        $bog_products[$key]['total_item_qty'] = $item->qty;
+                        $bog_products[$key]['total_item_amount'] = $item->qty * $item->price;
+                        $bog_products[$key]['product_image_url'] = $collection_images[$item->product_set_id];
+                        $bog_products[$key]['item_site_detail_url'] = route('client.collection.show',$item->product_set_id);
+                    }
+                    //dd($bog_products);
 
 
                     return app(BogInstallmentController::class)->make_order($order->id,$bog_products,$request);
