@@ -16,6 +16,7 @@
     @endif
     <meta property="og:url" content="{{ request()->fullUrl() }}">
     <meta property="og:type" content="page">
+    <meta name="facebook-domain-verification" content="3fa9urdhs7tl3hfd44n73eo5uy2wu9" />
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet"/>
     <script src="https://webstatic.bog.ge/bog-sdk/bog-sdk.js?client_id=28642"></script>
 {{--    @if(app()->getLocale()=="ge")--}}
