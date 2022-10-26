@@ -250,14 +250,14 @@ class ProductController extends Controller
         //dd($path);
 
 
-        $similar_products = Product::where(['status' => 1, 'product_categories.category_id' => $path[0]['id']])
+        $similar_products = Product::with(['latestImage','translation','variants','attribute_values.attribute.translation','attribute_values.attribute.options.translation'])->where(['status' => 1, 'product_categories.category_id' => $path[0]['id']])
             ->where('products.id','!=',$product->id)
             ->where('parent_id',null)
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
             ->inRandomOrder()
             ->groupBy('products.id')
             ->limit(15)
-            ->with('latestImage','translation','variants','attribute_values.attribute.translation','attribute_values.attribute.options.translation')->get();
+            ->get();
 
         foreach ($similar_products as $_product){
             $product_attributes = $_product->attribute_values;
