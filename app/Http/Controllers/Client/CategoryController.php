@@ -89,6 +89,8 @@ class CategoryController extends Controller
         foreach ($products as $product){
             $product_attributes = $product->attribute_values;
 
+
+
             $_result = [];
 
             foreach ($product_attributes as $item){
