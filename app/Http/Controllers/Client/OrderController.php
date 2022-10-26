@@ -371,12 +371,12 @@ class OrderController extends Controller
                 DataBase::commit();
 
 
-                $pdf = Pdf::loadView('client.order.order',compact('order'));
+                /*$pdf = Pdf::loadView('client.order.order',compact('order'));
 
                  $pdf->save('order_'. $order->id .'.pdf');
 
                  Mail::to($request->user())->send(new \App\Mail\Order($order));
-                 unlink('order_'. $order->id .'.pdf');
+                 unlink('order_'. $order->id .'.pdf');*/
 
 
                 $_promocode = \App\Models\PromoCode::query()->where('type', 'cart')->first();
