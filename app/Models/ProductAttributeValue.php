@@ -61,7 +61,7 @@ class ProductAttributeValue extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function option(){
+    public function option(): BelongsTo{
         return $this->belongsTo(AttributeOption::class,'integer_value');
     }
 }

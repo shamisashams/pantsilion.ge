@@ -94,7 +94,8 @@ class CategoryController extends Controller
             $_result = [];
 
             foreach ($product_attributes as $item){
-                $options = $item->attribute->options;
+                //dd($item->option);
+                /*$options = $item->attribute->options;
                 $value = '';
                 foreach ($options as $option){
                     if($item->attribute->type == 'select'){
@@ -103,7 +104,7 @@ class CategoryController extends Controller
                         }
 
                     }
-                }
+                }*/
 
             }
             $sale = false;
