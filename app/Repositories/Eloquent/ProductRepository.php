@@ -202,7 +202,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         //$query->where('products.parent_id',null);
         $query->groupBy('products.id');
 
-        return $query->with(['latestImage','translation','variants.translation'])->paginate('16')->withQueryString();
+        return $query->with(['latestImage','translation','attribute_values.attribute.translation','attribute_values.attribute.options.translation','variants.translation'])->paginate('16')->withQueryString();
     }
 
 
