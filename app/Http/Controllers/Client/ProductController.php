@@ -325,7 +325,7 @@ class ProductController extends Controller
             'meta_title' => $product->meta_title,
             'meta_description' => $product->meta_description,
             'meta_keyword' => $product->meta_keyword,
-            "image" => $product->file,
+            "image" => $product->latestImage ? $product->latestImage->file_full_url : '',
             'og_title' => $product->meta_og_title,
             'og_description' => $product->meta_og_description
         ]);
