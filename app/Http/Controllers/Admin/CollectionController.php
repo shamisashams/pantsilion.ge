@@ -116,7 +116,7 @@ class CollectionController extends Controller
             $this->collectionRepository->saveSetImage($slider->id, $request);
         }
 
-        if ($request->has('base64_img')) {
+        if ($request->post('base64_img')) {
 
             $this->collectionRepository->uploadCropped($request, $slider->id);
         }
