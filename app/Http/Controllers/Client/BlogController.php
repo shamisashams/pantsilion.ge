@@ -89,14 +89,14 @@ class BlogController extends Controller
                 "keywords"=>$blog->meta_keyword,
                 "og_title"=>$blog->meta_title,
                 "og_description"=>$blog->meta_description,
-//            "image" => "imgg",
+                "image" => $blog->latestImage ? $blog->latestImage->file_full_url : '',
 //            "locale" => App::getLocale()
             ]
         ])->withViewData([
             'meta_title' => $blog->meta_title,
             'meta_description' => $blog->meta_description,
             'meta_keyword' => $blog->meta_keyword,
-            "image" => null,
+            "image" => $blog->latestImage ? $blog->latestImage->file_full_url : '',
             'og_title' => $blog->meta_title,
             'og_description' => $blog->meta_description,
         ]);
