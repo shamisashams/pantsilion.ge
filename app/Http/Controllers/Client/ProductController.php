@@ -318,7 +318,7 @@ class ProductController extends Controller
                 "keywords"=>$product->meta_keyword,
                 "og_title"=>$product->meta_og_title,
                 "og_description"=>$product->meta_og_description,
-//            "image" => "imgg",
+                "image" => $product->latestImage ? $product->latestImage->file_full_url : '',
 //            "locale" => App::getLocale()
             ]
         ])->withViewData([
