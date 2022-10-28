@@ -463,7 +463,7 @@
             $('#selected_products').append(inp)
         });
 
-        $('.delete_product').click(function (e){
+        $(document).on('click','.delete_product',function (e){
             $(this).parents('li').remove();
         });
     </script>
