@@ -789,7 +789,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                     <div>
                         <h6 class="card-title mb-1">@lang('admin.prouctimages')</h6>
                     </div>
-                    {{--<div class="input-images"></div>--}}
+                    <div class="input-images"></div>
 
                     @if ($errors->has('images'))
                         <span class="help-block">
