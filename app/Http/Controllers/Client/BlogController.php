@@ -73,6 +73,12 @@ class BlogController extends Controller
             }
 
             $product['min_price'] = !empty($prices) ? min($prices) : 0;
+
+            $v_c = 0;
+            foreach ($product as $variant){
+                $product['last_variant'] = $variant;
+                $product['variant_count'] = ++$v_c;
+            }
         }
 
         return Inertia::render('SingleBlog',[
