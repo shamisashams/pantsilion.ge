@@ -113,7 +113,7 @@ const FurnitureSet = ({ seo }) => {
                                 right={c[1]}
                                 bottom={c[2]}
                                 left={c[3]}
-                                title={item.title}
+                                title={item.parent.title}
                                 para={item.short_description}
                                 price={item.special_price ? item.special_price : item.price}
                                 oldPrice={item.special_price ? item.price : null}
