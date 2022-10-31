@@ -73,6 +73,11 @@ class CollectionController extends Controller
         $set_products = [];
 
         foreach ($collection->products as $item){
+            $v_c = 0;
+            foreach ($item->parent->variants as $variant){
+                $variant['last_variant'] = $variant;
+                $variant['variant_count'] = ++$v_c;
+            }
             if($item->parent)$set_products[$item->parent->id] = $item->parent;
 
 
@@ -115,15 +120,7 @@ class CollectionController extends Controller
 
             $item['attributes'] = $result;
 
-            $v_c = 0;
-            foreach ($item->parent->variants as $variant){
-                $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
-                if($variant->special_price){
-                    $sale = true;
-                }
-                $item['last_variant'] = $variant;
-                $item['variant_count'] = ++$v_c;
-            }
+
         }
 
         $set_products = array_values($set_products);
