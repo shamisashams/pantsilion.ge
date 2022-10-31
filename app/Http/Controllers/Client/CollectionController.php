@@ -114,6 +114,16 @@ class CollectionController extends Controller
             }
 
             $item['attributes'] = $result;
+
+            $v_c = 0;
+            foreach ($item->variants as $variant){
+                $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
+                if($variant->special_price){
+                    $sale = true;
+                }
+                $item['last_variant'] = $variant;
+                $item['variant_count'] = ++$v_c;
+            }
         }
 
         $set_products = array_values($set_products);
