@@ -116,7 +116,7 @@ class CollectionController extends Controller
             $item['attributes'] = $result;
 
             $v_c = 0;
-            foreach ($item->variants as $variant){
+            foreach ($item->parent->variants as $variant){
                 $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
                 if($variant->special_price){
                     $sale = true;
