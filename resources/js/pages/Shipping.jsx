@@ -296,7 +296,7 @@ const Shipping = ({ seo }) => {
                                                 </div>
                                                 <div>
                                                     <div className="bold mb-1">
-                                                        {item.product.title}{" "}
+                                                        {item.product.parent.title}{" "}
                                                     </div>
                                                     <div className="text-sm opacity-50 mb-1">
                                                         {item.product.attributes.map(
