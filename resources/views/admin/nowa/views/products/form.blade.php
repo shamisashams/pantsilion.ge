@@ -236,7 +236,12 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                 </div>
             </div>
         </div>
+        @else
+            @foreach(config('translatable.locales') as $locale)
+            <input type="hidden" name="{{$locale.'[title]'}}" value="{{$product->parent->title}}">
+            @endforeach
         @endif
+
         <div class="col-lg-6 col-md-12">
             <div class="card">
                 <div class="card-body">
