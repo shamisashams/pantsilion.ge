@@ -77,7 +77,8 @@ class CityController extends Controller
     public function store(SliderRequest $request)
     {
         $saveData = Arr::except($request->except('_token'), []);
-        //$saveData['status'] = isset($saveData['status']) && (bool)$saveData['status'];
+        $saveData['is_shipping'] = isset($saveData['is_shipping']) && (bool)$saveData['is_shipping'];
+        $saveData['ship_sep'] = isset($saveData['ship_sep']) && (bool)$saveData['ship_sep'];
         $slider = $this->cityRepository->create($saveData);
 
         // Save Files
@@ -131,6 +132,7 @@ class CityController extends Controller
         //dd($request->all());
         $saveData = Arr::except($request->except('_token'), []);
         $saveData['is_shipping'] = isset($saveData['is_shipping']) && (bool)$saveData['is_shipping'];
+        $saveData['ship_sep'] = isset($saveData['is_shipping']) && (bool)$saveData['ship_sep'];
 
         $this->cityRepository->update($city->id, $saveData);
 

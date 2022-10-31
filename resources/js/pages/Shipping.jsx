@@ -46,7 +46,7 @@ const Shipping = ({ seo }) => {
         setSelectedCityL(city.title);
         values.city_id = city.id;
         values.ship_price = city.ship_price;
-        setShipPrice(city.ship_price);
+        setShipPrice(city.ship_sep === 1 ? city.ship_price * cart.count : city.ship_price);
     }
 
     const [values, setValues] = useState({

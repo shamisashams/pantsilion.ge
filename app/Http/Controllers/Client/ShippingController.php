@@ -241,6 +241,10 @@ class ShippingController extends Controller
            'ship_price' => 'numeric',
            'comment' => 'nullable'
         ]);
+
+        $city = City::find($data['city_id']);
+
+        $data['ship_price'] = $city->ship_sep ? $city->ship_price * Cart::count() : $city->ship_price;
         //dd($data);
         $info = [
             'shipping' => $data
