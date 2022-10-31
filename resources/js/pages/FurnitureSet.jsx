@@ -218,7 +218,7 @@ const FurnitureSet = ({ seo }) => {
                                                     </div>
                                                     <div>
                                                         <div className="bold mb-1">
-                                                            {item.title}{" "}
+                                                            {item.parent.title}{" "}
                                                         </div>
                                                         {item.attributes.map(
                                                             (attr, ind) => {
