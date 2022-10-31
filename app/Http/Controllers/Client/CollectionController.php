@@ -73,11 +73,12 @@ class CollectionController extends Controller
         $set_products = [];
 
         foreach ($collection->products as $item){
-            /*$v_c = 0;
+            $v_c = 0;
             foreach ($item->parent->variants as $variant){
                 $variant['last_variant'] = $variant;
                 $variant['variant_count'] = ++$v_c;
-            }*/
+            }
+            dd($item->parent);
             if($item->parent)$set_products[$item->parent->id] = $item->parent;
 
 
