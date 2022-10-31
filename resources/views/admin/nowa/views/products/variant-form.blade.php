@@ -87,7 +87,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
         @endforeach
     @endif
     <div class="row">
-        <div class="col-lg-6 col-md-12">
+        {{--<div class="col-lg-6 col-md-12">
             <div class="card">
                 <div class="card-body">
 
@@ -135,7 +135,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                                 @enderror
                                             </div>
 
-                                            {{--<div class="form-group">
+                                            --}}{{--<div class="form-group">
                                                 {!! Form::label($locale.'[short_description]',__('admin.short_description'),['class' => 'form-label']) !!}
                                                 {!! Form::text($locale.'[short_description]',$product->translate($locale)->short_description ?? '',['class' => 'form-control']) !!}
 
@@ -146,7 +146,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                                     </div>
                                                 </small>
                                                 @enderror
-                                            </div>--}}
+                                            </div>--}}{{--
 
                                             <div class="form-group">
                                                 <label class="form-label" for="description">@lang('admin.description')</label>
@@ -221,7 +221,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
                 </div>
             </div>
-        </div>
+        </div>--}}
         <div class="col-lg-6 col-md-12">
             <div class="card">
                 <div class="card-body">

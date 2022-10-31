@@ -91,7 +91,16 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
         @endforeach
     @endif
 
+    <?php
+    $show_tr = false;
+    if (!$product->created_at) $show_tr = true;
+    else{
+        if ($product->parent_id === null) $show_tr = true;
+    }
+    ?>
+
     <div class="row">
+        @if($show_tr)
         <div class="col-lg-6 col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -227,6 +236,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                 </div>
             </div>
         </div>
+        @endif
         <div class="col-lg-6 col-md-12">
             <div class="card">
                 <div class="card-body">
