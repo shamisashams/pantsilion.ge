@@ -587,7 +587,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                     {{$product->id}}
                                 </td>
                                 <td>
-                                    <a href="{{route('product.edit',$product)}}">{{$product->title}}</a>
+                                    <a href="{{route('product.edit',$product)}}">{{$product->parent->title}}</a>
                                 </td>
                                 <td>
                                     <?php
