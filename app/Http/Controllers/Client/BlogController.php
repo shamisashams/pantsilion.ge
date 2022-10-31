@@ -67,18 +67,15 @@ class BlogController extends Controller
 
         foreach ($blog->products as $product){
             $prices = [];
-
+            $v_c = 0;
             foreach ($product->variants as $variant){
                 $prices[] = $variant->special_price ? $variant->special_price : $variant->price;
+                $product['last_variant'] = $variant;
+                $product['variant_count'] = ++$v_c;
             }
 
             $product['min_price'] = !empty($prices) ? min($prices) : 0;
 
-            $v_c = 0;
-            foreach ($product as $variant){
-                $product['last_variant'] = $variant;
-                $product['variant_count'] = ++$v_c;
-            }
         }
 
         return Inertia::render('SingleBlog',[
