@@ -264,7 +264,7 @@ const FurnitureSet = ({ seo }) => {
                                                     </div>
                                                 </div>
                                                 <div className="text-lg ml-4">
-                                                    ₾{item.price}
+                                                    ₾{item.special_price ? item.special_price : item.price}
                                                 </div>
                                             </div>
                                         </Link>
