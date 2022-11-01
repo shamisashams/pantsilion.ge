@@ -23,7 +23,10 @@ class MailTemplate extends Model
     protected $table = 'mail_templates';
 
 
-
+    protected $guarded = [
+        'created_at',
+        'updated_at'
+    ];
 
 
     protected $translationModel = MailTemplateTranslation::class;
