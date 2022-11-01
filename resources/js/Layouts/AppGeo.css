@@ -1,15 +1,20 @@
 @font-face {
+    font-family: "dejavu";
+    src: url(/assets/fonts/dejavu-sans.ttf);
+}
+@font-face {
     font-family: "mtav";
     src: url(/assets/fonts/AS-Grammatika-Regular_Mtav.ttf);
 }
 *,
 *::after,
 *::before {
-    font-family: "mtav";
+    font-family: "dejavu";
 }
 body {
-    font-family: "mtav";
+    font-family: "dejavu";
 }
 .bold {
     font-family: "mtav";
+    font-weight: bold;
 }
