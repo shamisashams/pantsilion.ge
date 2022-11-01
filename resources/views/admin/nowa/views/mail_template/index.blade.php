@@ -105,6 +105,32 @@
                                                 @enderror
                                             </div>
 
+                                            <div class="form-group">
+                                                <label class="form-label" for="description">@lang('admin.partner_approved')</label>
+                                                <textarea class="form-control" id="partner_approved-{{$locale}}"
+                                                          name="{{$locale}}[partner_approved]'">{!! $model->translate($locale)->partner_approved ?? '' !!}</textarea>
+                                                @error($locale.'.partner_approved')
+                                                <small class="text-danger">
+                                                    <div class="error">
+                                                        {{$message}}
+                                                    </div>
+                                                </small>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="description">@lang('admin.reset_password')</label>
+                                                <textarea class="form-control" id="reset_password-{{$locale}}"
+                                                          name="{{$locale}}[reset_password]'">{!! $model->translate($locale)->reset_password ?? '' !!}</textarea>
+                                                @error($locale.'.reset_password')
+                                                <small class="text-danger">
+                                                    <div class="error">
+                                                        {{$message}}
+                                                    </div>
+                                                </small>
+                                                @enderror
+                                            </div>
+
 
                                         </div>
 
@@ -230,6 +256,16 @@
             filebrowserUploadMethod: 'form'
         });
         CKEDITOR.replace('promocode_product-{{$locale}}', {
+            filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
+            filebrowserUploadMethod: 'form'
+        });
+
+        CKEDITOR.replace('partner_approved-{{$locale}}', {
+            filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
+            filebrowserUploadMethod: 'form'
+        });
+
+        CKEDITOR.replace('reset_password-{{$locale}}', {
             filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
             filebrowserUploadMethod: 'form'
         });

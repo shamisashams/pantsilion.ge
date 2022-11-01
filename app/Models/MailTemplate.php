@@ -23,12 +23,7 @@ class MailTemplate extends Model
     protected $table = 'mail_templates';
 
 
-    protected $fillable = [
-        'promocode_cart',
-        'promocode_products',
-        'client_register',
-        'partner_register'
-    ];
+
 
 
     protected $translationModel = MailTemplateTranslation::class;
@@ -38,7 +33,9 @@ class MailTemplate extends Model
         'promocode_cart',
         'promocode_products',
         'client_register',
-        'partner_register'
+        'partner_register',
+        'partner_approved',
+        'reset_password'
     ];
 
 

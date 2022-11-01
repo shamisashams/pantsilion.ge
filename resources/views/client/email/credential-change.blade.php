@@ -1,2 +1,4 @@
-username: {{$username}}<br>
-password: {{$password}}
+{{$text}}
+<br>
+@lang('admin.username'): {{$username}}<br>
+@lang('admin.password'): {{$password}}

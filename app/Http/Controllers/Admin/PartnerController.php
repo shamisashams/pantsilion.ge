@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SliderRequest;
 use App\Mail\CredentialChanged;
 use App\Mail\PromocodeProduct;
+use App\Models\MailTemplate;
 use App\Models\Slider;
 use App\Models\User;
 use App\Repositories\Eloquent\UserRepository;
@@ -180,6 +181,8 @@ class PartnerController extends Controller
 
         //dd($user);
         if ($notify){
+            $template = MailTemplate::first();
+            $data['text'] = $template->partner_approved;
             Mail::to($user)->send(new CredentialChanged($data));
         }
 

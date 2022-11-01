@@ -1,3 +1,7 @@
 {!! $text !!}
 <br>
-Promocode - {{$code}} on {{$product ? $product->title : null}}
+@lang('admin.promocode') - {{$code}}
+<br/>
+@if($product)
+<a href="{{route('client.product.show',$product->slug)}}">{{$product->title}}</a>
+@endif
