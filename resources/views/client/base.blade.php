@@ -18,6 +18,7 @@
     <meta property="og:type" content="page">
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet"/>
     <script src="https://webstatic.bog.ge/bog-sdk/bog-sdk.js?client_id=28642"></script>
+
 {{--    @if(app()->getLocale()=="ge")--}}
 {{--        <link href="{{ mix('/css/AppGeo.css') }}" rel="stylesheet"/>--}}
 {{--    @elseif(app()->getLocale()=="en")--}}
