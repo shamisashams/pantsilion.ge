@@ -146,14 +146,14 @@ class CollectionController extends Controller
                 "keywords"=>$collection->meta_keyword,
                 "og_title"=>$collection->meta_title,
                 "og_description"=>$collection->meta_description,
-//            "image" => "imgg",
+                "image" => $collection->latestImage ? $collection->latestImage->file_full_url : '',
 //            "locale" => App::getLocale()
             ]
         ])->withViewData([
             'meta_title' => $collection->meta_title,
             'meta_description' => $collection->meta_description,
             'meta_keyword' => $collection->meta_keyword,
-            "image" => null,
+            "image" => $collection->latestImage ? $collection->latestImage->file_full_url : '',
             'og_title' => $collection->meta_title,
             'og_description' => $collection->meta_description,
         ]);
