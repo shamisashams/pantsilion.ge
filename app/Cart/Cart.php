@@ -235,7 +235,7 @@ class Cart
         //dd($cart);
         if ($cart !== null) {
             foreach ($cart as $_item) {
-                $product = Product::with(['translation','latestImage','attribute_values.attribute.options.translation','parent.latestImage'])->where(['id' => $_item->product_id])->first();
+                $product = Product::with(['translation','latestImage','attribute_values.attribute.translation','attribute_values.attribute.options.translation','parent.latestImage','parent.translation'])->where(['id' => $_item->product_id])->first();
                 $product_attributes = $product->attribute_values;
 
                 $result = [];
@@ -289,7 +289,7 @@ class Cart
         //dd($cart_collection);
         if($cart_collection !== null){
             foreach ($cart_collection as $item_c){
-                $collection = ProductSet::with('translation','latestImage','products','products.latestImage','products.translation')->where('id',$item_c->collection_id)->first();
+                $collection = ProductSet::with('translation','latestImage','products.latestImage','products.translation')->where('id',$item_c->collection_id)->first();
 
                 if ($collection) {
                     $collection['attributes'] = $collection->colors()->first();
