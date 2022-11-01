@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -126,6 +127,13 @@ class User extends Authenticatable
 
     public function cart(){
         return $this->hasOne(Cart::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = route('password.reset', $token);
+
+        $this->notify(new ResetPasswordNotification($url));
     }
 
 }
