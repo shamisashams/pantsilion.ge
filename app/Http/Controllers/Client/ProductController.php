@@ -250,7 +250,7 @@ class ProductController extends Controller
         //dd($path);
 
 
-        $similar_products = Product::with(['translation','latestImage','variants.translation','attribute_values.attribute.translation','attribute_values.attribute.options.translation'])->where(['status' => 1, 'product_categories.category_id' => $path[0]['id']])
+        $similar_products = Product::with(['translation','latestImage','variants.translation','attribute_values.attribute.translation','attribute_values.attribute.options.translation','variants.translation'])->where(['status' => 1, 'product_categories.category_id' => $path[0]['id']])
             ->where('products.id','!=',$product->id)
             ->where('parent_id',null)
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
@@ -285,7 +285,11 @@ class ProductController extends Controller
             }
 
             $_product['min_price'] = !empty($prices) ? min($prices) : 0;
-
+            $v_c = 0;
+            foreach ($_product->variants as $variant){
+                $_product['last_variant'] = $variant;
+                $_product['variant_count'] = ++$v_c;
+            }
 
         }
 
