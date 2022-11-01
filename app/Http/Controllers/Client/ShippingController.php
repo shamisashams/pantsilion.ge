@@ -34,9 +34,7 @@ class ShippingController extends Controller
     public function index(string $locale, Request $request)
     {
         $page = Page::where('key', 'products')->firstOrFail();
-        $products = Product::with(['files'])->whereHas('categories',function (Builder $query){
-            $query->where('status', 1);
-        })->paginate(16);
+
 
         $images = [];
         foreach ($page->sections as $sections){
@@ -50,7 +48,6 @@ class ShippingController extends Controller
 
         //dd($products);
         return Inertia::render('Shipping',[
-            'products' => $products,
             'images' => $images,
             'page' => $page,
             'cart' => Cart::getCart(),
@@ -241,6 +238,10 @@ class ShippingController extends Controller
            'ship_price' => 'numeric',
            'comment' => 'nullable'
         ]);
+
+        $city = City::find($data['city_id']);
+
+        $data['ship_price'] = $city->ship_sep ? $city->ship_price * Cart::count() : $city->ship_price;
         //dd($data);
         $info = [
             'shipping' => $data

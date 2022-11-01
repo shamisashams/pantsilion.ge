@@ -48,12 +48,26 @@ class Video extends Model
         'path'
     ];
 
+    protected $appends = [
+      'video_converted'
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function videoable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function getVideoConvertedAttribute(){
+        $t = preg_replace('/width="(.*?)"/','width="100%"',$this->path);
+
+        $t = preg_replace('/height="(.*?)"/','height="100%"',$t);
+
+        //$t = substr_replace($t,'class="mx-auto" ',8,0);
+        //dd($t);
+        return $t;
     }
 
 }

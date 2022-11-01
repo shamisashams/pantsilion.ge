@@ -17,7 +17,9 @@ class OrderCollection extends Model
         'order_id',
         'product_set_id',
         'title',
-        'total_price'
+        'total_price',
+        'price',
+        'qty',
     ];
 
     public function order(): BelongsTo

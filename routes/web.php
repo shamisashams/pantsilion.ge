@@ -24,6 +24,11 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\SpacePay\SpacePay;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 Route::post('ckeditor/image_upload', [CKEditorController::class, 'upload'])->withoutMiddleware('web')->name('upload');
 
@@ -151,16 +156,79 @@ Route::prefix('{locale?}')
         });
 
 
+
         Route::get('login', [\App\Http\Controllers\Client\AuthController::class, 'loginView'])->name('client.login.index')->middleware('guest_client');
         Route::post('login', [\App\Http\Controllers\Client\AuthController::class, 'login'])->name('client.login');
         Route::get('recoverPassword', [\App\Http\Controllers\Client\AuthController::class, 'recoverPassword'])->name('client.recoverPassword');
+
+        Route::post('/forgot-password', function (Request $request) {
+            $request->validate(['email' => 'required|email']);
+            //dd($request->all());
+
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
+
+            return  $status;
+
+        })->middleware('guest')->name('password.email');
+
+        Route::get('/reset-password/{token}', function ($locale,$token) {
+            //dd(\request()->all());
+            return \Inertia\Inertia::render('RecoverPasswordReset',[
+                'email' => \request('email'),
+                'token' => $token,
+                "seo" => [
+                    "title"=>'',
+                    "description"=>'',
+                    "keywords"=>'',
+                    "og_title"=>'',
+                    "og_description"=>'',
+//
+                ]
+            ])->withViewData([
+                'meta_title' => '',
+                'meta_description' => '',
+                'meta_keyword' => '',
+                "image" => '',
+                'og_title' => '',
+                'og_description' => ''
+            ]);
+        })->middleware('guest')->name('password.reset');
+
+
+        Route::post('/reset-password', function (Request $request) {
+            //dd($request->all());
+            $request->validate([
+                'token' => 'required',
+                'email' => 'required|email',
+                'password' => 'required|min:8|confirmed',
+            ]);
+
+            $status = Password::reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function ($user, $password) {
+                    $user->forceFill([
+                        'password' => Hash::make($password)
+                    ])->setRememberToken(Str::random(60));
+
+                    $user->save();
+
+                    event(new PasswordReset($user));
+                }
+            );
+
+            return $status;
+
+        })->middleware('guest')->name('password.update');
+
         Route::get('termsConditions', [\App\Http\Controllers\Client\AuthController::class, 'termsConditions'])->name('client.termsConditions');
         Route::get('registration', [\App\Http\Controllers\Client\AuthController::class, 'registrationView'])->name('client.registration.index');
         Route::post('registration', [\App\Http\Controllers\Client\AuthController::class, 'createAccount'])->name('client.register');
 
         Route::get('logout', [\App\Http\Controllers\Client\AuthController::class, 'logout'])->name('logout');
 
-   
+
         Route::get('partner-signin', [\App\Http\Controllers\Client\AuthController::class, 'partnerLoginView'])->name('partner.login.index')->middleware('guest_p');
         Route::post('partner-signin', [\App\Http\Controllers\Client\AuthController::class, 'partnerLogin'])->name('partner.login');
 
@@ -178,6 +246,8 @@ Route::prefix('{locale?}')
             Route::get('invoice/{order}', [\App\Http\Controllers\Client\UserController::class, 'invoice'])->name('client.invoice');
         });
 
+        Route::post('shipping-submit', [\App\Http\Controllers\Client\ShippingController::class, 'submitShipping'])->name('shipping-submit');
+
         Route::middleware(['auth_client'])->group(function () {
             Route::get('client/cabinet', [\App\Http\Controllers\Client\UserController::class, 'index'])->name('client.cabinet');
             Route::get('client/orders', [\App\Http\Controllers\Client\UserController::class, 'orders'])->name('client.orders');
@@ -187,7 +257,7 @@ Route::prefix('{locale?}')
             Route::post('favorites-set', [\App\Http\Controllers\Client\FavoriteController::class, 'addToWishlistCollection'])->name('client.favorite.add-set');
             Route::get('favorites/remove', [\App\Http\Controllers\Client\FavoriteController::class, 'removeFromWishlist'])->name('client.favorite.remove');
             Route::post('apply-promocode', [\App\Http\Controllers\Client\CartController::class, 'applyPromocode'])->name('apply-promocode');
-            Route::post('shipping-submit', [\App\Http\Controllers\Client\ShippingController::class, 'submitShipping'])->name('shipping-submit');
+
             Route::post('checkout', [\App\Http\Controllers\Client\OrderController::class, 'order'])->name('client.checkout.order');
             Route::post('settings', [\App\Http\Controllers\Client\UserController::class, 'saveSettings'])->name('client.save-settings');
             Route::get('invoice/{order}', [\App\Http\Controllers\Client\UserController::class, 'invoice'])->name('client.invoice');
@@ -205,7 +275,7 @@ Route::prefix('{locale?}')
 
         Route::get('payment', [\App\Http\Controllers\Client\PaymentController::class, 'index'])->name('client.payment.index');
 
-        Route::any('bog/installment',[\App\Http\Controllers\Client\OrderController::class,'order'])->name('bogInstallment');
+        Route::any('bog/installment',[\App\Http\Controllers\Client\OrderController::class,'order'])->middleware('auth_client')->name('bogInstallment');
 
         Route::middleware(['active'])->group(function () {
 
@@ -274,19 +344,57 @@ Route::prefix('{locale?}')
             $facebookUser = Socialite::driver('facebook')->stateless()->user();
 
             //dd($facebookUser);
-            $email = uniqid();
-            if ($facebookUser->email !== null) $email = $facebookUser->email;
-            $user = User::updateOrCreate([
-                'facebook_id' => $facebookUser->id,
 
-            ], [
-                'email' => $email,
-                'name' => $facebookUser->name,
-                'facebook_id' => $facebookUser->id,
-                'facebook_token' => $facebookUser->token,
-                'facebook_refresh_token' => $facebookUser->refreshToken,
-                'avatar' => $facebookUser->avatar,
-            ]);
+            if ($facebookUser->email !== null) {
+                $email = $facebookUser->email;
+
+                $user = User::query()->where('email', $email)->first();
+
+                if($user){
+                    $user->update([
+                        //'name' => $facebookUser->name,
+                        'facebook_id' => $facebookUser->id,
+                        'facebook_token' => $facebookUser->token,
+                        'facebook_refresh_token' => $facebookUser->refreshToken,
+                        'avatar' => $facebookUser->avatar
+                    ]);
+                } else {
+                    $user = User::query()->create([
+                        'email' => $email,
+                        'name' => $facebookUser->name,
+                        'facebook_id' => $facebookUser->id,
+                        'facebook_token' => $facebookUser->token,
+                        'facebook_refresh_token' => $facebookUser->refreshToken,
+                        'avatar' => $facebookUser->avatar,
+                        'affiliate_id' => (string) Str::uuid()
+                    ]);
+                }
+            } else {
+
+
+                $user = User::query()->where('facebook_id', $facebookUser->id)->first();
+
+                if($user){
+                    $user->update([
+                        //'name' => $facebookUser->name,
+                        'facebook_token' => $facebookUser->token,
+                        'facebook_refresh_token' => $facebookUser->refreshToken,
+                        'avatar' => $facebookUser->avatar
+                    ]);
+                } else {
+                    $email = uniqid();
+                    $user = User::query()->create([
+                        'email' => $email,
+                        'name' => $facebookUser->name,
+                        'facebook_id' => $facebookUser->id,
+                        'facebook_token' => $facebookUser->token,
+                        'facebook_refresh_token' => $facebookUser->refreshToken,
+                        'avatar' => $facebookUser->avatar,
+                        'affiliate_id' => (string) Str::uuid()
+                    ]);
+                }
+            }
+
 
 
 
@@ -294,7 +402,7 @@ Route::prefix('{locale?}')
 
             Auth::login($user);
 
-            return redirect(route('profile'));
+            return redirect(route('client.cabinet'));
         })->name('fb-callback');
 
         Route::get('/auth/google/redirect', function () {
@@ -304,24 +412,37 @@ Route::prefix('{locale?}')
         Route::get('/auth/google/callback', function () {
             $googleUser = Socialite::driver('google')->user();
 
+            $user = User::query()->where('email', $googleUser->email)->first();
+
+            if($user){
+                $user->update([
+                    //'name' => $googleUser->name,
+                    'google_id' => $googleUser->id,
+                    'google_token' => $googleUser->token,
+                    'google_refresh_token' => $googleUser->refreshToken,
+                    'avatar' => $googleUser->avatar,
+                ]);
+            } else {
+                $user = User::query()->create([
+                    'email' => $googleUser->email,
+                    'name' => $googleUser->name,
+                    'google_id' => $googleUser->id,
+                    'google_token' => $googleUser->token,
+                    'google_refresh_token' => $googleUser->refreshToken,
+                    'avatar' => $googleUser->avatar,
+                    'affiliate_id' => (string) Str::uuid()
+                ]);
+            }
+
             //dd($googleUser);
-            $user = User::updateOrCreate([
-                //'facebook_id' => $facebookUser->id,
-                'email' => $googleUser->email,
-            ], [
-                'name' => $googleUser->name,
-                'google_id' => $googleUser->id,
-                'google_token' => $googleUser->token,
-                'google_refresh_token' => $googleUser->refreshToken,
-                'avatar' => $googleUser->avatar,
-            ]);
+
 
 
             //dd($user);
 
             Auth::login($user);
 
-            return redirect(route('profile'));
+            return redirect(route('client.cabinet'));
         })->name('google-callback');
         //--------------------------------------------------------------------------
     });

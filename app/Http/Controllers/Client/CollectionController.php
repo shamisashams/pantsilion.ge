@@ -67,13 +67,22 @@ class CollectionController extends Controller
         //\Illuminate\Support\Facades\DB::enableQueryLog();
 
 
-        $collection = ProductSet::query()->where('slug',$slug)->with(['video','translation','files','products.translation','products.attribute_values.attribute.options.translation','products.latestImage','products.stocks','products.parent.translation','products.parent.latestImage','colors'])->firstOrFail();
+        $collection = ProductSet::query()->where('slug',$slug)->with(['video','translation','files','products.translation','products.parent.variants.translation','products.attribute_values.attribute.options.translation','products.latestImage','products.stocks.translation','products.parent.translation','products.parent.latestImage','colors'])->firstOrFail();
 
         //dd($collection);
         $set_products = [];
 
         foreach ($collection->products as $item){
-            if($item->parent)$set_products[$item->parent->id] = $item->parent;
+
+            if($item->parent){
+                $v_c = 0;
+                foreach ($item->parent->variants as $variant){
+                    $item->parent['last_variant'] = $variant;
+                    $item->parent['variant_count'] = ++$v_c;
+                }
+                //dd($item->parent);
+                $set_products[$item->parent->id] = $item->parent;
+            }
 
 
 
@@ -81,34 +90,41 @@ class CollectionController extends Controller
 
             $result = [];
 
+            $n = 0;
             foreach ($product_attributes as $key => $_item){
                 $options = $_item->attribute->options;
                 $value = '';
                 foreach ($options as $option){
                     if($_item->attribute->type == 'select'){
                         if($_item->integer_value == $option->id) {
-                            $result[$key]['attribute']['code'] = $_item->attribute->code;
-                            $result[$key]['attribute']['name'] = $_item->attribute->name;
+                            $result[$n]['attribute']['code'] = $_item->attribute->code;
+                            $result[$n]['attribute']['name'] = $_item->attribute->name;
                             if($_item->attribute->code == 'size'){
 
 
-                                $result[$key]['option'] = $option->value;
+                                $result[$n]['option'] = $option->value;
+                                $n++;
                             }
 
                             elseif($_item->attribute->code == 'color'){
-                                $result[$key]['option'] = $option->color;
+                                $result[$n]['option'] = $option->color;
+                                $n++;
                             }
                             else {
-                                $result[$key]['option'] = $option->label;
+                                $result[$n]['option'] = $option->label;
+                                $n++;
                             }
                         }
 
                     }
                 }
 
+
             }
 
             $item['attributes'] = $result;
+
+
         }
 
         $set_products = array_values($set_products);
@@ -130,14 +146,14 @@ class CollectionController extends Controller
                 "keywords"=>$collection->meta_keyword,
                 "og_title"=>$collection->meta_title,
                 "og_description"=>$collection->meta_description,
-//            "image" => "imgg",
+                "image" => $collection->latestImage ? $collection->latestImage->file_full_url : '',
 //            "locale" => App::getLocale()
             ]
         ])->withViewData([
             'meta_title' => $collection->meta_title,
             'meta_description' => $collection->meta_description,
             'meta_keyword' => $collection->meta_keyword,
-            "image" => null,
+            "image" => $collection->latestImage ? $collection->latestImage->file_full_url : '',
             'og_title' => $collection->meta_title,
             'og_description' => $collection->meta_description,
         ]);

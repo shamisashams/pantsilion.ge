@@ -538,6 +538,10 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
 
                             </ul>
                             <button class="btn btn-secondary">add</button>
+
+                            @foreach($model->products as $c_prod)
+                                <input type="hidden" name="product_id[]" value="{{$c_prod->id}}">
+                            @endforeach
                         </form>
 
                         <input class="form-control" type="text" id="search_product" name="term" value="" placeholder="Add search products">
@@ -583,7 +587,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                     {{$product->id}}
                                 </td>
                                 <td>
-                                    <a href="{{route('product.edit',$product)}}">{{$product->title}}</a>
+                                    <a href="{{route('product.edit',$product)}}">{{$product->parent->title}}</a>
                                 </td>
                                 <td>
                                     <?php

@@ -40,6 +40,7 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('admin.id')</th>
+                                    <th>@lang('admin.status')</th>
                                     <th>@lang('admin.email')</th>
                                     <th>@lang('admin.name')</th>
                                     <th>@lang('admin.balance')</th>
@@ -54,6 +55,7 @@
                                                value="{{Request::get('id')}}"
                                                class="validate {{$errors->has('id') ? '' : 'valid'}}">
                                     </th>
+                                    <th></th>
                                     <th>
                                         <input class="form-control" type="text" name="email" onchange="this.form.submit()"
                                                value="{{Request::get('email')}}"
@@ -73,10 +75,10 @@
                                     @foreach($partners as $partner)
                                         <tr>
                                             <td>{{$partner->id}}</td>
-
+                                            <td>{{$partner->status}}</td>
                                             <td>{{$partner->email}}</td>
                                             <td>{{$partner->name}} {{$partner->surname}}</td>
-                                            <td>₾{{$partner->balance}}</td>
+                                            <td>₾{{$partner->balance ?? 0}}</td>
                                             <td>
 
 

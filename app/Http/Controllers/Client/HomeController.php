@@ -18,6 +18,7 @@ class HomeController extends Controller
     public function index()
     {
 
+        //dd(ProductSet::with(['translation','latestImage','products','products.stocks','video'])->where('status',1)->inRandomOrder()->first()->video_converted,);
 
         $page = Page::where('key', 'home')->firstOrFail();
 
@@ -34,9 +35,9 @@ class HomeController extends Controller
         $sliders = Slider::query()->where("status", 1)->with(['file', 'translations']);
 //        dd($page->file);
 //        dd(App::getLocale());
-        $_products = app(ProductRepository::class)->getHomePageProducts();
+        //$_products = app(ProductRepository::class)->getHomePageProducts();
 
-        $special_products = Product::with(['latestImage','translation','variants'])->where('special_price_tag',1)->where('parent_id',null)->limit(25)->inRandomOrder()->get();
+        $special_products = Product::with(['latestImage','translation','variants.translation'])->where('special_price_tag',1)->where('parent_id',null)->limit(15)->inRandomOrder()->get();
 
         foreach ($special_products as $s_product){
             $v_c = 0;
@@ -47,6 +48,19 @@ class HomeController extends Controller
             }
         }
 
+        $new_products = Product::with(['latestImage','translation','variants.translation'])->where('new',1)->where('parent_id',null)->limit(15)->inRandomOrder()->get();
+
+        foreach ($new_products as $s_product){
+            $v_c = 0;
+            foreach ($s_product->variants as $variant){
+
+                $s_product['last_variant'] = $variant;
+                $s_product['variant_count'] = ++$v_c;
+            }
+        }
+
+
+        $_products = [];
         $products = [];
         $products['new'] = [];
         $products['bunker'] = [];
@@ -55,7 +69,7 @@ class HomeController extends Controller
         $products['special_price_tag'] = [];
         $products['popular'] = [];
         foreach ($_products as $product){
-            $product_attributes = $product->attribute_values;
+            /*$product_attributes = $product->attribute_values;
 
             $_result = [];
 
@@ -72,7 +86,7 @@ class HomeController extends Controller
                 }
 
             }
-            $product['attributes'] = $_result;
+            $product['attributes'] = $_result;*/
 
             $v_c = 0;
             foreach ($product->variants as $variant){
@@ -90,6 +104,7 @@ class HomeController extends Controller
         }
 
         $products['special_price_tag'] = $special_products;
+        $products['new'] = $new_products;
         //dd($products);
 
         return Inertia::render('Home', ["sliders" => $sliders->get(), "page" => $page, "seo" => [
@@ -105,7 +120,7 @@ class HomeController extends Controller
             'products' => $products,
             'images' => $images,
             'collections' => ProductSet::with(['translation','latestImage'])->where('status',1)->limit(6)->inRandomOrder()->get(),
-            'collection' => ProductSet::with(['translation','latestImage','products','products.stocks'])->where('status',1)->inRandomOrder()->first(),
+            'collection' => ProductSet::with(['translation','latestImage','products.translation','products.stocks.translation','video'])->where('status',1)->inRandomOrder()->first(),
             'blogs' => Blog::with(['translation','latestImage'])->limit(4)->inRandomOrder()->get()
         ])->withViewData([
             'meta_title' => $page->meta_title,

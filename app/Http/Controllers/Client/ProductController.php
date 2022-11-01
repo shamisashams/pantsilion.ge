@@ -84,7 +84,7 @@ class ProductController extends Controller
         $product = Product::query()->where(['status' => true, 'slug' => $slug])->whereHas('categories', function (Builder $query) {
             $query->where('status', 1);
 
-        })->with(['latestImage','video','attribute_values.attribute.translation','attribute_values.attribute.options.translation','colors.file'])->firstOrFail();
+        })->with(['latestImage','translation','video','attribute_values.attribute.translation','attribute_values.attribute.options.translation','colors.file'])->firstOrFail();
 
         $productImages = $product->files()->orderBy('id','desc')->get();
 
@@ -118,7 +118,7 @@ class ProductController extends Controller
         $config = [];
         $prices = [];
         $v_c = 0;
-        foreach ($product->variants()->with(['video','attribute_values.attribute.options.translation','latestImage','files','stocks','stocks.translation'])->get() as $variant){
+        foreach ($product->variants()->with(['video','translation','attribute_values.attribute.options.translation','latestImage','files','stocks','stocks.translation'])->get() as $variant){
             $product_attributes = $variant->attribute_values;
 
             $result = [];
@@ -250,13 +250,14 @@ class ProductController extends Controller
         //dd($path);
 
 
-        $similar_products = Product::where(['status' => 1, 'product_categories.category_id' => $path[0]['id']])
+        $similar_products = Product::with(['translation','latestImage','variants.translation','attribute_values.attribute.translation','attribute_values.attribute.options.translation','variants.translation'])->where(['status' => 1, 'product_categories.category_id' => $path[0]['id']])
             ->where('products.id','!=',$product->id)
             ->where('parent_id',null)
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
             ->inRandomOrder()
             ->groupBy('products.id')
-            ->with('latestImage','variants','attribute_values.attribute.translation','attribute_values.attribute.options.translation')->get();
+            ->limit(15)
+            ->get();
 
         foreach ($similar_products as $_product){
             $product_attributes = $_product->attribute_values;
@@ -284,7 +285,11 @@ class ProductController extends Controller
             }
 
             $_product['min_price'] = !empty($prices) ? min($prices) : 0;
-
+            $v_c = 0;
+            foreach ($_product->variants as $variant){
+                $_product['last_variant'] = $variant;
+                $_product['variant_count'] = ++$v_c;
+            }
 
         }
 
@@ -317,14 +322,14 @@ class ProductController extends Controller
                 "keywords"=>$product->meta_keyword,
                 "og_title"=>$product->meta_og_title,
                 "og_description"=>$product->meta_og_description,
-//            "image" => "imgg",
+                "image" => $product->latestImage ? $product->latestImage->file_full_url : '',
 //            "locale" => App::getLocale()
             ]
         ])->withViewData([
             'meta_title' => $product->meta_title,
             'meta_description' => $product->meta_description,
             'meta_keyword' => $product->meta_keyword,
-            "image" => $product->file,
+            "image" => $product->latestImage ? $product->latestImage->file_full_url : '',
             'og_title' => $product->meta_og_title,
             'og_description' => $product->meta_og_description
         ]);

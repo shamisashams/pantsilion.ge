@@ -8,14 +8,17 @@
     <meta name="description"
           content="{{ $meta_description }}">
     <meta name="keywords" content="{{ $meta_keyword }}">
+
     <meta property="og:title" content="{{ $og_title }}">
     <meta property="og:description" content="{{ $og_description }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    @if($image)
-        <meta property="og:image" content={{"/".$image->path."/".$image->title}}>
-    @endif
+    <meta property="og:image" content={{$image}}>
     <meta property="og:url" content="{{ request()->fullUrl() }}">
-    <meta property="og:type" content="page">
+    <meta property="og:type" content="website">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
+    <meta name="facebook-domain-verification" content="3fa9urdhs7tl3hfd44n73eo5uy2wu9" />
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet"/>
     <script src="https://webstatic.bog.ge/bog-sdk/bog-sdk.js?client_id=28642"></script>
 
@@ -100,41 +103,45 @@
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '116974165309440');
+        fbq('init', '488788129945036');
         fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=116974165309440&ev=PageView&noscript=1"
+                   src="https://www.facebook.com/tr?id=488788129945036&ev=PageView&noscript=1"
         /></noscript>
-    <!-- End Meta Pixel Code -->
+    <!-- End Meta Pixel Code -->
+
 </head>
 <body>
 <!-- Messenger Chat Plugin Code -->
-{{--<div id="fb-root"></div>--}}
+<div id="fb-root"></div>
 
 <!-- Your Chat Plugin code -->
-{{--<div id="fb-customer-chat" class="fb-customerchat"></div>--}}
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
 
 <script>
-    /*var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.setAttribute("page_id", "100160159275529");
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "258452834202515");
     chatbox.setAttribute("attribution", "biz_inbox");
+</script>
 
-    window.fbAsyncInit = function () {
+<!-- Your SDK code -->
+<script>
+    window.fbAsyncInit = function() {
         FB.init({
-            xfbml: true,
-            version: 'v12.0'
+            xfbml            : true,
+            version          : 'v15.0'
         });
     };
 
-    (function (d, s, id) {
+    (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
+        js = d.createElement(s); js.id = id;
         js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
         fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));*/
+    }(document, 'script', 'facebook-jssdk'));
 </script>
 @inertia
 </body>

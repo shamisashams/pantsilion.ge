@@ -89,10 +89,13 @@ class CategoryController extends Controller
         foreach ($products as $product){
             $product_attributes = $product->attribute_values;
 
+
+
             $_result = [];
 
             foreach ($product_attributes as $item){
-                $options = $item->attribute->options;
+                //dd($item->option);
+                /*$options = $item->attribute->options;
                 $value = '';
                 foreach ($options as $option){
                     if($item->attribute->type == 'select'){
@@ -101,7 +104,7 @@ class CategoryController extends Controller
                         }
 
                     }
-                }
+                }*/
 
             }
             $sale = false;
@@ -298,11 +301,14 @@ class CategoryController extends Controller
 
             $sale = false;
 
+            $v_c = 0;
             foreach ($product->variants as $variant){
 
                 if($variant->special_price){
                     $sale = true;
                 }
+                $product['last_variant'] = $variant;
+                $product['variant_count'] = ++$v_c;
             }
 
             $product['sale'] = $sale;
@@ -378,11 +384,14 @@ class CategoryController extends Controller
 
             $sale = false;
 
+            $v_c = 0;
             foreach ($product->variants as $variant){
 
                 if($variant->special_price){
                     $sale = true;
                 }
+                $product['last_variant'] = $variant;
+                $product['variant_count'] = ++$v_c;
             }
 
             $product['sale'] = $sale;

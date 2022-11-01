@@ -91,7 +91,16 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
         @endforeach
     @endif
 
+    <?php
+    $show_tr = false;
+    if (!$product->created_at) $show_tr = true;
+    else{
+        if ($product->parent_id === null) $show_tr = true;
+    }
+    ?>
+
     <div class="row">
+        @if($show_tr)
         <div class="col-lg-6 col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -227,6 +236,12 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                 </div>
             </div>
         </div>
+        @else
+            @foreach(config('translatable.locales') as $locale)
+            <input type="hidden" name="{{$locale.'[title]'}}" value="{{$product->parent->title}}">
+            @endforeach
+        @endif
+
         <div class="col-lg-6 col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -789,7 +804,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                     <div>
                         <h6 class="card-title mb-1">@lang('admin.prouctimages')</h6>
                     </div>
-                    {{--<div class="input-images"></div>--}}
+                    <div class="input-images"></div>
 
                     @if ($errors->has('images'))
                         <span class="help-block">
@@ -1263,7 +1278,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids,$disabled
                 croppie.bind();
 
                 // Unhide the `actions` div element
-                actions.style.display = '';
+                actions.style.display = 'block';
             }
         })
 

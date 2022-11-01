@@ -266,7 +266,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                                 </div>
                                                 <div>
                                                     <div className="bold mb-1">
-                                                        {item.product.title}{" "}
+                                                        {item.product.parent.title}{" "}
                                                     </div>
                                                     <div className="text-sm opacity-50 mb-1">
                                                         {item.product.attributes.map(

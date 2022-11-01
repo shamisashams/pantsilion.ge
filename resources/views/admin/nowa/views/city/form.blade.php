@@ -140,6 +140,14 @@
                         </label>
                     </div>
 
+                    <div class="form-group">
+                        <label class="ckbox">
+                            <input type="checkbox" name="ship_sep"
+                                   value="true" {{$model->ship_sep ? 'checked' : ''}}>
+                            <span>{{__('admin.ship_sep')}}</span>
+                        </label>
+                    </div>
+
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>
                             {!! Form::submit($model->created_at ? __('admin.update') : __('admin.create'),['class' => 'btn btn-primary']) !!}

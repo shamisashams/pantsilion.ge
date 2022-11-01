@@ -98,16 +98,22 @@ const FurnitureSet = ({ seo }) => {
                         left = left ? parseInt(left[0]) : null;
                         right = right ? parseInt(right[0]) : null;
                         console.log('aaaaa',left,right);
-                        let direction;
-                        if(left >= 65) direction = true;
-                        if(right <= 35) direction = true;
+                        let direction = false;
+                        if (left){
+                            if(left >= 65) direction = true;
+                        }
+
+                        if (right){
+                            if(right <= 35) direction = true;
+                        }
+
                         return (
                             <PlusBox
                                 top={c[0]}
                                 right={c[1]}
                                 bottom={c[2]}
                                 left={c[3]}
-                                title={item.title}
+                                title={item.parent.title}
                                 para={item.short_description}
                                 price={item.special_price ? item.special_price : item.price}
                                 oldPrice={item.special_price ? item.price : null}
@@ -145,11 +151,22 @@ const FurnitureSet = ({ seo }) => {
                     <div className="flex py-10 flex-col xl:flex-row mt-7 mb-20">
                         <div className="max-w-2xl xl:mr-20">
                             <SingleSlider images={collection.files} />
-                            {collection.video ? (
+                            {/*{collection.video ? (
                                 <div className="w-full sm:h-96 h-60 mt-20">
                                     {renderHTML(collection.video.path)}
                                 </div>
-                            ) : null}
+                            ) : null}*/}
+                            <div className="w-full sm:h-96 h-60 mt-20">
+                            {collection.video ? <iframe
+                                width="100%"
+                                height="100%"
+                                src={`https://www.youtube.com/embed/${collection.video.path}`}
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>:null}
+                            </div>
                         </div>
                         <div className="max-w-xl xl:mt-0 mt-20">
                             <div className="opacity-50">
@@ -201,7 +218,7 @@ const FurnitureSet = ({ seo }) => {
                                                     </div>
                                                     <div>
                                                         <div className="bold mb-1">
-                                                            {item.title}{" "}
+                                                            {item.parent.title}{" "}
                                                         </div>
                                                         {item.attributes.map(
                                                             (attr, ind) => {
@@ -247,7 +264,7 @@ const FurnitureSet = ({ seo }) => {
                                                     </div>
                                                 </div>
                                                 <div className="text-lg ml-4">
-                                                    ₾{item.price}
+                                                    ₾{item.special_price ? item.special_price : item.price}
                                                 </div>
                                             </div>
                                         </Link>

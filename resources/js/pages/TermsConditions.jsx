@@ -5,15 +5,25 @@ import MainButton from "../components/MainButton";
 import Layout from "../Layouts/Layout";
 
 const RecoverPassword = ({ seo }) => {
+    const { localizations, page } = usePage().props;
+
+    const renderHTML = (rawHTML) =>
+        React.createElement("p", {
+            dangerouslySetInnerHTML: { __html: rawHTML },
+        });
+
     return (
         <Layout seo={seo}>
             <div className="bg-zinc-100 py-40">
                 <div className="wrapper max-w-2xl text-center">
                     <div className="bold text-2xl lg:text-4xl mb-10">
-                        Terms and conditions
+                        {/*{__("client.terms_h", localizations)}*/}
+                        {page.title}
                     </div>
                     <div className="text-justify mb-10">
-                        <p className="mb-6">
+                        {/*{renderHTML(__("client.terms_t", localizations).newLineToBr())}*/}
+                        {renderHTML(page.description)}
+                        {/*<p className="mb-6">
                             What Is a Terms and Conditions Agreement? <br /> A
                             terms and conditions agreement outlines the website
                             administrator’s rules regarding user behavior and
@@ -61,9 +71,9 @@ const RecoverPassword = ({ seo }) => {
                             Website? <br />
                             Technically, no. You aren’t legally required to have
                             a terms and conditions agreement.
-                        </p>
+                        </p>*/}
                     </div>
-                    <label htmlFor="checkbox">
+                    {/*<label htmlFor="checkbox">
                         <input
                             className="inline-block mr-2"
                             type="checkbox"
@@ -71,9 +81,11 @@ const RecoverPassword = ({ seo }) => {
                             id="checkbox"
                         />
                         <span>I accept terms and conditions</span>
-                    </label>
+                    </label>*/}
                     <div className="max-w-md mx-auto mt-10">
-                        <MainButton type>Continue shopping</MainButton>
+                        <MainButton onclick={() => {
+                            Inertia.visit(document.referrer);
+                        }} type>{__("client.continue_shopping", localizations)}</MainButton>
                     </div>
                 </div>
             </div>

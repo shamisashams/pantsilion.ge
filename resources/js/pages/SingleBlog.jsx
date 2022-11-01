@@ -87,20 +87,39 @@ const SingleBlog = ({seo}) => {
                   </p>*/}
                   {blog.products.length > 0 ? <div className="my-10">
                           {blog.products.map((item, index) => {
-                                return (
-                                    <div className="max-w-xs mx-3 mb-10 inline-block">
-                                        <ProductBox
-                                            id={item.id}
-                                            new={item.new}
-                                            sale={item.sale}
-                                            img={item.latest_image ? item.latest_image.file_full_url :null}
-                                            name={item.title}
-                                            price={item.min_price}
-                                            paragraph={item.short_description}
-                                            link={route('client.product.show',item.slug)}
-                                        />
-                                    </div>
-                                )
+                              if(item.variant_count === 1) {
+                                  return (
+                                      <div className="max-w-xs mx-3 mb-10 inline-block">
+                                          <ProductBox
+                                              id={item.id}
+                                              new={item.new}
+                                              sale={item.sale}
+                                              img={item.latest_image ? item.latest_image.file_full_url : null}
+                                              name={item.title}
+                                              price={item.last_variant.special_price ? item.last_variant.special_price : item.last_variant.price}
+                                              oldPrice={item.last_variant.special_price ? item.last_variant.price : null}
+                                              paragraph={item.short_description}
+                                              link={route('client.product.show', item.slug)}
+                                              single
+                                          />
+                                      </div>
+                                  )
+                              } else {
+                                  return (
+                                      <div className="max-w-xs mx-3 mb-10 inline-block">
+                                          <ProductBox
+                                              id={item.id}
+                                              new={item.new}
+                                              sale={item.sale}
+                                              img={item.latest_image ? item.latest_image.file_full_url : null}
+                                              name={item.title}
+                                              price={item.min_price}
+                                              paragraph={item.short_description}
+                                              link={route('client.product.show', item.slug)}
+                                          />
+                                      </div>
+                                  )
+                              }
                           })}
 
                       {/*<div className="max-w-xs mx-3 mb-10 inline-block">

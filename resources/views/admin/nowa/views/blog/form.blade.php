@@ -168,7 +168,7 @@
                                             </div>
                                             <div class="form-group">
                                                 {!! Form::label($locale.'[meta_description]',__('admin.meta_description'),['class' => 'form-label']) !!}
-                                                {!! Form::text($locale.'[meta_description]',$blog->translate($locale)->meta_keyword ?? '',['class' => 'form-control']) !!}
+                                                {!! Form::text($locale.'[meta_description]',$blog->translate($locale)->meta_description ?? '',['class' => 'form-control']) !!}
 
                                                 @error($locale.'.meta_description')
                                                 <small class="text-danger">
@@ -180,7 +180,7 @@
                                             </div>
                                             <div class="form-group">
                                                 {!! Form::label($locale.'[meta_keyword]',__('admin.meta_keyword'),['class' => 'form-label']) !!}
-                                                {!! Form::text($locale.'[meta_keyword]',$blog->translate($locale)->meta_description ?? '',['class' => 'form-control']) !!}
+                                                {!! Form::text($locale.'[meta_keyword]',$blog->translate($locale)->meta_keyword ?? '',['class' => 'form-control']) !!}
 
                                                 @error($locale.'.meta_keyword')
                                                 <small class="text-danger">
@@ -463,7 +463,7 @@
             $('#selected_products').append(inp)
         });
 
-        $('.delete_product').click(function (e){
+        $(document).on('click','.delete_product',function (e){
             $(this).parents('li').remove();
         });
     </script>
