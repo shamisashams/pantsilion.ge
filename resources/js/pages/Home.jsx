@@ -9,7 +9,6 @@ import PlusBox from "../components/PlusBox";
 import Layout from "../Layouts/Layout";
 import { Inertia } from "@inertiajs/inertia";
 import { IoCloseSharp } from "react-icons/io5";
-import Iframe from 'react-iframe'
 
 const Home = ({ seo }) => {
     const [videoPopup, setVideoPopup] = useState(false);
@@ -83,14 +82,14 @@ const Home = ({ seo }) => {
                                         </MainButton>
                                     </Link>
 
-                                    {collection.video ? <button
+                                    {collection.video ? (
+                                        <button
                                             onClick={() => {
                                                 //alert(collection.video.path);
-                                                setVideoPopup(true)
-                                                setVideo(collection.video.path)
+                                                setVideoPopup(true);
+                                                setVideo(collection.video.path);
                                                 //document.querySelector('iframe').className  = 'cmx-auto';
                                                 //console.log(document.querySelector('iframe'));
-
                                             }}
                                             className="flex items-center md:ml-10 ml-5"
                                         >
@@ -104,8 +103,8 @@ const Home = ({ seo }) => {
                                                     sharedData
                                                 )}
                                             </div>
-                                        </button>:null}
-
+                                        </button>
+                                    ) : null}
                                 </div>
                             </div>
                         </div>
@@ -131,13 +130,12 @@ const Home = ({ seo }) => {
                                 right = right ? parseInt(right[0]) : null;
                                 console.log("aaaaa", left, right);
                                 let direction = false;
-                                if (left){
+                                if (left) {
                                     if (left >= 65) direction = true;
                                 }
-                                if (right){
+                                if (right) {
                                     if (right <= 35) direction = true;
                                 }
-
 
                                 return (
                                     <PlusBox
@@ -283,7 +281,10 @@ const Home = ({ seo }) => {
                 ${videoPopup ? "opacity-100 visible" : "invisible opacity-0"}
                 `}
                 >
-                    <div className="container w-4/5 h-4/5 relative" style={{height:"500px"}}>
+                    <div
+                        className="container w-4/5 h-4/5 relative"
+                        style={{ height: "500px" }}
+                    >
                         <button
                             onClick={() => setVideoPopup(false)}
                             className="absolute -top-7 -right-7 text-white"
