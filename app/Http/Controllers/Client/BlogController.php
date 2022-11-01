@@ -61,7 +61,7 @@ class BlogController extends Controller
         //\Illuminate\Support\Facades\DB::enableQueryLog();
 
 
-        $blog = Blog::query()->where('slug',$slug)->with(['translation','latestImage','products.translation','products.latestImage'])->firstOrFail();
+        $blog = Blog::query()->where('slug',$slug)->with(['translation','latestImage','products.translation','products.latestImage','products.variants.translation'])->firstOrFail();
 
         $related_blogs = Blog::query()->where('id','!=',$blog->id)->with(['translation','latestImage'])->limit(4)->inRandomOrder()->get();
 
