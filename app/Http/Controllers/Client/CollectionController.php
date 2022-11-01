@@ -67,7 +67,7 @@ class CollectionController extends Controller
         //\Illuminate\Support\Facades\DB::enableQueryLog();
 
 
-        $collection = ProductSet::query()->where('slug',$slug)->with(['video','translation','files','products.translation','products.attribute_values.attribute.options.translation','products.latestImage','products.stocks.translation','products.parent.translation','products.parent.latestImage','colors'])->firstOrFail();
+        $collection = ProductSet::query()->where('slug',$slug)->with(['video','translation','files','products.translation','products.parent.variants','products.attribute_values.attribute.options.translation','products.latestImage','products.stocks.translation','products.parent.translation','products.parent.latestImage','colors'])->firstOrFail();
 
         //dd($collection);
         $set_products = [];
