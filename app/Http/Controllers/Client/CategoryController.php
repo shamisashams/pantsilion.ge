@@ -61,7 +61,7 @@ class CategoryController extends Controller
 
             }
 
-            $collections = $query->paginate('16')->withQueryString();
+            $collections = $query->get();
         } else {
             $query = $category->collections()->with(['translation','latestImage']);
             if($priceFilter = request('price')){
@@ -75,7 +75,7 @@ class CategoryController extends Controller
                 });
 
             }
-            $collections = $query->paginate('16')->withQueryString();
+            $collections = $query->get();
         }
 
 
