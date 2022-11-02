@@ -11,6 +11,10 @@ import MultiRangeSlider from "../components/RangeSlider/RangeSlider";
 import Layout from "../Layouts/Layout";
 import { Inertia } from "@inertiajs/inertia";
 import RangeSlider from "../components/PriceRange/PriceRange";
+import {
+    HiOutlineArrowNarrowRight,
+    HiOutlineArrowNarrowLeft,
+} from "react-icons/hi";
 
 const Products = ({ seo }) => {
     let appliedFilters = {};
@@ -135,7 +139,7 @@ const Products = ({ seo }) => {
                     </button>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-y-20 gap-x-10 pt-10">
                         {products.data.map((item, index) => {
-                            if(item.variant_count === 1){
+                            if (item.variant_count === 1) {
                                 return (
                                     <ProductBox
                                         key={index}
@@ -147,12 +151,22 @@ const Products = ({ seo }) => {
                                         sale={item.sale}
                                         img={
                                             item.latest_image
-                                                ? item.latest_image.file_full_url
+                                                ? item.latest_image
+                                                      .file_full_url
                                                 : null
                                         }
                                         name={item.title}
-                                        price={item.last_variant.special_price ? item.last_variant.special_price : item.last_variant.price}
-                                        oldPrice={item.last_variant.special_price ? item.last_variant.price : null}
+                                        price={
+                                            item.last_variant.special_price
+                                                ? item.last_variant
+                                                      .special_price
+                                                : item.last_variant.price
+                                        }
+                                        oldPrice={
+                                            item.last_variant.special_price
+                                                ? item.last_variant.price
+                                                : null
+                                        }
                                         paragraph={item.short_description}
                                         id={item.id}
                                         single
@@ -170,7 +184,8 @@ const Products = ({ seo }) => {
                                         sale={item.sale}
                                         img={
                                             item.latest_image
-                                                ? item.latest_image.file_full_url
+                                                ? item.latest_image
+                                                      .file_full_url
                                                 : null
                                         }
                                         name={item.title}
@@ -181,7 +196,6 @@ const Products = ({ seo }) => {
                                     />
                                 );
                             }
-
                         })}
 
                         {collections.map((item, index) => {
@@ -200,15 +214,36 @@ const Products = ({ seo }) => {
                                             : null
                                     }
                                     name={item.title}
-                                    price={item.special_price ? item.special_price : item.price}
-                                    oldPrice={item.special_price ? item.price : null}
-                                    paragraph={renderHTML(item.shorted_description)}
+                                    price={
+                                        item.special_price
+                                            ? item.special_price
+                                            : item.price
+                                    }
+                                    oldPrice={
+                                        item.special_price ? item.price : null
+                                    }
+                                    paragraph={renderHTML(
+                                        item.shorted_description
+                                    )}
                                     id={item.id}
                                     collection={item}
                                     set
                                 />
                             );
                         })}
+                    </div>
+                    <div className="flex justify-center items-center mt-10">
+                        <button className="mx-3">
+                            {" "}
+                            <HiOutlineArrowNarrowLeft className="w-6 h-6" />
+                        </button>
+                        <button className=" mx-2 bold">1</button>
+                        <button className="opacity-50 mx-2 bold">2</button>
+                        <button className="opacity-50 mx-2 bold">3</button>
+                        <button className="opacity-50 mx-2 bold">4</button>
+                        <button className="mx-3">
+                            <HiOutlineArrowNarrowRight className="w-6 h-6" />
+                        </button>
                     </div>
                 </div>
                 <div
@@ -275,7 +310,6 @@ const Products = ({ seo }) => {
                                     </li>
                                 );
                             })}
-
                         </ul>
                         <div className="flex items-center justify-start  mt-10 pb-5 whitespace-nowrap">
                             <MainButton onclick={clearFilter} reverse>
