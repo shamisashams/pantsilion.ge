@@ -126,6 +126,59 @@ const Products = ({ seo }) => {
         }, [ref]);
     }
 
+
+    let links = function (links) {
+        let rows = [];
+        //links.shift();
+        //links.splice(-1);
+        {
+            links.map(function (item, index) {
+                if (index > 0 && index < links.length - 1) {
+                    rows.push(
+                        <Link
+                            href={item.url}
+                            className={
+                                item.active
+                                    ? "mx-2 bold"
+                                    : "opacity-50 mx-2 bold"
+                            }
+                        >
+                            {item.label}
+                        </Link>
+                    );
+                }
+            });
+        }
+        return <div className="nums"> {rows.length > 1 ? rows : null} </div>;
+    };
+
+    let linksPrev = function (links) {
+        let rowCount = 0;
+        links.map(function (item, index) {
+            if (index > 0 && index < links.length - 1) {
+                rowCount++;
+            }
+        });
+        return rowCount > 1 ? (
+            <Link href={links[0].url}>
+                <HiOutlineArrowNarrowLeft className="w-6 h-6" />
+            </Link>
+        ) : null;
+    };
+    let linksNext = function (links) {
+        let rowCount = 0;
+        links.map(function (item, index) {
+            if (index > 0 && index < links.length - 1) {
+                rowCount++;
+            }
+        });
+        return rowCount > 1 ? (
+            <Link href={links[links.length - 1].url}>
+                <HiOutlineArrowNarrowRight className="w-6 h-6" />
+            </Link>
+        ) : null;
+    };
+
     return (
         <Layout seo={seo}>
             <>
@@ -233,17 +286,21 @@ const Products = ({ seo }) => {
                         })}
                     </div>
                     <div className="flex justify-center items-center mt-10">
-                        <button className="mx-3">
+                        {linksPrev(products.links)}
+                        {/*<button className="mx-3">
                             {" "}
                             <HiOutlineArrowNarrowLeft className="w-6 h-6" />
-                        </button>
-                        <button className=" mx-2 bold">1</button>
+                        </button>*/}
+                        {links(products.links)}
+                        {/*<button className=" mx-2 bold">1</button>
+
                         <button className="opacity-50 mx-2 bold">2</button>
                         <button className="opacity-50 mx-2 bold">3</button>
-                        <button className="opacity-50 mx-2 bold">4</button>
-                        <button className="mx-3">
+                        <button className="opacity-50 mx-2 bold">4</button>*/}
+                       {/* <button className="mx-3">
                             <HiOutlineArrowNarrowRight className="w-6 h-6" />
-                        </button>
+                        </button>*/}
+                        {linksNext(products.links)}
                     </div>
                 </div>
                 <div
