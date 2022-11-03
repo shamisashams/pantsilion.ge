@@ -163,10 +163,10 @@ class SearchController extends Controller
     }
 
     private function getAttributes($category = null):array{
-        $attrs = $this->attributeRepository->model->with('options')->orderBy('position')->get();
+        //$attrs = $this->attributeRepository->model->with('options')->orderBy('position')->get();
         $result['attributes'] = [];
         $key = 0;
-        foreach ($attrs as $item){
+        /*foreach ($attrs as $item){
             $result['attributes'][$key]['id'] = $item->id;
             $result['attributes'][$key]['name'] = $item->name;
             $result['attributes'][$key]['code'] = $item->code;
@@ -180,7 +180,7 @@ class SearchController extends Controller
             }
             $result['attributes'][$key]['options'] = $_options;
             $key++;
-        }
+        }*/
         $result['price']['max'] = $this->productRepository->getMaxprice($category);
         $result['price']['min'] = $this->productRepository->getMinprice($category);
         //dd($result);
