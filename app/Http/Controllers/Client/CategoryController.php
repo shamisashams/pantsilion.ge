@@ -326,7 +326,7 @@ class CategoryController extends Controller
             'images' => $images,
             'filter' => $this->getAttributes(),
             'subcategories' => $subCategories,
-            'collections' => [],
+            'collections' => ['data' => []],
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,
@@ -411,7 +411,7 @@ class CategoryController extends Controller
             'images' => $images,
             'filter' => $this->getAttributes(),
             'subcategories' => $subCategories,
-            'collections' => [],
+            'collections' => ['data' => []],
             "seo" => [
                 "title"=>$page->meta_title,
                 "description"=>$page->meta_description,
