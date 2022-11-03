@@ -179,7 +179,7 @@ class UserController extends Controller
 
             $template = MailTemplate::first();
             $data['text'] = $template->partner_approved;
-            $data['password'] = 'Not changed';
+            $data['password'] = Str::random(8);
             Mail::to($user)->send(new CredentialChanged($data));
         }
 
