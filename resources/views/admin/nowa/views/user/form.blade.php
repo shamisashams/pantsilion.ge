@@ -47,6 +47,13 @@
                     </div>
 
 
+                    <div class="form-group">
+                        <label class="ckbox">
+                            <input type="checkbox" name="is_partner"
+                                   value="true" {{$partner->is_partner ? 'checked' : (old('is_partner') ? 'checked' : '')}}>
+                            <span>{{__('admin.is_partner')}}</span>
+                        </label>
+                    </div>
 
                     <div class="form-group">
                         <label class="form-label">@lang('admin.name')</label>

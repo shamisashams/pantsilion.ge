@@ -88,6 +88,14 @@
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label class="ckbox">
+                            <input type="checkbox" name="is_partner"
+                                   value="true" {{$partner->is_partner ? 'checked' : (old('is_partner') ? 'checked' : '')}}>
+                            <span>{{__('admin.is_partner')}}</span>
+                        </label>
+                    </div>
+
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>
                             {!! Form::submit(__('admin.update'),['class' => 'btn btn-primary']) !!}

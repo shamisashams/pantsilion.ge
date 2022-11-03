@@ -162,6 +162,8 @@ class PartnerController extends Controller
         //dd($request->all());
         $saveData = Arr::except($request->except('_token','_method'), []);
 
+        $saveData['is_partner'] = isset($saveData['is_partner']) && (bool)$saveData['is_partner'];
+
         $data = [];
         if($saveData['status'] == 'approved' && $user->status != 'approved'){
             $notify = true;

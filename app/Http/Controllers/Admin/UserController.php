@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SliderRequest;
+use App\Mail\CredentialChanged;
+use App\Models\MailTemplate;
 use App\Models\Slider;
 use App\Models\User;
 use App\Repositories\Eloquent\UserRepository;
@@ -11,6 +13,8 @@ use App\Repositories\SliderRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -148,6 +152,8 @@ class UserController extends Controller
     public function update(Request $request, string $locale, $user_id)
     {
 
+
+
         $request->validate([
             'email' => 'required|email|unique:users,email,'.$user_id,
         ]);
@@ -156,7 +162,7 @@ class UserController extends Controller
         //dd($request->all());
         $saveData = Arr::except($request->except('_token','_method'), []);
 
-
+        $saveData['is_partner'] = isset($saveData['is_partner']) && (bool)$saveData['is_partner'];
 
 
         //dd($saveData);
@@ -165,7 +171,17 @@ class UserController extends Controller
         $this->userRepository->saveFiles($user_id, $request);
 
 
+        if ($saveData['is_partner']){
+            $user = User::find($user_id);
+            $data['username'] = $user->name . '_' . uniqid();;
 
+            $this->userRepository->model->partner()->updateOrCreate(['user_id' => $user_id],['username' => $data['username']]);
+
+            $template = MailTemplate::first();
+            $data['text'] = $template->partner_approved;
+            $data['password'] = 'Not changed';
+            Mail::to($user)->send(new CredentialChanged($data));
+        }
 
         return redirect(locale_route('user.index', $user_id))->with('success', __('admin.update_successfully'));
     }
