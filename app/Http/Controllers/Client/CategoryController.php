@@ -93,7 +93,7 @@ class CategoryController extends Controller
 
             $_result = [];
 
-            foreach ($product_attributes as $item){
+            //foreach ($product_attributes as $item){
                 //dd($item->option);
                 /*$options = $item->attribute->options;
                 $value = '';
@@ -106,7 +106,7 @@ class CategoryController extends Controller
                     }
                 }*/
 
-            }
+            //}
             $sale = false;
             $prices = [];
             $product['attributes'] = $_result;
@@ -284,7 +284,7 @@ class CategoryController extends Controller
 
             $_result = [];
 
-            foreach ($product_attributes as $item){
+            /*foreach ($product_attributes as $item){
                 $options = $item->attribute->options;
                 $value = '';
                 foreach ($options as $option){
@@ -296,7 +296,7 @@ class CategoryController extends Controller
                     }
                 }
 
-            }
+            }*/
             $product['attributes'] = $_result;
 
             $sale = false;
@@ -367,7 +367,7 @@ class CategoryController extends Controller
 
             $_result = [];
 
-            foreach ($product_attributes as $item){
+            /*foreach ($product_attributes as $item){
                 $options = $item->attribute->options;
                 $value = '';
                 foreach ($options as $option){
@@ -379,7 +379,7 @@ class CategoryController extends Controller
                     }
                 }
 
-            }
+            }*/
             $product['attributes'] = $_result;
 
             $sale = false;

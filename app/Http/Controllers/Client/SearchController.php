@@ -87,7 +87,7 @@ class SearchController extends Controller
 
             $_result = [];
 
-            foreach ($product_attributes as $item){
+            /*foreach ($product_attributes as $item){
                 $options = $item->attribute->options;
                 $value = '';
                 foreach ($options as $option){
@@ -99,7 +99,7 @@ class SearchController extends Controller
                     }
                 }
 
-            }
+            }*/
             $product['attributes'] = $_result;
 
             $sale = false;
