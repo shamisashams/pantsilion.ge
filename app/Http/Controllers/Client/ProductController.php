@@ -260,7 +260,7 @@ class ProductController extends Controller
             ->get();
 
         foreach ($similar_products as $_product){
-            $product_attributes = $_product->attribute_values;
+            //$product_attributes = $_product->attribute_values;
 
             $_result = [];
 

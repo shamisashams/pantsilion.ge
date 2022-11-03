@@ -87,7 +87,7 @@ class CategoryController extends Controller
         //dd($products);
 
         foreach ($products as $product){
-            $product_attributes = $product->attribute_values;
+            //$product_attributes = $product->attribute_values;
 
 
 
@@ -280,7 +280,7 @@ class CategoryController extends Controller
         $products = $this->productRepository->getAll(null,null,1);
 
         foreach ($products as $product){
-            $product_attributes = $product->attribute_values;
+            //$product_attributes = $product->attribute_values;
 
             $_result = [];
 
@@ -363,7 +363,7 @@ class CategoryController extends Controller
 
         $subCategories = [];
         foreach ($products as $product){
-            $product_attributes = $product->attribute_values;
+            //$product_attributes = $product->attribute_values;
 
             $_result = [];
 
