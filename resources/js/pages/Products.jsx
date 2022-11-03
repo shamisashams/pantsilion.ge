@@ -100,7 +100,7 @@ const Products = ({ seo }) => {
     const { subcategories, products, localizations, collections } =
         usePage().props;
 
-    //console.log(collections);
+    console.log(products,collections);
 
     let subcats = {};
     subcategories.map((item, index) => {
@@ -251,7 +251,7 @@ const Products = ({ seo }) => {
                             }
                         })}
 
-                        {collections.map((item, index) => {
+                        {collections.data.map((item, index) => {
                             return (
                                 <ProductBox
                                     key={index}
@@ -286,12 +286,12 @@ const Products = ({ seo }) => {
                         })}
                     </div>
                     <div className="flex justify-center items-center mt-10">
-                        {linksPrev(products.links)}
+                        {linksPrev(products.data.length > collections.data.length ? products.links : collections.links)}
                         {/*<button className="mx-3">
                             {" "}
                             <HiOutlineArrowNarrowLeft className="w-6 h-6" />
                         </button>*/}
-                        {links(products.links)}
+                        {links(products.data.length > collections.data.length ? products.links : collections.links)}
                         {/*<button className=" mx-2 bold">1</button>
 
                         <button className="opacity-50 mx-2 bold">2</button>
@@ -300,7 +300,7 @@ const Products = ({ seo }) => {
                        {/* <button className="mx-3">
                             <HiOutlineArrowNarrowRight className="w-6 h-6" />
                         </button>*/}
-                        {linksNext(products.links)}
+                        {linksNext(products.data.length > collections.data.length ? products.links : collections.links)}
                     </div>
                 </div>
                 <div
