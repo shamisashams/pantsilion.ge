@@ -74,7 +74,7 @@ class SearchController extends Controller
 
         }
 
-        $collections = $query->get();
+        $collections = $query->paginate('16')->withQueryString();
 
         //dd($collections);
 
