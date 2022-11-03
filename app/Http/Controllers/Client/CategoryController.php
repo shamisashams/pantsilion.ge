@@ -169,10 +169,10 @@ class CategoryController extends Controller
     }
 
     private function getAttributes($category = null):array{
-        $attrs = $this->attributeRepository->model->with('options.translation')->orderBy('position')->get();
+        //$attrs = $this->attributeRepository->model->with('options.translation')->orderBy('position')->get();
         $result['attributes'] = [];
         $key = 0;
-        foreach ($attrs as $item){
+        /*foreach ($attrs as $item){
             $result['attributes'][$key]['id'] = $item->id;
             $result['attributes'][$key]['name'] = $item->name;
             $result['attributes'][$key]['code'] = $item->code;
@@ -186,7 +186,7 @@ class CategoryController extends Controller
             }
             $result['attributes'][$key]['options'] = $_options;
             $key++;
-        }
+        }*/
         if($category !== null){
             $collectionMaxPrice = ProductSet::query()->leftJoin('collection_categories','collection_categories.product_set_id','=','product_sets.id')
                 ->where('collection_categories.category_id',$category->id)->max('price');
