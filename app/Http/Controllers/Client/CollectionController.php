@@ -67,7 +67,7 @@ class CollectionController extends Controller
         //\Illuminate\Support\Facades\DB::enableQueryLog();
 
 
-        $collection = ProductSet::query()->where('slug',$slug)->with(['video','translation','files','products.translation','products.parent.variants.translation','products.attribute_values.attribute.options.translation','products.latestImage','products.stocks.translation','products.parent.translation','products.parent.latestImage','colors'])->firstOrFail();
+        $collection = ProductSet::query()->where('slug',$slug)->with(['video','translation','files','products.translation','products.parent.variants.translation','products.attribute_values.attribute.translation','products.attribute_values.option.translation','products.latestImage','products.stocks.translation','products.parent.translation','products.parent.latestImage','colors'])->firstOrFail();
 
         //dd($collection);
         $set_products = [];
@@ -92,9 +92,9 @@ class CollectionController extends Controller
 
             $n = 0;
             foreach ($product_attributes as $key => $_item){
-                $options = $_item->attribute->options;
+                //$options = $_item->attribute->options;
                 $value = '';
-                foreach ($options as $option){
+                /*foreach ($options as $option){
                     if($_item->attribute->type == 'select'){
                         if($_item->integer_value == $option->id) {
                             $result[$n]['attribute']['code'] = $_item->attribute->code;
@@ -117,6 +117,23 @@ class CollectionController extends Controller
                         }
 
                     }
+                }*/
+
+                if($_item->attribute->type == 'select'){
+                    $result[$key]['attribute']['code'] = $_item->attribute->code;
+                    $result[$key]['attribute']['name'] = $_item->attribute->name;
+                    if($item->attribute->code == 'size'){
+
+                        $result[$n]['option'] = $_item->option->value;
+                    }
+                    elseif ($item->attribute->code == 'color'){
+                        $result[$n]['option'] = $_item->option->color;
+                    }
+                    else {
+                        $result[$n]['option'] = $_item->option->label;
+                    }
+
+
                 }
 
 
