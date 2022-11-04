@@ -84,7 +84,7 @@ class ProductController extends Controller
         $product = Product::query()->where(['status' => true, 'slug' => $slug])->whereHas('categories', function (Builder $query) {
             $query->where('status', 1);
 
-        })->with(['latestImage','translation','video','attribute_values.attribute.translation','attribute_values.attribute.options.translation','colors.file'])->firstOrFail();
+        })->with(['latestImage','translation','video','attribute_values.attribute.translation','attribute_values.option.translation','colors.file'])->firstOrFail();
 
         $productImages = $product->files()->orderBy('id','desc')->get();
 
@@ -93,9 +93,9 @@ class ProductController extends Controller
         $result = [];
 
         foreach ($product_attributes as $item){
-            $options = $item->attribute->options;
+            //$options = $item->attribute->options;
             $value = '';
-            foreach ($options as $option){
+            /*foreach ($options as $option){
                 if($item->attribute->type == 'select'){
                     if($item->integer_value == $option->id) {
                         if($item->attribute->code == 'size'){
@@ -107,7 +107,21 @@ class ProductController extends Controller
                     }
 
                 }
+            }*/
+
+
+            if($item->attribute->type == 'select'){
+
+                if($item->attribute->code == 'size'){
+                    $result[$item->attribute->code] = $item->option->value;
+                }
+                else {
+                    $result[$item->attribute->code] = $item->option->label;
+                }
+
+
             }
+
 
         }
 
@@ -118,15 +132,15 @@ class ProductController extends Controller
         $config = [];
         $prices = [];
         $v_c = 0;
-        foreach ($product->variants()->with(['video','translation','attribute_values.attribute.options.translation','latestImage','files','stocks','stocks.translation'])->get() as $variant){
+        foreach ($product->variants()->with(['video','translation','attribute_values.option.translation','latestImage','files','stocks','stocks.translation'])->get() as $variant){
             $product_attributes = $variant->attribute_values;
 
             $result = [];
 
             foreach ($product_attributes as $item){
-                $options = $item->attribute->options;
+                //$options = $item->attribute->options;
                 $value = '';
-                foreach ($options as $option){
+                /*foreach ($options as $option){
                     if($item->attribute->type == 'select'){
                         if($item->integer_value == $option->id) {
                             $result[$item->attribute->code]['label'] = $option->label;
@@ -137,6 +151,17 @@ class ProductController extends Controller
                         }
 
                     }
+                }*/
+
+                if($item->attribute->type == 'select'){
+
+                    $result[$item->attribute->code]['label'] = $item->option->label;
+                    $result[$item->attribute->code]['id'] = $item->option->id;
+                    $result[$item->attribute->code]['code'] = $item->option->code;
+                    $result[$item->attribute->code]['color'] = $item->option->color;
+                    $result[$item->attribute->code]['value'] = $item->option->value;
+
+
                 }
 
             }
