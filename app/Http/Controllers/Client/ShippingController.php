@@ -51,6 +51,7 @@ class ShippingController extends Controller
             'images' => $images,
             'page' => $page,
             'cart' => Cart::getCart(),
+            'total_cart_quantity' => Cart::gerTotalQuantity(),
             'cities' => City::with('translation')->where('is_shipping',1)->get(),
             'promocode' => session('promocode'),
             'shipping' => session('shipping'),
@@ -241,7 +242,7 @@ class ShippingController extends Controller
 
         $city = City::find($data['city_id']);
 
-        $data['ship_price'] = $city->ship_sep ? $city->ship_price * Cart::count() : $city->ship_price;
+        $data['ship_price'] = $city->ship_sep ? $city->ship_price * Cart::gerTotalQuantity() : $city->ship_price;
         //dd($data);
         $info = [
             'shipping' => $data

@@ -315,6 +315,15 @@ class Cart
         return count($cart) + count($cart_collections);
     }
 
+    public function gerTotalQuantity(){
+        $qty = 0;
+        $cart = session('cart') ?? [];
+        foreach ($cart as $item){
+            $qty += $item->quantity;
+        }
+        return $qty;
+    }
+
     public function destroy(){
         \session()->forget(['cart','cart_collections']);
         if($user = auth()->user()){
