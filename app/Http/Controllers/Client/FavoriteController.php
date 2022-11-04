@@ -290,6 +290,7 @@ class FavoriteController extends Controller
 
         if($product->promocode){
             if($product->promocode->status){
+                dd($product->promocode);
                 $promo_gen = new Promocode();
                 if($request->user()->promocode()->where('promocode_id',$product->promocode->id)->count() === 0){
                     $gen = $promo_gen->generateCode();
