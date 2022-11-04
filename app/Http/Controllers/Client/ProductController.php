@@ -155,11 +155,11 @@ class ProductController extends Controller
 
                 if($item->attribute->type == 'select'){
 
-                    $result[$item->attribute->code]['label'] = $item->option->label;
-                    $result[$item->attribute->code]['id'] = $item->option->id;
-                    $result[$item->attribute->code]['code'] = $item->option->code;
-                    $result[$item->attribute->code]['color'] = $item->option->color;
-                    $result[$item->attribute->code]['value'] = $item->option->value;
+                    $result[$item->attribute->code]['label'] = $item->option ? $item->option->label : '';
+                    $result[$item->attribute->code]['id'] = $item->option ? $item->option->id : '';
+                    $result[$item->attribute->code]['code'] = $item->option ? $item->option->code : '';
+                    $result[$item->attribute->code]['color'] = $item->option ? $item->option->color : '';
+                    $result[$item->attribute->code]['value'] = $item->option ? $item->option->value : '';
 
 
                 }
