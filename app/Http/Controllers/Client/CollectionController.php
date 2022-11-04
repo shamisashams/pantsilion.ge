@@ -124,15 +124,15 @@ class CollectionController extends Controller
                     $result[$key]['attribute']['name'] = $_item->attribute->name;
                     if($_item->attribute->code == 'size'){
 
-                        $result[$n]['option'] = $_item->option->value;
+                        $result[$n]['option'] = $_item->option ? $_item->option->value : '';
                         $n++;
                     }
                     elseif ($_item->attribute->code == 'color'){
-                        $result[$n]['option'] = $_item->option->color;
+                        $result[$n]['option'] = $_item->option ? $_item->option->color : '';
                         $n++;
                     }
                     else {
-                        $result[$n]['option'] = $_item->option->label;
+                        $result[$n]['option'] = $_item->option ? $_item->option->label : '';
                         $n++;
                     }
 
