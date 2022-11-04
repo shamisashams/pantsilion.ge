@@ -292,8 +292,8 @@ class FavoriteController extends Controller
             if($product->promocode->status){
 
                 $promo_gen = new Promocode();
-                dd($request->user()->promocode()->where('promocode_id',$product->promocode->id)->get());
-                if($request->user()->promocode()->where('promocode_id',$product->promocode->id)->count() === 0){
+                //dd($request->user()->promocode()->where('promocode_id',$product->promocode->id)->get());
+                if($request->user()->promocode()->where('promocode_id',$product->promocode->id)->where('user_id',auth()->id())->count() === 0){
 
                     $gen = $promo_gen->generateCode();
                     $request->user()->promocode()->create(['promocode_id' => $product->promocode->id, 'promocode' => $gen]);
