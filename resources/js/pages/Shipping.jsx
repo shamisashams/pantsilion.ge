@@ -24,18 +24,22 @@ const Shipping = ({ seo }) => {
         shipping ? shipping.city_id : 0
     );
 
-    const [shipPrice, setShipPrice] = useState(
-        shipping ? shipping.ship_price : 0
-    );
+
 
     let selected = null;
+    let ship_price;
     if (shipping) {
         cities.map((item, index) => {
             if (item.id === shipping.city_id) {
                 selected = item.title;
+                ship_price = item.ship_price;
             }
         });
     }
+
+    const [shipPrice, setShipPrice] = useState(
+        shipping ? ship_price : 0
+    );
 
     const [selectedCityL, setSelectedCityL] = useState(
         selected ? selected : __("client.choose_city", localizations)

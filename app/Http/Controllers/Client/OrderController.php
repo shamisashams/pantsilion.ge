@@ -249,15 +249,17 @@ class OrderController extends Controller
 
         $user = auth()->user();
 
+        $city = City::query()->where('id', session('shipping.city_id'))->first();
+
         $data['first_name'] = $user->name;
         $data['last_name'] = $user->surname;
         $data['email'] = $user->email;
-        $data['city'] = City::query()->where('id', session('shipping.city_id'))->first()->title;
+        $data['city'] = $city->title;
         $data['address'] = session('shipping.address');
         $data['info'] = session('shipping.comment');
         $data['payment_method'] = 1;
         $data['user_id'] = $user->id;
-        $data['ship_price'] = session('shipping.ship_price');
+        $data['ship_price'] = $city->ship_sep ? $city->ship_price * Cart::gerTotalQuantity() : $city->ship_price;
 
         $grand_t = $data['grand_total'];
 
