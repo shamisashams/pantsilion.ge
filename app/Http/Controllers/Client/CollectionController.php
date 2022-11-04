@@ -122,11 +122,11 @@ class CollectionController extends Controller
                 if($_item->attribute->type == 'select'){
                     $result[$key]['attribute']['code'] = $_item->attribute->code;
                     $result[$key]['attribute']['name'] = $_item->attribute->name;
-                    if($item->attribute->code == 'size'){
+                    if($_item->attribute->code == 'size'){
 
                         $result[$n]['option'] = $_item->option->value;
                     }
-                    elseif ($item->attribute->code == 'color'){
+                    elseif ($_item->attribute->code == 'color'){
                         $result[$n]['option'] = $_item->option->color;
                     }
                     else {
