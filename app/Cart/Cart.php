@@ -241,9 +241,9 @@ class Cart
                 $result = [];
 
                 foreach ($product_attributes as $key => $item){
-                    $options = $item->attribute->options;
+                    //$options = $item->attribute->options;
                     $value = '';
-                    foreach ($options as $option){
+                    /*foreach ($options as $option){
                         if($item->attribute->type == 'select'){
                             if($item->integer_value == $option->id) {
                                 $result[$key]['attribute']['code'] = $item->attribute->code;
@@ -261,6 +261,23 @@ class Cart
                             }
 
                         }
+
+                    }*/
+                    if($item->attribute->type == 'select'){
+                        $result[$key]['attribute']['code'] = $item->attribute->code;
+                        $result[$key]['attribute']['name'] = $item->attribute->name;
+                        if($item->attribute->code == 'size'){
+
+                            $result[$key]['option'] = $item->option->value;
+                        }
+                        elseif ($item->attribute->code == 'color'){
+                            $result[$key]['option'] = $item->option->color;
+                        }
+                        else {
+                            $result[$key]['option'] = $item->option->label;
+                        }
+
+
                     }
 
                 }
