@@ -40,6 +40,7 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('admin.id')</th>
+                                    <th>@lang('admin.user_id')</th>
                                     <th>@lang('admin.status')</th>
                                     <th>@lang('admin.grand_total')</th>
                                     <th>@lang('admin.name')</th>
@@ -55,6 +56,12 @@
                                         <input class="form-control" type="number" name="id" onchange="this.form.submit()"
                                                value="{{Request::get('id')}}"
                                                class="validate {{$errors->has('id') ? '' : 'valid'}}">
+                                    </th>
+
+                                    <th>
+                                        <input class="form-control" type="number" name="user_id" onchange="this.form.submit()"
+                                               value="{{Request::get('user_id')}}"
+                                               class="validate {{$errors->has('user_id') ? '' : 'valid'}}">
                                     </th>
 
                                     <th>
@@ -93,6 +100,8 @@
                                     @foreach($orders as $order)
                                         <tr>
                                             <td>{{$order->id}}</td>
+
+                                            <td>{{$order->user_id}}</td>
 
                                                 <?php
                                                     switch ($order->status){

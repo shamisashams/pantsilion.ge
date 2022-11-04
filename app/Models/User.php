@@ -33,7 +33,8 @@ class User extends Authenticatable
         'affiliate_id',
         'referred_by',
         'address',
-        'status'
+        'status',
+        'balance'
     ];
 
     /**

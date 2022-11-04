@@ -85,6 +85,11 @@ trait ScopeFilter
         return $query->where('id', $id);
     }
 
+    public function scopeUserId($query, $user_id)
+    {
+        return $query->where('user_id', $user_id);
+    }
+
     /**
      * @param $query
      * @param $id

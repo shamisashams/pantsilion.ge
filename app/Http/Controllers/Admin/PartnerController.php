@@ -174,6 +174,12 @@ class PartnerController extends Controller
         }
 
 
+
+        if(isset($saveData['withdraw']) ?? (bool)$saveData['withdraw']){
+            //dd(3);
+            $saveData['balance'] = 0;
+        }
+        unset($saveData['withdraw']);
         //dd($saveData);
          $this->userRepository->update($user_id, $saveData);
 

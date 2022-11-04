@@ -104,6 +104,47 @@
 
                 </div>
             </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h6 class="card-title mb-1">@lang('admin.balance')</h6>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="form-label">@lang('admin.balance')</label>
+                        <input class="form-control" type="text" disabled readonly name="username" value="{{$partner->balance}} GEL">
+                        @error('username')
+                        <small class="text-danger">
+                            <div class="error">
+                                {{$message}}
+                            </div>
+                        </small>
+                        @enderror
+                    </div>
+
+
+
+
+
+                    <div class="form-group">
+                        <label class="ckbox">
+                            <input type="checkbox" name="withdraw"
+                                   value="true">
+                            <span>{{__('admin.withdraw')}}</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group mb-0 mt-3 justify-content-end">
+                        <div>
+                            {!! Form::submit(__('admin.update'),['class' => 'btn btn-primary']) !!}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
         <div class="col-lg-6 col-md-12">
@@ -213,15 +254,18 @@
                         <tr>
                             <th>user id</th>
                             <th>email</th>
-                            <th></th>
+                            <th>action</th>
                         </tr>
                         @foreach($partner->referrals as $referral)
                             <tr>
                                 <td>
-                                    {{$referral->id}}
+                                    <a href="{{route('user.edit',$referral->id)}}">{{$referral->id}}</a>
                                 </td>
                                 <td>
-                                    {{$referral->email}}
+                                    <a href="{{route('user.edit',$referral->id)}}">{{$referral->email}}</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-success-light" href="{{route('order.index')}}?user_id={{$referral->id}}">view orders</a>
                                 </td>
                             </tr>
                         @endforeach

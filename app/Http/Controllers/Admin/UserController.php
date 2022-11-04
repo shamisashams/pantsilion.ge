@@ -175,11 +175,12 @@ class UserController extends Controller
             $user = User::find($user_id);
             $data['username'] = $user->name . '_' . uniqid();;
 
-            $this->userRepository->model->partner()->updateOrCreate(['user_id' => $user_id],['username' => $data['username']]);
+            $user->partner()->updateOrCreate(['user_id' => $user_id],['username' => $data['username']]);
 
             $template = MailTemplate::first();
             $data['text'] = $template->partner_approved;
             $data['password'] = Str::random(8);
+            $user->update(['password' => Hash::make($data['password'])]);
             Mail::to($user)->send(new CredentialChanged($data));
         }
 

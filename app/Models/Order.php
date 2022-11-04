@@ -38,6 +38,10 @@ class Order extends Model
                 'hasParam' => true,
                 'scopeMethod' => 'id'
             ],
+            'user_id' => [
+                'hasParam' => true,
+                'scopeMethod' => 'userId'
+            ],
             'status' => [
                 'hasParam' => true,
                 'scopeMethod' => 'status'

@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Mail\CredentialChanged;
 use App\Mail\PartnerJoined;
+use App\Mail\Withdraw;
 use App\Models\Certificate;
 use App\Models\Page;
+use App\Models\Setting;
 use App\Models\User;
 use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Http\Request;
@@ -225,8 +227,16 @@ class PartnerController extends Controller
 
     public function withdrawCreate(Request $request){
 
+        $data = [];
+        $request->validate(['bank_account' => 'required']);
         $bankAccount = auth()->user()->bankAccount()->where('id',$request->post('bank_account'))->first();
-        dd($bankAccount);
+        //dd($bankAccount);
+        $data['user'] = auth()->user();
+        $data['bank_account'] = $bankAccount;
+
+        $mailTo = Setting::where(['key' => 'email'])->first();
+        Mail::to($mailTo->value)->send(new Withdraw($data));
+        return redirect()->back()->with('success',__('client.withdraw_sent'));
     }
 
     public function referrals(){
