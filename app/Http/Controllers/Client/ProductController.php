@@ -132,7 +132,7 @@ class ProductController extends Controller
         $config = [];
         $prices = [];
         $v_c = 0;
-        foreach ($product->variants()->with(['video','translation','attribute_values.option.translation','latestImage','files','stocks','stocks.translation'])->get() as $variant){
+        foreach ($product->variants()->with(['video','translation','attribute_values.attribute.translation','attribute_values.option.translation','latestImage','files','stocks','stocks.translation'])->get() as $variant){
             $product_attributes = $variant->attribute_values;
 
             $result = [];
