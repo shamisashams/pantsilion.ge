@@ -369,7 +369,7 @@ class ProductController extends Controller
 
         $this->productRepository->update($product->id, $saveData);
 
-        $this->productRepository->saveFiles($product->id, $request);
+        $this->productRepository->saveFiles($product->id, $request,720,350);
 
         $this->productRepository->saveVideo($request);
 
@@ -566,12 +566,12 @@ class ProductController extends Controller
 
         // Save Files
         if ($request->hasFile('images')) {
-            $product_v = $this->productRepository->saveFiles($product_v->id, $request);
+            $product_v = $this->productRepository->saveFiles($product_v->id, $request,720,350);
         }
 
         if ($request->post('base64_img')) {
 
-            $product_v = $this->productRepository->uploadCropped($request, $product_v->id);
+            $product_v = $this->productRepository->uploadCropped($request, $product_v->id,720,350);
         }
 
         $this->productRepository->saveVideo($request, $product_v->id);
@@ -665,7 +665,7 @@ class ProductController extends Controller
     }
 
     public function uploadCropped(Request $request, $locale, Product $product){
-        $this->productRepository->uploadCropped($request, $product->id);
+        $this->productRepository->uploadCropped($request, $product->id,720,350);
     }
 
 

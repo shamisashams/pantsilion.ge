@@ -110,7 +110,7 @@ class CollectionController extends Controller
 
         // Save Files
         if ($request->hasFile('images')) {
-            $slider = $this->collectionRepository->saveFiles($slider->id, $request);
+            $slider = $this->collectionRepository->saveFiles($slider->id, $request,720,350);
         }
 
         if ($request->hasFile('set_image')) {
@@ -120,7 +120,7 @@ class CollectionController extends Controller
 
         if ($request->post('base64_img')) {
 
-            $this->collectionRepository->uploadCropped($request, $slider->id);
+            $this->collectionRepository->uploadCropped($request, $slider->id,720,350);
         }
 
         $this->collectionRepository->model->colors()->sync($request->post('color') ?? []);
@@ -185,7 +185,7 @@ class CollectionController extends Controller
 
         $this->collectionRepository->update($productSet->id, $saveData);
 
-        $this->collectionRepository->saveFiles($productSet->id, $request);
+        $this->collectionRepository->saveFiles($productSet->id, $request,720,350);
 
         if ($request->hasFile('set_image')) {
 
@@ -237,7 +237,7 @@ class CollectionController extends Controller
     }
 
     public function uploadCropped(Request $request, $locale, ProductSet $productSet){
-        $this->collectionRepository->uploadCropped($request, $productSet->id);
+        $this->collectionRepository->uploadCropped($request, $productSet->id,720,350);
     }
 
 

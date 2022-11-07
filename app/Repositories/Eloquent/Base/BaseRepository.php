@@ -10,6 +10,7 @@
 namespace App\Repositories\Eloquent\Base;
 
 use App\Models\File;
+use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use ReflectionClass;
@@ -159,20 +160,36 @@ class BaseRepository implements EloquentRepositoryInterface
      * @return Model
      * @throws \ReflectionException
      */
-    public function saveFiles(int $id, $request): Model
+    public function saveFiles(int $id, $request, $width = 720, $height = 720): Model
     {
         //dd($request->all());
         $this->model = $this->findOrFail($id);
         // Delete old files if exist
+
+        $reflection = new ReflectionClass(get_class($this->model));
+        $modelName = $reflection->getShortName();
+
         if (count($this->model->files)) {
 
             foreach ($this->model->files as $file) {
                 $file->update(['main' => 0,'span' => 0]);
                 if (!$request->old_images) {
+                    if (Storage::exists('public/' . $modelName .'/' . $this->model->id . '/' . $file->title)) {
+                        Storage::delete('public/' . $modelName .'/' . $this->model->id . '/' . $file->title);
+                    }
+                    if (Storage::exists('public/' . $modelName .'/' . $this->model->id . '/thumb/' . $file->title)) {
+                        Storage::delete('public/' . $modelName .'/' . $this->model->id . '/thumb/' . $file->title);
+                    }
                     $file->delete();
                     continue;
                 }
                 if (!in_array((string)$file->id, $request->old_images, true)) {
+                    if (Storage::exists('public/' . $modelName .'/' . $this->model->id . '/' . $file->title)) {
+                        Storage::delete('public/' . $modelName .'/' . $this->model->id . '/' . $file->title);
+                    }
+                    if (Storage::exists('public/' . $modelName .'/' . $this->model->id . '/thumb/' . $file->title)) {
+                        Storage::delete('public/' . $modelName .'/' . $this->model->id . '/thumb/' . $file->title);
+                    }
                     $file->delete();
                 }
             }
@@ -184,13 +201,25 @@ class BaseRepository implements EloquentRepositoryInterface
 
         if ($request->hasFile('images')) {
             // Get Name Of model
-            $reflection = new ReflectionClass(get_class($this->model));
-            $modelName = $reflection->getShortName();
 
             foreach ($request->file('images') as $key => $file) {
+
+                $image = new ImageResize($file);
+                $image->resizeToHeight($height);
+
+                //$image->crop($width, $height, false, ImageResize::CROPCENTER);
+                //$image->save(date('Ymhs') . $file->getClientOriginalName());
+                $img = $image->getImageAsString();
+
                 $imagename = date('Ymhs') . str_replace(' ', '', $file->getClientOriginalName());
                 $destination = base_path() . '/storage/app/public/' . $modelName . '/' . $this->model->id;
+
+                $thumb = 'public/' . $modelName . '/' . $this->model->id .'/thumb/'.$imagename;
+
                 $request->file('images')[$key]->move($destination, $imagename);
+
+                Storage::put($thumb,$img);
+
                 $this->model->files()->create([
                     'title' => $imagename,
                     'path' => 'storage/' . $modelName . '/' . $this->model->id,
@@ -228,7 +257,7 @@ class BaseRepository implements EloquentRepositoryInterface
     }
 
 
-    public function uploadCropped($request, $id){
+    public function uploadCropped($request, $id, $width = 720, $height = 720){
         //dd($product);
         $this->model = $this->findOrFail($id);
         $data = explode(',', $request->post('base64_img'));
@@ -246,7 +275,19 @@ class BaseRepository implements EloquentRepositoryInterface
             $imagename = date('Ymdhis') .'crop.png';
             $destination = base_path() . '/storage/app/public/' . $modelName . '/' . $this->model->id;
 
+            $image =  ImageResize::createFromString($data);
+            $image->resizeToHeight($height);
+
+            //$image->crop($width, $height, false, ImageResize::CROPCENTER);
+            //$image->save(date('Ymhs') . $file->getClientOriginalName());
+            $img = $image->getImageAsString();
+
+            $thumb = 'public/' . $modelName . '/' . $this->model->id .'/thumb/'.$imagename;
+
             Storage::put('public/' . $modelName . '/' . $this->model->id . '/' . $imagename,$data);
+
+            Storage::put($thumb,$img);
+
             $this->model->files()->create([
                 'title' => $imagename,
                 'path' => 'storage/' . $modelName . '/' . $this->model->id,
