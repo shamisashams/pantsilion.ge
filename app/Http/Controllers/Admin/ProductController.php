@@ -174,7 +174,7 @@ class ProductController extends Controller
 
         // Save Files
         if ($request->hasFile('images')) {
-            $product = $this->productRepository->saveFiles($product->id, $request);
+            $product = $this->productRepository->saveFiles($product->id, $request,720,350);
         }
 
         if ($request->post('base64_img')) {
