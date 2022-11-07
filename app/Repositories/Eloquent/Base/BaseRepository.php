@@ -211,6 +211,7 @@ class BaseRepository implements EloquentRepositoryInterface
                 //$image->save(date('Ymhs') . $file->getClientOriginalName());
                 $img = $image->getImageAsString();
 
+                dd($img);
                 $imagename = date('Ymhs') . str_replace(' ', '', $file->getClientOriginalName());
                 $destination = base_path() . '/storage/app/public/' . $modelName . '/' . $this->model->id;
 
