@@ -201,6 +201,7 @@ class BaseRepository implements EloquentRepositoryInterface
 
         if ($request->hasFile('images')) {
             // Get Name Of model
+            dd($request->all());
 
             foreach ($request->file('images') as $key => $file) {
 
@@ -211,7 +212,7 @@ class BaseRepository implements EloquentRepositoryInterface
                 //$image->save(date('Ymhs') . $file->getClientOriginalName());
                 $img = $image->getImageAsString();
 
-                dd($img);
+
                 $imagename = date('Ymhs') . str_replace(' ', '', $file->getClientOriginalName());
                 $destination = base_path() . '/storage/app/public/' . $modelName . '/' . $this->model->id;
 
