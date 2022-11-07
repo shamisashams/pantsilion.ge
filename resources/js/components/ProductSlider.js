@@ -56,7 +56,7 @@ const ProductSlider = ({products}) => {
                             link={route('client.product.show',item.slug)}
                             new={item.new}
                             sale={item.sale}
-                            img={item.latest_image ? item.latest_image.file_full_url:null}
+                            img={item.latest_image ? item.latest_image.thumb_full_url:null}
                             name={item.title}
                             price={item.last_variant.special_price ? item.last_variant.special_price : item.last_variant.price}
                             oldPrice={item.last_variant.special_price ? item.last_variant.price : null}
@@ -73,7 +73,7 @@ const ProductSlider = ({products}) => {
                             link={route('client.product.show',item.slug)}
                             new={item.new}
                             sale={item.sale}
-                            img={item.latest_image ? item.latest_image.file_full_url:null}
+                            img={item.latest_image ? item.latest_image.thumb_full_url:null}
                             name={item.title}
                             price={item.min_price}
                             oldPrice={item.oldPrice}
