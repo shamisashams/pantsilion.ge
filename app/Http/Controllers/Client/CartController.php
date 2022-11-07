@@ -60,10 +60,10 @@ class CartController extends Controller
                 ->where('promo_codes.id',session('promocode')['id'])
                 ->first();
 
-            dd($promocode);
+            //dd($promocode);
             if ($promocode->type == 'product') {
 
-                //dd($promocode->products);
+                dd($promocode->products);
                 foreach ($promocode->products as $item) {
 
                     if (in_array($item->id, $ids['products'])) {
