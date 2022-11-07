@@ -162,7 +162,7 @@ class BaseRepository implements EloquentRepositoryInterface
      */
     public function saveFiles(int $id, $request, $width = 720, $height = 720): Model
     {
-        dd($request->all());
+        //dd($request->all());
         $this->model = $this->findOrFail($id);
         // Delete old files if exist
 
