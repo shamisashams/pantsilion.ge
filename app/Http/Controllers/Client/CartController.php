@@ -63,7 +63,7 @@ class CartController extends Controller
             //dd($promocode);
             if ($promocode->type == 'product') {
 
-                dd($promocode->products);
+                //dd($promocode->products);
                 foreach ($promocode->products as $item) {
 
                     if (in_array($item->id, $ids['products'])) {
