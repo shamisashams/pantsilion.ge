@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Client;
 
 use App\Cart\Facade\Cart;
 use App\Http\Controllers\Controller;
+use App\Mail\CollectionPromocode;
 use App\Mail\PromocodeProduct;
 use App\Models\Category;
 use App\Models\MailTemplate;
 use App\Models\Page;
 use App\Models\Product;
+use App\Models\ProductSet;
 use App\Promocode\Promocode;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -312,6 +314,26 @@ class FavoriteController extends Controller
     }
 
     public function addToWishlistCollection(Request $request){
+        $product = ProductSet::query()->where('id',$request->post('id'))->first();
+        if($product->promocode){
+            if($product->promocode->status){
+
+                $promo_gen = new Promocode();
+                //dd($request->user()->promocode()->where('promocode_id',$product->promocode->id)->get());
+                if($request->user()->promocode()->where('promocode_id',$product->promocode->id)->where('user_id',auth()->id())->count() === 0){
+
+                    $gen = $promo_gen->generateCode();
+                    $request->user()->promocode()->create(['promocode_id' => $product->promocode->id, 'promocode' => $gen]);
+
+                    $data['product'] = $product;
+                    $data['text'] = MailTemplate::query()->first()->promocode_products;
+                    $data['code'] = $gen;
+                    Mail::to($request->user())->send(new CollectionPromocode($data));
+                }
+            }
+
+
+        }
 
         $request->user()->wishlist()->updateOrCreate(['product_set_id' => $request->post('id')]);
         return redirect()->back();

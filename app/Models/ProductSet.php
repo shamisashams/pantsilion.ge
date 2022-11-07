@@ -29,7 +29,8 @@ class ProductSet extends Model
         'price',
         'status',
         'special_price',
-        'code'
+        'code',
+        'promocode_id'
     ];
 
     protected $appends = [
@@ -118,5 +119,9 @@ class ProductSet extends Model
 
     public function getShortedDescriptionAttribute($value){
         return Str::substr($this->description,0,255). '....';
+    }
+
+    public function promocode(){
+        return $this->belongsTo(PromoCode::class);
     }
 }

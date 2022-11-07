@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\City;
 use App\Models\Page;
 use App\Models\Product;
+use App\Models\PromoCode;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -51,12 +52,54 @@ class PaymentController extends Controller
 
         }
 
+        $promocode = null;
+        $promocode_prod['products_disc'] = [];
+        $promocode_prod['collections_disc'] = [];
+        if (session('promocode')){
+
+            $ids = Cart::getIds();
+
+            //dd($ids);
+
+            $promocode = PromoCode::query()
+
+                ->where('promo_codes.id',session('promocode')['id'])
+                ->first();
+
+            if ($promocode->type == 'product') {
+
+                //dd($promocode->products);
+                foreach ($promocode->products as $item) {
+
+                    if (in_array($item->id, $ids['products'])) {
+                        //dd(4);
+                        $promocode_prod['products_disc'][$item->id]['product'] = $item;
+                        $promocode_prod['products_disc'][$item->id]['reward'] = $promocode->reward;
+                    }
+                }
+            }
+            if ($promocode->type == 'set') {
+
+                foreach ($promocode->collections as $item) {
+
+                    if (in_array($item->id, $ids['collections'])) {
+                        $promocode_prod['collections_disc'][$item->id]['collection'] = $item;
+                        $promocode_prod['collections_disc'][$item->id]['reward'] = $promocode->reward;
+                        //dd($promocode_prod);
+                    }
+                }
+            }
+
+        }
+
+        $promocode['active'] = $promocode_prod;
+
         //dd($products);
         return Inertia::render('Payment',[
             'images' => $images,
             'page' => $page,
             'cart' => Cart::getCart(),
-            'promocode' => session('promocode'),
+            'promocode' => $promocode,
             'city' => City::with('translation')->where('id',session('shipping.city_id'))->first(),
             'shipping' => session('shipping'),
             "seo" => [

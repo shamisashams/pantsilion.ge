@@ -277,6 +277,8 @@ Route::prefix('{locale?}')
 
         Route::any('bog/installment',[\App\Http\Controllers\Client\OrderController::class,'order'])->middleware('auth_client')->name('bogInstallment');
 
+        Route::get('cart', [\App\Http\Controllers\Client\CartController::class, 'index'])->name('client.cart.index');
+
         Route::middleware(['active'])->group(function () {
 
             // Home Page
@@ -316,7 +318,7 @@ Route::prefix('{locale?}')
             Route::get('sale', [\App\Http\Controllers\Client\CategoryController::class, 'special'])->name('client.category.sale');
 
             //checkout
-            Route::get('cart', [\App\Http\Controllers\Client\CartController::class, 'index'])->name('client.cart.index');
+
             Route::get('checkout', [\App\Http\Controllers\Client\OrderController::class, 'index'])->name('client.checkout.index');
 
             Route::get('order/success', [\App\Http\Controllers\Client\OrderController::class, 'statusSuccess'])->name('order.success');

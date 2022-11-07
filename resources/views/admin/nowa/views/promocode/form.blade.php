@@ -58,6 +58,7 @@
 
                     <?php
                     $types = [
+                        'set' => 'Collection',
                       'product' => 'Product',
                       'cart' => 'Cart'
                     ];

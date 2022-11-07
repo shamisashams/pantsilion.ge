@@ -9,6 +9,7 @@ use App\Models\City;
 use App\Models\Product;
 use App\Models\ProductProductSet;
 use App\Models\ProductSet;
+use App\Models\PromoCode;
 use App\Models\Slider;
 use App\Models\Stock;
 use App\Repositories\CategoryRepositoryInterface;
@@ -82,7 +83,8 @@ class CollectionController extends Controller
             'model' => $slider,
             'url' => $url,
             'method' => $method,
-            'color' => Attribute::with('options')->where('code','color')->first()
+            'color' => Attribute::with('options')->where('code','color')->first(),
+            'promocodes' => PromoCode::query()->where('type','set')->get()
         ]);
     }
 
@@ -156,7 +158,8 @@ class CollectionController extends Controller
             'model' => $productSet,
             'url' => $url,
             'method' => $method,
-            'color' => Attribute::with('options')->where('code','color')->first()
+            'color' => Attribute::with('options')->where('code','color')->first(),
+            'promocodes' => PromoCode::query()->where('type','set')->get()
         ]);
     }
 

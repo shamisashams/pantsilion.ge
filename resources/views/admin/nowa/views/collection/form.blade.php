@@ -296,6 +296,24 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                         @enderror
                     </div>
 
+                    <div class="form-group">
+                        <label class="form-label">@lang('admin.promocode')</label>
+                        <select name="promocode_id" class="form-control">
+                            <option value=""></option>
+                            @foreach($promocodes as $promocode)
+                                <option value="{{$promocode->id}}" {{$model->promocode_id == $promocode->id ? 'selected':(old('promocode_id') == $promocode->id ? 'selected' : '')}}>{{$promocode->reward}}</option>
+                            @endforeach
+                        </select>
+
+                        @error('promocode')
+                        <small class="text-danger">
+                            <div class="error">
+                                {{$message}}
+                            </div>
+                        </small>
+                        @enderror
+                    </div>
+
 
                     <?php
                     $color_ids = $model->colors->pluck("id")->toArray();

@@ -436,9 +436,13 @@ const Shipping = ({ seo }) => {
                                 </div>
                             </div>
                             <div>
-                                {promocode
-                                    ? "discount %" + promocode.reward
-                                    : null}
+                                { !Array.isArray(promocode.active.products_disc) ? Object.keys(promocode.active.products_disc).map((item,index) => {
+
+                                    return <div>Discount {promocode.active.products_disc[item].reward}% on {promocode.active.products_disc[item].product.title}</div>
+                                }) : null}
+                                {!Array.isArray(promocode.active.collections_disc) ? Object.keys(promocode.active.collections_disc).map((item,index) => {
+                                    return <div>Discount {promocode.active.collections_disc[item].reward}% on {promocode.active.collections_disc[item].collection.title}</div>
+                                }):null}
                             </div>
                         </div>
                         <Link className="w-full" href="/payment">

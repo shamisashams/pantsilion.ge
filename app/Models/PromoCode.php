@@ -60,6 +60,11 @@ class PromoCode extends Model
         return $this->hasMany(Product::class,'promocode_id');
     }
 
+    public function collections()
+    {
+        return $this->hasMany(ProductSet::class,'promocode_id');
+    }
+
     public function userPromocode(){
         return $this->hasOne(UserPromoCode::class,'promocode_id')->where('user_id',auth()->id());
     }

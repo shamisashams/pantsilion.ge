@@ -348,4 +348,34 @@ class Cart
         }
     }
 
+
+    public function getIds(){
+        $products = [];
+        $collections = [];
+
+        $cart_products = session('cart');
+        $cart_collection = session('cart_collections');
+
+        if ($cart_products){
+            foreach ($cart_products as $item){
+                $products[] = $item->product_id;
+            }
+        }
+        $products_arr = Product::with(['parent.translation'])->whereIn('id',$products)->get();
+        //dd($products_arr);
+        $products = [];
+        foreach ($products_arr as $item){
+            $products[] = $item->parent->id;
+        }
+        if ($cart_collection){
+            foreach ($cart_collection as $item){
+                $collections[] = $item->collection_id;
+            }
+        }
+        return [
+          'products' => $products,
+          'collections' => $collections
+        ];
+    }
+
 }
