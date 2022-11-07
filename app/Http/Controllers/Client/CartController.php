@@ -86,7 +86,7 @@ class CartController extends Controller
 
         }
 
-        dd($promocode_prod);
+        //dd($promocode_prod);
 
 
         $promocode['active'] = $promocode_prod;
