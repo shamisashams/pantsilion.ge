@@ -205,7 +205,7 @@ const Products = ({ seo }) => {
                                         img={
                                             item.latest_image
                                                 ? item.latest_image
-                                                      .file_full_url
+                                                      .thumb_full_url
                                                 : null
                                         }
                                         name={item.title}
@@ -238,7 +238,7 @@ const Products = ({ seo }) => {
                                         img={
                                             item.latest_image
                                                 ? item.latest_image
-                                                      .file_full_url
+                                                      .thumb_full_url
                                                 : null
                                         }
                                         name={item.title}
@@ -263,7 +263,7 @@ const Products = ({ seo }) => {
                                     sale={item.sale}
                                     img={
                                         item.latest_image
-                                            ? item.latest_image.file_full_url
+                                            ? item.latest_image.thumb_full_url
                                             : null
                                     }
                                     name={item.title}
