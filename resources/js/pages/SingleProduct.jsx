@@ -570,10 +570,9 @@ const SingleProduct = ({ seo }) => {
                     ? product_config.variants[selected].variant.video.path
                     : null
             );
-            if(product_config.variants[selected].variant.code){
+            if (product_config.variants[selected].variant.code) {
                 setProductCode(product_config.variants[selected].variant.code);
             }
-
         }
 
         if (
@@ -640,13 +639,15 @@ const SingleProduct = ({ seo }) => {
                     : null
             );
 
-            if (product_config.variants[product_config.size[id].variants[0]].variant.code){
+            if (
+                product_config.variants[product_config.size[id].variants[0]]
+                    .variant.code
+            ) {
                 setProductCode(
                     product_config.variants[product_config.size[id].variants[0]]
                         .variant.code
                 );
             }
-
         }
     }
 
@@ -687,10 +688,9 @@ const SingleProduct = ({ seo }) => {
                 ? product_config.variants[selected].variant.video.path
                 : null
         );
-        if(product_config.variants[selected].variant.code){
+        if (product_config.variants[selected].variant.code) {
             setProductCode(product_config.variants[selected].variant.code);
         }
-
     }
 
     function selectCategoryColor(color) {
@@ -919,7 +919,7 @@ const SingleProduct = ({ seo }) => {
                                         <div
                                             className={`absolute left-0 top-full w-full bg-white scrollbar transition-all duration-300 z-10 text-center ${
                                                 chooseSize
-                                                    ? "max-h-72  overflow-y-scroll"
+                                                    ? "max-h-24  overflow-y-scroll"
                                                     : " max-h-0  overflow-y-hidden"
                                             }`}
                                         >
@@ -946,29 +946,29 @@ const SingleProduct = ({ seo }) => {
                                             )}
 
                                             {/*<button className="w-full p-1 transition-all hover:bg-zinc-100 block">
-                                          155x25x225x112 cm
-                                      </button>
-                                      <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
-                                          155x25x225x112 cm
-                                      </button>
-                                      <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
-                                          155x25x225x112 cm
-                                      </button>
-                                      <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
-                                          155x25x225x112 cm
-                                      </button>
-                                      <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
-                                          155x25x225x113 cm
-                                      </button>
-                                      <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
-                                          155x25x225x112 cm
-                                      </button>
-                                      <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
-                                          155x25x225x112 cm
-                                      </button>
-                                      <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
-                                          155x25x225x112 cm
-                                      </button>*/}
+                                                155x25x225x112 cm
+                                            </button>
+                                            <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
+                                                155x25x225x112 cm
+                                            </button>
+                                            <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
+                                                155x25x225x112 cm
+                                            </button>
+                                            <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
+                                                155x25x225x112 cm
+                                            </button>
+                                            <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
+                                                155x25x225x113 cm
+                                            </button>
+                                            <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
+                                                155x25x225x112 cm
+                                            </button>
+                                            <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
+                                                155x25x225x112 cm
+                                            </button>
+                                            <button className="w-full p-1 transition-all hover:bg-zinc-100 block">
+                                                155x25x225x112 cm
+                                            </button>*/}
                                         </div>
                                     </div>
                                 </div>
@@ -1017,7 +1017,7 @@ const SingleProduct = ({ seo }) => {
                                     </div>
                                 </div>
                             ) : null}
-                            <div className="flex justify-start flex-wrap -ml-5 mb-7">
+                            <div className="flex justify-start flex-wrap -ml-5 mb-7 mt-5">
                                 <div className="mb-4">
                                     <Quantity item={product} />
                                 </div>
@@ -1095,7 +1095,7 @@ const SingleProduct = ({ seo }) => {
                                 <div
                                     className={`absolute left-0 top-full w-full bg-white scrollbar transition-all duration-300 z-10  ${
                                         chooseCity
-                                            ? "max-h-72  overflow-y-scroll"
+                                            ? "max-h-24  overflow-y-scroll"
                                             : " max-h-0  overflow-y-hidden"
                                     }`}
                                 >
