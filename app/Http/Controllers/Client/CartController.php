@@ -53,13 +53,14 @@ class CartController extends Controller
 
             $ids = Cart::getIds();
 
-            dd($ids);
+            //dd($ids);
 
             $promocode = PromoCode::query()
 
                 ->where('promo_codes.id',session('promocode')['id'])
                 ->first();
 
+            dd($promocode);
             if ($promocode->type == 'product') {
 
                 //dd($promocode->products);
