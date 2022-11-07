@@ -53,7 +53,7 @@ class CartController extends Controller
 
             $ids = Cart::getIds();
 
-            //dd($ids);
+            dd($ids);
 
             $promocode = PromoCode::query()
 
