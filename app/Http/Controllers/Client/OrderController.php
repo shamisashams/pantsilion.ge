@@ -265,7 +265,8 @@ class OrderController extends Controller
 
         $delete_promocode = false;
         $product_promocode = false;
-        if ($promocode = \App\Models\PromoCode::query()->where('promo_codes.id',session('promocode')['id'])->first()) {
+        $promo_id = session('promocode') ? session('promocode')['id'] : 0;
+        if ($promocode = \App\Models\PromoCode::query()->where('promo_codes.id',$promo_id)->first()) {
 
 
             if ($promocode->type == 'product') {

@@ -20,6 +20,7 @@ class OrderCollection extends Model
         'total_price',
         'price',
         'qty',
+        'promocode_discount'
     ];
 
     public function order(): BelongsTo
