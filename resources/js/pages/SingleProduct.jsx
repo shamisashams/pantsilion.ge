@@ -530,6 +530,49 @@ const SingleProduct = ({ seo }) => {
         });
         setProductColors(colors_);
 
+        if(selected_size.variants.length === 1){
+
+            console.error(product_config.variants[selected_size.variants[0]].variant)
+            let selected = selected_size.variants[0];
+
+            let price;
+
+            console.log(selected);
+
+            setProductId(selected);
+
+            if (product_config.variants[selected].variant.special_price) {
+                price = product_config.variants[selected].variant.special_price;
+                setOldPrice(
+                    "₾" + product_config.variants[selected].variant.price
+                );
+            } else {
+                price = product_config.variants[selected].variant.price;
+                setOldPrice("");
+            }
+            setProductPrice("₾" + price);
+
+            if (product_config.variants[selected].images.length > 0) {
+                setProductImages(product_config.variants[selected].images);
+            }
+
+            setToCart(product_config.variants[selected].variant);
+            setProductStocksOver(
+                product_config.variants[selected].stocks ?? {}
+            );
+            setProductStocks(
+                product_config.variants[selected].stocks[cityId] ?? {}
+            );
+            setProductVideo(
+                product_config.variants[selected].variant.video
+                    ? product_config.variants[selected].variant.video.path
+                    : null
+            );
+            if (product_config.variants[selected].variant.code) {
+                setProductCode(product_config.variants[selected].variant.code);
+            }
+        }
+
         if (
             category_last.corner === 0 &&
             category_last.size === 1 &&
