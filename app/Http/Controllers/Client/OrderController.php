@@ -265,7 +265,7 @@ class OrderController extends Controller
 
         $delete_promocode = false;
         $product_promocode = false;
-        if ($promocode = session('promocode')) {
+        if ($promocode = \App\Models\PromoCode::query()->where('promo_codes.id',session('promocode')['id'])->first()) {
 
 
             if ($promocode->type == 'product') {
@@ -276,6 +276,18 @@ class OrderController extends Controller
                         $item['product']['discount'] = $item['product']->parent->promocode->reward;
                         $delete_promocode = true;
                         $product_promocode = true;
+                    }
+                }
+            }
+
+            if ($promocode->type == 'set') {
+                $promocode_collections = $promocode->collections()->select('id')->get()->pluck('id')->toArray();
+                foreach ($cart['collections'] as $item) {
+
+                    if (in_array($item['collection']->id, $promocode_collections)) {
+                        $item['collection']['discount'] = $item['collection']->promocode->reward;
+                        $delete_promocode = true;
+                        $collection_promocode = true;
                     }
                 }
             }
@@ -323,12 +335,18 @@ class OrderController extends Controller
 
                 $total = 0;
                 foreach ($cart['collections'] as $item) {
+                    if ($item['collection']->discount) {
+                        $promocode_discount = $item['collection']->discount;
+                    } else {
+                        $promocode_discount = null;
+                    }
                     $collection = $order->collections()->create([
                         'product_set_id' => $item['collection']->id,
                         'title' => $item['collection']->title,
                         'price' => $price = $item['collection']->special_price ? $item['collection']->special_price : $item['collection']->price,
                         'qty' => $item['quantity'],
-                        'total_price' => $price * $item['quantity']
+                        'total_price' => $price * $item['quantity'],
+                        'promocode_discount' => $promocode_discount
                     ]);
                     $collection_codes[$item['collection']->id] = $item['collection']->code;
                     $collection_images[$item['collection']->id] = $item['collection']->latestImage ? $item['collection']->latestImage->file_full_url : '';
