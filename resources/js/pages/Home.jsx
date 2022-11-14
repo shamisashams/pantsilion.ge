@@ -51,7 +51,7 @@ const Home = ({ seo }) => {
                     <section className="lg:min-h-screen bg-gray-50 relative ">
                         <div className="wrapper lg:min-h-screen lg:pt-0 pt-40 flex items-center justify-between ">
                             <div className="lg:w-3/5 lg:mr-5 lg:pt-36">
-                                <div className="lg:text-6xl text-4xl max-w-3xl bold ">
+                                <div className="lg:text-6xl md:text-4xl text-2xl max-w-3xl bold ">
                                     {/* Super quality furniture for your home */}
                                     {collection.title}
                                 </div>
@@ -62,7 +62,7 @@ const Home = ({ seo }) => {
                                 love with */}
                                     {renderHTML(collection.description)}
                                 </p>
-                                <div className="text-3xl bold">
+                                <div className="md:text-3xl text-xl bold">
                                     {/* from ₾299 */}₾{collection.price}
                                 </div>
                                 <div className="flex items-center justify-start mt-10">
