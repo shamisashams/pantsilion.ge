@@ -69,7 +69,7 @@ const Blogs = ({ seo }) => {
 
     return (
         <Layout seo={seo}>
-            <div className="wrapper py-40 lg:px-20">
+            <div className="wrapper py-40 lg:px-20 ">
                 <div className="text-center mb-10">
                     <div className="text-3xl bold mb-2">
                         {/* Blog */}

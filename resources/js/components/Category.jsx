@@ -1,7 +1,7 @@
 import React from "react";
 //import { Link } from "react-router-dom";
 import { Link, usePage } from "@inertiajs/inertia-react";
-import { category, navigations, socialMedia, subCategoryList } from "./NavData";
+import { category, socialMedia, subCategoryList } from "./NavData";
 import { BsArrowLeft } from "react-icons/bs";
 import { useState } from "react";
 
@@ -9,6 +9,26 @@ const Category = ({ open }) => {
     const [subCategory, setSubCategory] = useState(false);
     const { categories, localizations } = usePage().props;
     //console.log(categories)
+
+    const navigations = [
+        {
+            text: __("client.navbar_home", localizations),
+            link: route('client.home.index'),
+        },
+        {
+            text: __("client.navbar_aboutus", localizations),
+            link: route('client.about.index'),
+        },
+        {
+            text: __("client.navbar_contact", localizations),
+            link: route('client.contact.index'),
+        },
+        {
+            text: __("client.navbar_blog", localizations),
+            link: route('client.blog.index'),
+        },
+    ];
+
     return (
         <div
             className={`fixed top-0 left-0 h-screen 2xl:w-1/4 sm:w-96 w-80  bg-white z-40 pt-32 pb-5 flex flex-col items-center justify-between transition-all duration-500 md:overflow-hidden overflow-y-scroll overflow-x-hidden shadow-lg   ${

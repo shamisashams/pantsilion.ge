@@ -530,9 +530,10 @@ const SingleProduct = ({ seo }) => {
         });
         setProductColors(colors_);
 
-        if(selected_size.variants.length === 1){
-
-            console.error(product_config.variants[selected_size.variants[0]].variant)
+        if (selected_size.variants.length === 1) {
+            console.error(
+                product_config.variants[selected_size.variants[0]].variant
+            );
             let selected = selected_size.variants[0];
 
             let price;
@@ -807,7 +808,7 @@ const SingleProduct = ({ seo }) => {
                                 {__("client.product_code", localizations)} #{" "}
                                 {productCode}
                             </div>
-                            <div className="bold text-4xl my-3">
+                            <div className="bold sm:text-4xl text-xl my-3">
                                 {product.title}
                             </div>
                             <div>
@@ -838,7 +839,7 @@ const SingleProduct = ({ seo }) => {
                                 <div className="bold inline-block line-through text-lg">
                                     {oldPrice}
                                 </div>
-                                <div className="bold inline-block text-2xl text-custom-red pl-3">
+                                <div className="bold inline-block sm:text-2xl text-lg text-custom-red pl-3">
                                     <span id="price_actual">
                                         {productPrice}
                                     </span>
