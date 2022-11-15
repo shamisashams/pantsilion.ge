@@ -37,7 +37,7 @@ const SingleSlider = ({ images }) => {
                     return (
                         <SwiperSlide
                             key={index}
-                            className=" pb-12"
+                            className=" pb-12 !w-full"
                             style={{ maxHeight: "600px" }}
                         >
                             <img
