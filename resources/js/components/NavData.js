@@ -5,19 +5,19 @@
 
 export const navigations = [
     {
-        text: "Home",
+        text: __("client.navbar_home", sharedData),
         link: route('client.home.index'),
     },
     {
-        text: "About us",
+        text: __("client.navbar_aboutus", sharedData),
         link: route('client.about.index'),
     },
     {
-        text: "Contact",
+        text: __("client.navbar_contact", sharedData),
         link: route('client.contact.index'),
     },
     {
-        text: "Blog",
+        text: __("client.navbar_blog", sharedData),
         link: route('client.blog.index'),
     },
 ];
