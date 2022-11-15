@@ -3,7 +3,7 @@
 //import TT from "../assets/images/sm/3.png";
 //import In from "../assets/images/sm/4.png";
 
-export const navigations = [
+/*export const navigations = [
     {
         text: __("client.navbar_home", sharedData),
         link: route('client.home.index'),
@@ -20,7 +20,7 @@ export const navigations = [
         text: __("client.navbar_blog", sharedData),
         link: route('client.blog.index'),
     },
-];
+];*/
 
 export const category = [
     {
