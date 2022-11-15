@@ -87,7 +87,7 @@ const Footer = () => {
                 pathname === route("client.contact.index") ? "hidden" : "py-10"
             }
         >
-            <div className="wrapper flex justify-between items-start flex-col lg:flex-row">
+            <div className="wrapper flex justify-between items-start flex-col lg:flex-row  sm:text-base text-xs">
                 <div>
                     <div className="flex justify-start">
                         {navigations.map((item, index) => {
@@ -95,7 +95,7 @@ const Footer = () => {
                                 <Link
                                     href={item.link}
                                     key={index}
-                                    className="lg:mr-10 mr-5 bold"
+                                    className="lg:mr-10 sm:mr-5 mr-3 bold"
                                 >
                                     {item.text}
                                 </Link>
