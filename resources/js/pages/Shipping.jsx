@@ -424,7 +424,7 @@ const Shipping = ({ seo }) => {
                                 })}
                             </div>
 
-                            <div className="flex items-center justify-between border-b border-t border-zinc-200  py-3 mb-5">
+                            <div id="here" className="flex items-center justify-between border-b border-t border-zinc-200  py-3 mb-5">
                                 <div>
                                     {__("client.subtotal", localizations)}
                                 </div>
@@ -450,7 +450,7 @@ const Shipping = ({ seo }) => {
                                 }):null}
                             </div>
                         </div>
-                        <Link id="here" className="w-full" href="/payment">
+                        <Link  className="w-full" href="/payment">
                             <MainButton onclick={handleSubmit}>
                                 {__("client.to_payment", localizations)}
                             </MainButton>
