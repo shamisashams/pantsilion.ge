@@ -5,13 +5,13 @@ import { socialMedia } from "./NavData";
 //import Arrows from "../assets/images/svg/arrows.svg";
 
 const BlogBox = (props) => {
-    const {localizations} = usePage().props;
+    const { localizations } = usePage().props;
     return (
         <Link href={props.link} className="h-full ">
             <div className="bg-white p-5 text-sm h-full flex flex-col justify-between group">
                 <div>
                     <div>{props.date}</div>
-                    <div className="2xl:text-3xl xl:text-2xl text-xl bold my-5">
+                    <div className="2xl:text-2xl xl:text-xl text-lg bold my-5">
                         {props.title}
                     </div>
                     <div
@@ -35,7 +35,9 @@ const BlogBox = (props) => {
                     <p>{props.paragraph}</p>
                 </div>
                 <div className="my-5 ml-0 mr-auto">
-                    <div className="opacity-50 ">{__('client.share_to',localizations)}</div>
+                    <div className="opacity-50 ">
+                        {__("client.share_to", localizations)}
+                    </div>
                     {socialMedia.map((item, index) => {
                         return (
                             <a href={item.link} key={index}>
