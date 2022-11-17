@@ -92,12 +92,17 @@ const Shipping = ({ seo }) => {
                                 2.{" "}
                                 {__("client.shipping_details", localizations)}
                             </Link>
-                            <Link
+                            {shipping ? <Link
                                 href={route("client.payment.index")}
                                 className=" bold pb-5 text-gray-500 md:w-1/3 text-right"
                             >
                                 3. {__("client.payment_details", localizations)}
-                            </Link>
+                            </Link>:<a
+                                href="#here"
+                                className=" bold pb-5 text-gray-500 md:w-1/3 text-right"
+                            >
+                                3. {__("client.payment_details", localizations)}
+                            </a>}
                         </div>
                         <div className="grid mb-16 py-5  mx-auto lg:grid-cols-2">
                             <div className="text-center max-w-lg lg:mr-10 mx-auto lg:mb-0 mb-10">
@@ -445,7 +450,7 @@ const Shipping = ({ seo }) => {
                                 }):null}
                             </div>
                         </div>
-                        <Link className="w-full" href="/payment">
+                        <Link id="here" className="w-full" href="/payment">
                             <MainButton onclick={handleSubmit}>
                                 {__("client.to_payment", localizations)}
                             </MainButton>
