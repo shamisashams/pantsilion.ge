@@ -235,7 +235,7 @@ class PartnerController extends Controller
         $data['bank_account'] = $bankAccount;
 
         $mailTo = Setting::where(['key' => 'email'])->first();
-        Mail::to($mailTo->value)->send(new Withdraw($data));
+        Mail::to($mailTo->string_value)->send(new Withdraw($data));
         return redirect()->back()->with('success',__('client.withdraw_sent'));
     }
 

@@ -39,7 +39,7 @@ class ContactEmail extends Mailable
     {
         $mailTo = Setting::where(['key' => 'email'])->first();
         if ($mailTo) {
-            return $this->from($mailTo->value, $this->data['name'])->subject($this->data['subject'])->view('client.email.contact', ['data' => $this->data]);
+            return $this->from($mailTo->string_value, $this->data['name'])->subject($this->data['subject'])->view('client.email.contact', ['data' => $this->data]);
         }
 
     }
