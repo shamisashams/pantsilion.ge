@@ -33,11 +33,16 @@
         </div>
     </div>
     <!-- /breadcrumb -->
-
+    <?php
+    $list = [
+        'partner_reward',
+        'email'
+    ];
+    ?>
     <!-- row -->
     {!! Form::model($setting,['url' => $url, 'method' => $method,'files' => true]) !!}
     <div class="row">
-        @if($setting->key !== 'partner_reward')
+        @if(!in_array($setting->key,$list))
         <div class="col-lg-6 col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -132,6 +137,32 @@
             </div>
         </div>
         @endif
+
+            @if($setting->key == 'email')
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                <h6 class="card-title mb-1">@lang('admin.value')</h6>
+                            </div>
+
+
+
+
+                            <div class="form-group">
+                                <label class="form-label">@lang('admin.value')</label>
+                                <input class="form-control" type="number" name="string_value" value="{{$setting->string_value}}">
+                            </div>
+
+                            <div class="form-group mb-0 mt-3 justify-content-end">
+                                <div>
+                                    {!! Form::submit(__('admin.update'),['class' => 'btn btn-primary']) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
     </div>
 
 

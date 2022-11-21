@@ -20,7 +20,8 @@ class Setting extends Model
     protected $fillable = [
         'key',
         'integer_value',
-        'float_value'
+        'float_value',
+        'string_value'
     ];
 
     protected $translationModel = SettingTranslation::class;
