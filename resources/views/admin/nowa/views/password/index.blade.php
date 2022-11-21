@@ -49,6 +49,18 @@
                             @csrf
 
                             <div class="">
+
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">@lang('admin.email')</label>
+                                    <input type="email" name="email" class="form-control" id="exampleInputPasswordemail1" placeholder="@lang('admin.email')" value="{{auth()->user()->email}}">
+                                    @error('email')
+                                    <small class="errorTxt4">
+                                        <div class="text-danger">
+                                            {{$message}}
+                                        </div>
+                                    </small>
+                                    @enderror
+                                </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">@lang('admin.cur_pass')</label>
                                     <input type="password" name="c_pass" class="form-control" id="exampleInputPassword1" placeholder="@lang('admin.cur_pass')">
