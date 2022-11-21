@@ -97,7 +97,7 @@ class PasswordController extends Controller
     {
 
         $request->validate([
-            'email' => ['required', 'alpha_dash', Rule::unique('users', 'email')->ignore(auth()->id())],
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore(auth()->id())],
             'c_pass' => ['required', new MatchOldPassword()],
             'n_pass' => ['required','min:5'],
             'r_pass' => ['same:n_pass']
