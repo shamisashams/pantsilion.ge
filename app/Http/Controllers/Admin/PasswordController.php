@@ -14,6 +14,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Arr;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class PasswordController extends Controller
 {
@@ -96,7 +97,7 @@ class PasswordController extends Controller
     {
 
         $request->validate([
-            'email' => 'required|unique:users,email,id',
+            'email' => ['required', 'alpha_dash', Rule::unique('users', 'email')->ignore(auth()->id())],
             'c_pass' => ['required', new MatchOldPassword()],
             'n_pass' => ['required','min:5'],
             'r_pass' => ['same:n_pass']
