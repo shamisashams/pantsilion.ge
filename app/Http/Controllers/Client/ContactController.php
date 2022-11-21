@@ -82,6 +82,6 @@ class ContactController extends Controller
         }
 
 
-        //return Inertia::render('Contact/Contact');
+        return redirect()->back()->with('success',__('client.message_sent'));
     }
 }
