@@ -151,7 +151,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">@lang('admin.value')</label>
-                                <input class="form-control" type="number" name="string_value" value="{{$setting->string_value}}">
+                                <input class="form-control" type="text" name="string_value" value="{{$setting->string_value}}">
                             </div>
 
                             <div class="form-group mb-0 mt-3 justify-content-end">
