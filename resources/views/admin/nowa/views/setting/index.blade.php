@@ -69,6 +69,12 @@
                                     </th>
                                 </tr>
 
+                                <?php
+                                $list = [
+                                    'partner_reward',
+                                    'email'
+                                ];
+                                ?>
                                 @if($settings)
                                     @foreach($settings as $setting)
                                         <tr>
@@ -85,7 +91,7 @@
                                             </td>
                                             <td>{{$setting->key}}</td>
                                             <td>
-                                                @if($setting->key !== 'partner_reward')
+                                                @if(!in_array($setting->key,$list))
                                                 <div class="panel panel-primary tabs-style-2">
                                                     <div class=" tab-menu-heading">
                                                         <div class="tabs-menu1">
@@ -111,7 +117,7 @@
                                                     </div>
                                                 </div>
                                                 @else
-                                                    {{$setting->integer_value}}
+                                                    {{$setting->integer_value}}{{$setting->string_value}}
                                                 @endif
                                             </td>
 

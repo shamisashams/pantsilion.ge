@@ -34,6 +34,17 @@
                     {{--<p class="tx-12 tx-gray-500 mb-2">Example of Nowa Simple Table. <a href="">Learn more</a></p>--}}
                 </div>
                 <div class="card-body">
+                    <form method="post" action="{{route('partner-reward.update')}}">
+                        @csrf
+                        <div class="form-group">
+                            <label class="form-label">@lang('admin.partner_reward') %</label>
+                            <input class="form-control" type="number" name="partner_reward" value="{{$partner_reward}}" >
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success-light" type="submit">@lang('admin.save')</button>
+                        </div>
+                    </form>
+
                     <div class="table-responsive">
                         <form class="mr-0 p-0">
                             <table class="table mg-b-0 text-md-nowrap">

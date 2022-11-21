@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\SliderRequest;
 use App\Mail\CredentialChanged;
 use App\Mail\PromocodeProduct;
 use App\Models\MailTemplate;
+use App\Models\Setting;
 use App\Models\Slider;
 use App\Models\User;
 use App\Repositories\Eloquent\UserRepository;
@@ -43,7 +44,8 @@ class PartnerController extends Controller
         ]);*/
 
         return view('admin.nowa.views.partner.index', [
-            'partners' => $this->userRepository->getPartners($request)
+            'partners' => $this->userRepository->getPartners($request),
+            'partner_reward' => Setting::where('key','partner_reward')->first()->integer_value
         ]);
     }
 

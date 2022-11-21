@@ -134,7 +134,7 @@ class User extends Authenticatable
     {
         $url = route('password.reset', $token);
 
-        $this->notify(new ResetPasswordNotification($url));
+        $this->notify(new ResetPasswordNotification($url . '?email='.$this->email));
     }
 
 }

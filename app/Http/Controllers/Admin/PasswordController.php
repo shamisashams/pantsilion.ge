@@ -14,6 +14,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Arr;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class PasswordController extends Controller
 {
@@ -96,13 +97,14 @@ class PasswordController extends Controller
     {
 
         $request->validate([
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore(auth()->id())],
             'c_pass' => ['required', new MatchOldPassword()],
             'n_pass' => ['required','min:5'],
             'r_pass' => ['same:n_pass']
         ]);
         //dd($request->all());
 
-        User::find(auth()->user()->id)->update(['password'=> Hash::make($request->n_pass)]);
+        User::find(auth()->user()->id)->update(['email' => $request->email,'password'=> Hash::make($request->n_pass)]);
 
 
         return redirect(locale_route('password.index'))->with('success', __('admin.update_successfully'));

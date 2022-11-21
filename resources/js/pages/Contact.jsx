@@ -6,6 +6,7 @@ import MainButton from "../components/MainButton";
 //import { Link } from "react-router-dom";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import Layout from "@/Layouts/Layout";
+import { Inertia } from "@inertiajs/inertia";
 
 const Contact = ({ seo }) => {
     const [values, setValues] = useState({
@@ -81,7 +82,7 @@ const Contact = ({ seo }) => {
                                                 />
                                                 <div>
                                                     <div className="mb-2 bold">
-                                                        Address
+                                                        {__("client.contact_address", sharedData)}
                                                     </div>
                                                     <div>{item.address}</div>
                                                 </div>
@@ -94,7 +95,7 @@ const Contact = ({ seo }) => {
                                                 />
                                                 <div>
                                                     <div className="mb-2 bold">
-                                                        Phone number
+                                                        {__("client.contact_phone", sharedData)}
                                                     </div>
                                                     <div>
                                                         {renderHTML(
@@ -111,7 +112,7 @@ const Contact = ({ seo }) => {
                                                 />
                                                 <div>
                                                     <div className="mb-2 bold">
-                                                        Working hours
+                                                        {__("client.contact_work_hours", sharedData)}
                                                     </div>
                                                     <div>
                                                         {item.working_hours}

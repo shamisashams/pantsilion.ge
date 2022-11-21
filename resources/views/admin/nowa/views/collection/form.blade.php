@@ -173,7 +173,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                             </div>
                                             <div class="form-group">
                                                 {!! Form::label($locale.'[meta_description]',__('admin.meta_description'),['class' => 'form-label']) !!}
-                                                {!! Form::text($locale.'[meta_description]',$model->translate($locale)->meta_keyword ?? '',['class' => 'form-control']) !!}
+                                                {!! Form::text($locale.'[meta_description]',$model->translate($locale)->meta_description ?? '',['class' => 'form-control']) !!}
 
                                                 @error($locale.'.meta_description')
                                                 <small class="text-danger">
@@ -185,7 +185,7 @@ $traverse = function ($categories, $prefix = '-') use (&$traverse,$ids) {
                                             </div>
                                             <div class="form-group">
                                                 {!! Form::label($locale.'[meta_keyword]',__('admin.meta_keyword'),['class' => 'form-label']) !!}
-                                                {!! Form::text($locale.'[meta_keyword]',$model->translate($locale)->meta_description ?? '',['class' => 'form-control']) !!}
+                                                {!! Form::text($locale.'[meta_keyword]',$model->translate($locale)->meta_keyword ?? '',['class' => 'form-control']) !!}
 
                                                 @error($locale.'.meta_keyword')
                                                 <small class="text-danger">

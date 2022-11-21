@@ -12,7 +12,7 @@ const Signup = ({ seo }) => {
     const [values, setValues] = useState({
         name: "",
         Surname: "",
-        id: "",
+        id_number: "",
         email: "",
         password: "",
         password_repeat: "",
@@ -81,7 +81,7 @@ const Signup = ({ seo }) => {
                         )}
                         <input
                             onChange={handleChange}
-                            name="id"
+                            name="id_number"
                             type="text"
                             placeholder={__(
                                 "client.form_id_number",
