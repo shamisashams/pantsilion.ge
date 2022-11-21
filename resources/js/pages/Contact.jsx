@@ -6,6 +6,7 @@ import MainButton from "../components/MainButton";
 //import { Link } from "react-router-dom";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import Layout from "@/Layouts/Layout";
+import { Inertia } from "@inertiajs/inertia";
 
 const Contact = ({ seo }) => {
     const [values, setValues] = useState({
