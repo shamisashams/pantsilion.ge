@@ -64,7 +64,7 @@ const Contact = ({ seo }) => {
                     alt=""
                 />
                 <div className="wrapper text-sm">
-                    <div className="text-4xl bold mb-10">
+                    <div className="sm:text-4xl text-2xl bold mb-10">
                         {/* Contact us */}
                         {__("client.contact_contact_us", sharedData)}
                     </div>
@@ -82,7 +82,10 @@ const Contact = ({ seo }) => {
                                                 />
                                                 <div>
                                                     <div className="mb-2 bold">
-                                                        {__("client.contact_address", sharedData)}
+                                                        {__(
+                                                            "client.contact_address",
+                                                            sharedData
+                                                        )}
                                                     </div>
                                                     <div>{item.address}</div>
                                                 </div>
@@ -95,7 +98,10 @@ const Contact = ({ seo }) => {
                                                 />
                                                 <div>
                                                     <div className="mb-2 bold">
-                                                        {__("client.contact_phone", sharedData)}
+                                                        {__(
+                                                            "client.contact_phone",
+                                                            sharedData
+                                                        )}
                                                     </div>
                                                     <div>
                                                         {renderHTML(
@@ -112,7 +118,10 @@ const Contact = ({ seo }) => {
                                                 />
                                                 <div>
                                                     <div className="mb-2 bold">
-                                                        {__("client.contact_work_hours", sharedData)}
+                                                        {__(
+                                                            "client.contact_work_hours",
+                                                            sharedData
+                                                        )}
                                                     </div>
                                                     <div>
                                                         {item.working_hours}

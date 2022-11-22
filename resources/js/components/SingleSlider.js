@@ -70,6 +70,7 @@ const SingleSlider = ({ images }) => {
         </button>
       </div> */}
             <Swiper
+                loop
                 onSwiper={setThumbsSwiper}
                 spaceBetween={10}
                 slidesPerView={4}
@@ -80,7 +81,7 @@ const SingleSlider = ({ images }) => {
             >
                 {images.map((item, index) => {
                     return (
-                        <SwiperSlide key={index}>
+                        <SwiperSlide className="!w-1/4" key={index}>
                             <img
                                 alt=""
                                 src={item.file_full_url}
