@@ -97,14 +97,14 @@ const FurnitureSet = ({ seo }) => {
 
                         left = left ? parseInt(left[0]) : null;
                         right = right ? parseInt(right[0]) : null;
-                        console.log('aaaaa',left,right);
+                        console.log("aaaaa", left, right);
                         let direction = false;
-                        if (left){
-                            if(left >= 65) direction = true;
+                        if (left) {
+                            if (left >= 65) direction = true;
                         }
 
-                        if (right){
-                            if(right <= 35) direction = true;
+                        if (right) {
+                            if (right <= 35) direction = true;
                         }
 
                         return (
@@ -115,8 +115,14 @@ const FurnitureSet = ({ seo }) => {
                                 left={c[3]}
                                 title={item.parent.title}
                                 para={item.short_description}
-                                price={item.special_price ? item.special_price : item.price}
-                                oldPrice={item.special_price ? item.price : null}
+                                price={
+                                    item.special_price
+                                        ? item.special_price
+                                        : item.price
+                                }
+                                oldPrice={
+                                    item.special_price ? item.price : null
+                                }
                                 addToCart={() => {
                                     addToCartItem(item);
                                 }}
@@ -157,15 +163,17 @@ const FurnitureSet = ({ seo }) => {
                                 </div>
                             ) : null}*/}
                             <div className="w-full sm:h-96 h-60 mt-20">
-                            {collection.video ? <iframe
-                                width="100%"
-                                height="100%"
-                                src={`https://www.youtube.com/embed/${collection.video.path}`}
-                                title="YouTube video player"
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                            ></iframe>:null}
+                                {collection.video ? (
+                                    <iframe
+                                        width="100%"
+                                        height="100%"
+                                        src={`https://www.youtube.com/embed/${collection.video.path}`}
+                                        title="YouTube video player"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    ></iframe>
+                                ) : null}
                             </div>
                         </div>
                         <div className="max-w-xl xl:mt-0 mt-20">
@@ -194,12 +202,21 @@ const FurnitureSet = ({ seo }) => {
                                     }
                                     return (
                                         <Link
-                                            href={route("client.product.show",item.parent.slug)}
+                                            href={route(
+                                                "client.product.show",
+                                                item.parent.slug
+                                            )}
                                         >
                                             {" "}
-                                            <div onClick={() => {
-                                                Inertia.visit(route("client.product.show",item.parent.slug));
-                                            }}
+                                            <div
+                                                onClick={() => {
+                                                    Inertia.visit(
+                                                        route(
+                                                            "client.product.show",
+                                                            item.parent.slug
+                                                        )
+                                                    );
+                                                }}
                                                 key={index}
                                                 className={`flex items-center justify-between mb-2 pb-2 ${
                                                     index + 1 ===
@@ -264,7 +281,10 @@ const FurnitureSet = ({ seo }) => {
                                                     </div>
                                                 </div>
                                                 <div className="text-lg ml-4">
-                                                    ₾{item.special_price ? item.special_price : item.price}
+                                                    ₾
+                                                    {item.special_price
+                                                        ? item.special_price
+                                                        : item.price}
                                                 </div>
                                             </div>
                                         </Link>

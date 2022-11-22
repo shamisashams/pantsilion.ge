@@ -76,7 +76,7 @@ const SingleSlider = ({ images }) => {
                 freeMode={true}
                 watchSlidesProgress={true}
                 modules={[FreeMode, Navigation, Thumbs]}
-                className="sm:h-32 h-20 thumbnailSlider"
+                className="sm:h-32 h-20 thumbnailSlider w-full"
             >
                 {images.map((item, index) => {
                     return (
