@@ -108,7 +108,7 @@ class SettingController extends Controller
     }
 
     public function partnerRewardUpdate(Request $request){
-        Setting::where('key','partner_reward')->update(['integer_value' => $request->post('partner_reward')]);
+        Setting::where('key','partner_reward')->update(['float_value' => $request->post('partner_reward')]);
         return redirect(locale_route('partner.index'))->with('success', __('admin.update_successfully'));
     }
 }

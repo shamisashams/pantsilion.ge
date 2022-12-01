@@ -45,7 +45,7 @@ class PartnerController extends Controller
 
         return view('admin.nowa.views.partner.index', [
             'partners' => $this->userRepository->getPartners($request),
-            'partner_reward' => Setting::where('key','partner_reward')->first()->integer_value
+            'partner_reward' => Setting::where('key','partner_reward')->first()->float_value
         ]);
     }
 
