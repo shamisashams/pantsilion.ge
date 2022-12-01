@@ -125,7 +125,7 @@
 
                     <div class="form-group">
                         <label class="form-label">@lang('admin.value')</label>
-                        <input class="form-control" type="number" name="integer_value" value="{{$setting->integer_value}}">
+                        <input class="form-control" type="number" name="float_value" value="{{$setting->float_value}}">
                     </div>
 
                     <div class="form-group mb-0 mt-3 justify-content-end">

@@ -421,9 +421,9 @@ class OrderController extends Controller
 
                 $partner_reward = Setting::query()->where('key', 'partner_reward')->first();
 
-                if ($user->referrer && $partner_reward->integer_value) {
+                if ($user->referrer && $partner_reward->float_value) {
                     //dd($user->referrer);
-                    $user->referrer()->update(['balance' => \Illuminate\Support\Facades\DB::raw('balance + ' . ($grand_t * $partner_reward->integer_value) / 100)]);
+                    $user->referrer()->update(['balance' => \Illuminate\Support\Facades\DB::raw('balance + ' . ($grand_t * $partner_reward->float_value) / 100)]);
                 }
 
                 //Cart::destroy();
