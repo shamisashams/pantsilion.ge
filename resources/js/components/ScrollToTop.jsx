@@ -5,9 +5,9 @@ import { Inertia } from "@inertiajs/inertia";
 
 const ScrollToTop = (props) => {
     const { pathname } = usePage().props;
-    useEffect(() => {
+    /*useEffect(() => {
         window.scrollTo(0, 0);
-    });
+    });*/
 
     Inertia.on("success", (event) => {
         window.scrollTo(0, 0);
