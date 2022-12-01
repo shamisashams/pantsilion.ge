@@ -114,6 +114,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
 
         if(isset($params['term'])){
+            $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
+            $params['term'] = str_replace($reservedSymbols, '', $params['term']);
             $query->where(function ($tQ) use ($params){
                 $tQ->whereTranslationLike('title', '%'.$params['term'].'%')
                     ->orWhereTranslationLike('description', '%'.$params['term'].'%');
