@@ -55,8 +55,6 @@ class SearchController extends Controller
         }
 
         if($term = \request('term')){
-            $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
-            $term = str_replace($reservedSymbols, '', $term);
             $query->where(function ($tQ) use ($term){
                 $tQ->whereTranslationLike('title', '%'.$term.'%')
                     ->orWhereTranslationLike('description', '%'.$term.'%');
