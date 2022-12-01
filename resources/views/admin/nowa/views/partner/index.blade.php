@@ -38,7 +38,7 @@
                         @csrf
                         <div class="form-group">
                             <label class="form-label">@lang('admin.partner_reward') %</label>
-                            <input class="form-control" type="number" name="partner_reward" value="{{$partner_reward}}" >
+                            <input class="form-control" type="number" step="0.1" name="partner_reward" value="{{$partner_reward}}" >
                         </div>
                         <div class="form-group">
                             <button class="btn btn-success-light" type="submit">@lang('admin.save')</button>
