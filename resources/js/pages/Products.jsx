@@ -29,7 +29,7 @@ const Products = ({ seo }) => {
         appliedFilters[index] = value.split(",");
     });
 
-    const [showFilters, setShowFilters] = useState(true);
+    const [showFilters, setShowFilters] = useState(false);
     const [selectedItems, setSelectedItems] = useState(
         appliedFilters.hasOwnProperty("subcategory")
             ? appliedFilters["subcategory"]
@@ -100,7 +100,7 @@ const Products = ({ seo }) => {
     const { subcategories, products, localizations, collections } =
         usePage().props;
 
-    console.log(products,collections);
+    console.log(products, collections);
 
     let subcats = {};
     subcategories.map((item, index) => {
@@ -125,7 +125,6 @@ const Products = ({ seo }) => {
             };
         }, [ref]);
     }
-
 
     let links = function (links) {
         let rows = [];
@@ -286,21 +285,33 @@ const Products = ({ seo }) => {
                         })}
                     </div>
                     <div className="flex justify-center items-center mt-10">
-                        {linksPrev(products.links.length > collections.links.length ? products.links : collections.links)}
+                        {linksPrev(
+                            products.links.length > collections.links.length
+                                ? products.links
+                                : collections.links
+                        )}
                         {/*<button className="mx-3">
                             {" "}
                             <HiOutlineArrowNarrowLeft className="w-6 h-6" />
                         </button>*/}
-                        {links(products.links.length > collections.links.length ? products.links : collections.links)}
+                        {links(
+                            products.links.length > collections.links.length
+                                ? products.links
+                                : collections.links
+                        )}
                         {/*<button className=" mx-2 bold">1</button>
 
                         <button className="opacity-50 mx-2 bold">2</button>
                         <button className="opacity-50 mx-2 bold">3</button>
                         <button className="opacity-50 mx-2 bold">4</button>*/}
-                       {/* <button className="mx-3">
+                        {/* <button className="mx-3">
                             <HiOutlineArrowNarrowRight className="w-6 h-6" />
                         </button>*/}
-                        {linksNext(products.links.length > collections.links.length ? products.links : collections.links)}
+                        {linksNext(
+                            products.links.length > collections.links.length
+                                ? products.links
+                                : collections.links
+                        )}
                     </div>
                 </div>
                 <div

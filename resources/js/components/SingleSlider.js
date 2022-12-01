@@ -70,17 +70,18 @@ const SingleSlider = ({ images }) => {
         </button>
       </div> */}
             <Swiper
+                loop
                 onSwiper={setThumbsSwiper}
                 spaceBetween={10}
                 slidesPerView={4}
                 freeMode={true}
                 watchSlidesProgress={true}
                 modules={[FreeMode, Navigation, Thumbs]}
-                className="sm:h-32 h-20 thumbnailSlider"
+                className="sm:h-32 h-20 thumbnailSlider w-full"
             >
                 {images.map((item, index) => {
                     return (
-                        <SwiperSlide key={index}>
+                        <SwiperSlide className="!w-1/4" key={index}>
                             <img
                                 alt=""
                                 src={item.file_full_url}
