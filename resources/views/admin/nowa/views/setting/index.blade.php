@@ -117,7 +117,7 @@
                                                     </div>
                                                 </div>
                                                 @else
-                                                    {{$setting->integer_value}}{{$setting->string_value}}
+                                                    {{$setting->float_value}}{{$setting->string_value}}
                                                 @endif
                                             </td>
 

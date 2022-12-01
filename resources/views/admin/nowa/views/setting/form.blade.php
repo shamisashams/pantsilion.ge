@@ -125,7 +125,7 @@
 
                     <div class="form-group">
                         <label class="form-label">@lang('admin.value')</label>
-                        <input class="form-control" type="number" name="float_value" value="{{$setting->float_value}}">
+                        <input class="form-control" type="number" step="0.1" name="float_value" value="{{$setting->float_value}}">
                     </div>
 
                     <div class="form-group mb-0 mt-3 justify-content-end">
