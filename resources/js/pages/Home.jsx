@@ -49,67 +49,8 @@ const Home = ({ seo }) => {
             <div className="overflow-hidden">
                 {collection ? (
                     <section className="lg:min-h-screen bg-gray-50 relative ">
-                        <div className="wrapper lg:min-h-screen lg:pt-0 pt-40 flex items-center justify-between ">
-                            <div className="lg:w-3/5 lg:mr-5 lg:pt-36">
-                                <div className="lg:text-6xl md:text-4xl text-2xl max-w-3xl bold ">
-                                    {/* Super quality furniture for your home */}
-                                    {collection.title}
-                                </div>
-                                <p className="lg:my-10 my-6 lg:mr-5 max-w-3xl text-justify">
-                                    {/* Choose from a wide range of premium quality wooden furniture
-                                online. Comfort is our priority to satisfy our customers, and we
-                                provide all the furniture that you can easily and quickly get in
-                                love with */}
-                                    {renderHTML(collection.description)}
-                                </p>
-                                <div className="md:text-3xl text-xl bold">
-                                    {/* from ₾299 */}₾{collection.price}
-                                </div>
-                                <div className="flex items-center justify-start mt-10">
-                                    <Link
-                                        href={route(
-                                            "client.collection.show",
-                                            collection.slug
-                                        )}
-                                        className=""
-                                    >
-                                        <MainButton>
-                                            {/* Learn more */}
-                                            {__(
-                                                "client.button_learn_more",
-                                                sharedData
-                                            )}
-                                        </MainButton>
-                                    </Link>
-
-                                    {collection.video ? (
-                                        <button
-                                            onClick={() => {
-                                                //alert(collection.video.path);
-                                                setVideoPopup(true);
-                                                setVideo(collection.video.path);
-                                                //document.querySelector('iframe').className  = 'cmx-auto';
-                                                //console.log(document.querySelector('iframe'));
-                                            }}
-                                            className="flex items-center md:ml-10 ml-5"
-                                        >
-                                            <div className="flex items-center justify-center bg-custom-red text-white w-8 h-8 rounded-full mr-2">
-                                                <BiPlay />
-                                            </div>
-                                            <div className="bold">
-                                                {/* Watch videnpo */}
-                                                {__(
-                                                    "client.button_watch_video",
-                                                    sharedData
-                                                )}
-                                            </div>
-                                        </button>
-                                    ) : null}
-                                </div>
-                            </div>
-                        </div>
                         <div
-                            className="lg:absolute relative lg:right-0 lg:bottom-0 lg:w-2/5 mt-10"
+                            className="lg:absolute relative lg:right-0 lg:bottom-0 lg:w-2/5 sm:mt-32 mt-28"
                             style={{ height: "calc(100% - 140px)" }}
                         >
                             <img
@@ -175,6 +116,65 @@ const Home = ({ seo }) => {
                             price="299.00"
                         />
                         <PlusBox top="auto" right="260px" bottom="200px" left="auto" />*/}
+                        </div>
+                        <div className="wrapper lg:min-h-screen lg:pt-0 pt-5 flex items-center justify-between ">
+                            <div className="lg:w-3/5 lg:mr-5 lg:pt-36">
+                                <div className="lg:text-6xl md:text-4xl text-2xl max-w-3xl bold ">
+                                    {/* Super quality furniture for your home */}
+                                    {collection.title}
+                                </div>
+                                <p className="lg:my-10 my-6 lg:mr-5 max-w-3xl text-justify">
+                                    {/* Choose from a wide range of premium quality wooden furniture
+                                online. Comfort is our priority to satisfy our customers, and we
+                                provide all the furniture that you can easily and quickly get in
+                                love with */}
+                                    {renderHTML(collection.description)}
+                                </p>
+                                <div className="md:text-3xl text-xl bold">
+                                    {/* from ₾299 */}₾{collection.price}
+                                </div>
+                                <div className="flex items-center justify-start mt-10">
+                                    <Link
+                                        href={route(
+                                            "client.collection.show",
+                                            collection.slug
+                                        )}
+                                        className=""
+                                    >
+                                        <MainButton>
+                                            {/* Learn more */}
+                                            {__(
+                                                "client.button_learn_more",
+                                                sharedData
+                                            )}
+                                        </MainButton>
+                                    </Link>
+
+                                    {collection.video ? (
+                                        <button
+                                            onClick={() => {
+                                                //alert(collection.video.path);
+                                                setVideoPopup(true);
+                                                setVideo(collection.video.path);
+                                                //document.querySelector('iframe').className  = 'cmx-auto';
+                                                //console.log(document.querySelector('iframe'));
+                                            }}
+                                            className="flex items-center md:ml-10 ml-5"
+                                        >
+                                            <div className="flex items-center justify-center bg-custom-red text-white w-8 h-8 rounded-full mr-2">
+                                                <BiPlay />
+                                            </div>
+                                            <div className="bold">
+                                                {/* Watch videnpo */}
+                                                {__(
+                                                    "client.button_watch_video",
+                                                    sharedData
+                                                )}
+                                            </div>
+                                        </button>
+                                    ) : null}
+                                </div>
+                            </div>
                         </div>
                     </section>
                 ) : null}

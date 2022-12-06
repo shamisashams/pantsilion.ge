@@ -44,7 +44,7 @@ const Cart = ({ seo }) => {
             <div className="bg-zinc-100 overflow-hidden ">
                 <div className="wrapper h-full flex items-start justify-between flex-col xl:flex-row xl:pb-0 pb-20">
                     <div className="xl:w-3/4 w-full mr-10 pt-44 pb-20">
-                        <div className="flex justify-between items-start border-b border-zinc-300 md:text-lg text-sm mb-10">
+                        <div className="flex justify-between items-start border-b border-zinc-300 md:text-lg sm:text-sm text-xs mb-10">
                             <Link
                                 href={route("client.cart.index")}
                                 className="border-b-4 border-custom-red bold pb-5 text-custom-red md:w-1/3"
@@ -77,17 +77,17 @@ const Cart = ({ seo }) => {
                                             .file_full_url;
                                 }
                             }
-
+                            //md:overflow-x-hidden  overflow-x-scroll scrollbar
                             return (
                                 <div
                                     key={index}
-                                    className={`flex justify-between items-center border-b border-zinc-200 pb-5 mb-5 md:overflow-x-hidden  overflow-x-scroll scrollbar ${
+                                    className={`flex justify-between items-center border-b border-zinc-200 pb-5 mb-5 flex-wrap ${
                                         cart.length === index + 1
                                             ? "border-none mb-10"
                                             : ""
                                     }`}
                                 >
-                                    <div className="shrink-0 md:w-96 w-80 flex items-center">
+                                    <div className="shrink-0 md:w-96 w-80 flex items-center justify-start sm:mb-0 mb-5">
                                         <div className="w-32 h-32 mr-5 shrink-0">
                                             <img
                                                 src={image}
@@ -148,7 +148,7 @@ const Cart = ({ seo }) => {
                                     </div>
 
                                     <Quantity item={item} cart={true} />
-                                    <div className="w-28 text-lg bold whitespace-nowrap mx-4">
+                                    <div className="md:w-28 text-lg bold whitespace-nowrap mx-4">
                                         ₾{" "}
                                         {item.product.special_price
                                             ? item.product.special_price
@@ -276,14 +276,54 @@ const Cart = ({ seo }) => {
                             </button>
                             {/*<div>{flash ? flash :null}</div>*/}
                             <div>
-                                { !Array.isArray(promocode.active.products_disc) ? Object.keys(promocode.active.products_disc).map((item,index) => {
-
-                                    return <div>Discount {promocode.active.products_disc[item].reward}% on {promocode.active.products_disc[item].product.title}</div>
-                                }) : null}
-                                {!Array.isArray(promocode.active.collections_disc) ? Object.keys(promocode.active.collections_disc).map((item,index) => {
-                                    return <div>Discount {promocode.active.collections_disc[item].reward}% on {promocode.active.collections_disc[item].collection.title}</div>
-                                }):null}
-
+                                {!Array.isArray(promocode.active.products_disc)
+                                    ? Object.keys(
+                                          promocode.active.products_disc
+                                      ).map((item, index) => {
+                                          return (
+                                              <div>
+                                                  Discount{" "}
+                                                  {
+                                                      promocode.active
+                                                          .products_disc[item]
+                                                          .reward
+                                                  }
+                                                  % on{" "}
+                                                  {
+                                                      promocode.active
+                                                          .products_disc[item]
+                                                          .product.title
+                                                  }
+                                              </div>
+                                          );
+                                      })
+                                    : null}
+                                {!Array.isArray(
+                                    promocode.active.collections_disc
+                                )
+                                    ? Object.keys(
+                                          promocode.active.collections_disc
+                                      ).map((item, index) => {
+                                          return (
+                                              <div>
+                                                  Discount{" "}
+                                                  {
+                                                      promocode.active
+                                                          .collections_disc[
+                                                          item
+                                                      ].reward
+                                                  }
+                                                  % on{" "}
+                                                  {
+                                                      promocode.active
+                                                          .collections_disc[
+                                                          item
+                                                      ].collection.title
+                                                  }
+                                              </div>
+                                          );
+                                      })
+                                    : null}
                             </div>
                         </div>
                         <Link
