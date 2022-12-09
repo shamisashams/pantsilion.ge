@@ -53,11 +53,19 @@ const Home = ({ seo }) => {
                             className="lg:absolute relative lg:right-0 lg:bottom-0 lg:w-2/5 sm:mt-32 mt-28"
                             style={{ height: "calc(100% - 140px)" }}
                         >
-                            <img
-                                src={collection.set_image}
-                                className="w-full h-full object-cover"
-                                alt=""
-                            />
+                            <Link
+                                className="z-20 relative"
+                                href={route(
+                                    "client.collection.show",
+                                    collection.slug
+                                )}
+                            >
+                                <img
+                                    src={collection.set_image}
+                                    className="w-full h-full object-cover"
+                                    alt=""
+                                />
+                            </Link>
                             {collection.products.map((item, index) => {
                                 let c = item.pivot.coordinates
                                     ? item.pivot.coordinates.split(" ")
@@ -178,7 +186,7 @@ const Home = ({ seo }) => {
                         </div>
                     </section>
                 ) : null}
-                <section className="wrapper py-20">
+                <section className="wrapper py-20 z-10 relative">
                     <div className="text-center mb-10">
                         <div className="text-3xl bold mb-2">
                             {/* Collections */}
