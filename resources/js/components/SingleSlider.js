@@ -70,7 +70,6 @@ const SingleSlider = ({ images }) => {
         </button>
       </div> */}
             <Swiper
-                loop
                 onSwiper={setThumbsSwiper}
                 spaceBetween={10}
                 slidesPerView={4}

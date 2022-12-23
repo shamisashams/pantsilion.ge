@@ -162,8 +162,8 @@ const FurnitureSet = ({ seo }) => {
                                     {renderHTML(collection.video.path)}
                                 </div>
                             ) : null}*/}
-                            <div className="w-full sm:h-96 h-60 mt-20">
-                                {collection.video ? (
+                            {collection.video ? (
+                                <div className="w-full sm:h-96 h-60 mt-20">
                                     <iframe
                                         width="100%"
                                         height="100%"
@@ -173,8 +173,8 @@ const FurnitureSet = ({ seo }) => {
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowFullScreen
                                     ></iframe>
-                                ) : null}
-                            </div>
+                                </div>
+                            ) : null}
                         </div>
                         <div className="max-w-xl xl:mt-0 mt-20">
                             <div className="opacity-50">
@@ -381,7 +381,7 @@ const FurnitureSet = ({ seo }) => {
                     <p className="opacity-50 mb-7">
                         {__("client.most_popular", localizations)}
                     </p>
-                    <ProductSlider products={set_products} />
+                    {set_products && <ProductSlider products={set_products} />}
                 </div>
             </>
         </Layout>
