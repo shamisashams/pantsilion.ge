@@ -73,6 +73,7 @@ class SearchController extends Controller
             });
 
         }
+        $query->where('product_sets.status',1);
 
         $collections = $query->paginate('12')->withQueryString();
 
