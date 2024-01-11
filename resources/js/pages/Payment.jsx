@@ -223,9 +223,7 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                         src="/client/assets/images/natsil2.png"
                                         alt=""
                                     /> */}
-                                    <span className="bogfont font-bold">
-                                        გადახდა
-                                    </span>
+                                    <span className="">გადახდა</span>
                                 </button>
                                 <button
                                     onClick={() => {
