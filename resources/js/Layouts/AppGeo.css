@@ -6,6 +6,10 @@
     font-family: "mtav";
     src: url(/assets/fonts/AS-Grammatika-Regular_Mtav.ttf);
 }
+@font-face {
+    font-family: "BOG2023";
+    src: url(/assets/fonts/BOG2023-Regular.ttf);
+}
 *,
 *::after,
 *::before {
@@ -17,4 +21,7 @@ body {
 .bold {
     font-family: "mtav";
     font-weight: bold;
+}
+.bogfont {
+    font-family: "BOG2023";
 }

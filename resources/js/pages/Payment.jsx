@@ -30,8 +30,7 @@ const Payment = ({ seo }) => {
     function selectBank(bank) {
         setBank(bank);
 
-
-        if (bank == 'bog_installment'){
+        if (bank == "bog_installment") {
             let csrf = document.querySelectorAll('meta[name="csrf-token"]');
             console.log(csrf);
             BOG.Calculator.open({
@@ -40,11 +39,9 @@ const Payment = ({ seo }) => {
                     // Modal close callback
                 },
                 onRequest: (selected, successCb, closeCb) => {
-                    const {
-                        amount, month, discount_code, order_id
-                    } = selected;
+                    const { amount, month, discount_code, order_id } = selected;
                     console.log(selected);
-                    selected.payment_type = 'bog_installment'
+                    selected.payment_type = "bog_installment";
                     /*fetch(route('bogInstallment'), {
                         headers: {
                             'X-CSRF-TOKEN': csrf[0].content,
@@ -55,12 +52,12 @@ const Payment = ({ seo }) => {
                     }).then(response => response.json())
                         .then(data => successCb(data.orderId))
                         .catch(err => closeCb());*/
-                    Inertia.post(route('bogInstallment'),selected);
+                    Inertia.post(route("bogInstallment"), selected);
                 },
-                onComplete: ({redirectUrl}) => {
+                onComplete: ({ redirectUrl }) => {
                     return false;
-                }
-            })
+                },
+            });
         } else {
             makeOrder(bank);
         }
@@ -187,25 +184,54 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                               </div>
                           </div>*/}
                             <div className="bold text-lg mt-10 mb-5">
-                                {__("client.make_installment_btn", localizations)}
+                                {__(
+                                    "client.make_installment_btn",
+                                    localizations
+                                )}
                             </div>
-                            <div className="grid grid-cols-2 gap-3 mb-5">
+                            <div className="grid sm:grid-cols-2 gap-3 mb-5">
                                 <button
                                     onClick={() => {
                                         selectBank("bog_installment");
                                     }}
-                                    className="bg-white flex justify-center items-center py-2"
+                                    className="bg-white flex justify-center items-center py-2 rounded-md text-2xl w-fit sm:w-auto px-4"
+                                    style={{
+                                        border: " #5d02a7 1px solid",
+                                        color: "#7600d9",
+                                    }}
                                 >
                                     <img
-                                        src="/client/assets/images/icons/5.png"
+                                        className="h-8"
+                                        src="/client/assets/images/bog.png"
                                         alt=""
                                     />
+                                    <div
+                                        className="h-6 w-0 mx-2"
+                                        style={{
+                                            borderLeft: "#7600d9 1px solid",
+                                        }}
+                                    ></div>
+                                    {/* georgian */}
+                                    <img
+                                        className="h-6 mr-4"
+                                        src="/client/assets/images/natsil1.png"
+                                        alt=""
+                                    />
+                                    {/* english */}
+                                    {/* <img
+                                        className="h-6 mr-4"
+                                        src="/client/assets/images/natsil2.png"
+                                        alt=""
+                                    /> */}
+                                    <span className="bogfont font-bold">
+                                        გადახდა
+                                    </span>
                                 </button>
                                 <button
                                     onClick={() => {
                                         selectBank("space_bank");
                                     }}
-                                    className="bg-white flex justify-center items-center py-2"
+                                    className="bg-white flex justify-center items-center py-2 w-fit sm:w-auto px-4"
                                 >
                                     <img
                                         src="/client/assets/images/icons/6.png"
@@ -266,7 +292,10 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                                                 </div>
                                                 <div>
                                                     <div className="bold mb-1">
-                                                        {item.product.parent.title}{" "}
+                                                        {
+                                                            item.product.parent
+                                                                .title
+                                                        }{" "}
                                                     </div>
                                                     <div className="text-sm opacity-50 mb-1">
                                                         {item.product.attributes.map(
@@ -414,13 +443,50 @@ text-custom-red bold pb-5  md:w-1/3 text-right"
                             </div>
                         </div>
                         <div>
-                            { !Array.isArray(promocode.active.products_disc) ? Object.keys(promocode.active.products_disc).map((item,index) => {
-
-                                return <div>Discount {promocode.active.products_disc[item].reward}% on {promocode.active.products_disc[item].product.title}</div>
-                            }) : null}
-                            {!Array.isArray(promocode.active.collections_disc) ? Object.keys(promocode.active.collections_disc).map((item,index) => {
-                                return <div>Discount {promocode.active.collections_disc[item].reward}% on {promocode.active.collections_disc[item].collection.title}</div>
-                            }):null}
+                            {!Array.isArray(promocode.active.products_disc)
+                                ? Object.keys(
+                                      promocode.active.products_disc
+                                  ).map((item, index) => {
+                                      return (
+                                          <div>
+                                              Discount{" "}
+                                              {
+                                                  promocode.active
+                                                      .products_disc[item]
+                                                      .reward
+                                              }
+                                              % on{" "}
+                                              {
+                                                  promocode.active
+                                                      .products_disc[item]
+                                                      .product.title
+                                              }
+                                          </div>
+                                      );
+                                  })
+                                : null}
+                            {!Array.isArray(promocode.active.collections_disc)
+                                ? Object.keys(
+                                      promocode.active.collections_disc
+                                  ).map((item, index) => {
+                                      return (
+                                          <div>
+                                              Discount{" "}
+                                              {
+                                                  promocode.active
+                                                      .collections_disc[item]
+                                                      .reward
+                                              }
+                                              % on{" "}
+                                              {
+                                                  promocode.active
+                                                      .collections_disc[item]
+                                                      .collection.title
+                                              }
+                                          </div>
+                                      );
+                                  })
+                                : null}
                         </div>
                     </div>
                 </div>
